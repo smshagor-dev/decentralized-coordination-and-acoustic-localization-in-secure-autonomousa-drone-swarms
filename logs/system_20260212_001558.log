@@ -1,0 +1,178 @@
+2026-02-12 00:15:58,825 - Main - INFO - Starting Drone Swarm Management System
+2026-02-12 00:15:58,826 - SwarmManager - INFO - Swarm Manager initialized
+2026-02-12 00:15:58,828 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 00:15:58,829 - Drone_1 - INFO - Drone 1 started
+2026-02-12 00:15:58,829 - SwarmManager - INFO - Drone 1 added to swarm
+2026-02-12 00:15:58,830 - SwarmManager - INFO - Starting leader election...
+2026-02-12 00:15:58,830 - SwarmManager - INFO -   Drone 1: suitability score = 100.00
+2026-02-12 00:15:58,831 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 00:15:58,835 - Drone_2 - INFO - Drone 2 initialized at {'x': 10, 'y': 0, 'z': 0}
+2026-02-12 00:15:58,836 - Drone_2 - INFO - Drone 2 started
+2026-02-12 00:15:58,836 - SwarmManager - INFO - Drone 2 added to swarm
+2026-02-12 00:15:58,836 - Drone_3 - INFO - Drone 3 initialized at {'x': -10, 'y': 0, 'z': 0}
+2026-02-12 00:15:58,837 - Drone_3 - INFO - Drone 3 started
+2026-02-12 00:15:58,837 - SwarmManager - INFO - Drone 3 added to swarm
+2026-02-12 00:15:58,837 - Drone_4 - INFO - Drone 4 initialized at {'x': 0, 'y': 10, 'z': 0}
+2026-02-12 00:15:58,838 - Drone_4 - INFO - Drone 4 started
+2026-02-12 00:15:58,838 - SwarmManager - INFO - Drone 4 added to swarm
+2026-02-12 00:15:58,838 - Drone_5 - INFO - Drone 5 initialized at {'x': 0, 'y': -10, 'z': 0}
+2026-02-12 00:15:58,839 - Drone_5 - INFO - Drone 5 started
+2026-02-12 00:15:58,839 - SwarmManager - INFO - Drone 5 added to swarm
+2026-02-12 00:15:58,839 - SwarmManager - INFO - Swarm monitoring started
+2026-02-12 00:15:58,840 - Main - INFO - Swarm created with 5 drones
+2026-02-12 00:15:58,840 - Main - INFO - Leader elected: Drone 1
+2026-02-12 00:15:58,840 - Main - INFO - Starting GUI...
+2026-02-12 00:16:06,959 - Drone_6 - INFO - Drone 6 initialized at {'x': 17.94607384718907, 'y': 11.730727063837776, 'z': 0}
+2026-02-12 00:16:06,959 - Drone_6 - INFO - Drone 6 started
+2026-02-12 00:16:06,960 - SwarmManager - INFO - Drone 6 added to swarm
+2026-02-12 00:16:07,594 - Drone_7 - INFO - Drone 7 initialized at {'x': 15.703660978379773, 'y': -16.767694669612126, 'z': 0}
+2026-02-12 00:16:07,596 - Drone_7 - INFO - Drone 7 started
+2026-02-12 00:16:07,596 - SwarmManager - INFO - Drone 7 added to swarm
+2026-02-12 00:16:07,801 - Drone_8 - INFO - Drone 8 initialized at {'x': -0.5861771488841718, 'y': -5.338454407965681, 'z': 0}
+2026-02-12 00:16:07,802 - Drone_8 - INFO - Drone 8 started
+2026-02-12 00:16:07,802 - SwarmManager - INFO - Drone 8 added to swarm
+2026-02-12 00:16:07,977 - Drone_9 - INFO - Drone 9 initialized at {'x': 17.313569759742947, 'y': 13.83932425262148, 'z': 0}
+2026-02-12 00:16:07,979 - Drone_9 - INFO - Drone 9 started
+2026-02-12 00:16:07,979 - SwarmManager - INFO - Drone 9 added to swarm
+2026-02-12 00:16:08,205 - Drone_10 - INFO - Drone 10 initialized at {'x': -12.527635237197007, 'y': -16.853514825019026, 'z': 0}
+2026-02-12 00:16:08,206 - Drone_10 - INFO - Drone 10 started
+2026-02-12 00:16:08,206 - SwarmManager - INFO - Drone 10 added to swarm
+2026-02-12 00:16:08,577 - Drone_11 - INFO - Drone 11 initialized at {'x': 10.237003244768921, 'y': 10.264436951132563, 'z': 0}
+2026-02-12 00:16:08,577 - Drone_11 - INFO - Drone 11 started
+2026-02-12 00:16:08,578 - SwarmManager - INFO - Drone 11 added to swarm
+2026-02-12 00:16:08,761 - Drone_12 - INFO - Drone 12 initialized at {'x': 18.112820344992848, 'y': 12.5566112703427, 'z': 0}
+2026-02-12 00:16:08,762 - Drone_12 - INFO - Drone 12 started
+2026-02-12 00:16:08,762 - SwarmManager - INFO - Drone 12 added to swarm
+2026-02-12 00:16:08,951 - Drone_13 - INFO - Drone 13 initialized at {'x': -2.378145412550758, 'y': -9.573517779919708, 'z': 0}
+2026-02-12 00:16:08,952 - Drone_13 - INFO - Drone 13 started
+2026-02-12 00:16:08,952 - SwarmManager - INFO - Drone 13 added to swarm
+2026-02-12 00:16:09,445 - Drone_14 - INFO - Drone 14 initialized at {'x': -7.252302570164474, 'y': 0.7040721849498723, 'z': 0}
+2026-02-12 00:16:09,446 - Drone_14 - INFO - Drone 14 started
+2026-02-12 00:16:09,446 - SwarmManager - INFO - Drone 14 added to swarm
+2026-02-12 00:16:10,081 - Drone_15 - INFO - Drone 15 initialized at {'x': -13.278089727988721, 'y': -13.989703076470729, 'z': 0}
+2026-02-12 00:16:10,082 - Drone_15 - INFO - Drone 15 started
+2026-02-12 00:16:10,082 - SwarmManager - INFO - Drone 15 added to swarm
+2026-02-12 00:16:13,613 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 00:16:13,613 - Drone_3 - WARNING - Drone 3: Cannot goto - invalid flight mode
+2026-02-12 00:16:13,613 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 00:16:13,613 - Drone_5 - WARNING - Drone 5: Cannot goto - invalid flight mode
+2026-02-12 00:16:13,614 - Drone_6 - WARNING - Drone 6: Cannot goto - invalid flight mode
+2026-02-12 00:16:13,614 - Drone_7 - WARNING - Drone 7: Cannot goto - invalid flight mode
+2026-02-12 00:16:13,614 - Drone_8 - WARNING - Drone 8: Cannot goto - invalid flight mode
+2026-02-12 00:16:13,614 - Drone_9 - WARNING - Drone 9: Cannot goto - invalid flight mode
+2026-02-12 00:16:13,615 - Drone_10 - WARNING - Drone 10: Cannot goto - invalid flight mode
+2026-02-12 00:16:13,615 - Drone_11 - WARNING - Drone 11: Cannot goto - invalid flight mode
+2026-02-12 00:16:13,615 - Drone_12 - WARNING - Drone 12: Cannot goto - invalid flight mode
+2026-02-12 00:16:13,615 - Drone_13 - WARNING - Drone 13: Cannot goto - invalid flight mode
+2026-02-12 00:16:13,616 - Drone_14 - WARNING - Drone 14: Cannot goto - invalid flight mode
+2026-02-12 00:16:13,616 - Drone_15 - WARNING - Drone 15: Cannot goto - invalid flight mode
+2026-02-12 00:16:13,616 - SwarmManager - INFO - Formation 'line' commanded to 14 followers
+2026-02-12 00:16:16,837 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 00:16:16,838 - Drone_3 - WARNING - Drone 3: Cannot goto - invalid flight mode
+2026-02-12 00:16:16,838 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 00:16:16,838 - Drone_5 - WARNING - Drone 5: Cannot goto - invalid flight mode
+2026-02-12 00:16:16,838 - Drone_6 - WARNING - Drone 6: Cannot goto - invalid flight mode
+2026-02-12 00:16:16,838 - Drone_7 - WARNING - Drone 7: Cannot goto - invalid flight mode
+2026-02-12 00:16:16,839 - Drone_8 - WARNING - Drone 8: Cannot goto - invalid flight mode
+2026-02-12 00:16:16,839 - Drone_9 - WARNING - Drone 9: Cannot goto - invalid flight mode
+2026-02-12 00:16:16,839 - Drone_10 - WARNING - Drone 10: Cannot goto - invalid flight mode
+2026-02-12 00:16:16,840 - Drone_11 - WARNING - Drone 11: Cannot goto - invalid flight mode
+2026-02-12 00:16:16,840 - Drone_12 - WARNING - Drone 12: Cannot goto - invalid flight mode
+2026-02-12 00:16:16,840 - Drone_13 - WARNING - Drone 13: Cannot goto - invalid flight mode
+2026-02-12 00:16:16,840 - Drone_14 - WARNING - Drone 14: Cannot goto - invalid flight mode
+2026-02-12 00:16:16,840 - Drone_15 - WARNING - Drone 15: Cannot goto - invalid flight mode
+2026-02-12 00:16:16,840 - SwarmManager - INFO - Formation 'v' commanded to 14 followers
+2026-02-12 00:16:19,309 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 00:16:19,310 - Drone_3 - WARNING - Drone 3: Cannot goto - invalid flight mode
+2026-02-12 00:16:19,310 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 00:16:19,310 - Drone_5 - WARNING - Drone 5: Cannot goto - invalid flight mode
+2026-02-12 00:16:19,311 - Drone_6 - WARNING - Drone 6: Cannot goto - invalid flight mode
+2026-02-12 00:16:19,311 - Drone_7 - WARNING - Drone 7: Cannot goto - invalid flight mode
+2026-02-12 00:16:19,311 - Drone_8 - WARNING - Drone 8: Cannot goto - invalid flight mode
+2026-02-12 00:16:19,312 - Drone_9 - WARNING - Drone 9: Cannot goto - invalid flight mode
+2026-02-12 00:16:19,312 - Drone_10 - WARNING - Drone 10: Cannot goto - invalid flight mode
+2026-02-12 00:16:19,312 - Drone_11 - WARNING - Drone 11: Cannot goto - invalid flight mode
+2026-02-12 00:16:19,312 - Drone_12 - WARNING - Drone 12: Cannot goto - invalid flight mode
+2026-02-12 00:16:19,313 - Drone_13 - WARNING - Drone 13: Cannot goto - invalid flight mode
+2026-02-12 00:16:19,313 - Drone_14 - WARNING - Drone 14: Cannot goto - invalid flight mode
+2026-02-12 00:16:19,313 - Drone_15 - WARNING - Drone 15: Cannot goto - invalid flight mode
+2026-02-12 00:16:19,313 - SwarmManager - INFO - Formation 'line' commanded to 14 followers
+2026-02-12 00:16:21,583 - Drone_1 - WARNING - Drone 1: Cannot takeoff - not armed
+2026-02-12 00:16:21,584 - Drone_2 - WARNING - Drone 2: Cannot takeoff - not armed
+2026-02-12 00:16:21,584 - Drone_3 - WARNING - Drone 3: Cannot takeoff - not armed
+2026-02-12 00:16:21,584 - Drone_4 - WARNING - Drone 4: Cannot takeoff - not armed
+2026-02-12 00:16:21,584 - Drone_5 - WARNING - Drone 5: Cannot takeoff - not armed
+2026-02-12 00:16:21,584 - Drone_6 - WARNING - Drone 6: Cannot takeoff - not armed
+2026-02-12 00:16:21,585 - Drone_7 - WARNING - Drone 7: Cannot takeoff - not armed
+2026-02-12 00:16:21,585 - Drone_8 - WARNING - Drone 8: Cannot takeoff - not armed
+2026-02-12 00:16:21,585 - Drone_9 - WARNING - Drone 9: Cannot takeoff - not armed
+2026-02-12 00:16:21,586 - Drone_10 - WARNING - Drone 10: Cannot takeoff - not armed
+2026-02-12 00:16:21,586 - Drone_11 - WARNING - Drone 11: Cannot takeoff - not armed
+2026-02-12 00:16:21,586 - Drone_12 - WARNING - Drone 12: Cannot takeoff - not armed
+2026-02-12 00:16:21,586 - Drone_13 - WARNING - Drone 13: Cannot takeoff - not armed
+2026-02-12 00:16:21,586 - Drone_14 - WARNING - Drone 14: Cannot takeoff - not armed
+2026-02-12 00:16:21,586 - Drone_15 - WARNING - Drone 15: Cannot takeoff - not armed
+2026-02-12 00:16:33,841 - SwarmManager - INFO - Commanding all drones to return home
+2026-02-12 00:16:36,942 - Drone_1 - WARNING - Drone 1: Cannot takeoff - not armed
+2026-02-12 00:16:36,943 - Drone_2 - WARNING - Drone 2: Cannot takeoff - not armed
+2026-02-12 00:16:36,943 - Drone_3 - WARNING - Drone 3: Cannot takeoff - not armed
+2026-02-12 00:16:36,943 - Drone_4 - WARNING - Drone 4: Cannot takeoff - not armed
+2026-02-12 00:16:36,943 - Drone_5 - WARNING - Drone 5: Cannot takeoff - not armed
+2026-02-12 00:16:36,943 - Drone_6 - WARNING - Drone 6: Cannot takeoff - not armed
+2026-02-12 00:16:36,944 - Drone_7 - WARNING - Drone 7: Cannot takeoff - not armed
+2026-02-12 00:16:36,944 - Drone_8 - WARNING - Drone 8: Cannot takeoff - not armed
+2026-02-12 00:16:36,945 - Drone_9 - WARNING - Drone 9: Cannot takeoff - not armed
+2026-02-12 00:16:36,945 - Drone_10 - WARNING - Drone 10: Cannot takeoff - not armed
+2026-02-12 00:16:36,945 - Drone_11 - WARNING - Drone 11: Cannot takeoff - not armed
+2026-02-12 00:16:36,945 - Drone_12 - WARNING - Drone 12: Cannot takeoff - not armed
+2026-02-12 00:16:36,945 - Drone_13 - WARNING - Drone 13: Cannot takeoff - not armed
+2026-02-12 00:16:36,946 - Drone_14 - WARNING - Drone 14: Cannot takeoff - not armed
+2026-02-12 00:16:36,946 - Drone_15 - WARNING - Drone 15: Cannot takeoff - not armed
+2026-02-12 00:16:37,550 - Drone_1 - INFO - Drone 1: Armed
+2026-02-12 00:16:37,550 - Drone_2 - INFO - Drone 2: Armed
+2026-02-12 00:16:37,550 - Drone_3 - INFO - Drone 3: Armed
+2026-02-12 00:16:37,550 - Drone_4 - INFO - Drone 4: Armed
+2026-02-12 00:16:37,550 - Drone_5 - INFO - Drone 5: Armed
+2026-02-12 00:16:37,551 - Drone_6 - INFO - Drone 6: Armed
+2026-02-12 00:16:37,551 - Drone_7 - INFO - Drone 7: Armed
+2026-02-12 00:16:37,551 - Drone_8 - INFO - Drone 8: Armed
+2026-02-12 00:16:37,551 - Drone_9 - INFO - Drone 9: Armed
+2026-02-12 00:16:37,552 - Drone_10 - INFO - Drone 10: Armed
+2026-02-12 00:16:37,552 - Drone_11 - INFO - Drone 11: Armed
+2026-02-12 00:16:37,552 - Drone_12 - INFO - Drone 12: Armed
+2026-02-12 00:16:37,552 - Drone_13 - INFO - Drone 13: Armed
+2026-02-12 00:16:37,552 - Drone_14 - INFO - Drone 14: Armed
+2026-02-12 00:16:37,552 - Drone_15 - INFO - Drone 15: Armed
+2026-02-12 00:16:46,022 - SwarmManager - ERROR - EMERGENCY LAND ALL DRONES: Emergency button pressed
+2026-02-12 00:16:48,931 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 00:16:48,931 - Drone_3 - WARNING - Drone 3: Cannot goto - invalid flight mode
+2026-02-12 00:16:48,932 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 00:16:48,932 - Drone_5 - WARNING - Drone 5: Cannot goto - invalid flight mode
+2026-02-12 00:16:48,932 - Drone_6 - WARNING - Drone 6: Cannot goto - invalid flight mode
+2026-02-12 00:16:48,933 - Drone_7 - WARNING - Drone 7: Cannot goto - invalid flight mode
+2026-02-12 00:16:48,933 - Drone_8 - WARNING - Drone 8: Cannot goto - invalid flight mode
+2026-02-12 00:16:48,933 - Drone_9 - WARNING - Drone 9: Cannot goto - invalid flight mode
+2026-02-12 00:16:48,933 - Drone_10 - WARNING - Drone 10: Cannot goto - invalid flight mode
+2026-02-12 00:16:48,935 - Drone_11 - WARNING - Drone 11: Cannot goto - invalid flight mode
+2026-02-12 00:16:48,935 - Drone_12 - WARNING - Drone 12: Cannot goto - invalid flight mode
+2026-02-12 00:16:48,935 - Drone_13 - WARNING - Drone 13: Cannot goto - invalid flight mode
+2026-02-12 00:16:48,936 - Drone_14 - WARNING - Drone 14: Cannot goto - invalid flight mode
+2026-02-12 00:16:48,937 - Drone_15 - WARNING - Drone 15: Cannot goto - invalid flight mode
+2026-02-12 00:16:48,937 - SwarmManager - INFO - Formation 'circle' commanded to 14 followers
+2026-02-12 00:16:51,929 - Drone_1 - INFO - Drone 1 stopped
+2026-02-12 00:16:51,931 - Drone_2 - INFO - Drone 2 stopped
+2026-02-12 00:16:52,019 - Drone_3 - INFO - Drone 3 stopped
+2026-02-12 00:16:52,026 - Drone_4 - INFO - Drone 4 stopped
+2026-02-12 00:16:52,029 - Drone_5 - INFO - Drone 5 stopped
+2026-02-12 00:16:52,095 - Drone_6 - INFO - Drone 6 stopped
+2026-02-12 00:16:52,119 - Drone_7 - INFO - Drone 7 stopped
+2026-02-12 00:16:52,128 - Drone_8 - INFO - Drone 8 stopped
+2026-02-12 00:16:52,196 - Drone_9 - INFO - Drone 9 stopped
+2026-02-12 00:16:52,229 - Drone_10 - INFO - Drone 10 stopped
+2026-02-12 00:16:52,296 - Drone_11 - INFO - Drone 11 stopped
+2026-02-12 00:16:52,396 - Drone_12 - INFO - Drone 12 stopped
+2026-02-12 00:16:52,460 - Drone_13 - INFO - Drone 13 stopped
+2026-02-12 00:16:52,557 - Drone_14 - INFO - Drone 14 stopped
+2026-02-12 00:16:52,597 - Drone_15 - INFO - Drone 15 stopped
+2026-02-12 00:16:52,597 - SwarmManager - INFO - Swarm monitoring stopped
+2026-02-12 00:16:52,597 - Main - INFO - System shutdown complete

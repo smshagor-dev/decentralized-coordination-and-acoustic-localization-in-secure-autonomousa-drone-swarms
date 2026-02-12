@@ -1,0 +1,59 @@
+cmake_minimum_required(VERSION 3.10)
+project(DroneSwarmController CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Find packages
+find_package(Threads REQUIRED)
+
+# Optional: MAVLink library for real drone integration
+# find_package(MAVSDK REQUIRED)
+
+# Include directories
+include_directories(
+    ${PROJECT_SOURCE_DIR}/src/cpp
+)
+
+# Source files
+set(SOURCES
+    src/cpp/DroneController.cpp
+)
+
+set(HEADERS
+    src/cpp/DroneController.h
+)
+
+# Create library
+add_library(drone_controller SHARED ${SOURCES} ${HEADERS})
+
+target_link_libraries(drone_controller
+    Threads::Threads
+    # ${MAVSDK_LIBRARIES}  # Uncomment for real drone integration
+)
+
+# Example executable
+add_executable(drone_test
+    src/cpp/main_test.cpp
+)
+
+target_link_libraries(drone_test
+    drone_controller
+)
+
+# Installation
+install(TARGETS drone_controller
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+)
+
+install(FILES ${HEADERS}
+    DESTINATION include/drone_swarm
+)
+
+# Python bindings (optional)
+# find_package(pybind11 CONFIG)
+# if(pybind11_FOUND)
+#     pybind11_add_module(drone_controller_py src/cpp/python_bindings.cpp)
+#     target_link_libraries(drone_controller_py PRIVATE drone_controller)
+# endif()

@@ -1,0 +1,338 @@
+2026-02-11 23:41:03,430 - Main - INFO - Starting Drone Swarm Management System
+2026-02-11 23:41:03,431 - SwarmManager - INFO - Swarm Manager initialized
+2026-02-11 23:41:03,432 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-11 23:41:03,433 - Drone_1 - INFO - Drone 1 started
+2026-02-11 23:41:03,434 - SwarmManager - INFO - Drone 1 added to swarm
+2026-02-11 23:41:03,434 - SwarmManager - INFO - Starting leader election...
+2026-02-11 23:41:03,434 - SwarmManager - INFO -   Drone 1: suitability score = 100.00
+2026-02-11 23:41:03,435 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-11 23:41:03,457 - Drone_2 - INFO - Drone 2 initialized at {'x': 10, 'y': 0, 'z': 0}
+2026-02-11 23:41:03,457 - Drone_2 - INFO - Drone 2 started
+2026-02-11 23:41:03,457 - SwarmManager - INFO - Drone 2 added to swarm
+2026-02-11 23:41:03,458 - Drone_3 - INFO - Drone 3 initialized at {'x': -10, 'y': 0, 'z': 0}
+2026-02-11 23:41:03,458 - Drone_3 - INFO - Drone 3 started
+2026-02-11 23:41:03,459 - SwarmManager - INFO - Drone 3 added to swarm
+2026-02-11 23:41:03,459 - Drone_4 - INFO - Drone 4 initialized at {'x': 0, 'y': 10, 'z': 0}
+2026-02-11 23:41:03,460 - Drone_4 - INFO - Drone 4 started
+2026-02-11 23:41:03,460 - SwarmManager - INFO - Drone 4 added to swarm
+2026-02-11 23:41:03,461 - Drone_5 - INFO - Drone 5 initialized at {'x': 0, 'y': -10, 'z': 0}
+2026-02-11 23:41:03,461 - Drone_5 - INFO - Drone 5 started
+2026-02-11 23:41:03,462 - SwarmManager - INFO - Drone 5 added to swarm
+2026-02-11 23:41:03,462 - SwarmManager - INFO - Swarm monitoring started
+2026-02-11 23:41:03,463 - Main - INFO - Swarm created with 5 drones
+2026-02-11 23:41:03,463 - Main - INFO - Leader elected: Drone 1
+2026-02-11 23:41:03,463 - Main - INFO - Starting GUI...
+2026-02-11 23:41:18,921 - Drone_6 - INFO - Drone 6 initialized at {'x': 16.844742918244116, 'y': 6.095184626804219, 'z': 0}
+2026-02-11 23:41:18,922 - Drone_6 - INFO - Drone 6 started
+2026-02-11 23:41:18,922 - SwarmManager - INFO - Drone 6 added to swarm
+2026-02-11 23:41:19,939 - Drone_7 - INFO - Drone 7 initialized at {'x': 6.575526625132163, 'y': -19.987543568976754, 'z': 0}
+2026-02-11 23:41:19,940 - Drone_7 - INFO - Drone 7 started
+2026-02-11 23:41:19,940 - SwarmManager - INFO - Drone 7 added to swarm
+2026-02-11 23:41:20,658 - Drone_8 - INFO - Drone 8 initialized at {'x': 17.063600451420243, 'y': -13.720467219030565, 'z': 0}
+2026-02-11 23:41:20,659 - Drone_8 - INFO - Drone 8 started
+2026-02-11 23:41:20,659 - SwarmManager - INFO - Drone 8 added to swarm
+2026-02-11 23:41:26,851 - Drone_1 - INFO - Drone 1: Armed
+2026-02-11 23:41:26,852 - Drone_2 - INFO - Drone 2: Armed
+2026-02-11 23:41:26,852 - Drone_3 - INFO - Drone 3: Armed
+2026-02-11 23:41:26,852 - Drone_4 - INFO - Drone 4: Armed
+2026-02-11 23:41:26,852 - Drone_5 - INFO - Drone 5: Armed
+2026-02-11 23:41:26,852 - Drone_6 - INFO - Drone 6: Armed
+2026-02-11 23:41:26,852 - Drone_7 - INFO - Drone 7: Armed
+2026-02-11 23:41:26,853 - Drone_8 - INFO - Drone 8: Armed
+2026-02-11 23:41:30,294 - Drone_1 - INFO - Drone 1: Taking off
+2026-02-11 23:41:30,294 - Drone_2 - INFO - Drone 2: Taking off
+2026-02-11 23:41:30,294 - Drone_3 - INFO - Drone 3: Taking off
+2026-02-11 23:41:30,295 - Drone_4 - INFO - Drone 4: Taking off
+2026-02-11 23:41:30,295 - Drone_5 - INFO - Drone 5: Taking off
+2026-02-11 23:41:30,295 - Drone_6 - INFO - Drone 6: Taking off
+2026-02-11 23:41:30,295 - Drone_7 - INFO - Drone 7: Taking off
+2026-02-11 23:41:30,295 - Drone_8 - INFO - Drone 8: Taking off
+2026-02-11 23:41:35,325 - Drone_7 - INFO - Drone 7: Takeoff complete at 10.1m
+2026-02-11 23:41:35,332 - Drone_8 - INFO - Drone 8: Takeoff complete at 10.0m
+2026-02-11 23:41:35,376 - Drone_2 - INFO - Drone 2: Takeoff complete at 10.1m
+2026-02-11 23:41:35,377 - Drone_5 - INFO - Drone 5: Takeoff complete at 10.1m
+2026-02-11 23:41:35,380 - Drone_1 - INFO - Drone 1: Takeoff complete at 10.1m
+2026-02-11 23:41:35,381 - Drone_3 - INFO - Drone 3: Takeoff complete at 10.1m
+2026-02-11 23:41:35,385 - Drone_4 - INFO - Drone 4: Takeoff complete at 10.1m
+2026-02-11 23:41:35,404 - Drone_6 - INFO - Drone 6: Takeoff complete at 10.1m
+2026-02-11 23:41:44,324 - Drone_2 - INFO - Drone 2: Flying to {'x': -10, 'y': 0, 'z': 10.056900024414062}
+2026-02-11 23:41:44,324 - Drone_3 - INFO - Drone 3: Flying to {'x': -20, 'y': 0, 'z': 10.056900024414062}
+2026-02-11 23:41:44,324 - Drone_4 - INFO - Drone 4: Flying to {'x': -30, 'y': 0, 'z': 10.056900024414062}
+2026-02-11 23:41:44,325 - Drone_5 - INFO - Drone 5: Flying to {'x': -40, 'y': 0, 'z': 10.056900024414062}
+2026-02-11 23:41:44,325 - Drone_6 - INFO - Drone 6: Flying to {'x': -50, 'y': 0, 'z': 10.056900024414062}
+2026-02-11 23:41:44,325 - Drone_7 - INFO - Drone 7: Flying to {'x': -60, 'y': 0, 'z': 10.056900024414062}
+2026-02-11 23:41:44,325 - Drone_8 - INFO - Drone 8: Flying to {'x': -70, 'y': 0, 'z': 10.056900024414062}
+2026-02-11 23:41:44,326 - SwarmManager - INFO - Formation 'line' commanded to 7 followers
+2026-02-11 23:41:44,932 - Drone_3 - INFO - Drone 3: Reached target position
+2026-02-11 23:41:45,729 - Drone_2 - INFO - Drone 2: Reached target position
+2026-02-11 23:41:46,443 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-11 23:41:47,046 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-11 23:41:48,782 - Drone_6 - INFO - Drone 6: Reached target position
+2026-02-11 23:41:49,000 - Drone_7 - INFO - Drone 7: Reached target position
+2026-02-11 23:41:50,208 - Drone_8 - INFO - Drone 8: Reached target position
+2026-02-11 23:41:52,923 - Drone_2 - INFO - Drone 2: Flying to {'x': 15.0, 'y': 0.0, 'z': 10.056900024414062}
+2026-02-11 23:41:52,923 - Drone_3 - INFO - Drone 3: Flying to {'x': 9.352347027881004, 'y': 11.727472237020446, 'z': 10.056900024414062}
+2026-02-11 23:41:52,924 - Drone_4 - INFO - Drone 4: Flying to {'x': -3.337814009344715, 'y': 14.623918682727354, 'z': 10.056900024414062}
+2026-02-11 23:41:52,924 - Drone_5 - INFO - Drone 5: Flying to {'x': -13.514533018536286, 'y': 6.508256086763374, 'z': 10.056900024414062}
+2026-02-11 23:41:52,924 - Drone_6 - INFO - Drone 6: Flying to {'x': -13.514533018536287, 'y': -6.50825608676337, 'z': 10.056900024414062}
+2026-02-11 23:41:52,924 - Drone_7 - INFO - Drone 7: Flying to {'x': -3.3378140093447186, 'y': -14.623918682727354, 'z': 10.056900024414062}
+2026-02-11 23:41:52,925 - Drone_8 - INFO - Drone 8: Flying to {'x': 9.352347027881, 'y': -11.727472237020448, 'z': 10.056900024414062}
+2026-02-11 23:41:52,925 - SwarmManager - INFO - Formation 'circle' commanded to 7 followers
+2026-02-11 23:41:54,576 - Drone_2 - INFO - Drone 2: Reached target position
+2026-02-11 23:41:54,789 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-11 23:41:54,990 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-11 23:41:55,088 - Drone_3 - INFO - Drone 3: Reached target position
+2026-02-11 23:41:55,421 - Drone_6 - INFO - Drone 6: Reached target position
+2026-02-11 23:41:56,943 - Drone_7 - INFO - Drone 7: Reached target position
+2026-02-11 23:41:58,349 - Drone_8 - INFO - Drone 8: Reached target position
+2026-02-11 23:42:17,722 - Drone_1 - WARNING - Drone 1: Cannot takeoff - already flying
+2026-02-11 23:42:17,722 - Drone_2 - WARNING - Drone 2: Cannot takeoff - already flying
+2026-02-11 23:42:17,724 - Drone_3 - WARNING - Drone 3: Cannot takeoff - already flying
+2026-02-11 23:42:17,724 - Drone_4 - WARNING - Drone 4: Cannot takeoff - already flying
+2026-02-11 23:42:17,724 - Drone_5 - WARNING - Drone 5: Cannot takeoff - already flying
+2026-02-11 23:42:17,725 - Drone_6 - WARNING - Drone 6: Cannot takeoff - already flying
+2026-02-11 23:42:17,725 - Drone_7 - WARNING - Drone 7: Cannot takeoff - already flying
+2026-02-11 23:42:17,725 - Drone_8 - WARNING - Drone 8: Cannot takeoff - already flying
+2026-02-11 23:42:28,118 - SwarmManager - ERROR - EMERGENCY LAND ALL DRONES: Emergency button pressed
+2026-02-11 23:42:28,118 - Drone_1 - ERROR - Drone 1: EMERGENCY LANDING - Emergency button pressed
+2026-02-11 23:42:28,119 - Drone_2 - ERROR - Drone 2: EMERGENCY LANDING - Emergency button pressed
+2026-02-11 23:42:28,119 - Drone_3 - ERROR - Drone 3: EMERGENCY LANDING - Emergency button pressed
+2026-02-11 23:42:28,119 - Drone_4 - ERROR - Drone 4: EMERGENCY LANDING - Emergency button pressed
+2026-02-11 23:42:28,120 - Drone_5 - ERROR - Drone 5: EMERGENCY LANDING - Emergency button pressed
+2026-02-11 23:42:28,120 - Drone_6 - ERROR - Drone 6: EMERGENCY LANDING - Emergency button pressed
+2026-02-11 23:42:28,120 - Drone_7 - ERROR - Drone 7: EMERGENCY LANDING - Emergency button pressed
+2026-02-11 23:42:28,120 - Drone_8 - ERROR - Drone 8: EMERGENCY LANDING - Emergency button pressed
+2026-02-11 23:42:28,507 - SwarmManager - WARNING - Leader drone 1 no longer operational
+2026-02-11 23:42:28,507 - SwarmManager - ERROR - Handling failure of drone 1: Leader failure
+2026-02-11 23:42:28,508 - SwarmManager - WARNING - Leader drone 1 failed - initiating leader election
+2026-02-11 23:42:29,509 - SwarmManager - INFO - Starting leader election...
+2026-02-11 23:42:29,509 - SwarmManager - ERROR - No suitable candidates for leader
+2026-02-11 23:42:34,882 - Drone_2 - INFO - Drone 2: Landed safely
+2026-02-11 23:42:34,895 - Drone_1 - INFO - Drone 1: Landed safely
+2026-02-11 23:42:34,899 - Drone_5 - INFO - Drone 5: Landed safely
+2026-02-11 23:42:34,899 - Drone_4 - INFO - Drone 4: Landed safely
+2026-02-11 23:42:34,904 - Drone_3 - INFO - Drone 3: Landed safely
+2026-02-11 23:42:34,937 - Drone_6 - INFO - Drone 6: Landed safely
+2026-02-11 23:42:34,944 - Drone_7 - INFO - Drone 7: Landed safely
+2026-02-11 23:42:34,944 - Drone_8 - INFO - Drone 8: Landed safely
+2026-02-11 23:42:44,569 - Drone_1 - WARNING - Drone 1: Cannot takeoff - not armed
+2026-02-11 23:42:44,570 - Drone_2 - WARNING - Drone 2: Cannot takeoff - not armed
+2026-02-11 23:42:44,571 - Drone_3 - WARNING - Drone 3: Cannot takeoff - not armed
+2026-02-11 23:42:44,571 - Drone_4 - WARNING - Drone 4: Cannot takeoff - not armed
+2026-02-11 23:42:44,571 - Drone_5 - WARNING - Drone 5: Cannot takeoff - not armed
+2026-02-11 23:42:44,571 - Drone_6 - WARNING - Drone 6: Cannot takeoff - not armed
+2026-02-11 23:42:44,571 - Drone_7 - WARNING - Drone 7: Cannot takeoff - not armed
+2026-02-11 23:42:44,571 - Drone_8 - WARNING - Drone 8: Cannot takeoff - not armed
+2026-02-11 23:42:46,737 - Drone_1 - WARNING - Drone 1: Cannot takeoff - not armed
+2026-02-11 23:42:46,737 - Drone_2 - WARNING - Drone 2: Cannot takeoff - not armed
+2026-02-11 23:42:46,737 - Drone_3 - WARNING - Drone 3: Cannot takeoff - not armed
+2026-02-11 23:42:46,737 - Drone_4 - WARNING - Drone 4: Cannot takeoff - not armed
+2026-02-11 23:42:46,737 - Drone_5 - WARNING - Drone 5: Cannot takeoff - not armed
+2026-02-11 23:42:46,738 - Drone_6 - WARNING - Drone 6: Cannot takeoff - not armed
+2026-02-11 23:42:46,738 - Drone_7 - WARNING - Drone 7: Cannot takeoff - not armed
+2026-02-11 23:42:46,738 - Drone_8 - WARNING - Drone 8: Cannot takeoff - not armed
+2026-02-11 23:42:54,957 - Drone_9 - INFO - Drone 9 initialized at {'x': 16.096152843633917, 'y': -18.96732483088405, 'z': 0}
+2026-02-11 23:42:54,958 - Drone_9 - INFO - Drone 9 started
+2026-02-11 23:42:54,958 - SwarmManager - INFO - Drone 9 added to swarm
+2026-02-11 23:42:54,959 - SwarmManager - INFO - Starting leader election...
+2026-02-11 23:42:54,959 - SwarmManager - INFO -   Drone 1: suitability score = 99.70
+2026-02-11 23:42:54,959 - SwarmManager - INFO -   Drone 2: suitability score = 99.68
+2026-02-11 23:42:54,960 - SwarmManager - INFO -   Drone 3: suitability score = 99.68
+2026-02-11 23:42:54,960 - SwarmManager - INFO -   Drone 4: suitability score = 99.68
+2026-02-11 23:42:54,960 - SwarmManager - INFO -   Drone 5: suitability score = 99.68
+2026-02-11 23:42:54,961 - SwarmManager - INFO -   Drone 6: suitability score = 99.67
+2026-02-11 23:42:54,961 - SwarmManager - INFO -   Drone 7: suitability score = 99.67
+2026-02-11 23:42:54,961 - SwarmManager - INFO -   Drone 8: suitability score = 99.66
+2026-02-11 23:42:54,962 - SwarmManager - INFO -   Drone 9: suitability score = 100.00
+2026-02-11 23:42:54,962 - Drone_1 - INFO - Drone 1: Role changed from leader to follower
+2026-02-11 23:42:54,962 - Drone_2 - INFO - Drone 2: Role changed from follower to follower
+2026-02-11 23:42:54,962 - Drone_3 - INFO - Drone 3: Role changed from follower to follower
+2026-02-11 23:42:54,962 - Drone_4 - INFO - Drone 4: Role changed from follower to follower
+2026-02-11 23:42:54,963 - Drone_5 - INFO - Drone 5: Role changed from follower to follower
+2026-02-11 23:42:54,963 - Drone_6 - INFO - Drone 6: Role changed from follower to follower
+2026-02-11 23:42:54,963 - Drone_7 - INFO - Drone 7: Role changed from follower to follower
+2026-02-11 23:42:54,963 - Drone_8 - INFO - Drone 8: Role changed from follower to follower
+2026-02-11 23:42:54,963 - Drone_9 - INFO - Drone 9: Role changed from follower to leader
+2026-02-11 23:45:48,918 - Drone_1 - INFO - Drone 1: Armed
+2026-02-11 23:45:48,919 - Drone_2 - INFO - Drone 2: Armed
+2026-02-11 23:45:48,919 - Drone_3 - INFO - Drone 3: Armed
+2026-02-11 23:45:48,920 - Drone_4 - INFO - Drone 4: Armed
+2026-02-11 23:45:48,920 - Drone_5 - INFO - Drone 5: Armed
+2026-02-11 23:45:48,920 - Drone_6 - INFO - Drone 6: Armed
+2026-02-11 23:45:48,921 - Drone_7 - INFO - Drone 7: Armed
+2026-02-11 23:45:48,921 - Drone_8 - INFO - Drone 8: Armed
+2026-02-11 23:45:48,921 - Drone_9 - INFO - Drone 9: Armed
+2026-02-11 23:45:54,795 - SwarmManager - INFO - Commanding all drones to return home
+2026-02-11 23:45:57,437 - Drone_1 - INFO - Drone 1: Taking off
+2026-02-11 23:45:57,437 - Drone_2 - INFO - Drone 2: Taking off
+2026-02-11 23:45:57,437 - Drone_3 - INFO - Drone 3: Taking off
+2026-02-11 23:45:57,438 - Drone_4 - INFO - Drone 4: Taking off
+2026-02-11 23:45:57,438 - Drone_5 - INFO - Drone 5: Taking off
+2026-02-11 23:45:57,438 - Drone_6 - INFO - Drone 6: Taking off
+2026-02-11 23:45:57,438 - Drone_7 - INFO - Drone 7: Taking off
+2026-02-11 23:45:57,438 - Drone_8 - INFO - Drone 8: Taking off
+2026-02-11 23:45:57,438 - Drone_9 - INFO - Drone 9: Taking off
+2026-02-11 23:46:02,492 - Drone_6 - INFO - Drone 6: Takeoff complete at 10.1m
+2026-02-11 23:46:02,500 - Drone_7 - INFO - Drone 7: Takeoff complete at 10.1m
+2026-02-11 23:46:02,500 - Drone_8 - INFO - Drone 8: Takeoff complete at 10.0m
+2026-02-11 23:46:02,502 - Drone_9 - INFO - Drone 9: Takeoff complete at 10.1m
+2026-02-11 23:46:02,527 - Drone_1 - INFO - Drone 1: Takeoff complete at 10.1m
+2026-02-11 23:46:02,531 - Drone_2 - INFO - Drone 2: Takeoff complete at 10.0m
+2026-02-11 23:46:02,534 - Drone_4 - INFO - Drone 4: Takeoff complete at 10.1m
+2026-02-11 23:46:02,546 - Drone_5 - INFO - Drone 5: Takeoff complete at 10.1m
+2026-02-11 23:46:02,548 - Drone_3 - INFO - Drone 3: Takeoff complete at 10.1m
+2026-02-11 23:46:34,410 - SwarmManager - INFO - Formation 'grid' commanded to 8 followers
+2026-02-11 23:46:36,711 - SwarmManager - INFO - Formation 'grid' commanded to 8 followers
+2026-02-11 23:46:40,299 - Drone_1 - INFO - Drone 1: Flying to {'x': 6.0961528436339165, 'y': -18.96732483088405, 'z': 10.05463981628418}
+2026-02-11 23:46:40,300 - Drone_2 - INFO - Drone 2: Flying to {'x': -3.9038471563660835, 'y': -18.96732483088405, 'z': 10.05463981628418}
+2026-02-11 23:46:40,300 - Drone_3 - INFO - Drone 3: Flying to {'x': -13.903847156366083, 'y': -18.96732483088405, 'z': 10.05463981628418}
+2026-02-11 23:46:40,300 - Drone_4 - INFO - Drone 4: Flying to {'x': -23.903847156366083, 'y': -18.96732483088405, 'z': 10.05463981628418}
+2026-02-11 23:46:40,300 - Drone_5 - INFO - Drone 5: Flying to {'x': -33.90384715636608, 'y': -18.96732483088405, 'z': 10.05463981628418}
+2026-02-11 23:46:40,300 - Drone_6 - INFO - Drone 6: Flying to {'x': -43.90384715636608, 'y': -18.96732483088405, 'z': 10.05463981628418}
+2026-02-11 23:46:40,300 - Drone_7 - INFO - Drone 7: Flying to {'x': -53.90384715636608, 'y': -18.96732483088405, 'z': 10.05463981628418}
+2026-02-11 23:46:40,300 - Drone_8 - INFO - Drone 8: Flying to {'x': -63.90384715636608, 'y': -18.96732483088405, 'z': 10.05463981628418}
+2026-02-11 23:46:40,300 - SwarmManager - INFO - Formation 'line' commanded to 8 followers
+2026-02-11 23:46:41,639 - Drone_1 - INFO - Drone 1: Reached target position
+2026-02-11 23:46:42,142 - Drone_2 - INFO - Drone 2: Reached target position
+2026-02-11 23:46:42,461 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-11 23:46:42,601 - Drone_6 - INFO - Drone 6: Reached target position
+2026-02-11 23:46:42,871 - Drone_3 - INFO - Drone 3: Reached target position
+2026-02-11 23:46:42,946 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-11 23:46:43,722 - Drone_7 - INFO - Drone 7: Reached target position
+2026-02-11 23:46:45,230 - Drone_8 - INFO - Drone 8: Reached target position
+2026-02-11 23:46:58,668 - Drone_4 - ERROR - Drone 4: Motor 1 failed!
+2026-02-11 23:46:58,741 - Drone_4 - ERROR - Drone 4: Motor failure detected - Motors [1]
+2026-02-11 23:46:58,742 - Drone_4 - ERROR - Drone 4: EMERGENCY LANDING - Motor failure: 1 motors failed
+2026-02-11 23:47:05,381 - Drone_4 - INFO - Drone 4: Landed safely
+2026-02-11 23:47:17,501 - Drone_9 - INFO - Drone 9 stopped
+2026-02-11 23:47:17,501 - SwarmManager - INFO - Drone 9 removed from swarm
+2026-02-11 23:47:17,501 - SwarmManager - WARNING - Leader drone 9 removed - electing new leader
+2026-02-11 23:47:17,502 - SwarmManager - INFO - Starting leader election...
+2026-02-11 23:47:17,502 - SwarmManager - INFO -   Drone 1: suitability score = 99.26
+2026-02-11 23:47:17,502 - SwarmManager - INFO -   Drone 2: suitability score = 99.24
+2026-02-11 23:47:17,503 - SwarmManager - INFO -   Drone 3: suitability score = 99.24
+2026-02-11 23:47:17,503 - SwarmManager - INFO -   Drone 4: suitability score = 96.79
+2026-02-11 23:47:17,503 - SwarmManager - INFO -   Drone 5: suitability score = 99.23
+2026-02-11 23:47:17,503 - SwarmManager - INFO -   Drone 6: suitability score = 99.23
+2026-02-11 23:47:17,504 - SwarmManager - INFO -   Drone 7: suitability score = 99.22
+2026-02-11 23:47:17,504 - SwarmManager - INFO -   Drone 8: suitability score = 99.20
+2026-02-11 23:47:17,504 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-11 23:47:17,504 - Drone_2 - INFO - Drone 2: Role changed from follower to follower
+2026-02-11 23:47:17,504 - Drone_3 - INFO - Drone 3: Role changed from follower to follower
+2026-02-11 23:47:17,504 - Drone_4 - INFO - Drone 4: Role changed from follower to follower
+2026-02-11 23:47:17,504 - Drone_5 - INFO - Drone 5: Role changed from follower to follower
+2026-02-11 23:47:17,505 - Drone_6 - INFO - Drone 6: Role changed from follower to follower
+2026-02-11 23:47:17,505 - Drone_7 - INFO - Drone 7: Role changed from follower to follower
+2026-02-11 23:47:17,505 - Drone_8 - INFO - Drone 8: Role changed from follower to follower
+2026-02-11 23:47:27,490 - Drone_1 - INFO - Drone 1 stopped
+2026-02-11 23:47:27,491 - SwarmManager - INFO - Drone 1 removed from swarm
+2026-02-11 23:47:27,492 - SwarmManager - WARNING - Leader drone 1 removed - electing new leader
+2026-02-11 23:47:27,493 - SwarmManager - INFO - Starting leader election...
+2026-02-11 23:47:27,494 - SwarmManager - INFO -   Drone 2: suitability score = 99.20
+2026-02-11 23:47:27,494 - SwarmManager - INFO -   Drone 3: suitability score = 99.20
+2026-02-11 23:47:27,495 - SwarmManager - INFO -   Drone 4: suitability score = 96.79
+2026-02-11 23:47:27,495 - SwarmManager - INFO -   Drone 5: suitability score = 99.19
+2026-02-11 23:47:27,496 - SwarmManager - INFO -   Drone 6: suitability score = 99.19
+2026-02-11 23:47:27,496 - SwarmManager - INFO -   Drone 7: suitability score = 99.18
+2026-02-11 23:47:27,497 - SwarmManager - INFO -   Drone 8: suitability score = 99.16
+2026-02-11 23:47:27,497 - Drone_2 - INFO - Drone 2: Role changed from follower to leader
+2026-02-11 23:47:27,498 - Drone_3 - INFO - Drone 3: Role changed from follower to follower
+2026-02-11 23:47:27,498 - Drone_4 - INFO - Drone 4: Role changed from follower to follower
+2026-02-11 23:47:27,498 - Drone_5 - INFO - Drone 5: Role changed from follower to follower
+2026-02-11 23:47:27,498 - Drone_6 - INFO - Drone 6: Role changed from follower to follower
+2026-02-11 23:47:27,498 - Drone_7 - INFO - Drone 7: Role changed from follower to follower
+2026-02-11 23:47:27,499 - Drone_8 - INFO - Drone 8: Role changed from follower to follower
+2026-02-11 23:47:29,896 - Drone_2 - INFO - Drone 2 stopped
+2026-02-11 23:47:29,897 - SwarmManager - INFO - Drone 2 removed from swarm
+2026-02-11 23:47:29,898 - SwarmManager - WARNING - Leader drone 2 removed - electing new leader
+2026-02-11 23:47:29,899 - SwarmManager - INFO - Starting leader election...
+2026-02-11 23:47:29,900 - SwarmManager - INFO -   Drone 3: suitability score = 99.19
+2026-02-11 23:47:29,901 - SwarmManager - INFO -   Drone 4: suitability score = 96.78
+2026-02-11 23:47:29,902 - SwarmManager - INFO -   Drone 5: suitability score = 99.18
+2026-02-11 23:47:29,902 - SwarmManager - INFO -   Drone 6: suitability score = 99.18
+2026-02-11 23:47:29,903 - SwarmManager - INFO -   Drone 7: suitability score = 99.17
+2026-02-11 23:47:29,903 - SwarmManager - INFO -   Drone 8: suitability score = 99.15
+2026-02-11 23:47:29,904 - Drone_3 - INFO - Drone 3: Role changed from follower to leader
+2026-02-11 23:47:29,904 - Drone_4 - INFO - Drone 4: Role changed from follower to follower
+2026-02-11 23:47:29,904 - Drone_5 - INFO - Drone 5: Role changed from follower to follower
+2026-02-11 23:47:29,905 - Drone_6 - INFO - Drone 6: Role changed from follower to follower
+2026-02-11 23:47:29,905 - Drone_7 - INFO - Drone 7: Role changed from follower to follower
+2026-02-11 23:47:29,905 - Drone_8 - INFO - Drone 8: Role changed from follower to follower
+2026-02-11 23:47:33,715 - Drone_7 - INFO - Drone 7 initialized at {'x': -11.30146109206927, 'y': 9.538241866394287, 'z': 0}
+2026-02-11 23:47:33,716 - SwarmManager - WARNING - Drone 7 already in swarm
+2026-02-11 23:47:34,550 - Drone_7 - INFO - Drone 7 initialized at {'x': -12.613040467044666, 'y': 5.203182260294298, 'z': 0}
+2026-02-11 23:47:34,550 - SwarmManager - WARNING - Drone 7 already in swarm
+2026-02-11 23:47:37,837 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-11 23:47:37,837 - Drone_5 - INFO - Drone 5: Flying to {'x': -33.90384715636608, 'y': -18.96732483088405, 'z': 10.05463981628418}
+2026-02-11 23:47:37,838 - Drone_6 - INFO - Drone 6: Flying to {'x': -43.90384715636608, 'y': -18.96732483088405, 'z': 10.05463981628418}
+2026-02-11 23:47:37,838 - Drone_7 - INFO - Drone 7: Flying to {'x': -53.90384715636608, 'y': -18.96732483088405, 'z': 10.05463981628418}
+2026-02-11 23:47:37,838 - Drone_8 - INFO - Drone 8: Flying to {'x': -63.90384715636608, 'y': -18.96732483088405, 'z': 10.05463981628418}
+2026-02-11 23:47:37,838 - SwarmManager - INFO - Formation 'line' commanded to 5 followers
+2026-02-11 23:47:37,858 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-11 23:47:37,904 - Drone_6 - INFO - Drone 6: Reached target position
+2026-02-11 23:47:37,904 - Drone_7 - INFO - Drone 7: Reached target position
+2026-02-11 23:47:37,904 - Drone_8 - INFO - Drone 8: Reached target position
+2026-02-11 23:47:44,087 - Drone_7 - INFO - Drone 7 initialized at {'x': -2.4146504508509707, 'y': 16.251044218669406, 'z': 0}
+2026-02-11 23:47:44,087 - SwarmManager - WARNING - Drone 7 already in swarm
+2026-02-11 23:47:49,322 - Drone_3 - WARNING - Drone 3: Cannot takeoff - already flying
+2026-02-11 23:47:49,323 - Drone_4 - WARNING - Drone 4: Cannot takeoff - not armed
+2026-02-11 23:47:49,323 - Drone_5 - WARNING - Drone 5: Cannot takeoff - already flying
+2026-02-11 23:47:49,323 - Drone_6 - WARNING - Drone 6: Cannot takeoff - already flying
+2026-02-11 23:47:49,323 - Drone_7 - WARNING - Drone 7: Cannot takeoff - already flying
+2026-02-11 23:47:49,323 - Drone_8 - WARNING - Drone 8: Cannot takeoff - already flying
+2026-02-12 00:13:57,900 - Drone_3 - WARNING - Drone 3: Cannot takeoff - already flying
+2026-02-12 00:13:57,900 - Drone_4 - WARNING - Drone 4: Cannot takeoff - not armed
+2026-02-12 00:13:57,900 - Drone_5 - WARNING - Drone 5: Cannot takeoff - already flying
+2026-02-12 00:13:57,901 - Drone_6 - WARNING - Drone 6: Cannot takeoff - already flying
+2026-02-12 00:13:57,901 - Drone_7 - WARNING - Drone 7: Cannot takeoff - already flying
+2026-02-12 00:13:57,901 - Drone_8 - WARNING - Drone 8: Cannot takeoff - already flying
+2026-02-12 00:15:19,090 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 00:15:19,090 - Drone_5 - INFO - Drone 5: Flying to {'x': -9.26859224074187, 'y': -4.701477086456746, 'z': 10.05463981628418}
+2026-02-12 00:15:19,091 - Drone_6 - INFO - Drone 6: Flying to {'x': -26.039102071990293, 'y': -10.15054604649695, 'z': 10.05463981628418}
+2026-02-12 00:15:19,091 - Drone_7 - INFO - Drone 7: Flying to {'x': -26.039102071990296, 'y': -27.784103615271142, 'z': 10.05463981628418}
+2026-02-12 00:15:19,091 - Drone_8 - INFO - Drone 8: Flying to {'x': -9.268592240741874, 'y': -33.23317257531136, 'z': 10.05463981628418}
+2026-02-12 00:15:19,091 - SwarmManager - INFO - Formation 'circle' commanded to 5 followers
+2026-02-12 00:15:20,490 - Drone_6 - INFO - Drone 6: Reached target position
+2026-02-12 00:15:21,067 - Drone_7 - INFO - Drone 7: Reached target position
+2026-02-12 00:15:21,090 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-12 00:15:22,819 - Drone_8 - INFO - Drone 8: Reached target position
+2026-02-12 00:15:28,936 - SwarmManager - ERROR - EMERGENCY LAND ALL DRONES: Emergency button pressed
+2026-02-12 00:15:28,937 - Drone_3 - ERROR - Drone 3: EMERGENCY LANDING - Emergency button pressed
+2026-02-12 00:15:28,937 - Drone_5 - ERROR - Drone 5: EMERGENCY LANDING - Emergency button pressed
+2026-02-12 00:15:28,937 - Drone_6 - ERROR - Drone 6: EMERGENCY LANDING - Emergency button pressed
+2026-02-12 00:15:28,937 - Drone_7 - ERROR - Drone 7: EMERGENCY LANDING - Emergency button pressed
+2026-02-12 00:15:28,938 - Drone_8 - ERROR - Drone 8: EMERGENCY LANDING - Emergency button pressed
+2026-02-12 00:15:29,639 - SwarmManager - WARNING - Leader drone 3 no longer operational
+2026-02-12 00:15:29,640 - SwarmManager - ERROR - Handling failure of drone 3: Leader failure
+2026-02-12 00:15:29,641 - SwarmManager - WARNING - Leader drone 3 failed - initiating leader election
+2026-02-12 00:15:30,642 - SwarmManager - INFO - Starting leader election...
+2026-02-12 00:15:30,643 - SwarmManager - INFO -   Drone 4: suitability score = 96.11
+2026-02-12 00:15:30,644 - Drone_3 - INFO - Drone 3: Role changed from leader to follower
+2026-02-12 00:15:30,644 - Drone_4 - INFO - Drone 4: Role changed from follower to leader
+2026-02-12 00:15:30,644 - Drone_5 - INFO - Drone 5: Role changed from follower to follower
+2026-02-12 00:15:30,644 - Drone_6 - INFO - Drone 6: Role changed from follower to follower
+2026-02-12 00:15:30,645 - Drone_7 - INFO - Drone 7: Role changed from follower to follower
+2026-02-12 00:15:30,645 - Drone_8 - INFO - Drone 8: Role changed from follower to follower
+2026-02-12 00:15:35,590 - Drone_8 - INFO - Drone 8: Landed safely
+2026-02-12 00:15:35,647 - Drone_7 - INFO - Drone 7: Landed safely
+2026-02-12 00:15:35,670 - Drone_5 - INFO - Drone 5: Landed safely
+2026-02-12 00:15:35,692 - Drone_3 - INFO - Drone 3: Landed safely
+2026-02-12 00:15:35,769 - Drone_6 - INFO - Drone 6: Landed safely
+2026-02-12 00:15:42,623 - Drone_3 - WARNING - Drone 3: Cannot takeoff - not armed
+2026-02-12 00:15:42,624 - Drone_4 - WARNING - Drone 4: Cannot takeoff - not armed
+2026-02-12 00:15:42,624 - Drone_5 - WARNING - Drone 5: Cannot takeoff - not armed
+2026-02-12 00:15:42,624 - Drone_6 - WARNING - Drone 6: Cannot takeoff - not armed
+2026-02-12 00:15:42,625 - Drone_7 - WARNING - Drone 7: Cannot takeoff - not armed
+2026-02-12 00:15:42,625 - Drone_8 - WARNING - Drone 8: Cannot takeoff - not armed
+2026-02-12 00:15:47,510 - Drone_7 - INFO - Drone 7 initialized at {'x': 7.509959575471502, 'y': -11.555144169767711, 'z': 0}
+2026-02-12 00:15:47,510 - SwarmManager - WARNING - Drone 7 already in swarm
+2026-02-12 00:15:48,630 - Drone_7 - INFO - Drone 7 initialized at {'x': -5.693730378663817, 'y': -10.766360870768441, 'z': 0}
+2026-02-12 00:15:48,630 - SwarmManager - WARNING - Drone 7 already in swarm
+2026-02-12 00:15:50,676 - Drone_3 - INFO - Drone 3 stopped
+2026-02-12 00:15:50,774 - Drone_4 - INFO - Drone 4 stopped
+2026-02-12 00:15:50,851 - Drone_5 - INFO - Drone 5 stopped
+2026-02-12 00:15:50,952 - Drone_6 - INFO - Drone 6 stopped
+2026-02-12 00:15:51,027 - Drone_7 - INFO - Drone 7 stopped
+2026-02-12 00:15:51,073 - Drone_8 - INFO - Drone 8 stopped
+2026-02-12 00:15:51,073 - SwarmManager - INFO - Swarm monitoring stopped
+2026-02-12 00:15:51,073 - Main - INFO - System shutdown complete

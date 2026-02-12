@@ -1,0 +1,753 @@
+2026-02-11 23:41:03,459 - Drone_4 - INFO - Drone 4 initialized at {'x': 0, 'y': 10, 'z': 0}
+2026-02-11 23:41:03,460 - Drone_4 - INFO - Drone 4 started
+2026-02-11 23:41:26,852 - Drone_4 - INFO - Drone 4: Armed
+2026-02-11 23:41:30,295 - Drone_4 - INFO - Drone 4: Taking off
+2026-02-11 23:41:35,385 - Drone_4 - INFO - Drone 4: Takeoff complete at 10.1m
+2026-02-11 23:41:44,324 - Drone_4 - INFO - Drone 4: Flying to {'x': -30, 'y': 0, 'z': 10.056900024414062}
+2026-02-11 23:41:46,443 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-11 23:41:52,924 - Drone_4 - INFO - Drone 4: Flying to {'x': -3.337814009344715, 'y': 14.623918682727354, 'z': 10.056900024414062}
+2026-02-11 23:41:54,990 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-11 23:42:17,724 - Drone_4 - WARNING - Drone 4: Cannot takeoff - already flying
+2026-02-11 23:42:28,119 - Drone_4 - ERROR - Drone 4: EMERGENCY LANDING - Emergency button pressed
+2026-02-11 23:42:34,899 - Drone_4 - INFO - Drone 4: Landed safely
+2026-02-11 23:42:44,571 - Drone_4 - WARNING - Drone 4: Cannot takeoff - not armed
+2026-02-11 23:42:46,737 - Drone_4 - WARNING - Drone 4: Cannot takeoff - not armed
+2026-02-11 23:42:54,962 - Drone_4 - INFO - Drone 4: Role changed from follower to follower
+2026-02-11 23:45:48,920 - Drone_4 - INFO - Drone 4: Armed
+2026-02-11 23:45:57,438 - Drone_4 - INFO - Drone 4: Taking off
+2026-02-11 23:46:02,534 - Drone_4 - INFO - Drone 4: Takeoff complete at 10.1m
+2026-02-11 23:46:40,300 - Drone_4 - INFO - Drone 4: Flying to {'x': -23.903847156366083, 'y': -18.96732483088405, 'z': 10.05463981628418}
+2026-02-11 23:46:42,946 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-11 23:46:58,668 - Drone_4 - ERROR - Drone 4: Motor 1 failed!
+2026-02-11 23:46:58,741 - Drone_4 - ERROR - Drone 4: Motor failure detected - Motors [1]
+2026-02-11 23:46:58,742 - Drone_4 - ERROR - Drone 4: EMERGENCY LANDING - Motor failure: 1 motors failed
+2026-02-11 23:47:05,381 - Drone_4 - INFO - Drone 4: Landed safely
+2026-02-11 23:47:17,504 - Drone_4 - INFO - Drone 4: Role changed from follower to follower
+2026-02-11 23:47:27,498 - Drone_4 - INFO - Drone 4: Role changed from follower to follower
+2026-02-11 23:47:29,904 - Drone_4 - INFO - Drone 4: Role changed from follower to follower
+2026-02-11 23:47:37,837 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-11 23:47:49,323 - Drone_4 - WARNING - Drone 4: Cannot takeoff - not armed
+2026-02-12 00:13:57,900 - Drone_4 - WARNING - Drone 4: Cannot takeoff - not armed
+2026-02-12 00:15:19,090 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 00:15:30,644 - Drone_4 - INFO - Drone 4: Role changed from follower to leader
+2026-02-12 00:15:42,624 - Drone_4 - WARNING - Drone 4: Cannot takeoff - not armed
+2026-02-12 00:15:50,774 - Drone_4 - INFO - Drone 4 stopped
+2026-02-12 00:15:58,837 - Drone_4 - INFO - Drone 4 initialized at {'x': 0, 'y': 10, 'z': 0}
+2026-02-12 00:15:58,838 - Drone_4 - INFO - Drone 4 started
+2026-02-12 00:16:13,613 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 00:16:16,838 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 00:16:19,310 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 00:16:21,584 - Drone_4 - WARNING - Drone 4: Cannot takeoff - not armed
+2026-02-12 00:16:36,943 - Drone_4 - WARNING - Drone 4: Cannot takeoff - not armed
+2026-02-12 00:16:37,550 - Drone_4 - INFO - Drone 4: Armed
+2026-02-12 00:16:48,932 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 00:16:52,026 - Drone_4 - INFO - Drone 4 stopped
+2026-02-12 01:04:40,068 - Drone_4 - INFO - Drone 4 initialized at {'x': 0, 'y': 10, 'z': 0}
+2026-02-12 01:04:40,068 - Drone_4 - INFO - Drone 4 started
+2026-02-12 01:04:44,057 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:04:49,900 - Drone_4 - WARNING - Drone 4: Cannot takeoff - not armed
+2026-02-12 01:05:32,778 - Drone_4 - WARNING - Drone 4: Cannot takeoff - not armed
+2026-02-12 01:05:37,952 - Drone_4 - INFO - Drone 4: Armed
+2026-02-12 01:05:40,344 - Drone_4 - INFO - Drone 4: Taking off
+2026-02-12 01:05:43,323 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:05:45,452 - Drone_4 - INFO - Drone 4: Takeoff complete at 10.1m
+2026-02-12 01:05:52,918 - Drone_4 - INFO - Drone 4: Flying to {'x': -20, 'y': 20, 'z': 10.051294326782227}
+2026-02-12 01:05:54,503 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-12 01:06:17,570 - Drone_4 - INFO - Drone 4: Flying to {'x': 2.604722665003956, 'y': 14.772116295183121, 'z': 10.051294326782227}
+2026-02-12 01:06:19,134 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-12 01:07:08,526 - Drone_4 - INFO - Drone 4: Flying to {'x': 2.604722665003956, 'y': 14.772116295183121, 'z': 10.051294326782227}
+2026-02-12 01:07:08,605 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-12 01:14:37,560 - Drone_4 - INFO - Drone 4 stopped
+2026-02-12 01:14:40,328 - Drone_4 - INFO - Drone 4 initialized at {'x': 0, 'y': 10, 'z': 0}
+2026-02-12 01:14:40,329 - Drone_4 - INFO - Drone 4 started
+2026-02-12 01:14:47,709 - Drone_4 - INFO - Drone 4: Armed
+2026-02-12 01:14:50,686 - Drone_4 - INFO - Drone 4: Taking off
+2026-02-12 01:14:55,730 - Drone_4 - INFO - Drone 4: Takeoff complete at 10.1m
+2026-02-12 01:15:09,355 - Drone_4 - INFO - Drone 4: Role changed from follower to follower
+2026-02-12 01:15:22,669 - Drone_4 - INFO - Drone 4 stopped
+2026-02-12 01:24:17,987 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-12 01:24:17,988 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-12 01:24:17,988 - Drone_4 - INFO - Drone 4 started
+2026-02-12 01:25:13,379 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-12 01:25:13,379 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-12 01:25:13,379 - Drone_4 - INFO - Drone 4 started
+2026-02-12 01:25:22,332 - Drone_4 - INFO - Drone 4: Armed
+2026-02-12 01:25:24,400 - Drone_4 - INFO - Drone 4: Taking off
+2026-02-12 01:26:27,487 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-12 01:26:27,487 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-12 01:26:27,488 - Drone_4 - INFO - Drone 4 started
+2026-02-12 01:26:31,050 - Drone_4 - INFO - Drone 4: Armed
+2026-02-12 01:26:32,739 - Drone_4 - INFO - Drone 4: Taking off
+2026-02-12 01:26:39,340 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:33:08,705 - Drone_4 - INFO - Drone 4: Role changed from follower to follower
+2026-02-12 01:37:16,432 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-12 01:37:16,432 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-12 01:37:16,432 - Drone_4 - INFO - Drone 4 started
+2026-02-12 01:37:28,010 - Drone_4 - INFO - Drone 4: Armed
+2026-02-12 01:37:29,511 - Drone_4 - INFO - Drone 4: Taking off
+2026-02-12 01:41:56,994 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-12 01:41:56,994 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-12 01:41:56,995 - Drone_4 - INFO - Drone 4 started
+2026-02-12 01:42:09,812 - Drone_4 - INFO - Drone 4: Armed
+2026-02-12 01:42:15,325 - Drone_4 - INFO - Drone 4: Taking off
+2026-02-12 01:43:21,053 - Drone_4 - INFO - Drone 4: Role changed from follower to follower
+2026-02-12 01:44:09,967 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-12 01:44:09,968 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-12 01:44:09,968 - Drone_4 - INFO - Drone 4 started
+2026-02-12 01:51:54,008 - Drone_4 - INFO - Drone 4: Role changed from follower to follower
+2026-02-12 01:52:53,926 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-12 01:52:53,926 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-12 01:52:53,927 - Drone_4 - INFO - Drone 4 started
+2026-02-12 01:53:13,943 - Drone_4 - INFO - Drone 4: Armed
+2026-02-12 01:53:15,432 - Drone_4 - INFO - Drone 4: Taking off
+2026-02-12 01:53:15,941 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:16,942 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:17,943 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:18,945 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:19,946 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:20,948 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:21,950 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:22,954 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:23,957 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:24,959 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:25,960 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:26,962 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:27,965 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:28,968 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:29,971 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:30,974 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:31,978 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:32,981 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:33,983 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:34,985 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:35,989 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:36,991 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:37,993 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:38,997 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:40,000 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:41,004 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:42,009 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:43,014 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:44,017 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:45,019 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:46,022 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:47,027 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:48,030 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:49,034 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:50,037 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:51,039 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:52,040 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:53,043 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:54,046 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:55,049 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:56,051 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:57,055 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:58,057 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:53:59,059 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:00,062 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:01,065 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:02,069 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:03,075 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:04,077 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:05,079 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:06,081 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:07,085 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:08,089 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:09,095 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:10,097 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:11,099 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:12,102 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:13,105 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:14,109 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:15,112 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:16,116 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:17,117 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:18,119 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:19,122 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:20,124 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:21,125 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:22,127 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:23,128 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:24,129 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:25,130 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:26,131 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:27,133 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:28,134 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:29,135 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:30,136 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:31,138 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:32,140 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:33,142 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:34,144 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:35,145 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:36,161 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:37,174 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:38,175 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:39,177 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:40,178 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:41,179 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:42,181 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:43,184 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:44,185 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:45,187 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:46,188 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:47,190 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:48,191 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:49,192 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:50,195 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:51,198 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:52,199 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 01:54:53,200 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:00:49,199 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-12 02:00:49,199 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-12 02:00:49,200 - Drone_4 - INFO - Drone 4 started
+2026-02-12 02:05:12,668 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-12 02:05:12,669 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-12 02:05:12,669 - Drone_4 - INFO - Drone 4 started
+2026-02-12 02:06:44,345 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-12 02:06:44,345 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-12 02:06:44,346 - Drone_4 - INFO - Drone 4 started
+2026-02-12 02:09:06,659 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-12 02:09:06,659 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-12 02:09:06,660 - Drone_4 - INFO - Drone 4 started
+2026-02-12 02:10:43,995 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-12 02:10:43,995 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-12 02:10:43,995 - Drone_4 - INFO - Drone 4 started
+2026-02-12 02:12:40,154 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-12 02:12:40,154 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-12 02:12:40,154 - Drone_4 - INFO - Drone 4 started
+2026-02-12 02:13:15,247 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-12 02:13:15,248 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-12 02:13:15,248 - Drone_4 - INFO - Drone 4 started
+2026-02-12 02:13:39,543 - Drone_4 - INFO - Drone 4 stopped
+2026-02-12 02:13:41,594 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-12 02:13:41,595 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-12 02:13:41,595 - Drone_4 - INFO - Drone 4 started
+2026-02-12 02:14:54,843 - Drone_4 - INFO - Drone 4 stopped
+2026-02-12 02:15:09,867 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-12 02:15:09,867 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-12 02:15:09,867 - Drone_4 - INFO - Drone 4 started
+2026-02-12 02:16:57,132 - Drone_4 - INFO - Drone 4 stopped
+2026-02-12 02:16:59,823 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-12 02:16:59,823 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-12 02:16:59,824 - Drone_4 - INFO - Drone 4 started
+2026-02-12 02:19:05,208 - Drone_4 - INFO - Drone 4 stopped
+2026-02-12 02:19:12,267 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-12 02:19:12,268 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-12 02:19:12,268 - Drone_4 - INFO - Drone 4 started
+2026-02-12 02:22:40,486 - Drone_4 - INFO - Drone 4 stopped
+2026-02-12 02:22:42,734 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-12 02:22:42,734 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-12 02:22:42,735 - Drone_4 - INFO - Drone 4 started
+2026-02-12 02:22:58,066 - Drone_4 - INFO - Drone 4: Armed
+2026-02-12 02:23:01,193 - Drone_4 - INFO - Drone 4: Taking off
+2026-02-12 02:23:01,751 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:02,755 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:03,756 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:04,759 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:05,761 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:06,763 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:07,767 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:08,772 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:09,776 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:10,781 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:11,783 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:12,785 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:13,787 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:14,791 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:15,796 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:16,801 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:17,803 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:18,806 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:19,807 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:20,810 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:21,813 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:22,815 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:23,819 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:24,822 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:25,823 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:26,825 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:27,827 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:28,829 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:29,832 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:30,835 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:31,836 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:32,839 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:33,842 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:34,845 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:35,848 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:36,850 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:37,851 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:38,855 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:39,857 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:40,859 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:41,862 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:42,864 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:43,867 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:44,869 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:45,870 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:46,871 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:47,873 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:48,875 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:49,877 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:50,880 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:51,881 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:52,882 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:53,883 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:54,884 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:55,886 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:56,887 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:57,888 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:58,890 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:23:59,891 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:00,893 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:01,894 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:02,897 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:03,899 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:04,900 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:05,902 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:06,906 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:07,908 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:08,910 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:09,912 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:10,914 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:11,916 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:12,920 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:13,922 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:14,925 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:15,928 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:16,932 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:17,936 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:18,940 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:19,942 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:20,946 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:21,950 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:22,954 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:23,958 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:24,963 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:25,966 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:26,967 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:27,969 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:28,971 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:29,975 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:30,980 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:31,984 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:32,987 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:33,991 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:34,994 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:35,997 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:37,001 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:38,005 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:39,010 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:40,012 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:41,014 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:42,017 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:43,020 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:44,025 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:45,027 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:46,031 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:47,038 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:48,041 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:49,043 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:50,045 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:51,048 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:52,050 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:53,052 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:54,056 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:55,061 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:56,063 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:57,065 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:58,069 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:24:59,074 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:00,077 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:01,079 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:02,083 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:03,085 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:04,087 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:05,089 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:06,092 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:07,094 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:08,097 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:09,100 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:10,101 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:11,102 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:12,104 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:13,107 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:14,109 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:15,110 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:16,111 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:17,112 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:18,114 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:19,117 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:20,118 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:21,121 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:22,125 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:23,128 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:24,132 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:25,136 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:26,139 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:27,140 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:28,142 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:29,145 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:30,148 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:31,151 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:32,154 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:33,156 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:34,158 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:35,162 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:36,165 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:37,170 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:38,172 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:39,175 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:40,177 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:41,180 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:42,184 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:43,188 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:25:44,191 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:20,214 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:21,217 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:22,222 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:23,226 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:24,228 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:25,230 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:26,232 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:27,235 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:28,238 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:29,243 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:30,246 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:31,248 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:32,251 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:33,253 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:34,255 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:35,258 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:36,262 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:37,267 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:38,269 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:39,272 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:40,275 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:41,279 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:42,283 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:43,285 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:44,287 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:45,288 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:46,291 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:47,292 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:48,293 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:49,295 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:49,894 - Drone_4 - WARNING - Drone 4: Cannot takeoff - already flying
+2026-02-12 02:26:50,298 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:51,302 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:52,306 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:53,131 - Drone_4 - WARNING - Drone 4: Cannot takeoff - already flying
+2026-02-12 02:26:53,308 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:54,310 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:55,312 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:56,313 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 02:26:56,720 - Drone_4 - INFO - Drone 4: Returning to home - Swarm RTH command
+2026-02-12 02:28:43,391 - Drone_4 - INFO - Drone 4 stopped
+2026-02-12 09:57:44,736 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-12 09:57:44,737 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-12 09:57:44,737 - Drone_4 - INFO - Drone 4 started
+2026-02-12 10:03:46,061 - Drone_4 - INFO - Drone 4 stopped
+2026-02-12 10:03:49,237 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-12 10:03:49,237 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-12 10:03:49,238 - Drone_4 - INFO - Drone 4 started
+2026-02-12 10:04:05,375 - Drone_4 - INFO - Drone 4 stopped
+2026-02-12 10:04:19,839 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-12 10:04:19,840 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-12 10:04:19,840 - Drone_4 - INFO - Drone 4 started
+2026-02-12 10:05:39,240 - Drone_4 - INFO - Drone 4 stopped
+2026-02-12 10:05:41,717 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-12 10:05:41,717 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-12 10:05:41,719 - Drone_4 - INFO - Drone 4 started
+2026-02-12 10:05:50,030 - Drone_4 - INFO - Drone 4 stopped
+2026-02-12 10:06:48,680 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-12 10:06:48,680 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-12 10:06:48,680 - Drone_4 - INFO - Drone 4 started
+2026-02-12 10:07:11,941 - Drone_4 - INFO - Drone 4 stopped
+2026-02-12 10:07:13,638 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-12 10:07:13,638 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-12 10:07:13,638 - Drone_4 - INFO - Drone 4 started
+2026-02-12 10:07:28,970 - Drone_4 - INFO - Drone 4 stopped
+2026-02-12 10:07:31,773 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-12 10:07:31,773 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-12 10:07:31,773 - Drone_4 - INFO - Drone 4 started
+2026-02-12 10:07:45,813 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:07:50,853 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:07:53,159 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:07:56,081 - Drone_4 - INFO - Drone 4: Armed
+2026-02-12 10:07:57,150 - Drone_4 - INFO - Drone 4: Taking off
+2026-02-12 10:07:57,790 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:07:58,791 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:07:59,793 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:07:59,953 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:00,794 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:01,795 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:02,798 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:03,802 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:04,806 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:05,809 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:06,812 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:07,813 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:08,814 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:09,816 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:10,818 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:11,821 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:12,825 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:13,828 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:14,830 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:15,832 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:16,835 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:17,841 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:18,845 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:19,847 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:20,848 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:21,850 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:22,853 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:23,856 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:24,862 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:25,865 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:26,866 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:27,868 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:28,869 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:29,871 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:30,873 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:31,875 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:32,876 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:33,877 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:34,879 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:35,882 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:36,886 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:37,888 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:38,890 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:39,895 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:40,897 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:41,898 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:42,902 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:43,905 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:44,908 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:45,910 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:46,913 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:47,918 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:48,920 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:49,923 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:50,927 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:51,930 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:52,933 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:53,935 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:54,937 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:55,938 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:56,941 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:57,946 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:58,950 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:08:59,955 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:00,959 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:01,961 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:02,963 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:03,966 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:04,967 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:05,969 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:06,970 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:07,971 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:08,972 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:09,974 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:10,976 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:11,977 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:12,979 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:13,981 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:14,983 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:15,983 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:16,985 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:17,986 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:18,987 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:19,989 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:20,990 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:21,992 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:22,993 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:23,994 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:24,996 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:25,998 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:26,999 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:28,000 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:29,001 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:30,003 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:31,004 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:32,005 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:33,006 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:34,008 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:35,009 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:36,010 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:37,012 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:38,014 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:39,015 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:40,016 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:41,018 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:42,020 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:43,022 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:44,023 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:45,025 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:46,026 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:47,027 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:48,028 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:49,029 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:50,030 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:51,032 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:52,033 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:53,037 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:54,038 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:55,040 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:56,043 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:57,045 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:58,047 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:09:59,049 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:00,051 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:01,053 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:02,054 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:03,056 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:04,058 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:05,060 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:06,062 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:07,064 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:08,065 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:09,066 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:10,068 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:11,069 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:12,070 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:13,072 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:14,073 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:15,075 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:16,076 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:17,078 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:18,079 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:19,080 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:20,082 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:21,084 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:22,085 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:23,074 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-12 10:10:23,074 - Drone_4 - INFO - Drone 4 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 10:10:23,074 - Drone_4 - INFO - Drone 4 started
+2026-02-12 10:10:23,077 - Drone_4 - INFO - Drone 4: Armed
+2026-02-12 10:10:23,077 - Drone_4 - INFO - Drone 4: Flying to {'x': -36.0, 'y': 0, 'z': 0.0}
+2026-02-12 10:10:23,077 - Drone_4 - INFO - Drone 4: Flying to {'x': -24.0, 'y': 24.0, 'z': 0.0}
+2026-02-12 10:10:23,078 - Drone_4 - INFO - Drone 4: Flying to {'x': -18.0, 'y': 2.204364238465236e-15, 'z': 0.0}
+2026-02-12 10:10:23,078 - Drone_4 - INFO - Drone 4: Flying to {'x': -24.0, 'y': -6.0, 'z': 0.0}
+2026-02-12 10:10:23,175 - Drone_4 - INFO - Drone 4 stopped
+2026-02-12 10:10:24,093 - Drone_4 - INFO - Drone 4: Role changed from follower to follower
+2026-02-12 10:10:24,114 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:25,116 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:26,118 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:27,119 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:28,121 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:29,122 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:30,125 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:31,126 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:32,128 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:33,130 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:34,132 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:35,133 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:36,135 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:37,136 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:38,138 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:39,140 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:40,143 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:41,144 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:42,149 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:43,150 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:44,151 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:45,152 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:46,154 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:47,155 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:48,157 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:49,159 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:50,160 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:51,163 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:52,165 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:53,168 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:54,171 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:55,173 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:56,176 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:57,180 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:58,181 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:10:59,183 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:00,184 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:01,186 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:02,187 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:03,190 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:04,192 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:05,193 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:06,195 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:07,197 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:08,200 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:09,203 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:10,204 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:11,205 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:12,206 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:13,207 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:14,208 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:15,209 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:16,211 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:17,213 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:18,216 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:19,217 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:20,219 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:21,220 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:22,223 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:23,226 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:24,229 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:25,231 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:26,234 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:27,235 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:28,236 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:29,239 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:30,241 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:31,244 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:32,247 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:33,249 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:34,249 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:35,252 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:36,255 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:37,258 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:38,260 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:39,262 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:40,264 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:41,266 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:42,269 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:43,271 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:44,273 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:45,276 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:46,279 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:47,281 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:48,282 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:49,284 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:50,286 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:51,290 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:52,293 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:53,296 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:54,297 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:55,298 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:56,300 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:57,302 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:58,305 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:11:59,306 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:12:00,308 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:12:01,309 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:12:02,311 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:12:03,314 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:12:04,315 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:12:05,318 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:12:06,320 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:12:07,323 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:12:08,325 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:12:09,326 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:12:10,328 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:12:11,331 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:12:12,333 - Drone_4 - WARNING - Drone 4: Cannot goto - invalid flight mode
+2026-02-12 10:12:13,530 - Drone_4 - INFO - Drone 4 stopped
+2026-02-12 10:12:16,380 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-12 10:12:16,380 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-12 10:12:16,380 - Drone_4 - INFO - Drone 4 started
+2026-02-12 10:12:20,488 - Drone_4 - INFO - Drone 4: Armed
+2026-02-12 10:12:20,488 - Drone_4 - INFO - Drone 4: Flying to {'x': -18.0, 'y': 2.204364238465236e-15, 'z': 0.0}
+2026-02-12 10:12:25,513 - Drone_4 - INFO - Drone 4: Flying to {'x': -24.0, 'y': 24.0, 'z': 0.0}
+2026-02-12 10:12:35,557 - Drone_4 - INFO - Drone 4: Flying to {'x': -36.0, 'y': 0, 'z': 0.0}
+2026-02-12 10:12:47,505 - Drone_4 - INFO - Drone 4 stopped

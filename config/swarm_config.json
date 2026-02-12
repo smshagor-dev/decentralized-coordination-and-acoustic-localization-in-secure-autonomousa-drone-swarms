@@ -1,0 +1,26 @@
+{
+  "swarm": {
+    "encryption_key": "default_swarm_key_change_in_production",
+    "heartbeat_timeout": 5.0,
+    "max_drones": 10
+  },
+  "battery": {
+    "low_threshold": 30.0,
+    "critical_threshold": 20.0,
+    "consumption_rates": {
+      "idle": 0.001,
+      "hover": 0.01,
+      "flying": 0.02
+    }
+  },
+  "flight": {
+    "max_speed": 15.0,
+    "max_altitude": 120.0,
+    "min_spacing": 5.0,
+    "takeoff_altitude": 10.0
+  },
+  "communication": {
+    "multicast_group": "224.0.0.251",
+    "base_port": 5000
+  }
+}

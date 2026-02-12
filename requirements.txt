@@ -1,0 +1,35 @@
+# Python Dependencies for Drone Swarm Management System
+
+# GUI Framework
+PyQt5>=5.15.0
+
+# Cryptography
+cryptography>=41.0.0
+
+# Numerical computing
+numpy>=1.24.0
+
+# Logging and utilities
+python-dateutil>=2.8.2
+
+# For real drone integration (optional - uncomment when deploying to real drones)
+# mavsdk>=1.4.0
+# pymavlink>=2.4.0
+
+# Machine Learning (optional - for advanced ML features)
+# torch>=2.0.0
+# tensorflow>=2.13.0
+
+# Communication
+# pyzmq>=25.0.0  # Alternative to multicast
+
+# Document handling (for Word doc reading)
+python-docx>=0.8.11
+
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+
+# Code quality
+pylint>=2.17.0
+black>=23.7.0

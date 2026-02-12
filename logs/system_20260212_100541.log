@@ -1,0 +1,41 @@
+2026-02-12 10:05:41,691 - Main - INFO - Starting Drone Swarm Management System
+2026-02-12 10:05:41,692 - SwarmManager - INFO - Swarm Manager initialized
+2026-02-12 10:05:41,693 - MLDecisionSupport_Drone1 - INFO - ML Decision Support initialized
+2026-02-12 10:05:41,700 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-12 10:05:41,701 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 10:05:41,701 - Drone_1 - INFO - Drone 1 started
+2026-02-12 10:05:41,702 - SwarmManager - INFO - Drone 1 added to swarm
+2026-02-12 10:05:41,702 - SwarmManager - INFO - Starting leader election...
+2026-02-12 10:05:41,703 - SwarmManager - INFO -   Drone 1: suitability score = 100.00
+2026-02-12 10:05:41,703 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 10:05:41,708 - MLDecisionSupport_Drone2 - INFO - ML Decision Support initialized
+2026-02-12 10:05:41,711 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-12 10:05:41,712 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-12 10:05:41,712 - Drone_2 - INFO - Drone 2 started
+2026-02-12 10:05:41,712 - SwarmManager - INFO - Drone 2 added to swarm
+2026-02-12 10:05:41,713 - MLDecisionSupport_Drone3 - INFO - ML Decision Support initialized
+2026-02-12 10:05:41,714 - Drone_3 - INFO - Drone 3: Personal ML system initialized
+2026-02-12 10:05:41,715 - Drone_3 - INFO - Drone 3 initialized at {'x': -1400, 'y': -500, 'z': 0}
+2026-02-12 10:05:41,715 - Drone_3 - INFO - Drone 3 started
+2026-02-12 10:05:41,715 - SwarmManager - INFO - Drone 3 added to swarm
+2026-02-12 10:05:41,716 - MLDecisionSupport_Drone4 - INFO - ML Decision Support initialized
+2026-02-12 10:05:41,717 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-12 10:05:41,717 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-12 10:05:41,719 - Drone_4 - INFO - Drone 4 started
+2026-02-12 10:05:41,719 - SwarmManager - INFO - Drone 4 added to swarm
+2026-02-12 10:05:41,720 - MLDecisionSupport_Drone5 - INFO - ML Decision Support initialized
+2026-02-12 10:05:41,722 - Drone_5 - INFO - Drone 5: Personal ML system initialized
+2026-02-12 10:05:41,722 - Drone_5 - INFO - Drone 5 initialized at {'x': -900, 'y': 1600, 'z': 0}
+2026-02-12 10:05:41,723 - Drone_5 - INFO - Drone 5 started
+2026-02-12 10:05:41,723 - SwarmManager - INFO - Drone 5 added to swarm
+2026-02-12 10:05:41,723 - SwarmManager - INFO - Swarm monitoring started
+2026-02-12 10:05:41,724 - Main - INFO - Swarm created with 5 drones
+2026-02-12 10:05:41,724 - Main - INFO - Leader elected: Drone 1
+2026-02-12 10:05:41,724 - Main - INFO - Starting GUI...
+2026-02-12 10:05:49,727 - Drone_1 - INFO - Drone 1 stopped
+2026-02-12 10:05:49,829 - Drone_2 - INFO - Drone 2 stopped
+2026-02-12 10:05:49,929 - Drone_3 - INFO - Drone 3 stopped
+2026-02-12 10:05:50,030 - Drone_4 - INFO - Drone 4 stopped
+2026-02-12 10:05:50,130 - Drone_5 - INFO - Drone 5 stopped
+2026-02-12 10:05:50,130 - SwarmManager - INFO - Swarm monitoring stopped
+2026-02-12 10:05:50,130 - Main - INFO - System shutdown complete

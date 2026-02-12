@@ -1,0 +1,10 @@
+2026-02-12 00:16:10,081 - Drone_15 - INFO - Drone 15 initialized at {'x': -13.278089727988721, 'y': -13.989703076470729, 'z': 0}
+2026-02-12 00:16:10,082 - Drone_15 - INFO - Drone 15 started
+2026-02-12 00:16:13,616 - Drone_15 - WARNING - Drone 15: Cannot goto - invalid flight mode
+2026-02-12 00:16:16,840 - Drone_15 - WARNING - Drone 15: Cannot goto - invalid flight mode
+2026-02-12 00:16:19,313 - Drone_15 - WARNING - Drone 15: Cannot goto - invalid flight mode
+2026-02-12 00:16:21,586 - Drone_15 - WARNING - Drone 15: Cannot takeoff - not armed
+2026-02-12 00:16:36,946 - Drone_15 - WARNING - Drone 15: Cannot takeoff - not armed
+2026-02-12 00:16:37,552 - Drone_15 - INFO - Drone 15: Armed
+2026-02-12 00:16:48,937 - Drone_15 - WARNING - Drone 15: Cannot goto - invalid flight mode
+2026-02-12 00:16:52,597 - Drone_15 - INFO - Drone 15 stopped

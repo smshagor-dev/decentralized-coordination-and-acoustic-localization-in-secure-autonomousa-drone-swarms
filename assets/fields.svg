@@ -1,0 +1,29 @@
+<svg width="1400" height="900" viewBox="0 0 1400 900" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="fieldGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5ea24c"/>
+      <stop offset="100%" stop-color="#315f2f"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1400" height="900" fill="url(#fieldGrad)"/>
+  <g stroke="#84b873" stroke-opacity="0.16" stroke-width="10">
+    <path d="M-120 220 L380 -40"/>
+    <path d="M0 300 L500 40"/>
+    <path d="M120 380 L620 120"/>
+    <path d="M240 460 L740 200"/>
+    <path d="M360 540 L860 280"/>
+    <path d="M480 620 L980 360"/>
+    <path d="M600 700 L1100 440"/>
+    <path d="M720 780 L1220 520"/>
+    <path d="M840 860 L1340 600"/>
+    <path d="M960 940 L1460 680"/>
+  </g>
+
+  <path d="M0,170 C250,120 500,210 730,170 C970,130 1170,210 1400,170 L1400,0 L0,0 Z"
+        fill="#a9d59c" fill-opacity="0.30"/>
+  <path d="M0,470 C280,530 500,390 730,440 C960,490 1180,360 1400,430 L1400,250 L0,250 Z"
+        fill="#8dc280" fill-opacity="0.22"/>
+  <path d="M0,860 C260,790 500,900 720,835 C980,760 1180,885 1400,830 L1400,640 L0,640 Z"
+        fill="#74ae69" fill-opacity="0.20"/>
+</svg>

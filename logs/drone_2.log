@@ -1,0 +1,710 @@
+2026-02-11 23:41:03,457 - Drone_2 - INFO - Drone 2 initialized at {'x': 10, 'y': 0, 'z': 0}
+2026-02-11 23:41:03,457 - Drone_2 - INFO - Drone 2 started
+2026-02-11 23:41:26,852 - Drone_2 - INFO - Drone 2: Armed
+2026-02-11 23:41:30,294 - Drone_2 - INFO - Drone 2: Taking off
+2026-02-11 23:41:35,376 - Drone_2 - INFO - Drone 2: Takeoff complete at 10.1m
+2026-02-11 23:41:44,324 - Drone_2 - INFO - Drone 2: Flying to {'x': -10, 'y': 0, 'z': 10.056900024414062}
+2026-02-11 23:41:45,729 - Drone_2 - INFO - Drone 2: Reached target position
+2026-02-11 23:41:52,923 - Drone_2 - INFO - Drone 2: Flying to {'x': 15.0, 'y': 0.0, 'z': 10.056900024414062}
+2026-02-11 23:41:54,576 - Drone_2 - INFO - Drone 2: Reached target position
+2026-02-11 23:42:17,722 - Drone_2 - WARNING - Drone 2: Cannot takeoff - already flying
+2026-02-11 23:42:28,119 - Drone_2 - ERROR - Drone 2: EMERGENCY LANDING - Emergency button pressed
+2026-02-11 23:42:34,882 - Drone_2 - INFO - Drone 2: Landed safely
+2026-02-11 23:42:44,570 - Drone_2 - WARNING - Drone 2: Cannot takeoff - not armed
+2026-02-11 23:42:46,737 - Drone_2 - WARNING - Drone 2: Cannot takeoff - not armed
+2026-02-11 23:42:54,962 - Drone_2 - INFO - Drone 2: Role changed from follower to follower
+2026-02-11 23:45:48,919 - Drone_2 - INFO - Drone 2: Armed
+2026-02-11 23:45:57,437 - Drone_2 - INFO - Drone 2: Taking off
+2026-02-11 23:46:02,531 - Drone_2 - INFO - Drone 2: Takeoff complete at 10.0m
+2026-02-11 23:46:40,300 - Drone_2 - INFO - Drone 2: Flying to {'x': -3.9038471563660835, 'y': -18.96732483088405, 'z': 10.05463981628418}
+2026-02-11 23:46:42,142 - Drone_2 - INFO - Drone 2: Reached target position
+2026-02-11 23:47:17,504 - Drone_2 - INFO - Drone 2: Role changed from follower to follower
+2026-02-11 23:47:27,497 - Drone_2 - INFO - Drone 2: Role changed from follower to leader
+2026-02-11 23:47:29,896 - Drone_2 - INFO - Drone 2 stopped
+2026-02-12 00:15:58,835 - Drone_2 - INFO - Drone 2 initialized at {'x': 10, 'y': 0, 'z': 0}
+2026-02-12 00:15:58,836 - Drone_2 - INFO - Drone 2 started
+2026-02-12 00:16:13,613 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 00:16:16,837 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 00:16:19,309 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 00:16:21,584 - Drone_2 - WARNING - Drone 2: Cannot takeoff - not armed
+2026-02-12 00:16:36,943 - Drone_2 - WARNING - Drone 2: Cannot takeoff - not armed
+2026-02-12 00:16:37,550 - Drone_2 - INFO - Drone 2: Armed
+2026-02-12 00:16:48,931 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 00:16:51,931 - Drone_2 - INFO - Drone 2 stopped
+2026-02-12 01:04:40,066 - Drone_2 - INFO - Drone 2 initialized at {'x': 10, 'y': 0, 'z': 0}
+2026-02-12 01:04:40,066 - Drone_2 - INFO - Drone 2 started
+2026-02-12 01:04:44,056 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:04:49,899 - Drone_2 - WARNING - Drone 2: Cannot takeoff - not armed
+2026-02-12 01:05:32,777 - Drone_2 - WARNING - Drone 2: Cannot takeoff - not armed
+2026-02-12 01:05:37,951 - Drone_2 - INFO - Drone 2: Armed
+2026-02-12 01:05:40,343 - Drone_2 - INFO - Drone 2: Taking off
+2026-02-12 01:05:43,322 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:05:45,445 - Drone_2 - INFO - Drone 2: Takeoff complete at 10.0m
+2026-02-12 01:05:52,917 - Drone_2 - INFO - Drone 2: Flying to {'x': -10, 'y': 10, 'z': 10.051294326782227}
+2026-02-12 01:05:54,492 - Drone_2 - INFO - Drone 2: Reached target position
+2026-02-12 01:06:17,569 - Drone_2 - INFO - Drone 2: Flying to {'x': 15.0, 'y': 0.0, 'z': 10.051294326782227}
+2026-02-12 01:06:19,426 - Drone_2 - INFO - Drone 2: Reached target position
+2026-02-12 01:07:08,526 - Drone_2 - INFO - Drone 2: Flying to {'x': 15.0, 'y': 0.0, 'z': 10.051294326782227}
+2026-02-12 01:07:08,589 - Drone_2 - INFO - Drone 2: Reached target position
+2026-02-12 01:14:37,445 - Drone_2 - INFO - Drone 2 stopped
+2026-02-12 01:14:40,325 - Drone_2 - INFO - Drone 2 initialized at {'x': 10, 'y': 0, 'z': 0}
+2026-02-12 01:14:40,326 - Drone_2 - INFO - Drone 2 started
+2026-02-12 01:14:47,708 - Drone_2 - INFO - Drone 2: Armed
+2026-02-12 01:14:50,685 - Drone_2 - INFO - Drone 2: Taking off
+2026-02-12 01:14:55,728 - Drone_2 - INFO - Drone 2: Takeoff complete at 10.1m
+2026-02-12 01:14:58,636 - Drone_2 - ERROR - Drone 2: EMERGENCY LANDING - Personal emergency button pressed (source=personal_command, site={'x': 10, 'y': 0, 'z': 0.0})
+2026-02-12 01:15:05,376 - Drone_2 - INFO - Drone 2: Landed safely
+2026-02-12 01:15:09,355 - Drone_2 - INFO - Drone 2: Role changed from follower to leader
+2026-02-12 01:15:22,563 - Drone_2 - INFO - Drone 2 stopped
+2026-02-12 01:24:17,983 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-12 01:24:17,984 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-12 01:24:17,985 - Drone_2 - INFO - Drone 2 started
+2026-02-12 01:25:13,374 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-12 01:25:13,375 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-12 01:25:13,375 - Drone_2 - INFO - Drone 2 started
+2026-02-12 01:25:22,331 - Drone_2 - INFO - Drone 2: Armed
+2026-02-12 01:25:24,400 - Drone_2 - INFO - Drone 2: Taking off
+2026-02-12 01:26:27,483 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-12 01:26:27,484 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-12 01:26:27,484 - Drone_2 - INFO - Drone 2 started
+2026-02-12 01:26:31,048 - Drone_2 - INFO - Drone 2: Armed
+2026-02-12 01:26:32,738 - Drone_2 - INFO - Drone 2: Taking off
+2026-02-12 01:26:39,339 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:26:57,279 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:26:57,807 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:26:58,052 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:26:58,236 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:26:58,420 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:26:58,591 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:26:58,777 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:26:58,973 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:01,977 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:02,177 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:02,343 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:02,509 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:02,681 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:02,866 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:03,022 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:03,195 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:03,370 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:03,548 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:03,718 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:03,902 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:04,039 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:04,238 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:04,441 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:04,655 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:04,918 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:05,136 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:05,317 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:05,515 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:05,715 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:05,915 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:06,135 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:06,344 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:14,839 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:15,199 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:15,795 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:15,979 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:16,155 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:16,348 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:16,523 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:16,699 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:16,867 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:17,504 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:17,676 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:17,852 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:18,016 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:18,453 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:19,028 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:27,034 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:27,628 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:27,907 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:28,100 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:30,881 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:32,057 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:32,451 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:32,612 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:33,503 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:33,667 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:27:33,847 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:33:08,705 - Drone_2 - INFO - Drone 2: Role changed from follower to leader
+2026-02-12 01:37:16,428 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-12 01:37:16,429 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-12 01:37:16,429 - Drone_2 - INFO - Drone 2 started
+2026-02-12 01:37:28,008 - Drone_2 - INFO - Drone 2: Armed
+2026-02-12 01:37:29,509 - Drone_2 - INFO - Drone 2: Taking off
+2026-02-12 01:41:56,989 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-12 01:41:56,989 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-12 01:41:56,990 - Drone_2 - INFO - Drone 2 started
+2026-02-12 01:42:09,810 - Drone_2 - INFO - Drone 2: Armed
+2026-02-12 01:42:15,324 - Drone_2 - INFO - Drone 2: Taking off
+2026-02-12 01:43:21,052 - Drone_2 - INFO - Drone 2: Role changed from follower to follower
+2026-02-12 01:44:09,960 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-12 01:44:09,960 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-12 01:44:09,961 - Drone_2 - INFO - Drone 2 started
+2026-02-12 01:51:54,008 - Drone_2 - INFO - Drone 2: Role changed from follower to follower
+2026-02-12 01:52:53,921 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-12 01:52:53,921 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-12 01:52:53,922 - Drone_2 - INFO - Drone 2 started
+2026-02-12 01:53:13,942 - Drone_2 - INFO - Drone 2: Armed
+2026-02-12 01:53:15,430 - Drone_2 - INFO - Drone 2: Taking off
+2026-02-12 01:53:15,940 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:16,941 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:17,943 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:18,944 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:19,946 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:20,947 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:21,949 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:22,951 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:23,956 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:24,958 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:25,959 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:26,961 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:27,964 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:28,966 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:29,969 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:30,972 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:31,976 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:32,979 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:33,982 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:34,984 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:35,986 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:36,990 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:37,992 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:38,995 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:39,999 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:41,001 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:42,007 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:43,011 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:44,015 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:45,018 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:46,020 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:47,024 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:48,028 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:49,033 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:50,036 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:51,038 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:52,039 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:53,042 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:54,045 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:55,048 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:56,050 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:57,054 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:58,056 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:53:59,058 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:00,060 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:01,064 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:02,068 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:03,071 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:04,076 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:05,078 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:06,080 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:07,083 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:08,087 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:09,092 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:10,096 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:11,098 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:12,101 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:13,104 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:14,107 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:15,111 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:16,114 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:17,116 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:18,118 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:19,120 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:20,124 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:21,125 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:22,126 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:23,128 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:24,129 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:25,130 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:26,131 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:27,132 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:28,133 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:29,134 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:30,135 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:31,137 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:32,138 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:33,142 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:34,143 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:35,144 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:36,146 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:37,174 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:38,175 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:39,176 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:40,177 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:41,178 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:42,180 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:43,183 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:44,185 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:45,186 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:46,188 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:47,189 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:48,190 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:49,191 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:50,193 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:51,197 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:52,198 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 01:54:53,200 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:00:49,194 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-12 02:00:49,194 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-12 02:00:49,195 - Drone_2 - INFO - Drone 2 started
+2026-02-12 02:05:12,662 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-12 02:05:12,662 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-12 02:05:12,663 - Drone_2 - INFO - Drone 2 started
+2026-02-12 02:06:44,339 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-12 02:06:44,339 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-12 02:06:44,340 - Drone_2 - INFO - Drone 2 started
+2026-02-12 02:09:06,654 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-12 02:09:06,654 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-12 02:09:06,655 - Drone_2 - INFO - Drone 2 started
+2026-02-12 02:10:43,988 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-12 02:10:43,989 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-12 02:10:43,990 - Drone_2 - INFO - Drone 2 started
+2026-02-12 02:12:40,148 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-12 02:12:40,148 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-12 02:12:40,149 - Drone_2 - INFO - Drone 2 started
+2026-02-12 02:13:15,241 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-12 02:13:15,242 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-12 02:13:15,242 - Drone_2 - INFO - Drone 2 started
+2026-02-12 02:13:39,433 - Drone_2 - INFO - Drone 2 stopped
+2026-02-12 02:13:41,589 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-12 02:13:41,590 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-12 02:13:41,590 - Drone_2 - INFO - Drone 2 started
+2026-02-12 02:14:54,746 - Drone_2 - INFO - Drone 2 stopped
+2026-02-12 02:15:09,861 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-12 02:15:09,862 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-12 02:15:09,863 - Drone_2 - INFO - Drone 2 started
+2026-02-12 02:16:57,018 - Drone_2 - INFO - Drone 2 stopped
+2026-02-12 02:16:59,817 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-12 02:16:59,818 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-12 02:16:59,818 - Drone_2 - INFO - Drone 2 started
+2026-02-12 02:19:05,011 - Drone_2 - INFO - Drone 2 stopped
+2026-02-12 02:19:12,261 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-12 02:19:12,262 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-12 02:19:12,263 - Drone_2 - INFO - Drone 2 started
+2026-02-12 02:22:40,443 - Drone_2 - INFO - Drone 2 stopped
+2026-02-12 02:22:42,727 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-12 02:22:42,727 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-12 02:22:42,728 - Drone_2 - INFO - Drone 2 started
+2026-02-12 02:22:58,065 - Drone_2 - INFO - Drone 2: Armed
+2026-02-12 02:23:01,192 - Drone_2 - INFO - Drone 2: Taking off
+2026-02-12 02:23:01,749 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:02,754 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:03,756 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:04,757 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:05,760 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:06,762 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:07,764 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:08,769 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:09,774 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:10,778 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:11,782 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:12,784 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:13,787 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:14,788 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:15,792 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:16,798 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:17,802 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:18,805 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:19,806 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:20,808 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:21,812 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:22,813 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:23,817 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:24,821 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:25,823 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:26,824 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:27,826 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:28,828 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:29,830 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:30,833 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:31,835 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:32,837 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:33,841 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:34,843 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:35,847 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:36,849 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:37,851 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:38,854 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:39,857 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:40,858 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:41,860 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:42,863 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:43,866 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:44,868 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:45,870 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:46,871 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:47,872 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:48,874 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:49,876 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:50,878 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:51,881 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:52,882 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:53,883 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:54,884 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:55,885 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:56,886 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:57,887 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:58,889 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:23:59,891 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:00,892 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:01,893 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:02,895 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:03,898 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:04,900 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:05,901 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:06,905 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:07,908 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:08,910 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:09,912 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:10,913 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:11,915 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:12,917 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:13,922 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:14,924 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:15,927 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:16,930 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:17,934 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:18,939 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:19,941 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:20,944 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:21,948 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:22,953 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:23,955 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:24,961 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:25,965 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:26,966 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:27,968 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:28,970 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:29,972 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:30,977 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:31,983 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:32,986 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:33,990 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:34,992 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:35,995 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:36,998 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:38,003 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:39,006 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:40,011 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:41,013 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:42,015 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:43,018 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:44,022 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:45,026 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:46,029 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:47,035 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:48,038 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:49,042 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:50,044 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:51,046 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:52,049 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:53,050 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:54,054 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:55,060 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:56,062 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:57,064 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:58,067 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:24:59,071 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:00,075 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:01,078 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:02,082 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:03,084 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:04,086 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:05,088 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:06,090 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:07,094 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:08,096 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:09,099 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:10,101 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:11,102 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:12,103 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:13,106 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:14,108 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:15,109 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:16,110 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:17,112 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:18,113 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:19,116 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:20,117 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:21,119 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:22,123 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:23,127 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:24,130 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:25,135 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:26,138 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:27,139 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:28,141 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:29,143 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:30,147 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:31,149 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:32,153 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:33,155 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:34,157 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:35,160 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:36,164 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:37,168 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:38,172 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:39,174 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:40,176 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:41,179 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:42,182 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:43,186 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:25:44,190 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:20,213 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:21,216 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:22,219 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:23,225 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:24,227 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:25,229 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:26,231 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:27,234 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:28,237 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:29,240 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:30,245 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:31,247 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:32,250 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:33,252 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:34,254 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:35,256 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:36,259 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:37,267 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:38,269 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:39,271 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:40,274 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:41,278 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:42,281 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:43,284 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:44,287 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:45,288 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:46,289 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:47,292 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:48,293 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:49,294 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:49,893 - Drone_2 - WARNING - Drone 2: Cannot takeoff - already flying
+2026-02-12 02:26:50,296 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:51,300 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:52,304 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:53,130 - Drone_2 - WARNING - Drone 2: Cannot takeoff - already flying
+2026-02-12 02:26:53,307 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:54,310 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:55,311 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:56,312 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 02:26:56,720 - Drone_2 - INFO - Drone 2: Returning to home - Swarm RTH command
+2026-02-12 02:28:43,384 - Drone_2 - INFO - Drone 2 stopped
+2026-02-12 09:57:44,727 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-12 09:57:44,728 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-12 09:57:44,729 - Drone_2 - INFO - Drone 2 started
+2026-02-12 10:03:45,948 - Drone_2 - INFO - Drone 2 stopped
+2026-02-12 10:03:49,230 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-12 10:03:49,231 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-12 10:03:49,232 - Drone_2 - INFO - Drone 2 started
+2026-02-12 10:04:05,370 - Drone_2 - INFO - Drone 2 stopped
+2026-02-12 10:04:19,832 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-12 10:04:19,833 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-12 10:04:19,834 - Drone_2 - INFO - Drone 2 started
+2026-02-12 10:05:39,040 - Drone_2 - INFO - Drone 2 stopped
+2026-02-12 10:05:41,711 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-12 10:05:41,712 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-12 10:05:41,712 - Drone_2 - INFO - Drone 2 started
+2026-02-12 10:05:49,829 - Drone_2 - INFO - Drone 2 stopped
+2026-02-12 10:06:48,674 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-12 10:06:48,675 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-12 10:06:48,675 - Drone_2 - INFO - Drone 2 started
+2026-02-12 10:07:11,839 - Drone_2 - INFO - Drone 2 stopped
+2026-02-12 10:07:13,632 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-12 10:07:13,633 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-12 10:07:13,633 - Drone_2 - INFO - Drone 2 started
+2026-02-12 10:07:28,768 - Drone_2 - INFO - Drone 2 stopped
+2026-02-12 10:07:31,768 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-12 10:07:31,769 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-12 10:07:31,769 - Drone_2 - INFO - Drone 2 started
+2026-02-12 10:07:45,812 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:07:50,853 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:07:53,158 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:07:56,080 - Drone_2 - INFO - Drone 2: Armed
+2026-02-12 10:07:57,149 - Drone_2 - INFO - Drone 2: Taking off
+2026-02-12 10:07:57,789 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:07:58,790 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:07:59,792 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:07:59,953 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:00,794 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:01,795 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:02,796 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:03,800 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:04,804 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:05,807 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:06,811 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:07,812 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:08,814 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:09,815 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:10,817 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:11,819 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:12,823 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:13,827 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:14,829 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:15,831 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:16,833 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:17,837 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:18,843 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:19,846 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:20,848 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:21,849 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:22,851 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:23,855 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:24,858 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:25,864 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:26,866 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:27,867 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:28,869 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:29,870 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:30,872 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:31,875 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:32,876 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:33,877 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:34,878 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:35,880 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:36,885 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:37,887 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:38,889 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:39,894 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:40,896 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:41,897 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:42,900 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:43,904 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:44,906 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:45,909 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:46,912 - Drone_2 - WARNING - Drone 2: Cannot goto - invalid flight mode
+2026-02-12 10:08:46,994 - Drone_2 - ERROR - Drone 2: EMERGENCY LANDING - Personal emergency button pressed (source=personal_command, site={'x': 1200, 'y': 300, 'z': 0.0})
+2026-02-12 10:09:53,459 - Drone_2 - INFO - Drone 2: Landed safely
+2026-02-12 10:10:23,070 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-12 10:10:23,070 - Drone_2 - INFO - Drone 2 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 10:10:23,071 - Drone_2 - INFO - Drone 2 started
+2026-02-12 10:10:23,076 - Drone_2 - INFO - Drone 2: Armed
+2026-02-12 10:10:23,077 - Drone_2 - INFO - Drone 2: Flying to {'x': -12.0, 'y': 0, 'z': 0.0}
+2026-02-12 10:10:23,077 - Drone_2 - INFO - Drone 2: Flying to {'x': -12.0, 'y': 12.0, 'z': 0.0}
+2026-02-12 10:10:23,078 - Drone_2 - INFO - Drone 2: Flying to {'x': 18.0, 'y': 0.0, 'z': 0.0}
+2026-02-12 10:10:23,078 - Drone_2 - INFO - Drone 2: Flying to {'x': -12.0, 'y': -6.0, 'z': 0.0}
+2026-02-12 10:10:23,171 - Drone_2 - INFO - Drone 2 stopped
+2026-02-12 10:10:24,092 - Drone_2 - INFO - Drone 2: Role changed from grounded to follower
+2026-02-12 10:10:24,113 - Drone_2 - INFO - Drone 2: Armed
+2026-02-12 10:10:24,113 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 294.1050262451172}
+2026-02-12 10:10:25,114 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 296.11690282821655}
+2026-02-12 10:10:26,117 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 297.92423963546753}
+2026-02-12 10:10:27,118 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 299.9309287071228}
+2026-02-12 10:10:28,120 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 301.94282722473145}
+2026-02-12 10:10:29,121 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 303.9502201080322}
+2026-02-12 10:10:30,123 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 305.9587116241455}
+2026-02-12 10:10:31,125 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 307.96692514419556}
+2026-02-12 10:10:32,127 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 309.9736924171448}
+2026-02-12 10:10:33,129 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 311.9852705001831}
+2026-02-12 10:10:34,131 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 314.00572538375854}
+2026-02-12 10:10:35,133 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 316.0125036239624}
+2026-02-12 10:10:36,134 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 318.02216958999634}
+2026-02-12 10:10:37,135 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 320.03111505508423}
+2026-02-12 10:10:38,137 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 322.0407977104187}
+2026-02-12 10:10:39,139 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 324.04760551452637}
+2026-02-12 10:10:40,141 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 326.0584716796875}
+2026-02-12 10:10:41,144 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 328.06649684906006}
+2026-02-12 10:10:42,148 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 330.079393863678}
+2026-02-12 10:10:43,149 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 332.08680534362793}
+2026-02-12 10:10:44,151 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 334.09571504592896}
+2026-02-12 10:10:45,152 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 336.1046862602234}
+2026-02-12 10:10:46,153 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 338.1131548881531}
+2026-02-12 10:10:47,155 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 340.1223335266113}
+2026-02-12 10:10:48,156 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 342.1314010620117}
+2026-02-12 10:10:49,158 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 344.14144134521484}
+2026-02-12 10:10:50,159 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 346.1526708602905}
+2026-02-12 10:10:51,161 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 348.1626572608948}
+2026-02-12 10:10:52,163 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 350.1802439689636}
+2026-02-12 10:10:53,166 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 352.1978054046631}
+2026-02-12 10:10:54,169 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 354.20651388168335}
+2026-02-12 10:10:55,172 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 356.2151679992676}
+2026-02-12 10:10:56,174 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 358.2240881919861}
+2026-02-12 10:10:57,179 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 360.2361059188843}
+2026-02-12 10:10:58,180 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 362.2440505027771}
+2026-02-12 10:10:59,182 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 364.05384731292725}
+2026-02-12 10:11:00,183 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 366.0674514770508}
+2026-02-12 10:11:01,185 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 368.0793786048889}
+2026-02-12 10:11:02,186 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 370.0883274078369}
+2026-02-12 10:11:03,188 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 372.09907388687134}
+2026-02-12 10:11:04,191 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 374.1096148490906}
+2026-02-12 10:11:05,193 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 376.1214408874512}
+2026-02-12 10:11:06,194 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 378.13694858551025}
+2026-02-12 10:11:07,196 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 380.15088510513306}
+2026-02-12 10:11:08,198 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 382.1626787185669}
+2026-02-12 10:11:09,202 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 384.17347240448}
+2026-02-12 10:11:10,203 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 386.1820068359375}
+2026-02-12 10:11:11,204 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 388.18977785110474}
+2026-02-12 10:11:12,206 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 390.1983904838562}
+2026-02-12 10:11:13,206 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 392.2138624191284}
+2026-02-12 10:11:14,207 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 394.2203187942505}
+2026-02-12 10:11:15,209 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 396.22900676727295}
+2026-02-12 10:11:16,210 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 398.2414321899414}
+2026-02-12 10:11:17,212 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 400.2539520263672}
+2026-02-12 10:11:18,214 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 402.2660446166992}
+2026-02-12 10:11:19,217 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 404.2797131538391}
+2026-02-12 10:11:20,218 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 406.29077529907227}
+2026-02-12 10:11:21,220 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 408.3032650947571}
+2026-02-12 10:11:22,222 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 410.3098406791687}
+2026-02-12 10:11:23,224 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 412.319504737854}
+2026-02-12 10:11:24,227 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 414.3316340446472}
+2026-02-12 10:11:25,231 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 416.3427572250366}
+2026-02-12 10:11:26,232 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 418.1534466743469}
+2026-02-12 10:11:27,234 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 420.1677474975586}
+2026-02-12 10:11:28,236 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 422.1806044578552}
+2026-02-12 10:11:29,237 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 424.1921010017395}
+2026-02-12 10:11:30,240 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 426.20315313339233}
+2026-02-12 10:11:31,243 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 428.21503019332886}
+2026-02-12 10:11:32,245 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 430.2283425331116}
+2026-02-12 10:11:33,248 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 432.24785804748535}
+2026-02-12 10:11:34,249 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 434.25610733032227}
+2026-02-12 10:11:35,250 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 436.2679080963135}
+2026-02-12 10:11:36,253 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 438.2780690193176}
+2026-02-12 10:11:37,257 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 440.2893362045288}
+2026-02-12 10:11:38,260 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 442.30267238616943}
+2026-02-12 10:11:39,261 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 444.3134779930115}
+2026-02-12 10:11:40,264 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 446.32303047180176}
+2026-02-12 10:11:41,265 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 448.33275270462036}
+2026-02-12 10:11:42,267 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 450.34176778793335}
+2026-02-12 10:11:43,270 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 452.3528151512146}
+2026-02-12 10:11:44,272 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 454.36451053619385}
+2026-02-12 10:11:45,275 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 456.37390756607056}
+2026-02-12 10:11:46,278 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 458.38707160949707}
+2026-02-12 10:11:47,280 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 460.3982849121094}
+2026-02-12 10:11:48,281 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 462.40925788879395}
+2026-02-12 10:11:49,283 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 464.41880226135254}
+2026-02-12 10:11:50,285 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 466.42747831344604}
+2026-02-12 10:11:51,288 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 468.43722772598267}
+2026-02-12 10:11:52,292 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 470.45270252227783}
+2026-02-12 10:11:53,295 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 472.28094959259033}
+2026-02-12 10:11:54,297 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 474.29389476776123}
+2026-02-12 10:11:55,298 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 476.3023543357849}
+2026-02-12 10:11:56,299 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 478.312490940094}
+2026-02-12 10:11:57,301 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 480.3240442276001}
+2026-02-12 10:11:58,303 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 482.3357729911804}
+2026-02-12 10:11:59,306 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 484.34760332107544}
+2026-02-12 10:12:00,307 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 486.35812044143677}
+2026-02-12 10:12:01,308 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 488.36643505096436}
+2026-02-12 10:12:02,310 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 490.3753094673157}
+2026-02-12 10:12:03,313 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 492.38469076156616}
+2026-02-12 10:12:04,315 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 494.39642333984375}
+2026-02-12 10:12:05,316 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 496.4069662094116}
+2026-02-12 10:12:06,319 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 498.41763830184937}
+2026-02-12 10:12:07,322 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 500.42735385894775}
+2026-02-12 10:12:08,324 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 502.4375514984131}
+2026-02-12 10:12:09,325 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 504.4479193687439}
+2026-02-12 10:12:10,327 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 506.45887184143066}
+2026-02-12 10:12:11,330 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 508.47040033340454}
+2026-02-12 10:12:12,332 - Drone_2 - INFO - Drone 2: Flying to {'x': -900.0, 'y': 1600.0, 'z': 510.47864866256714}
+2026-02-12 10:12:13,429 - Drone_2 - INFO - Drone 2 stopped
+2026-02-12 10:12:16,375 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-12 10:12:16,376 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-12 10:12:16,376 - Drone_2 - INFO - Drone 2 started
+2026-02-12 10:12:20,488 - Drone_2 - INFO - Drone 2: Armed
+2026-02-12 10:12:20,488 - Drone_2 - INFO - Drone 2: Flying to {'x': 18.0, 'y': 0.0, 'z': 0.0}
+2026-02-12 10:12:25,512 - Drone_2 - INFO - Drone 2: Flying to {'x': -12.0, 'y': 12.0, 'z': 0.0}
+2026-02-12 10:12:35,557 - Drone_2 - INFO - Drone 2: Flying to {'x': -12.0, 'y': 0, 'z': 0.0}
+2026-02-12 10:12:47,495 - Drone_2 - INFO - Drone 2 stopped

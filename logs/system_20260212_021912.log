@@ -1,0 +1,91 @@
+2026-02-12 02:19:12,240 - Main - INFO - Starting Drone Swarm Management System
+2026-02-12 02:19:12,240 - SwarmManager - INFO - Swarm Manager initialized
+2026-02-12 02:19:12,242 - MLDecisionSupport_Drone1 - INFO - ML Decision Support initialized
+2026-02-12 02:19:12,250 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-12 02:19:12,250 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 02:19:12,251 - Drone_1 - INFO - Drone 1 started
+2026-02-12 02:19:12,251 - SwarmManager - INFO - Drone 1 added to swarm
+2026-02-12 02:19:12,252 - SwarmManager - INFO - Starting leader election...
+2026-02-12 02:19:12,253 - SwarmManager - INFO -   Drone 1: suitability score = 100.00
+2026-02-12 02:19:12,253 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 02:19:12,258 - MLDecisionSupport_Drone2 - INFO - ML Decision Support initialized
+2026-02-12 02:19:12,261 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-12 02:19:12,262 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-12 02:19:12,263 - Drone_2 - INFO - Drone 2 started
+2026-02-12 02:19:12,263 - SwarmManager - INFO - Drone 2 added to swarm
+2026-02-12 02:19:12,264 - MLDecisionSupport_Drone3 - INFO - ML Decision Support initialized
+2026-02-12 02:19:12,265 - Drone_3 - INFO - Drone 3: Personal ML system initialized
+2026-02-12 02:19:12,265 - Drone_3 - INFO - Drone 3 initialized at {'x': -1400, 'y': -500, 'z': 0}
+2026-02-12 02:19:12,265 - Drone_3 - INFO - Drone 3 started
+2026-02-12 02:19:12,266 - SwarmManager - INFO - Drone 3 added to swarm
+2026-02-12 02:19:12,266 - MLDecisionSupport_Drone4 - INFO - ML Decision Support initialized
+2026-02-12 02:19:12,267 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-12 02:19:12,268 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-12 02:19:12,268 - Drone_4 - INFO - Drone 4 started
+2026-02-12 02:19:12,268 - SwarmManager - INFO - Drone 4 added to swarm
+2026-02-12 02:19:12,269 - MLDecisionSupport_Drone5 - INFO - ML Decision Support initialized
+2026-02-12 02:19:12,270 - Drone_5 - INFO - Drone 5: Personal ML system initialized
+2026-02-12 02:19:12,271 - Drone_5 - INFO - Drone 5 initialized at {'x': -900, 'y': 1600, 'z': 0}
+2026-02-12 02:19:12,271 - Drone_5 - INFO - Drone 5 started
+2026-02-12 02:19:12,271 - SwarmManager - INFO - Drone 5 added to swarm
+2026-02-12 02:19:12,272 - SwarmManager - INFO - Swarm monitoring started
+2026-02-12 02:19:12,272 - Main - INFO - Swarm created with 5 drones
+2026-02-12 02:19:12,272 - Main - INFO - Leader elected: Drone 1
+2026-02-12 02:19:12,272 - Main - INFO - Starting GUI...
+2026-02-12 02:19:32,329 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained for drone=5 samples=200
+2026-02-12 02:19:32,331 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained for drone=1 samples=200
+2026-02-12 02:19:32,331 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained for drone=3 samples=200
+2026-02-12 02:19:32,332 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained for drone=4 samples=200
+2026-02-12 02:19:32,332 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained for drone=2 samples=200
+2026-02-12 02:19:52,440 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained for drone=1 samples=400
+2026-02-12 02:19:52,444 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained for drone=2 samples=400
+2026-02-12 02:19:52,454 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained for drone=3 samples=400
+2026-02-12 02:19:52,458 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained for drone=4 samples=400
+2026-02-12 02:19:52,459 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained for drone=5 samples=400
+2026-02-12 02:20:12,555 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained for drone=1 samples=600
+2026-02-12 02:20:12,563 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained for drone=2 samples=600
+2026-02-12 02:20:12,579 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained for drone=3 samples=600
+2026-02-12 02:20:12,583 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained for drone=5 samples=600
+2026-02-12 02:20:12,587 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained for drone=4 samples=600
+2026-02-12 02:20:32,678 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained for drone=2 samples=800
+2026-02-12 02:20:32,679 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained for drone=1 samples=800
+2026-02-12 02:20:32,693 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained for drone=5 samples=800
+2026-02-12 02:20:32,706 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained for drone=3 samples=800
+2026-02-12 02:20:32,706 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained for drone=4 samples=800
+2026-02-12 02:20:52,791 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained for drone=2 samples=1000
+2026-02-12 02:20:52,802 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained for drone=1 samples=1000
+2026-02-12 02:20:52,808 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained for drone=5 samples=1000
+2026-02-12 02:20:52,830 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained for drone=3 samples=1000
+2026-02-12 02:20:52,838 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained for drone=4 samples=1000
+2026-02-12 02:21:12,920 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained for drone=2 samples=1200
+2026-02-12 02:21:12,921 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained for drone=5 samples=1200
+2026-02-12 02:21:12,920 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained for drone=1 samples=1200
+2026-02-12 02:21:12,948 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained for drone=4 samples=1200
+2026-02-12 02:21:12,948 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained for drone=3 samples=1200
+2026-02-12 02:21:33,044 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained for drone=5 samples=1400
+2026-02-12 02:21:33,044 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained for drone=1 samples=1400
+2026-02-12 02:21:33,045 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained for drone=2 samples=1400
+2026-02-12 02:21:33,075 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained for drone=3 samples=1400
+2026-02-12 02:21:33,075 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained for drone=4 samples=1400
+2026-02-12 02:21:53,161 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained for drone=1 samples=1600
+2026-02-12 02:21:53,162 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained for drone=2 samples=1600
+2026-02-12 02:21:53,163 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained for drone=5 samples=1600
+2026-02-12 02:21:53,197 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained for drone=4 samples=1600
+2026-02-12 02:21:53,197 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained for drone=3 samples=1600
+2026-02-12 02:22:13,265 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained for drone=1 samples=1800
+2026-02-12 02:22:13,268 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained for drone=5 samples=1800
+2026-02-12 02:22:13,268 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained for drone=2 samples=1800
+2026-02-12 02:22:13,310 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained for drone=3 samples=1800
+2026-02-12 02:22:13,310 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained for drone=4 samples=1800
+2026-02-12 02:22:33,394 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained for drone=1 samples=2000
+2026-02-12 02:22:33,406 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained for drone=5 samples=2000
+2026-02-12 02:22:33,406 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained for drone=2 samples=2000
+2026-02-12 02:22:33,437 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained for drone=3 samples=2000
+2026-02-12 02:22:33,438 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained for drone=4 samples=2000
+2026-02-12 02:22:40,431 - Drone_1 - INFO - Drone 1 stopped
+2026-02-12 02:22:40,443 - Drone_2 - INFO - Drone 2 stopped
+2026-02-12 02:22:40,475 - Drone_3 - INFO - Drone 3 stopped
+2026-02-12 02:22:40,486 - Drone_4 - INFO - Drone 4 stopped
+2026-02-12 02:22:40,542 - Drone_5 - INFO - Drone 5 stopped
+2026-02-12 02:22:40,543 - SwarmManager - INFO - Swarm monitoring stopped
+2026-02-12 02:22:40,543 - Main - INFO - System shutdown complete

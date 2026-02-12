@@ -1,0 +1,24 @@
+2026-02-12 00:16:08,205 - Drone_10 - INFO - Drone 10 initialized at {'x': -12.527635237197007, 'y': -16.853514825019026, 'z': 0}
+2026-02-12 00:16:08,206 - Drone_10 - INFO - Drone 10 started
+2026-02-12 00:16:13,615 - Drone_10 - WARNING - Drone 10: Cannot goto - invalid flight mode
+2026-02-12 00:16:16,839 - Drone_10 - WARNING - Drone 10: Cannot goto - invalid flight mode
+2026-02-12 00:16:19,312 - Drone_10 - WARNING - Drone 10: Cannot goto - invalid flight mode
+2026-02-12 00:16:21,586 - Drone_10 - WARNING - Drone 10: Cannot takeoff - not armed
+2026-02-12 00:16:36,945 - Drone_10 - WARNING - Drone 10: Cannot takeoff - not armed
+2026-02-12 00:16:37,552 - Drone_10 - INFO - Drone 10: Armed
+2026-02-12 00:16:48,933 - Drone_10 - WARNING - Drone 10: Cannot goto - invalid flight mode
+2026-02-12 00:16:52,229 - Drone_10 - INFO - Drone 10 stopped
+2026-02-12 01:05:04,016 - Drone_10 - INFO - Drone 10 initialized at {'x': 4.286556443951497, 'y': -12.928150961303695, 'z': 0}
+2026-02-12 01:05:04,017 - Drone_10 - INFO - Drone 10 started
+2026-02-12 01:05:32,779 - Drone_10 - WARNING - Drone 10: Cannot takeoff - not armed
+2026-02-12 01:05:37,953 - Drone_10 - INFO - Drone 10: Armed
+2026-02-12 01:05:40,345 - Drone_10 - INFO - Drone 10: Taking off
+2026-02-12 01:05:43,324 - Drone_10 - WARNING - Drone 10: Cannot goto - invalid flight mode
+2026-02-12 01:05:45,418 - Drone_10 - INFO - Drone 10: Takeoff complete at 10.1m
+2026-02-12 01:05:52,920 - Drone_10 - INFO - Drone 10: Flying to {'x': -50, 'y': 50, 'z': 10.051294326782227}
+2026-02-12 01:05:58,481 - Drone_10 - INFO - Drone 10: Reached target position
+2026-02-12 01:06:17,571 - Drone_10 - INFO - Drone 10: Flying to {'x': 11.490666646784668, 'y': -9.641814145298094, 'z': 10.051294326782227}
+2026-02-12 01:06:23,311 - Drone_10 - INFO - Drone 10: Reached target position
+2026-02-12 01:07:08,528 - Drone_10 - INFO - Drone 10: Flying to {'x': 11.490666646784668, 'y': -9.641814145298094, 'z': 10.051294326782227}
+2026-02-12 01:07:08,541 - Drone_10 - INFO - Drone 10: Reached target position
+2026-02-12 01:14:37,865 - Drone_10 - INFO - Drone 10 stopped

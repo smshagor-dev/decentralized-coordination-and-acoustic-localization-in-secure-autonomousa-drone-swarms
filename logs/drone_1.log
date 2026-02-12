@@ -1,0 +1,534 @@
+2026-02-11 23:41:03,432 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-11 23:41:03,433 - Drone_1 - INFO - Drone 1 started
+2026-02-11 23:41:03,435 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-11 23:41:26,851 - Drone_1 - INFO - Drone 1: Armed
+2026-02-11 23:41:30,294 - Drone_1 - INFO - Drone 1: Taking off
+2026-02-11 23:41:35,380 - Drone_1 - INFO - Drone 1: Takeoff complete at 10.1m
+2026-02-11 23:42:17,722 - Drone_1 - WARNING - Drone 1: Cannot takeoff - already flying
+2026-02-11 23:42:28,118 - Drone_1 - ERROR - Drone 1: EMERGENCY LANDING - Emergency button pressed
+2026-02-11 23:42:34,895 - Drone_1 - INFO - Drone 1: Landed safely
+2026-02-11 23:42:44,569 - Drone_1 - WARNING - Drone 1: Cannot takeoff - not armed
+2026-02-11 23:42:46,737 - Drone_1 - WARNING - Drone 1: Cannot takeoff - not armed
+2026-02-11 23:42:54,962 - Drone_1 - INFO - Drone 1: Role changed from leader to follower
+2026-02-11 23:45:48,918 - Drone_1 - INFO - Drone 1: Armed
+2026-02-11 23:45:57,437 - Drone_1 - INFO - Drone 1: Taking off
+2026-02-11 23:46:02,527 - Drone_1 - INFO - Drone 1: Takeoff complete at 10.1m
+2026-02-11 23:46:40,299 - Drone_1 - INFO - Drone 1: Flying to {'x': 6.0961528436339165, 'y': -18.96732483088405, 'z': 10.05463981628418}
+2026-02-11 23:46:41,639 - Drone_1 - INFO - Drone 1: Reached target position
+2026-02-11 23:47:17,504 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-11 23:47:27,490 - Drone_1 - INFO - Drone 1 stopped
+2026-02-12 00:15:58,828 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 00:15:58,829 - Drone_1 - INFO - Drone 1 started
+2026-02-12 00:15:58,831 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 00:16:21,583 - Drone_1 - WARNING - Drone 1: Cannot takeoff - not armed
+2026-02-12 00:16:36,942 - Drone_1 - WARNING - Drone 1: Cannot takeoff - not armed
+2026-02-12 00:16:37,550 - Drone_1 - INFO - Drone 1: Armed
+2026-02-12 00:16:51,929 - Drone_1 - INFO - Drone 1 stopped
+2026-02-12 01:04:40,044 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 01:04:40,045 - Drone_1 - INFO - Drone 1 started
+2026-02-12 01:04:40,046 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 01:04:49,899 - Drone_1 - WARNING - Drone 1: Cannot takeoff - not armed
+2026-02-12 01:05:32,777 - Drone_1 - WARNING - Drone 1: Cannot takeoff - not armed
+2026-02-12 01:05:37,951 - Drone_1 - INFO - Drone 1: Armed
+2026-02-12 01:05:40,343 - Drone_1 - INFO - Drone 1: Taking off
+2026-02-12 01:05:45,454 - Drone_1 - INFO - Drone 1: Takeoff complete at 10.1m
+2026-02-12 01:14:37,441 - Drone_1 - INFO - Drone 1 stopped
+2026-02-12 01:14:40,317 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 01:14:40,318 - Drone_1 - INFO - Drone 1 started
+2026-02-12 01:14:40,320 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 01:14:47,707 - Drone_1 - INFO - Drone 1: Armed
+2026-02-12 01:14:50,685 - Drone_1 - INFO - Drone 1: Taking off
+2026-02-12 01:14:55,731 - Drone_1 - INFO - Drone 1: Takeoff complete at 10.1m
+2026-02-12 01:15:08,264 - Drone_1 - ERROR - Drone 1: EMERGENCY LANDING - Personal emergency button pressed (source=personal_command, site={'x': 0, 'y': 0, 'z': 0.0})
+2026-02-12 01:15:09,354 - Drone_1 - INFO - Drone 1: Role changed from leader to follower
+2026-02-12 01:15:15,031 - Drone_1 - INFO - Drone 1: Landed safely
+2026-02-12 01:15:22,463 - Drone_1 - INFO - Drone 1 stopped
+2026-02-12 01:24:17,974 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-12 01:24:17,974 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 01:24:17,975 - Drone_1 - INFO - Drone 1 started
+2026-02-12 01:24:17,978 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 01:25:13,364 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-12 01:25:13,364 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 01:25:13,365 - Drone_1 - INFO - Drone 1 started
+2026-02-12 01:25:13,369 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 01:25:22,331 - Drone_1 - INFO - Drone 1: Armed
+2026-02-12 01:25:24,400 - Drone_1 - INFO - Drone 1: Taking off
+2026-02-12 01:26:27,475 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-12 01:26:27,476 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 01:26:27,477 - Drone_1 - INFO - Drone 1 started
+2026-02-12 01:26:27,478 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 01:26:31,048 - Drone_1 - INFO - Drone 1: Armed
+2026-02-12 01:26:32,737 - Drone_1 - INFO - Drone 1: Taking off
+2026-02-12 01:33:07,499 - Drone_1 - ERROR - Drone 1: EMERGENCY LANDING - Personal emergency button pressed (source=personal_command, site={'x': 0, 'y': 0, 'z': 0.0})
+2026-02-12 01:33:08,703 - Drone_1 - INFO - Drone 1: Role changed from emergency to follower
+2026-02-12 01:37:16,419 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-12 01:37:16,420 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 01:37:16,421 - Drone_1 - INFO - Drone 1 started
+2026-02-12 01:37:16,423 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 01:37:28,005 - Drone_1 - INFO - Drone 1: Armed
+2026-02-12 01:37:29,508 - Drone_1 - INFO - Drone 1: Taking off
+2026-02-12 01:41:56,980 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-12 01:41:56,980 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 01:41:56,982 - Drone_1 - INFO - Drone 1 started
+2026-02-12 01:41:56,984 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 01:42:09,807 - Drone_1 - INFO - Drone 1: Armed
+2026-02-12 01:42:15,323 - Drone_1 - INFO - Drone 1: Taking off
+2026-02-12 01:43:19,902 - Drone_1 - ERROR - Drone 1: Motor 0 failed!
+2026-02-12 01:43:19,984 - Drone_1 - ERROR - Drone 1: Motor failure detected - Motors [0]
+2026-02-12 01:43:19,985 - Drone_1 - ERROR - Drone 1: EMERGENCY LANDING - Motor failure: 1 motors failed (source=motor_monitor, site={'x': 0, 'y': 0, 'z': 0.0})
+2026-02-12 01:43:21,052 - Drone_1 - INFO - Drone 1: Role changed from emergency to follower
+2026-02-12 01:44:09,948 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-12 01:44:09,949 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 01:44:09,950 - Drone_1 - INFO - Drone 1 started
+2026-02-12 01:44:09,953 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 01:51:35,687 - Drone_1 - ERROR - Drone 1: Motor 0 failed!
+2026-02-12 01:51:54,006 - Drone_1 - INFO - Drone 1 stopped
+2026-02-12 01:52:53,909 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-12 01:52:53,909 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 01:52:53,910 - Drone_1 - INFO - Drone 1 started
+2026-02-12 01:52:53,912 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 01:53:13,941 - Drone_1 - INFO - Drone 1: Armed
+2026-02-12 01:53:15,429 - Drone_1 - INFO - Drone 1: Taking off
+2026-02-12 01:53:33,314 - Drone_1 - INFO - Drone 1: Flying to {'x': -100, 'y': 0, 'z': 35.784992694854736}
+2026-02-12 01:53:33,722 - Drone_1 - INFO - Drone 1: Flying to {'x': -106.03459477424622, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:33,926 - Drone_1 - INFO - Drone 1: Flying to {'x': -109.06073451042175, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:34,090 - Drone_1 - INFO - Drone 1: Flying to {'x': -110.56349754333496, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:34,270 - Drone_1 - INFO - Drone 1: Flying to {'x': -113.64393949508667, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:34,439 - Drone_1 - INFO - Drone 1: Flying to {'x': -116.66204333305359, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:34,602 - Drone_1 - INFO - Drone 1: Flying to {'x': -119.67397451400757, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:34,795 - Drone_1 - INFO - Drone 1: Flying to {'x': -121.18302464485168, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:34,965 - Drone_1 - INFO - Drone 1: Flying to {'x': -124.19629335403442, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:37,258 - Drone_1 - INFO - Drone 1: Flying to {'x': -1058.85404586792, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:37,441 - Drone_1 - INFO - Drone 1: Flying to {'x': -1061.8615746498108, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:37,635 - Drone_1 - INFO - Drone 1: Flying to {'x': -1064.8760056495667, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:37,815 - Drone_1 - INFO - Drone 1: Flying to {'x': -1066.3943326473236, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:38,000 - Drone_1 - INFO - Drone 1: Flying to {'x': -1069.4160091876984, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:38,176 - Drone_1 - INFO - Drone 1: Flying to {'x': -1072.4366736412048, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:38,319 - Drone_1 - INFO - Drone 1: Flying to {'x': -1075.442317724228, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:38,491 - Drone_1 - INFO - Drone 1: Flying to {'x': -1076.9527769088745, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:38,664 - Drone_1 - INFO - Drone 1: Flying to {'x': -1079.9722146987915, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:38,847 - Drone_1 - INFO - Drone 1: Flying to {'x': -1082.9810988903046, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:39,031 - Drone_1 - INFO - Drone 1: Flying to {'x': -1085.996423959732, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:39,208 - Drone_1 - INFO - Drone 1: Flying to {'x': -1087.506457567215, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:39,396 - Drone_1 - INFO - Drone 1: Flying to {'x': -1090.516836643219, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:39,572 - Drone_1 - INFO - Drone 1: Flying to {'x': -1093.5295367240906, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:39,904 - Drone_1 - INFO - Drone 1: Flying to {'x': -1098.0547416210175, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:40,241 - Drone_1 - INFO - Drone 1: Flying to {'x': -1104.0916860103607, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:40,612 - Drone_1 - INFO - Drone 1: Flying to {'x': -1108.6186039447784, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:41,029 - Drone_1 - INFO - Drone 1: Flying to {'x': -1114.6520578861237, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:41,517 - Drone_1 - INFO - Drone 1: Flying to {'x': -1122.198338508606, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:42,021 - Drone_1 - INFO - Drone 1: Flying to {'x': -1129.744279384613, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:42,481 - Drone_1 - INFO - Drone 1: Flying to {'x': -1137.279691696167, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:42,918 - Drone_1 - INFO - Drone 1: Flying to {'x': -1143.3144795894623, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:43,390 - Drone_1 - INFO - Drone 1: Flying to {'x': -1150.8555603027344, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:43,745 - Drone_1 - INFO - Drone 1: Flying to {'x': -1155.3842842578888, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:44,058 - Drone_1 - INFO - Drone 1: Flying to {'x': -1161.413847208023, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:44,249 - Drone_1 - INFO - Drone 1: Flying to {'x': -1162.9183769226074, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:44,426 - Drone_1 - INFO - Drone 1: Flying to {'x': -1165.9375643730164, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:44,616 - Drone_1 - INFO - Drone 1: Flying to {'x': -1168.9509904384613, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:44,803 - Drone_1 - INFO - Drone 1: Flying to {'x': -1171.9680714607239, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:44,971 - Drone_1 - INFO - Drone 1: Flying to {'x': -1174.9806642532349, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:45,159 - Drone_1 - INFO - Drone 1: Flying to {'x': -1177.995492219925, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:45,339 - Drone_1 - INFO - Drone 1: Flying to {'x': -1179.4996571540833, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:45,499 - Drone_1 - INFO - Drone 1: Flying to {'x': -1182.5138127803802, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:45,695 - Drone_1 - INFO - Drone 1: Flying to {'x': -1185.529670715332, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:45,914 - Drone_1 - INFO - Drone 1: Flying to {'x': -1188.5422956943512, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:46,114 - Drone_1 - INFO - Drone 1: Flying to {'x': -1191.5541803836823, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:46,298 - Drone_1 - INFO - Drone 1: Flying to {'x': -1194.5630431175232, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:46,474 - Drone_1 - INFO - Drone 1: Flying to {'x': -1197.5703465938568, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:53:46,663 - Drone_1 - INFO - Drone 1: Flying to {'x': -1200.5839729309082, 'y': 0.0, 'z': 35.784992694854736}
+2026-02-12 01:54:47,340 - Drone_1 - INFO - Drone 1: area mission cleared
+2026-02-12 01:54:53,365 - Drone_1 - INFO - Drone 1: Reached target position
+2026-02-12 02:00:49,182 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-12 02:00:49,183 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 02:00:49,184 - Drone_1 - INFO - Drone 1 started
+2026-02-12 02:00:49,185 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 02:05:12,648 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-12 02:05:12,648 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 02:05:12,649 - Drone_1 - INFO - Drone 1 started
+2026-02-12 02:05:12,652 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 02:06:44,326 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-12 02:06:44,327 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 02:06:44,328 - Drone_1 - INFO - Drone 1 started
+2026-02-12 02:06:44,330 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 02:09:06,643 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-12 02:09:06,643 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 02:09:06,644 - Drone_1 - INFO - Drone 1 started
+2026-02-12 02:09:06,646 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 02:10:43,979 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-12 02:10:43,980 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 02:10:43,981 - Drone_1 - INFO - Drone 1 started
+2026-02-12 02:10:43,982 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 02:12:40,134 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-12 02:12:40,134 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 02:12:40,135 - Drone_1 - INFO - Drone 1 started
+2026-02-12 02:12:40,138 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 02:13:15,230 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-12 02:13:15,230 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 02:13:15,231 - Drone_1 - INFO - Drone 1 started
+2026-02-12 02:13:15,233 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 02:13:39,343 - Drone_1 - INFO - Drone 1 stopped
+2026-02-12 02:13:41,579 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-12 02:13:41,579 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 02:13:41,580 - Drone_1 - INFO - Drone 1 started
+2026-02-12 02:13:41,582 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 02:14:54,658 - Drone_1 - INFO - Drone 1 stopped
+2026-02-12 02:15:09,850 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-12 02:15:09,851 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 02:15:09,852 - Drone_1 - INFO - Drone 1 started
+2026-02-12 02:15:09,854 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 02:16:57,017 - Drone_1 - INFO - Drone 1 stopped
+2026-02-12 02:16:59,805 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-12 02:16:59,805 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 02:16:59,806 - Drone_1 - INFO - Drone 1 started
+2026-02-12 02:16:59,809 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 02:19:04,911 - Drone_1 - INFO - Drone 1 stopped
+2026-02-12 02:19:12,250 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-12 02:19:12,250 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 02:19:12,251 - Drone_1 - INFO - Drone 1 started
+2026-02-12 02:19:12,253 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 02:22:40,431 - Drone_1 - INFO - Drone 1 stopped
+2026-02-12 02:22:42,714 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-12 02:22:42,714 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 02:22:42,715 - Drone_1 - INFO - Drone 1 started
+2026-02-12 02:22:42,718 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 02:22:58,063 - Drone_1 - INFO - Drone 1: Armed
+2026-02-12 02:23:01,191 - Drone_1 - INFO - Drone 1: Taking off
+2026-02-12 02:24:16,684 - Drone_1 - INFO - Drone 1: Flying to {'x': -1000, 'y': 0, 'z': 150.97796821594238}
+2026-02-12 02:24:17,036 - Drone_1 - INFO - Drone 1: Flying to {'x': -1006.0376524925232, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:24:37,814 - Drone_1 - INFO - Drone 1: Flying to {'x': -1317.0200109481812, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:25:44,439 - Drone_1 - INFO - Drone 1: Reached target position
+2026-02-12 02:26:19,633 - Drone_1 - INFO - Drone 1: Flying to {'x': -317.02001094818115, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:20,154 - Drone_1 - INFO - Drone 1: Flying to {'x': -309.46794748306274, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:20,176 - Drone_1 - INFO - Drone 1: Flying to {'x': -307.95854687690735, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:20,205 - Drone_1 - INFO - Drone 1: Flying to {'x': -307.95854687690735, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:20,235 - Drone_1 - INFO - Drone 1: Flying to {'x': -307.95854687690735, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:20,267 - Drone_1 - INFO - Drone 1: Flying to {'x': -306.4556550979614, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:20,310 - Drone_1 - INFO - Drone 1: Flying to {'x': -306.4556550979614, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:20,342 - Drone_1 - INFO - Drone 1: Flying to {'x': -306.4556550979614, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:20,371 - Drone_1 - INFO - Drone 1: Flying to {'x': -304.9471914768219, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:20,403 - Drone_1 - INFO - Drone 1: Flying to {'x': -304.9471914768219, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:20,436 - Drone_1 - INFO - Drone 1: Flying to {'x': -304.9471914768219, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:20,464 - Drone_1 - INFO - Drone 1: Flying to {'x': -303.43904972076416, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:20,509 - Drone_1 - INFO - Drone 1: Flying to {'x': -303.43904972076416, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:20,545 - Drone_1 - INFO - Drone 1: Flying to {'x': -303.43904972076416, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:20,574 - Drone_1 - INFO - Drone 1: Flying to {'x': -301.93198800086975, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:20,604 - Drone_1 - INFO - Drone 1: Flying to {'x': -301.93198800086975, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:20,636 - Drone_1 - INFO - Drone 1: Flying to {'x': -301.93198800086975, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:20,664 - Drone_1 - INFO - Drone 1: Flying to {'x': -301.93198800086975, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:20,705 - Drone_1 - INFO - Drone 1: Flying to {'x': -300.4279911518097, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:20,742 - Drone_1 - INFO - Drone 1: Flying to {'x': -300.4279911518097, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:20,773 - Drone_1 - INFO - Drone 1: Flying to {'x': -298.9232325553894, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:20,813 - Drone_1 - INFO - Drone 1: Flying to {'x': -298.9232325553894, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:20,833 - Drone_1 - INFO - Drone 1: Flying to {'x': -298.9232325553894, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:20,867 - Drone_1 - INFO - Drone 1: Flying to {'x': -297.4126160144806, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:20,897 - Drone_1 - INFO - Drone 1: Flying to {'x': -297.4126160144806, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:20,926 - Drone_1 - INFO - Drone 1: Flying to {'x': -297.4126160144806, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:20,959 - Drone_1 - INFO - Drone 1: Flying to {'x': -297.4126160144806, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:21,003 - Drone_1 - INFO - Drone 1: Flying to {'x': -295.90571880340576, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:21,034 - Drone_1 - INFO - Drone 1: Flying to {'x': -295.90571880340576, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:21,067 - Drone_1 - INFO - Drone 1: Flying to {'x': -294.3956387042999, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:21,099 - Drone_1 - INFO - Drone 1: Flying to {'x': -294.3956387042999, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:21,137 - Drone_1 - INFO - Drone 1: Flying to {'x': -294.3956387042999, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:21,159 - Drone_1 - INFO - Drone 1: Flying to {'x': -294.3956387042999, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:21,190 - Drone_1 - INFO - Drone 1: Flying to {'x': -292.89355874061584, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:22,323 - Drone_1 - INFO - Drone 1: Flying to {'x': -276.3021147251129, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:22,837 - Drone_1 - INFO - Drone 1: Flying to {'x': -268.75532269477844, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:22,855 - Drone_1 - INFO - Drone 1: Flying to {'x': -268.75532269477844, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:22,898 - Drone_1 - INFO - Drone 1: Flying to {'x': -267.2455608844757, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:22,928 - Drone_1 - INFO - Drone 1: Flying to {'x': -267.2455608844757, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:22,960 - Drone_1 - INFO - Drone 1: Flying to {'x': -267.2455608844757, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:22,999 - Drone_1 - INFO - Drone 1: Flying to {'x': -265.73734402656555, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:23,022 - Drone_1 - INFO - Drone 1: Flying to {'x': -265.73734402656555, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:23,069 - Drone_1 - INFO - Drone 1: Flying to {'x': -265.73734402656555, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:23,107 - Drone_1 - INFO - Drone 1: Flying to {'x': -264.23226714134216, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:23,127 - Drone_1 - INFO - Drone 1: Flying to {'x': -264.23226714134216, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:23,159 - Drone_1 - INFO - Drone 1: Flying to {'x': -264.23226714134216, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:23,191 - Drone_1 - INFO - Drone 1: Flying to {'x': -262.7242863178253, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:23,220 - Drone_1 - INFO - Drone 1: Flying to {'x': -262.7242863178253, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:23,252 - Drone_1 - INFO - Drone 1: Flying to {'x': -262.7242863178253, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:23,284 - Drone_1 - INFO - Drone 1: Flying to {'x': -261.2173926830292, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:23,328 - Drone_1 - INFO - Drone 1: Flying to {'x': -261.2173926830292, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:23,359 - Drone_1 - INFO - Drone 1: Flying to {'x': -261.2173926830292, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:23,390 - Drone_1 - INFO - Drone 1: Flying to {'x': -259.7076988220215, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:23,429 - Drone_1 - INFO - Drone 1: Flying to {'x': -259.7076988220215, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:23,450 - Drone_1 - INFO - Drone 1: Flying to {'x': -259.7076988220215, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:23,484 - Drone_1 - INFO - Drone 1: Flying to {'x': -258.202486038208, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:23,538 - Drone_1 - INFO - Drone 1: Flying to {'x': -258.202486038208, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:23,560 - Drone_1 - INFO - Drone 1: Flying to {'x': -258.202486038208, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:23,591 - Drone_1 - INFO - Drone 1: Flying to {'x': -256.6975128650665, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:23,622 - Drone_1 - INFO - Drone 1: Flying to {'x': -256.6975128650665, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:23,662 - Drone_1 - INFO - Drone 1: Flying to {'x': -256.6975128650665, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:23,682 - Drone_1 - INFO - Drone 1: Flying to {'x': -255.18784761428833, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:23,715 - Drone_1 - INFO - Drone 1: Flying to {'x': -255.18784761428833, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:23,769 - Drone_1 - INFO - Drone 1: Flying to {'x': -255.18784761428833, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:23,789 - Drone_1 - INFO - Drone 1: Flying to {'x': -253.6815369129181, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:23,819 - Drone_1 - INFO - Drone 1: Flying to {'x': -253.6815369129181, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:23,854 - Drone_1 - INFO - Drone 1: Flying to {'x': -253.6815369129181, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:23,881 - Drone_1 - INFO - Drone 1: Flying to {'x': -252.1788454055786, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:23,915 - Drone_1 - INFO - Drone 1: Flying to {'x': -252.1788454055786, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:23,944 - Drone_1 - INFO - Drone 1: Flying to {'x': -252.1788454055786, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:23,994 - Drone_1 - INFO - Drone 1: Flying to {'x': -250.6151568889618, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:24,021 - Drone_1 - INFO - Drone 1: Flying to {'x': -250.6151568889618, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:24,053 - Drone_1 - INFO - Drone 1: Flying to {'x': -250.6151568889618, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:24,093 - Drone_1 - INFO - Drone 1: Flying to {'x': -250.6151568889618, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:24,112 - Drone_1 - INFO - Drone 1: Flying to {'x': -248.98608684539795, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:24,146 - Drone_1 - INFO - Drone 1: Flying to {'x': -248.98608684539795, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:24,178 - Drone_1 - INFO - Drone 1: Flying to {'x': -248.98608684539795, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:24,221 - Drone_1 - INFO - Drone 1: Flying to {'x': -247.44155287742615, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:24,254 - Drone_1 - INFO - Drone 1: Flying to {'x': -247.44155287742615, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:24,284 - Drone_1 - INFO - Drone 1: Flying to {'x': -247.44155287742615, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:24,313 - Drone_1 - INFO - Drone 1: Flying to {'x': -245.9272849559784, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:24,345 - Drone_1 - INFO - Drone 1: Flying to {'x': -245.9272849559784, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:24,376 - Drone_1 - INFO - Drone 1: Flying to {'x': -245.9272849559784, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:24,415 - Drone_1 - INFO - Drone 1: Flying to {'x': -244.41697597503662, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:24,452 - Drone_1 - INFO - Drone 1: Flying to {'x': -244.41697597503662, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:24,484 - Drone_1 - INFO - Drone 1: Flying to {'x': -244.41697597503662, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:24,523 - Drone_1 - INFO - Drone 1: Flying to {'x': -242.91101574897766, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:24,545 - Drone_1 - INFO - Drone 1: Flying to {'x': -242.91101574897766, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:24,578 - Drone_1 - INFO - Drone 1: Flying to {'x': -242.91101574897766, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:24,608 - Drone_1 - INFO - Drone 1: Flying to {'x': -241.40722274780273, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:24,648 - Drone_1 - INFO - Drone 1: Flying to {'x': -241.40722274780273, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:24,684 - Drone_1 - INFO - Drone 1: Flying to {'x': -241.40722274780273, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:24,714 - Drone_1 - INFO - Drone 1: Flying to {'x': -239.9025285243988, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:24,754 - Drone_1 - INFO - Drone 1: Flying to {'x': -239.9025285243988, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:24,774 - Drone_1 - INFO - Drone 1: Flying to {'x': -239.9025285243988, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:24,808 - Drone_1 - INFO - Drone 1: Flying to {'x': -238.39710474014282, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:24,839 - Drone_1 - INFO - Drone 1: Flying to {'x': -238.39710474014282, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:24,883 - Drone_1 - INFO - Drone 1: Flying to {'x': -238.39710474014282, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:24,914 - Drone_1 - INFO - Drone 1: Flying to {'x': -236.88797235488892, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:24,948 - Drone_1 - INFO - Drone 1: Flying to {'x': -236.88797235488892, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:24,975 - Drone_1 - INFO - Drone 1: Flying to {'x': -236.88797235488892, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,006 - Drone_1 - INFO - Drone 1: Flying to {'x': -235.38018107414246, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,037 - Drone_1 - INFO - Drone 1: Flying to {'x': -235.38018107414246, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,075 - Drone_1 - INFO - Drone 1: Flying to {'x': -235.38018107414246, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,114 - Drone_1 - INFO - Drone 1: Flying to {'x': -233.8768494129181, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,145 - Drone_1 - INFO - Drone 1: Flying to {'x': -233.8768494129181, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,184 - Drone_1 - INFO - Drone 1: Flying to {'x': -233.8768494129181, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,207 - Drone_1 - INFO - Drone 1: Flying to {'x': -232.37382888793945, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,237 - Drone_1 - INFO - Drone 1: Flying to {'x': -232.37382888793945, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,270 - Drone_1 - INFO - Drone 1: Flying to {'x': -232.37382888793945, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,297 - Drone_1 - INFO - Drone 1: Flying to {'x': -232.37382888793945, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,332 - Drone_1 - INFO - Drone 1: Flying to {'x': -230.86644530296326, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,364 - Drone_1 - INFO - Drone 1: Flying to {'x': -230.86644530296326, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,406 - Drone_1 - INFO - Drone 1: Flying to {'x': -229.3623161315918, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,437 - Drone_1 - INFO - Drone 1: Flying to {'x': -229.3623161315918, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,468 - Drone_1 - INFO - Drone 1: Flying to {'x': -229.3623161315918, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,508 - Drone_1 - INFO - Drone 1: Flying to {'x': -227.85588026046753, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,530 - Drone_1 - INFO - Drone 1: Flying to {'x': -227.85588026046753, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,578 - Drone_1 - INFO - Drone 1: Flying to {'x': -227.85588026046753, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,616 - Drone_1 - INFO - Drone 1: Flying to {'x': -226.34814262390137, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,638 - Drone_1 - INFO - Drone 1: Flying to {'x': -226.34814262390137, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,667 - Drone_1 - INFO - Drone 1: Flying to {'x': -226.34814262390137, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,699 - Drone_1 - INFO - Drone 1: Flying to {'x': -226.34814262390137, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,737 - Drone_1 - INFO - Drone 1: Flying to {'x': -224.84453201293945, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,759 - Drone_1 - INFO - Drone 1: Flying to {'x': -224.84453201293945, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,807 - Drone_1 - INFO - Drone 1: Flying to {'x': -223.3313548564911, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,847 - Drone_1 - INFO - Drone 1: Flying to {'x': -223.3313548564911, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,867 - Drone_1 - INFO - Drone 1: Flying to {'x': -223.3313548564911, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,900 - Drone_1 - INFO - Drone 1: Flying to {'x': -223.3313548564911, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,932 - Drone_1 - INFO - Drone 1: Flying to {'x': -221.82883858680725, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,961 - Drone_1 - INFO - Drone 1: Flying to {'x': -221.82883858680725, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:25,992 - Drone_1 - INFO - Drone 1: Flying to {'x': -221.82883858680725, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:26,024 - Drone_1 - INFO - Drone 1: Flying to {'x': -220.3182291984558, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:26,068 - Drone_1 - INFO - Drone 1: Flying to {'x': -220.3182291984558, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:26,099 - Drone_1 - INFO - Drone 1: Flying to {'x': -220.3182291984558, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:26,131 - Drone_1 - INFO - Drone 1: Flying to {'x': -218.81645321846008, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:26,169 - Drone_1 - INFO - Drone 1: Flying to {'x': -218.81645321846008, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:26,191 - Drone_1 - INFO - Drone 1: Flying to {'x': -218.81645321846008, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:26,225 - Drone_1 - INFO - Drone 1: Flying to {'x': -217.30503916740417, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:26,276 - Drone_1 - INFO - Drone 1: Flying to {'x': -217.30503916740417, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:26,299 - Drone_1 - INFO - Drone 1: Flying to {'x': -217.30503916740417, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:26,331 - Drone_1 - INFO - Drone 1: Flying to {'x': -215.79634308815002, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:26,362 - Drone_1 - INFO - Drone 1: Flying to {'x': -215.79634308815002, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:26,392 - Drone_1 - INFO - Drone 1: Flying to {'x': -215.79634308815002, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:26,422 - Drone_1 - INFO - Drone 1: Flying to {'x': -214.2917025089264, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:26,453 - Drone_1 - INFO - Drone 1: Flying to {'x': -214.2917025089264, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:26,499 - Drone_1 - INFO - Drone 1: Flying to {'x': -214.2917025089264, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:26,530 - Drone_1 - INFO - Drone 1: Flying to {'x': -212.7858853340149, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:26,561 - Drone_1 - INFO - Drone 1: Flying to {'x': -212.7858853340149, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:26,601 - Drone_1 - INFO - Drone 1: Flying to {'x': -212.7858853340149, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:26,623 - Drone_1 - INFO - Drone 1: Flying to {'x': -211.2761378288269, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:26,656 - Drone_1 - INFO - Drone 1: Flying to {'x': -211.2761378288269, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:26,687 - Drone_1 - INFO - Drone 1: Flying to {'x': -211.2761378288269, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:26,721 - Drone_1 - INFO - Drone 1: Flying to {'x': -209.7705101966858, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:26,760 - Drone_1 - INFO - Drone 1: Flying to {'x': -209.7705101966858, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:26,791 - Drone_1 - INFO - Drone 1: Flying to {'x': -209.7705101966858, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:26,833 - Drone_1 - INFO - Drone 1: Flying to {'x': -208.2647466659546, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:26,853 - Drone_1 - INFO - Drone 1: Flying to {'x': -208.2647466659546, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:26,884 - Drone_1 - INFO - Drone 1: Flying to {'x': -208.2647466659546, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:26,914 - Drone_1 - INFO - Drone 1: Flying to {'x': -206.75829648971558, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:26,961 - Drone_1 - INFO - Drone 1: Flying to {'x': -206.75829648971558, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:27,429 - Drone_1 - INFO - Drone 1: Flying to {'x': -199.22789096832275, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:27,637 - Drone_1 - INFO - Drone 1: Flying to {'x': -196.211017370224, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:27,828 - Drone_1 - INFO - Drone 1: Flying to {'x': -193.2007348537445, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:28,000 - Drone_1 - INFO - Drone 1: Flying to {'x': -191.68854475021362, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:28,206 - Drone_1 - INFO - Drone 1: Flying to {'x': -188.66263031959534, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:28,382 - Drone_1 - INFO - Drone 1: Flying to {'x': -185.64685106277466, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:28,594 - Drone_1 - INFO - Drone 1: Flying to {'x': -182.63052821159363, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:28,742 - Drone_1 - INFO - Drone 1: Flying to {'x': -179.61829662322998, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:28,917 - Drone_1 - INFO - Drone 1: Flying to {'x': -178.10996532440186, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:29,110 - Drone_1 - INFO - Drone 1: Flying to {'x': -175.08517026901245, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:29,318 - Drone_1 - INFO - Drone 1: Flying to {'x': -172.073096036911, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:29,501 - Drone_1 - INFO - Drone 1: Flying to {'x': -169.05510663986206, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:29,995 - Drone_1 - INFO - Drone 1: Flying to {'x': -161.51078581809998, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:30,024 - Drone_1 - INFO - Drone 1: Flying to {'x': -161.51078581809998, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:30,071 - Drone_1 - INFO - Drone 1: Flying to {'x': -160.00617027282715, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:30,102 - Drone_1 - INFO - Drone 1: Flying to {'x': -160.00617027282715, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:30,133 - Drone_1 - INFO - Drone 1: Flying to {'x': -158.50030660629272, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:30,163 - Drone_1 - INFO - Drone 1: Flying to {'x': -158.50030660629272, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:30,195 - Drone_1 - INFO - Drone 1: Flying to {'x': -158.50030660629272, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:30,235 - Drone_1 - INFO - Drone 1: Flying to {'x': -156.9920575618744, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:30,255 - Drone_1 - INFO - Drone 1: Flying to {'x': -156.9920575618744, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:30,303 - Drone_1 - INFO - Drone 1: Flying to {'x': -156.9920575618744, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:30,343 - Drone_1 - INFO - Drone 1: Flying to {'x': -155.4823100566864, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:30,364 - Drone_1 - INFO - Drone 1: Flying to {'x': -155.4823100566864, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:30,397 - Drone_1 - INFO - Drone 1: Flying to {'x': -155.4823100566864, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:30,427 - Drone_1 - INFO - Drone 1: Flying to {'x': -155.4823100566864, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:30,456 - Drone_1 - INFO - Drone 1: Flying to {'x': -153.9771866798401, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:30,488 - Drone_1 - INFO - Drone 1: Flying to {'x': -153.9771866798401, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:30,520 - Drone_1 - INFO - Drone 1: Flying to {'x': -153.9771866798401, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:30,558 - Drone_1 - INFO - Drone 1: Flying to {'x': -152.47084021568298, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:30,595 - Drone_1 - INFO - Drone 1: Flying to {'x': -152.47084021568298, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:30,626 - Drone_1 - INFO - Drone 1: Flying to {'x': -152.47084021568298, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:30,679 - Drone_1 - INFO - Drone 1: Flying to {'x': -150.96771240234375, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:30,686 - Drone_1 - INFO - Drone 1: Flying to {'x': -150.96771240234375, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:30,717 - Drone_1 - INFO - Drone 1: Flying to {'x': -150.96771240234375, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:30,751 - Drone_1 - INFO - Drone 1: Flying to {'x': -149.45756435394287, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:30,795 - Drone_1 - INFO - Drone 1: Flying to {'x': -149.45756435394287, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:30,827 - Drone_1 - INFO - Drone 1: Flying to {'x': -149.45756435394287, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:30,862 - Drone_1 - INFO - Drone 1: Flying to {'x': -147.95056343078613, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:30,887 - Drone_1 - INFO - Drone 1: Flying to {'x': -147.95056343078613, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:30,918 - Drone_1 - INFO - Drone 1: Flying to {'x': -147.95056343078613, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:30,949 - Drone_1 - INFO - Drone 1: Flying to {'x': -146.4463770389557, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:30,997 - Drone_1 - INFO - Drone 1: Flying to {'x': -146.4463770389557, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:31,024 - Drone_1 - INFO - Drone 1: Flying to {'x': -146.4463770389557, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:31,058 - Drone_1 - INFO - Drone 1: Flying to {'x': -144.9408745765686, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:31,089 - Drone_1 - INFO - Drone 1: Flying to {'x': -144.9408745765686, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:31,128 - Drone_1 - INFO - Drone 1: Flying to {'x': -144.9408745765686, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:31,147 - Drone_1 - INFO - Drone 1: Flying to {'x': -143.43689918518066, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:31,182 - Drone_1 - INFO - Drone 1: Flying to {'x': -143.43689918518066, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:31,212 - Drone_1 - INFO - Drone 1: Flying to {'x': -143.43689918518066, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:31,257 - Drone_1 - INFO - Drone 1: Flying to {'x': -141.90582633018494, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:31,288 - Drone_1 - INFO - Drone 1: Flying to {'x': -141.90582633018494, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:31,321 - Drone_1 - INFO - Drone 1: Flying to {'x': -141.90582633018494, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:31,349 - Drone_1 - INFO - Drone 1: Flying to {'x': -140.39049983024597, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:31,783 - Drone_1 - INFO - Drone 1: Flying to {'x': -134.34672117233276, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:32,009 - Drone_1 - INFO - Drone 1: Flying to {'x': -131.32367134094238, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:32,201 - Drone_1 - INFO - Drone 1: Flying to {'x': -128.30750226974487, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:32,349 - Drone_1 - INFO - Drone 1: Flying to {'x': -125.29289603233337, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:32,503 - Drone_1 - INFO - Drone 1: Flying to {'x': -123.78292679786682, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:32,694 - Drone_1 - INFO - Drone 1: Flying to {'x': -120.76935768127441, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:32,903 - Drone_1 - INFO - Drone 1: Flying to {'x': -117.75531649589539, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:33,119 - Drone_1 - INFO - Drone 1: Flying to {'x': -114.73944783210754, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:33,271 - Drone_1 - INFO - Drone 1: Flying to {'x': -111.72272443771362, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:33,463 - Drone_1 - INFO - Drone 1: Flying to {'x': -108.70865106582642, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:33,660 - Drone_1 - INFO - Drone 1: Flying to {'x': -105.68214297294617, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:34,428 - Drone_1 - INFO - Drone 1: Flying to {'x': -95.11622786521912, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:34,655 - Drone_1 - INFO - Drone 1: Flying to {'x': -90.59412002563477, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:34,859 - Drone_1 - INFO - Drone 1: Flying to {'x': -87.58199214935303, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:35,043 - Drone_1 - INFO - Drone 1: Flying to {'x': -86.07330679893494, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:35,253 - Drone_1 - INFO - Drone 1: Flying to {'x': -83.05744886398315, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:35,424 - Drone_1 - INFO - Drone 1: Flying to {'x': -80.04082202911377, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:35,628 - Drone_1 - INFO - Drone 1: Flying to {'x': -77.02827215194702, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:35,809 - Drone_1 - INFO - Drone 1: Flying to {'x': -74.01000738143921, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:35,977 - Drone_1 - INFO - Drone 1: Flying to {'x': -70.99138498306274, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:36,153 - Drone_1 - INFO - Drone 1: Flying to {'x': -69.48451638221741, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:36,457 - Drone_1 - INFO - Drone 1: Flying to {'x': -64.96532678604126, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:36,691 - Drone_1 - INFO - Drone 1: Flying to {'x': -60.43919920921326, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:36,872 - Drone_1 - INFO - Drone 1: Flying to {'x': -57.425276041030884, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:37,042 - Drone_1 - INFO - Drone 1: Flying to {'x': -55.913615226745605, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:37,225 - Drone_1 - INFO - Drone 1: Flying to {'x': -52.897764444351196, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:37,417 - Drone_1 - INFO - Drone 1: Flying to {'x': -49.877893924713135, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:37,617 - Drone_1 - INFO - Drone 1: Flying to {'x': -46.86537981033325, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:37,825 - Drone_1 - INFO - Drone 1: Flying to {'x': -43.84906053543091, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:38,011 - Drone_1 - INFO - Drone 1: Flying to {'x': -40.82686185836792, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:38,204 - Drone_1 - INFO - Drone 1: Flying to {'x': -37.80809283256531, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:38,377 - Drone_1 - INFO - Drone 1: Flying to {'x': -34.79240655899048, 'y': 0.0, 'z': 150.97796821594238}
+2026-02-12 02:26:39,289 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1000.0, 'z': 150.97796821594238}
+2026-02-12 02:26:39,795 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1007.5537157058716, 'z': 150.97796821594238}
+2026-02-12 02:26:39,817 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1007.5537157058716, 'z': 150.97796821594238}
+2026-02-12 02:26:39,848 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1007.5537157058716, 'z': 150.97796821594238}
+2026-02-12 02:26:39,883 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1007.5537157058716, 'z': 150.97796821594238}
+2026-02-12 02:26:39,924 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1009.0625584125519, 'z': 150.97796821594238}
+2026-02-12 02:26:39,955 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1009.0625584125519, 'z': 150.97796821594238}
+2026-02-12 02:26:39,985 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1010.5646419525146, 'z': 150.97796821594238}
+2026-02-12 02:26:40,016 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1010.5646419525146, 'z': 150.97796821594238}
+2026-02-12 02:26:40,047 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1010.5646419525146, 'z': 150.97796821594238}
+2026-02-12 02:26:40,079 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1010.5646419525146, 'z': 150.97796821594238}
+2026-02-12 02:26:40,125 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1012.0702230930328, 'z': 150.97796821594238}
+2026-02-12 02:26:40,153 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1012.0702230930328, 'z': 150.97796821594238}
+2026-02-12 02:26:40,187 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1013.5779964923859, 'z': 150.97796821594238}
+2026-02-12 02:26:40,227 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1013.5779964923859, 'z': 150.97796821594238}
+2026-02-12 02:26:40,248 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1013.5779964923859, 'z': 150.97796821594238}
+2026-02-12 02:26:40,280 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1013.5779964923859, 'z': 150.97796821594238}
+2026-02-12 02:26:40,312 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1015.08944272995, 'z': 150.97796821594238}
+2026-02-12 02:26:40,356 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1015.08944272995, 'z': 150.97796821594238}
+2026-02-12 02:26:40,385 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1015.08944272995, 'z': 150.97796821594238}
+2026-02-12 02:26:40,419 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1016.5909147262573, 'z': 150.97796821594238}
+2026-02-12 02:26:40,459 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1016.5909147262573, 'z': 150.97796821594238}
+2026-02-12 02:26:40,479 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1016.5909147262573, 'z': 150.97796821594238}
+2026-02-12 02:26:40,510 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1018.1006371974945, 'z': 150.97796821594238}
+2026-02-12 02:26:40,542 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1018.1006371974945, 'z': 150.97796821594238}
+2026-02-12 02:26:40,586 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1018.1006371974945, 'z': 150.97796821594238}
+2026-02-12 02:26:40,618 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1019.6049880981445, 'z': 150.97796821594238}
+2026-02-12 02:26:40,648 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1019.6049880981445, 'z': 150.97796821594238}
+2026-02-12 02:26:40,677 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1019.6049880981445, 'z': 150.97796821594238}
+2026-02-12 02:26:40,708 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1021.1117208003998, 'z': 150.97796821594238}
+2026-02-12 02:26:40,741 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1021.1117208003998, 'z': 150.97796821594238}
+2026-02-12 02:26:40,785 - Drone_1 - INFO - Drone 1: Flying to {'x': -1021.1948907375336, 'y': 1021.1117208003998, 'z': 150.97796821594238}
+2026-02-12 02:26:49,892 - Drone_1 - WARNING - Drone 1: Cannot takeoff - already flying
+2026-02-12 02:26:53,129 - Drone_1 - WARNING - Drone 1: Cannot takeoff - already flying
+2026-02-12 02:26:56,720 - Drone_1 - INFO - Drone 1: Returning to home - Swarm RTH command
+2026-02-12 02:28:43,375 - Drone_1 - INFO - Drone 1 stopped
+2026-02-12 09:57:44,683 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-12 09:57:44,684 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 09:57:44,685 - Drone_1 - INFO - Drone 1 started
+2026-02-12 09:57:44,687 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 10:03:45,925 - Drone_1 - INFO - Drone 1 stopped
+2026-02-12 10:03:49,218 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-12 10:03:49,218 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 10:03:49,219 - Drone_1 - INFO - Drone 1 started
+2026-02-12 10:03:49,222 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 10:04:05,276 - Drone_1 - INFO - Drone 1 stopped
+2026-02-12 10:04:19,821 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-12 10:04:19,822 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 10:04:19,823 - Drone_1 - INFO - Drone 1 started
+2026-02-12 10:04:19,825 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 10:05:38,941 - Drone_1 - INFO - Drone 1 stopped
+2026-02-12 10:05:41,700 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-12 10:05:41,701 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 10:05:41,701 - Drone_1 - INFO - Drone 1 started
+2026-02-12 10:05:41,703 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 10:05:49,727 - Drone_1 - INFO - Drone 1 stopped
+2026-02-12 10:06:48,662 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-12 10:06:48,663 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 10:06:48,664 - Drone_1 - INFO - Drone 1 started
+2026-02-12 10:06:48,666 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 10:07:11,740 - Drone_1 - INFO - Drone 1 stopped
+2026-02-12 10:07:13,618 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-12 10:07:13,618 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 10:07:13,620 - Drone_1 - INFO - Drone 1 started
+2026-02-12 10:07:13,621 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 10:07:28,668 - Drone_1 - INFO - Drone 1 stopped
+2026-02-12 10:07:31,758 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-12 10:07:31,758 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 10:07:31,759 - Drone_1 - INFO - Drone 1 started
+2026-02-12 10:07:31,761 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 10:07:56,078 - Drone_1 - INFO - Drone 1: Armed
+2026-02-12 10:07:57,148 - Drone_1 - INFO - Drone 1: Taking off
+2026-02-12 10:10:23,036 - Drone_1 - ERROR - Drone 1: EMERGENCY LANDING - Personal emergency button pressed (source=personal_command, site={'x': 0, 'y': 0, 'z': 0.0})
+2026-02-12 10:10:23,064 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-12 10:10:23,064 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 10:10:23,065 - Drone_1 - INFO - Drone 1 started
+2026-02-12 10:10:23,065 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 10:10:23,076 - Drone_1 - INFO - Drone 1: Armed
+2026-02-12 10:10:23,076 - Drone_1 - INFO - Drone 1: Taking off
+2026-02-12 10:10:23,166 - Drone_1 - INFO - Drone 1 stopped
+2026-02-12 10:10:24,091 - Drone_1 - INFO - Drone 1: Role changed from emergency to follower
+2026-02-12 10:12:13,378 - Drone_1 - INFO - Drone 1 stopped
+2026-02-12 10:12:16,366 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-12 10:12:16,367 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-12 10:12:16,367 - Drone_1 - INFO - Drone 1 started
+2026-02-12 10:12:16,369 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-12 10:12:47,410 - Drone_1 - INFO - Drone 1 stopped
