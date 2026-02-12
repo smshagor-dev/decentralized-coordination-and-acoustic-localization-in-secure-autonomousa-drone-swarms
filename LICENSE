@@ -1,0 +1,22 @@
+License Options
+
+This repository includes multiple license texts under `LICENSES/`.
+Only one license should govern the project at a time.
+
+How to use:
+1. Choose your preferred license file from `LICENSES/`.
+2. Copy its full content into the root `LICENSE` file (replace this file).
+3. If needed, update copyright holder/year placeholders.
+
+Included files:
+- LICENSES/LICENSE-MIT.txt
+- LICENSES/LICENSE-Apache-2.0.txt
+- LICENSES/LICENSE-BSD-2-Clause.txt
+- LICENSES/LICENSE-BSD-3-Clause.txt
+- LICENSES/LICENSE-GPL-3.0.txt
+- LICENSES/LICENSE-LGPL-3.0.txt
+- LICENSES/LICENSE-AGPL-3.0.txt
+- LICENSES/LICENSE-MPL-2.0.txt
+- LICENSES/LICENSE-Unlicense.txt
+- LICENSES/LICENSE-CC0-1.0.txt
+- LICENSES/LICENSE-Proprietary.txt

@@ -1,4 +1,4 @@
-# Drone Swarm Management System
+﻿# Drone Swarm Management System
 
 A complete, production-ready drone fleet management system with automatic leader election, fault tolerance, secure communication, and real drone integration capabilities.
 
@@ -403,11 +403,26 @@ This project is designed for academic and research purposes. For contributions:
 3. Add tests for new features
 4. Submit pull request
 
-## 📜 License
+## License
 
-This project is for educational and research purposes. See LICENSE file for details.
+Choose one of the common license types below for this project:
 
-## 👥 Authors
+- MIT License (permissive): https://opensource.org/licenses/MIT
+- Apache License 2.0 (permissive + patent grant): https://www.apache.org/licenses/LICENSE-2.0
+- BSD 2-Clause (permissive): https://opensource.org/license/bsd-2-clause
+- BSD 3-Clause (permissive): https://opensource.org/license/bsd-3-clause
+- GPL v3.0 (strong copyleft): https://www.gnu.org/licenses/gpl-3.0.en.html
+- LGPL v3.0 (library copyleft): https://www.gnu.org/licenses/lgpl-3.0.en.html
+- AGPL v3.0 (network copyleft): https://www.gnu.org/licenses/agpl-3.0.en.html
+- MPL 2.0 (file-level copyleft): https://www.mozilla.org/en-US/MPL/2.0/
+- The Unlicense (public domain style): https://unlicense.org/
+- CC0 1.0 (public domain dedication): https://creativecommons.org/publicdomain/zero/1.0/
+- Proprietary / All Rights Reserved (closed source)
+
+Recommended default for most open-source code projects: MIT or Apache-2.0.
+After choosing, add a `LICENSE` file in the repository root with the full text.
+
+## ?? Authors
 
 - Md Shahanur Islam Shagor
 - www.smshagor.com
@@ -424,7 +439,7 @@ For issues and questions:
 - Contact project maintainers
 - smshagor.ru@gmail.com or contact@smshagor.com
 - Whatsapp https://wa.ma/+79954949836
-- Telegram @smshagor1
+- Telegram [@smshagor1](https://t.me/smshagor1)
 
 ## 🎓 Academic Context
 
