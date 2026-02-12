@@ -205,9 +205,9 @@ drone = Drone(
 ### Deployment Steps
 
 1. **Flash PX4 Firmware** on flight controller
-2. **Install MAVSDK** on companion computer:
+2. **Install MAVSDK and all Python modules used by this project**:
    ```bash
-   pip install mavsdk
+   pip install -r requirements.txt mavsdk pymavlink
    ```
 3. **Configure Communication**:
    - Set up MAVLink connection
