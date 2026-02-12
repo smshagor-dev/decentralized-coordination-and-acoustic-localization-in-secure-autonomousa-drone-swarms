@@ -410,9 +410,11 @@ This project is for educational and research purposes. See LICENSE file for deta
 ## 👥 Authors
 
 - Md Shahanur Islam Shagor
-- Raihan Kabir
+- www.smshagor.com
 
-Course: 3rd Year, Group ПиЦТ2-231-ОБ
+- Bachelor of Science
+- University: Voronezh State University of Forestry and Technology, Voronezh, Russia
+- Department of Computer Science and Microelectronic Engineering
 
 ## 📞 Support
 
@@ -420,6 +422,9 @@ For issues and questions:
 - Check logs in `logs/` directory
 - Review troubleshooting section
 - Contact project maintainers
+- smshagor.ru@gmail.com or contact@smshagor.com
+- Whatsapp https://wa.ma/+79954949836
+- Telegram @smshagor1
 
 ## 🎓 Academic Context
 
