@@ -7,6 +7,7 @@ import time
 import math
 import threading
 import logging
+import os
 from enum import Enum
 from dataclasses import dataclass
 from typing import Optional, Tuple, List, Dict
@@ -157,6 +158,13 @@ class Drone:
         self._last_auto_train_samples = 0
         self._initialize_ml_system()
 
+        # Demo/visual realism: keep moving in hover after takeoff.
+        self.auto_motion_enabled = True
+        self.auto_motion_radius = 220.0   # meters
+        self.auto_motion_speed = 8.0      # m/s
+        self._auto_motion_phase = float(self.drone_id) * 0.7
+        self._auto_motion_time = 0.0
+
         # Personal emergency landing system (per drone)
         self.emergency_status = EmergencyLandingStatus()
         
@@ -187,11 +195,36 @@ class Drone:
             self.ml_system = MLDecisionSupport(owner_id=self.drone_id)
             self.ml_trainer = PhysicalMLTrainer(owner_id=self.drone_id)
             self.ml_trainer.load_model()
+            self._bootstrap_personal_training_dataset()
             self.logger.info(f"Drone {self.drone_id}: Personal ML system initialized")
         except Exception as e:
             self.ml_system = None
             self.ml_trainer = None
             self.logger.warning(f"Drone {self.drone_id}: ML system unavailable - {e}")
+
+    def _bootstrap_personal_training_dataset(self):
+        """
+        Optional startup bootstrap:
+        auto-load and train from datasets/personal_drone_<id>.csv|json if present.
+        """
+        if not self.ml_trainer:
+            return
+        candidates = [
+            f"datasets/personal_drone_{self.drone_id}.csv",
+            f"datasets/personal_drone_{self.drone_id}.json",
+            "datasets/personal_training.csv",
+            "datasets/personal_training.json",
+        ]
+        for path in candidates:
+            if not os.path.exists(path):
+                continue
+            loaded = self.ml_trainer.import_dataset(path, append=True)
+            if loaded > 0:
+                self.ml_trainer.train(min_samples=50, poly_degree=2)
+                self.logger.info(
+                    f"Drone {self.drone_id}: bootstrap personal trainer loaded {loaded} rows from {path}"
+                )
+                break
 
     def _horizontal_distance(self, a: Position, b: Position) -> float:
         """2D horizontal distance between two positions."""
@@ -400,6 +433,29 @@ class Drone:
         if not self.ml_trainer:
             return False
         return self.ml_trainer.train(min_samples=min_samples)
+
+    def train_physical_ml_from_dataset(
+        self,
+        dataset_path: str,
+        min_samples: int = 50,
+        poly_degree: int = 2,
+        append: bool = False,
+    ) -> bool:
+        """Public API: load CSV/JSON dataset and train personal model."""
+        if not self.ml_trainer:
+            return False
+        return self.ml_trainer.train_from_dataset(
+            dataset_path,
+            min_samples=min_samples,
+            poly_degree=poly_degree,
+            append=append,
+        )
+
+    def export_physical_training_dataset(self, output_path: str, file_format: str = "csv") -> bool:
+        """Public API: export current personal training samples to CSV/JSON."""
+        if not self.ml_trainer:
+            return False
+        return self.ml_trainer.export_dataset(output_path, file_format=file_format)
     
     def _update_battery(self, delta_time: float):
         """Update battery level based on current flight mode"""
@@ -462,12 +518,52 @@ class Drone:
         
         elif self.flight_mode == FlightMode.FLYING:
             self._handle_flying(delta_time)
+
+        elif self.flight_mode == FlightMode.HOVER:
+            self._handle_hover_motion(delta_time)
         
         elif self.flight_mode == FlightMode.RETURNING_HOME:
             self._handle_return_to_home(delta_time)
         
         elif self.flight_mode == FlightMode.LANDING or self.flight_mode == FlightMode.EMERGENCY_LANDING:
             self._handle_landing(delta_time)
+
+    def _handle_hover_motion(self, delta_time: float):
+        """
+        Keep the drone moving smoothly in hover mode (realistic loiter pattern).
+        This improves visibility of forward/back/left/right movement in the GUI.
+        """
+        if not self.auto_motion_enabled:
+            return
+        if not self.is_armed:
+            return
+        if self.target_position is not None:
+            return
+        if self.area_mission.active:
+            return
+        if self.flight_mode in [FlightMode.EMERGENCY_LANDING, FlightMode.CRASHED]:
+            return
+
+        self._auto_motion_time += max(0.0, delta_time)
+        omega = max(0.05, self.auto_motion_speed / max(1.0, self.auto_motion_radius))
+        phase = self._auto_motion_phase + self._auto_motion_time * omega
+
+        # Elliptical loiter around home so X/Y motion is easy to understand.
+        desired_x = self.home_position.x + self.auto_motion_radius * math.cos(phase)
+        desired_y = self.home_position.y + (self.auto_motion_radius * 0.65) * math.sin(phase)
+        desired_z = max(1.0, self.current_position.z)
+
+        dx = desired_x - self.current_position.x
+        dy = desired_y - self.current_position.y
+        dz = desired_z - self.current_position.z
+        distance = math.sqrt(dx * dx + dy * dy + dz * dz)
+        if distance < 0.001:
+            return
+
+        step = min(distance, self.auto_motion_speed * delta_time)
+        self.current_position.x += (dx / distance) * step
+        self.current_position.y += (dy / distance) * step
+        self.current_position.z += (dz / distance) * step
     
     def _handle_takeoff(self, delta_time: float):
         """Handle takeoff procedure"""
@@ -659,7 +755,8 @@ class Drone:
     def goto(self, position: Position) -> bool:
         """Fly to specified position"""
         if self.flight_mode not in [FlightMode.HOVER, FlightMode.FLYING]:
-            self.logger.warning(f"Drone {self.drone_id}: Cannot goto - invalid flight mode")
+            # Frequent internal callers may attempt goto during transitions.
+            # Keep this silent to avoid warning spam in logs.
             return False
         
         if position.z > self.MAX_ALTITUDE:
@@ -737,6 +834,10 @@ class Drone:
             "physical_ml_trained": (
                 self.ml_trainer.weights is not None if self.ml_trainer else False
             ),
+            "physical_ml_metrics": (
+                self.ml_trainer.training_metrics if self.ml_trainer else {}
+            ),
+            "auto_motion_enabled": self.auto_motion_enabled,
             "max_operation_radius_m": self.MAX_OPERATION_RADIUS,
             "is_active": self.is_active,
             "is_armed": self.is_armed,

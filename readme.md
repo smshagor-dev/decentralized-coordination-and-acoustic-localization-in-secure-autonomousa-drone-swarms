@@ -209,18 +209,33 @@ drone = Drone(
    ```bash
    pip install -r requirements.txt mavsdk pymavlink
    ```
-3. **Configure Communication**:
+3. **Advanced personal ML training (CSV/JSON trainer)**:
+   ```bash
+   # Train from CSV dataset
+   python ml_trainer.py --drone-id 1 --dataset datasets/personal_training.csv --min-samples 50 --poly-degree 2
+
+   # Train from JSON dataset
+   python ml_trainer.py --drone-id 1 --dataset datasets/personal_training.json --min-samples 50 --poly-degree 2
+
+   # Generate your own demo dataset + train
+   python ml_trainer.py --drone-id 1 --generate-demo --dataset datasets/personal_training.csv --format csv --samples 1000
+   ```
+   Dataset files included:
+   - `datasets/personal_training.csv`
+   - `datasets/personal_training.json`
+   - `datasets/personal_drone_1.csv`
+4. **Configure Communication**:
    - Set up MAVLink connection
    - Configure telemetry radio
    - Set swarm encryption key
 
-4. **Calibration**:
+5. **Calibration**:
    - Compass calibration
    - Accelerometer calibration
    - ESC calibration
    - Radio calibration
 
-5. **Test Flight**:
+6. **Test Flight**:
    - Manual stabilization test
    - Position hold test
    - RTH test
@@ -380,6 +395,9 @@ drone.takeoff()               # Takeoff to default altitude
 drone.goto(position)          # Fly to position
 drone.return_to_home(reason)  # Return to home
 drone.emergency_land(reason)  # Emergency landing
+drone.train_physical_ml_model(min_samples=200)  # Train on live telemetry
+drone.train_physical_ml_from_dataset("datasets/personal_training.csv")  # Train from CSV/JSON
+drone.export_physical_training_dataset("datasets/export.csv", "csv")  # Export collected samples
 drone.get_status()            # Get full status dict
 ```
 

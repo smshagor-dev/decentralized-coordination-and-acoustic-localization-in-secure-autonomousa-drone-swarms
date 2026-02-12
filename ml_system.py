@@ -5,11 +5,13 @@ Includes obstacle avoidance, path optimization, and formation maintenance
 
 import numpy as np
 import logging
-from typing import List, Tuple, Optional
+from typing import List, Tuple, Optional, Dict, Any
 from dataclasses import dataclass
 import math
 import os
 import time
+import csv
+import json
 from collections import deque
 
 @dataclass
@@ -57,6 +59,7 @@ class MLDecisionSupport:
         """Configure logging"""
         if self.logger.handlers:
             return
+        os.makedirs("logs", exist_ok=True)
         handler = logging.FileHandler('logs/ml_system.log')
         handler.setFormatter(logging.Formatter(
             '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
@@ -338,8 +341,9 @@ class MLDecisionSupport:
 
 class PhysicalMLTrainer:
     """
-    Lightweight online trainer for physical drone telemetry.
-    Learns a linear mapping from sensor features -> control target.
+    Advanced personal trainer for physical drone telemetry.
+    Supports online ingestion plus CSV/JSON dataset import/export.
+    Learns a regularized regression model with optional polynomial features.
     """
 
     def __init__(self, owner_id: Optional[int] = None, model_dir: str = "models"):
@@ -353,6 +357,7 @@ class PhysicalMLTrainer:
         )
         self.logger = logging.getLogger(logger_name)
         if not self.logger.handlers:
+            os.makedirs("logs", exist_ok=True)
             handler = logging.FileHandler('logs/ml_system.log')
             handler.setFormatter(logging.Formatter(
                 '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
@@ -362,7 +367,26 @@ class PhysicalMLTrainer:
 
         self.samples_x = deque(maxlen=10000)
         self.samples_y = deque(maxlen=10000)
+
+        # Default telemetry schema used by drone.py sample collector.
+        self.feature_names = [
+            "battery_level",
+            "signal_strength",
+            "processing_capability",
+            "altitude",
+            "velocity_x",
+            "velocity_y",
+            "velocity_z",
+        ]
+        self.target_names = ["target_vx", "target_vy", "target_vz"]
+
+        # Model params/state
         self.weights = None
+        self.feature_mean = None
+        self.feature_std = None
+        self.poly_degree = 1
+        self.regularization_alpha = 0.0
+        self.training_metrics: Dict[str, Any] = {}
         self.trained_at = None
 
     def ingest_sample(self, sensor_features: List[float], target_controls: List[float]):
@@ -372,8 +396,58 @@ class PhysicalMLTrainer:
         self.samples_x.append(np.array(sensor_features, dtype=float))
         self.samples_y.append(np.array(target_controls, dtype=float))
 
-    def train(self, min_samples: int = 50) -> bool:
-        """Train linear model with least squares from accumulated physical data."""
+    def _poly_expand(self, x: np.ndarray, degree: int) -> np.ndarray:
+        """Expand features up to polynomial degree 2 for richer model capacity."""
+        if degree <= 1:
+            return x
+        features = [x]
+        # Quadratic terms.
+        features.append(x ** 2)
+        # Pairwise interactions.
+        interactions = []
+        for i in range(x.shape[1]):
+            for j in range(i + 1, x.shape[1]):
+                interactions.append((x[:, i] * x[:, j]).reshape(-1, 1))
+        if interactions:
+            features.append(np.hstack(interactions))
+        return np.hstack(features)
+
+    def _prepare_inputs(self, x: np.ndarray, fit_stats: bool = False) -> np.ndarray:
+        """Normalize and expand features."""
+        if fit_stats or self.feature_mean is None or self.feature_std is None:
+            self.feature_mean = x.mean(axis=0)
+            self.feature_std = x.std(axis=0)
+            self.feature_std[self.feature_std < 1e-9] = 1.0
+        x_norm = (x - self.feature_mean) / self.feature_std
+        return self._poly_expand(x_norm, self.poly_degree)
+
+    def _fit_ridge(self, x: np.ndarray, y: np.ndarray, alpha: float) -> np.ndarray:
+        """
+        Fit ridge regression in closed form:
+        W = (X'X + alpha*I)^-1 X'Y
+        """
+        ones = np.ones((x.shape[0], 1))
+        x_aug = np.hstack([x, ones])
+        cols = x_aug.shape[1]
+        reg = np.eye(cols) * alpha
+        reg[-1, -1] = 0.0  # do not regularize bias
+        lhs = x_aug.T @ x_aug + reg
+        rhs = x_aug.T @ y
+        try:
+            return np.linalg.solve(lhs, rhs)
+        except np.linalg.LinAlgError:
+            return np.linalg.pinv(lhs) @ rhs
+
+    def _predict_matrix(self, x: np.ndarray) -> np.ndarray:
+        if self.weights is None:
+            return np.array([])
+        x_proc = self._prepare_inputs(x, fit_stats=False)
+        ones = np.ones((x_proc.shape[0], 1))
+        x_aug = np.hstack([x_proc, ones])
+        return x_aug @ self.weights
+
+    def train(self, min_samples: int = 50, poly_degree: int = 2) -> bool:
+        """Train model with holdout validation and alpha search."""
         if len(self.samples_x) < min_samples:
             self.logger.warning(
                 f"Not enough physical samples to train: {len(self.samples_x)}/{min_samples}"
@@ -382,15 +456,63 @@ class PhysicalMLTrainer:
 
         x = np.vstack(self.samples_x)
         y = np.vstack(self.samples_y)
+        self.poly_degree = 2 if poly_degree >= 2 else 1
 
-        # Add bias term for linear regression.
-        ones = np.ones((x.shape[0], 1))
-        x_aug = np.hstack([x, ones])
-        self.weights, _, _, _ = np.linalg.lstsq(x_aug, y, rcond=None)
+        # Deterministic split for repeatability.
+        n = x.shape[0]
+        split_idx = max(1, int(n * 0.8))
+        x_train, x_val = x[:split_idx], x[split_idx:]
+        y_train, y_val = y[:split_idx], y[split_idx:]
+        if x_val.shape[0] == 0:
+            x_val, y_val = x_train, y_train
+
+        # Fit normalization on train set only.
+        x_train_proc = self._prepare_inputs(x_train, fit_stats=True)
+        x_val_proc = self._prepare_inputs(x_val, fit_stats=False)
+
+        alphas = [0.0, 1e-4, 1e-3, 1e-2, 1e-1, 1.0]
+        best_alpha = 0.0
+        best_weights = None
+        best_val_mse = float("inf")
+
+        for alpha in alphas:
+            weights = self._fit_ridge(x_train_proc, y_train, alpha)
+            ones = np.ones((x_val_proc.shape[0], 1))
+            val_pred = np.hstack([x_val_proc, ones]) @ weights
+            val_mse = float(np.mean((val_pred - y_val) ** 2))
+            if val_mse < best_val_mse:
+                best_val_mse = val_mse
+                best_alpha = alpha
+                best_weights = weights
+
+        self.weights = best_weights
+        self.regularization_alpha = best_alpha
+
+        # Metrics snapshot.
+        train_pred = self._predict_matrix(x_train)
+        val_pred = self._predict_matrix(x_val)
+        train_mse = float(np.mean((train_pred - y_train) ** 2))
+        val_mse = float(np.mean((val_pred - y_val) ** 2))
+        y_centered = y_val - y_val.mean(axis=0, keepdims=True)
+        baseline = float(np.mean(y_centered ** 2) + 1e-9)
+        r2_like = max(0.0, 1.0 - (val_mse / baseline))
+        self.training_metrics = {
+            "samples": int(n),
+            "train_samples": int(x_train.shape[0]),
+            "val_samples": int(x_val.shape[0]),
+            "poly_degree": int(self.poly_degree),
+            "alpha": float(self.regularization_alpha),
+            "train_mse": train_mse,
+            "val_mse": val_mse,
+            "val_r2_like": float(r2_like),
+            "trained_at": time.time(),
+        }
         self.trained_at = time.time()
         self.save_model()
         self.logger.info(
-            f"Physical ML model trained for drone={self.owner_id} samples={len(self.samples_x)}"
+            "Physical ML model trained "
+            f"drone={self.owner_id} samples={n} degree={self.poly_degree} "
+            f"alpha={best_alpha} val_mse={best_val_mse:.6f}"
         )
         return True
 
@@ -398,9 +520,121 @@ class PhysicalMLTrainer:
         """Predict control outputs from sensor features."""
         if self.weights is None:
             return None
-        x = np.array(sensor_features, dtype=float)
-        x_aug = np.append(x, 1.0)
-        return x_aug @ self.weights
+        x = np.array(sensor_features, dtype=float).reshape(1, -1)
+        pred = self._predict_matrix(x)
+        if pred.size == 0:
+            return None
+        return pred[0]
+
+    def export_dataset(self, output_path: str, file_format: str = "csv") -> bool:
+        """Export in-memory samples to CSV or JSON."""
+        if not self.samples_x:
+            return False
+        os.makedirs(os.path.dirname(output_path) or ".", exist_ok=True)
+        x = np.vstack(self.samples_x)
+        y = np.vstack(self.samples_y)
+        file_format = (file_format or "csv").strip().lower()
+
+        if file_format == "json":
+            records = []
+            for i in range(x.shape[0]):
+                rec = {name: float(x[i, idx]) for idx, name in enumerate(self.feature_names)}
+                rec.update({name: float(y[i, idx]) for idx, name in enumerate(self.target_names)})
+                records.append(rec)
+            with open(output_path, "w", encoding="utf-8") as fh:
+                json.dump(records, fh, indent=2)
+            return True
+
+        # CSV default
+        headers = self.feature_names + self.target_names
+        with open(output_path, "w", encoding="utf-8", newline="") as fh:
+            writer = csv.writer(fh)
+            writer.writerow(headers)
+            for i in range(x.shape[0]):
+                writer.writerow(list(x[i]) + list(y[i]))
+        return True
+
+    def import_dataset(self, input_path: str, append: bool = False) -> int:
+        """
+        Import dataset from CSV/JSON.
+        Returns number of valid samples imported.
+        """
+        if not os.path.exists(input_path):
+            return 0
+        if not append:
+            self.samples_x.clear()
+            self.samples_y.clear()
+
+        ext = os.path.splitext(input_path)[1].lower()
+        imported = 0
+
+        def _read_record(record: Dict[str, Any]) -> bool:
+            nonlocal imported
+            try:
+                feats = [float(record[name]) for name in self.feature_names]
+                targs = [float(record[name]) for name in self.target_names]
+            except Exception:
+                return False
+            self.ingest_sample(feats, targs)
+            imported += 1
+            return True
+
+        if ext == ".json":
+            with open(input_path, "r", encoding="utf-8") as fh:
+                data = json.load(fh)
+            if isinstance(data, list):
+                for item in data:
+                    if isinstance(item, dict):
+                        _read_record(item)
+            return imported
+
+        # CSV default
+        with open(input_path, "r", encoding="utf-8", newline="") as fh:
+            reader = csv.DictReader(fh)
+            for row in reader:
+                _read_record(row)
+        return imported
+
+    def train_from_dataset(
+        self,
+        input_path: str,
+        min_samples: int = 50,
+        poly_degree: int = 2,
+        append: bool = False,
+    ) -> bool:
+        """Load a CSV/JSON dataset and train model from it."""
+        imported = self.import_dataset(input_path, append=append)
+        if imported == 0:
+            self.logger.warning(f"No usable dataset rows in {input_path}")
+            return False
+        return self.train(min_samples=min_samples, poly_degree=poly_degree)
+
+    @classmethod
+    def generate_demo_dataset(
+        cls, output_path: str, samples: int = 500, file_format: str = "csv"
+    ) -> bool:
+        """Create a synthetic telemetry dataset for quick personal training."""
+        trainer = cls(owner_id=None)
+        rng = np.random.default_rng(42)
+        for _ in range(max(10, samples)):
+            battery = float(rng.uniform(20.0, 100.0))
+            signal = float(rng.uniform(40.0, 100.0))
+            proc = float(rng.uniform(50.0, 100.0))
+            alt = float(rng.uniform(0.0, 120.0))
+            vx = float(rng.normal(0.0, 3.5))
+            vy = float(rng.normal(0.0, 3.5))
+            vz = float(rng.normal(0.0, 1.0))
+
+            # Synthetic target with simple nonlinear dynamics.
+            safety_factor = min(1.0, signal / 100.0) * min(1.0, battery / 100.0)
+            tx = vx * (0.85 + 0.1 * safety_factor) - 0.0008 * alt * vx
+            ty = vy * (0.85 + 0.1 * safety_factor) - 0.0008 * alt * vy
+            tz = vz * 0.7 - (0.002 if battery < 30 else 0.0)
+            trainer.ingest_sample(
+                [battery, signal, proc, alt, vx, vy, vz],
+                [tx, ty, tz],
+            )
+        return trainer.export_dataset(output_path, file_format=file_format)
 
     def model_path(self) -> str:
         suffix = f"drone_{self.owner_id}" if self.owner_id is not None else "global"
@@ -413,8 +647,13 @@ class PhysicalMLTrainer:
         np.savez(
             self.model_path(),
             weights=self.weights,
+            feature_mean=self.feature_mean,
+            feature_std=self.feature_std,
+            poly_degree=np.array([self.poly_degree], dtype=int),
+            alpha=np.array([self.regularization_alpha], dtype=float),
             owner_id=-1 if self.owner_id is None else self.owner_id,
-            sample_count=len(self.samples_x)
+            sample_count=len(self.samples_x),
+            training_metrics=np.array([json.dumps(self.training_metrics)], dtype=object),
         )
 
     def load_model(self) -> bool:
@@ -422,8 +661,20 @@ class PhysicalMLTrainer:
         path = self.model_path()
         if not os.path.exists(path):
             return False
-        data = np.load(path)
+        data = np.load(path, allow_pickle=True)
         self.weights = data["weights"]
+        if "feature_mean" in data and "feature_std" in data:
+            self.feature_mean = data["feature_mean"]
+            self.feature_std = data["feature_std"]
+        if "poly_degree" in data:
+            self.poly_degree = int(data["poly_degree"][0])
+        if "alpha" in data:
+            self.regularization_alpha = float(data["alpha"][0])
+        if "training_metrics" in data:
+            try:
+                self.training_metrics = json.loads(str(data["training_metrics"][0]))
+            except Exception:
+                self.training_metrics = {}
         return True
 
 
