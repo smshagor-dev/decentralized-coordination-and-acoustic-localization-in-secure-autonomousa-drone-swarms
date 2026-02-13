@@ -1,0 +1,10 @@
+2026-02-13 09:26:21,804 - SwarmManager - INFO - Swarm Manager initialized
+2026-02-13 09:26:21,854 - SwarmManager - INFO - Drone 1 added to swarm
+2026-02-13 09:26:21,855 - SwarmManager - INFO - Starting leader election...
+2026-02-13 09:26:21,856 - SwarmManager - INFO -   Drone 1: suitability score = 100.00
+2026-02-13 09:26:21,900 - SwarmManager - INFO - Drone 2 added to swarm
+2026-02-13 09:26:21,923 - SwarmManager - INFO - Drone 3 added to swarm
+2026-02-13 09:26:21,952 - SwarmManager - INFO - Drone 4 added to swarm
+2026-02-13 09:26:21,988 - SwarmManager - INFO - Drone 5 added to swarm
+2026-02-13 09:26:21,990 - SwarmManager - INFO - Swarm monitoring started
+2026-02-13 09:26:31,454 - SwarmManager - INFO - Swarm monitoring stopped

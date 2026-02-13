@@ -1,0 +1,5 @@
+2026-02-13 09:26:21,916 - Drone_3 - INFO - Drone 3: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-13 09:26:21,916 - Drone_3 - INFO - Drone 3: Personal ML system initialized
+2026-02-13 09:26:21,917 - Drone_3 - INFO - Drone 3 initialized at {'x': -1400, 'y': -500, 'z': 0}
+2026-02-13 09:26:21,921 - Drone_3 - INFO - Drone 3 started
+2026-02-13 09:26:31,265 - Drone_3 - INFO - Drone 3 stopped
