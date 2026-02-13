@@ -697,10 +697,15 @@ class FormationController:
         """Calculate line formation positions"""
         positions = []
         spacing = 10.0
-        
+
+        slots = []
+        for rank in range(1, num_followers + 1):
+            slots.append(rank)
+            slots.append(-rank)
+        slots = slots[:num_followers]
+
         for i in range(num_followers):
-            offset = (i + 1) * spacing
-            pos = (leader_pos[0] - offset, leader_pos[1], leader_pos[2])
+            pos = (leader_pos[0], leader_pos[1] + slots[i] * spacing, leader_pos[2])
             positions.append(pos)
         
         return positions
@@ -750,15 +755,24 @@ class FormationController:
         """Calculate grid formation positions"""
         positions = []
         spacing = 10.0
-        cols = int(math.ceil(math.sqrt(num_followers)))
-        
+        side = int(math.ceil(math.sqrt(num_followers + 1)))
+        if side % 2 == 0:
+            side += 1
+        half = side // 2
+
+        slots = []
+        for row in range(-half, half + 1):
+            for col in range(-half, half + 1):
+                if row == 0 and col == 0:
+                    continue
+                slots.append((row, col))
+        slots.sort(key=lambda rc: (max(abs(rc[0]), abs(rc[1])), abs(rc[0]) + abs(rc[1]), rc[0], rc[1]))
+
         for i in range(num_followers):
-            row = i // cols
-            col = i % cols
-            
+            row, col = slots[i]
             pos = (
-                leader_pos[0] - (row + 1) * spacing,
-                leader_pos[1] + (col - cols/2) * spacing,
+                leader_pos[0] + row * spacing,
+                leader_pos[1] + col * spacing,
                 leader_pos[2]
             )
             positions.append(pos)

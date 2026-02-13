@@ -446,6 +446,29 @@ class SwarmManager:
             self.logger.warning(f"Unknown formation '{formation_type}', falling back to 'line'")
             formation = "line"
 
+        # Order followers around center: +1, -1, +2, -2, ...
+        line_slots = []
+        if formation == "line":
+            for rank in range(1, len(followers) + 1):
+                line_slots.append(rank)
+                line_slots.append(-rank)
+            line_slots = line_slots[:len(followers)]
+
+        # Build centered square offsets and skip leader center (0, 0).
+        grid_slots = []
+        if formation == "grid":
+            side = int(math.ceil(math.sqrt(len(followers) + 1)))
+            if side % 2 == 0:
+                side += 1
+            half = side // 2
+            for row in range(-half, half + 1):
+                for col in range(-half, half + 1):
+                    if row == 0 and col == 0:
+                        continue
+                    grid_slots.append((row, col))
+            grid_slots.sort(key=lambda rc: (max(abs(rc[0]), abs(rc[1])), abs(rc[0]) + abs(rc[1]), rc[0], rc[1]))
+            grid_slots = grid_slots[:len(followers)]
+
         for i, follower in enumerate(followers):
             # Ensure follower can accept goto from idle/transitional modes.
             if not self._prepare_drone_for_goto(follower, preferred_alt=leader_pos.z):
@@ -453,14 +476,15 @@ class SwarmManager:
                 continue
 
             if formation == "line":
-                # Straight line behind leader on X-axis.
+                # Leader at center, followers split left-right on one line.
+                lateral_index = line_slots[i]
                 target = Position(
-                    leader_pos.x - spacing * (i + 1),
-                    leader_pos.y,
+                    leader_pos.x,
+                    leader_pos.y + spacing * lateral_index,
                     leader_pos.z
                 )
             elif formation == "v":
-                # Alternating left/right with increasing distance.
+                # V shape with leader at the front.
                 side = 1 if i % 2 == 0 else -1
                 rank = (i // 2) + 1
                 back = spacing * rank
@@ -480,14 +504,11 @@ class SwarmManager:
                     leader_pos.z
                 )
             else:  # grid
-                # Fill near-square rows behind leader.
-                cols = max(2, int(math.ceil(math.sqrt(len(followers)))))
-                row = i // cols
-                col = i % cols
-                center_col = (cols - 1) / 2.0
+                # Centered square around leader.
+                row, col = grid_slots[i]
                 target = Position(
-                    leader_pos.x - spacing * (row + 1),
-                    leader_pos.y + spacing * (col - center_col),
+                    leader_pos.x + spacing * row,
+                    leader_pos.y + spacing * col,
                     leader_pos.z
                 )
 
