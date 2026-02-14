@@ -1,0 +1,1772 @@
+2026-02-13 20:25:22,304 - Main - INFO - Starting Drone Swarm Management System
+2026-02-13 20:25:22,306 - MLDecisionSupport_Drone1 - INFO - ML Decision Support initialized
+2026-02-13 20:25:22,320 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=250 degree=2 alpha=0.0 val_mse=0.000155
+2026-02-13 20:25:22,321 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-13 20:25:22,321 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-13 20:25:22,321 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-13 20:25:22,324 - Drone_1 - INFO - Drone 1 started
+2026-02-13 20:25:22,325 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-13 20:25:22,326 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=251 degree=2 alpha=0.0 val_mse=0.000157
+2026-02-13 20:25:22,356 - MLDecisionSupport_Drone2 - INFO - ML Decision Support initialized
+2026-02-13 20:25:22,364 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=300 degree=2 alpha=0.1 val_mse=0.000128
+2026-02-13 20:25:22,364 - Drone_2 - INFO - Drone 2: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-13 20:25:22,364 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-13 20:25:22,365 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-13 20:25:22,366 - Drone_2 - INFO - Drone 2 started
+2026-02-13 20:25:22,367 - MLDecisionSupport_Drone3 - INFO - ML Decision Support initialized
+2026-02-13 20:25:22,368 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=301 degree=2 alpha=0.1 val_mse=0.000128
+2026-02-13 20:25:22,374 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=300 degree=2 alpha=0.1 val_mse=0.000128
+2026-02-13 20:25:22,374 - Drone_3 - INFO - Drone 3: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-13 20:25:22,374 - Drone_3 - INFO - Drone 3: Personal ML system initialized
+2026-02-13 20:25:22,374 - Drone_3 - INFO - Drone 3 initialized at {'x': -1400, 'y': -500, 'z': 0}
+2026-02-13 20:25:22,375 - Drone_3 - INFO - Drone 3 started
+2026-02-13 20:25:22,377 - MLDecisionSupport_Drone4 - INFO - ML Decision Support initialized
+2026-02-13 20:25:22,378 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=301 degree=2 alpha=0.1 val_mse=0.000128
+2026-02-13 20:25:22,383 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=300 degree=2 alpha=0.1 val_mse=0.000128
+2026-02-13 20:25:22,383 - Drone_4 - INFO - Drone 4: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-13 20:25:22,384 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-13 20:25:22,384 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-13 20:25:22,385 - Drone_4 - INFO - Drone 4 started
+2026-02-13 20:25:22,386 - MLDecisionSupport_Drone5 - INFO - ML Decision Support initialized
+2026-02-13 20:25:22,387 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=301 degree=2 alpha=0.1 val_mse=0.000128
+2026-02-13 20:25:22,392 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=300 degree=2 alpha=0.1 val_mse=0.000128
+2026-02-13 20:25:22,392 - Drone_5 - INFO - Drone 5: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-13 20:25:22,393 - Drone_5 - INFO - Drone 5: Personal ML system initialized
+2026-02-13 20:25:22,393 - Drone_5 - INFO - Drone 5 initialized at {'x': -900, 'y': 1600, 'z': 0}
+2026-02-13 20:25:22,394 - Drone_5 - INFO - Drone 5 started
+2026-02-13 20:25:22,395 - Main - INFO - Swarm created with 5 drones
+2026-02-13 20:25:22,395 - Main - INFO - Leader elected: Drone 1
+2026-02-13 20:25:22,395 - Main - INFO - Starting GUI...
+2026-02-13 20:25:22,397 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=301 degree=2 alpha=0.1 val_mse=0.000128
+2026-02-13 20:25:27,132 - Drone_1 - INFO - Drone 1: Armed
+2026-02-13 20:25:27,135 - Drone_2 - INFO - Drone 2: Armed
+2026-02-13 20:25:27,136 - Drone_3 - INFO - Drone 3: Armed
+2026-02-13 20:25:27,137 - Drone_4 - INFO - Drone 4: Armed
+2026-02-13 20:25:27,138 - Drone_5 - INFO - Drone 5: Armed
+2026-02-13 20:25:28,952 - Drone_1 - INFO - Drone 1: Taking off
+2026-02-13 20:25:28,953 - Drone_2 - INFO - Drone 2: Taking off
+2026-02-13 20:25:28,954 - Drone_3 - INFO - Drone 3: Taking off
+2026-02-13 20:25:28,954 - Drone_4 - INFO - Drone 4: Taking off
+2026-02-13 20:25:28,955 - Drone_5 - INFO - Drone 5: Taking off
+2026-02-13 20:25:30,398 - Drone_2 - INFO - Drone 2: Flying to {'x': 0.0, 'y': 0.0, 'z': 2.8195810317993164}
+2026-02-13 20:25:30,399 - Drone_3 - INFO - Drone 3: Flying to {'x': 0.0, 'y': 0.0, 'z': 2.8195810317993164}
+2026-02-13 20:25:30,399 - Drone_4 - INFO - Drone 4: Flying to {'x': 0.0, 'y': 0.0, 'z': 2.8195810317993164}
+2026-02-13 20:25:30,400 - Drone_5 - INFO - Drone 5: Flying to {'x': 0.0, 'y': 0.0, 'z': 2.8195810317993164}
+2026-02-13 20:25:30,448 - Drone_2 - INFO - Drone 2: Flying to {'x': 2553.9057647468726, 'y': 2622.797543233282, 'z': 60.0}
+2026-02-13 20:25:30,450 - Drone_3 - INFO - Drone 3: Flying to {'x': 2503.5942352531274, 'y': 2606.450336353161, 'z': 60.0}
+2026-02-13 20:25:30,450 - Drone_4 - INFO - Drone 4: Flying to {'x': 2503.5942352531274, 'y': 2553.549663646839, 'z': 60.0}
+2026-02-13 20:25:30,451 - Drone_5 - INFO - Drone 5: Flying to {'x': 2553.9057647468726, 'y': 2537.202456766718, 'z': 60.0}
+2026-02-13 20:25:31,346 - Drone_1 - INFO - Drone 1: Flying to {'x': 0, 'y': 100, 'z': 4.834472179412842}
+2026-02-13 20:25:31,401 - Drone_2 - INFO - Drone 2: Flying to {'x': 33.75, 'y': 55.0, 'z': 4.834472179412842}
+2026-02-13 20:25:31,402 - Drone_3 - INFO - Drone 3: Flying to {'x': -33.75, 'y': 55.0, 'z': 4.834472179412842}
+2026-02-13 20:25:31,404 - Drone_4 - INFO - Drone 4: Flying to {'x': 67.5, 'y': 10.0, 'z': 4.834472179412842}
+2026-02-13 20:25:31,404 - Drone_5 - INFO - Drone 5: Flying to {'x': -67.5, 'y': 10.0, 'z': 4.834472179412842}
+2026-02-13 20:25:31,449 - Drone_1 - INFO - Drone 1: Flying to {'x': 2585.0, 'y': 2580.0, 'z': 60.0}
+2026-02-13 20:25:32,406 - Drone_2 - INFO - Drone 2: Flying to {'x': 2576.9748115176108, 'y': 2524.3254200750275, 'z': 60.0}
+2026-02-13 20:25:32,408 - Drone_3 - INFO - Drone 3: Flying to {'x': 2529.3053504969575, 'y': 2572.1152985641015, 'z': 60.0}
+2026-02-13 20:25:32,409 - Drone_4 - INFO - Drone 4: Flying to {'x': 2568.9496230352215, 'y': 2468.6508401500555, 'z': 60.0}
+2026-02-13 20:25:32,410 - Drone_5 - INFO - Drone 5: Flying to {'x': 2473.610700993915, 'y': 2564.2305971282035, 'z': 60.0}
+2026-02-13 20:25:33,412 - Drone_2 - INFO - Drone 2: Flying to {'x': 2576.9748115176108, 'y': 2524.3254200750275, 'z': 60.0}
+2026-02-13 20:25:33,413 - Drone_3 - INFO - Drone 3: Flying to {'x': 2529.3053504969575, 'y': 2572.1152985641015, 'z': 60.0}
+2026-02-13 20:25:33,413 - Drone_4 - INFO - Drone 4: Flying to {'x': 2568.9496230352215, 'y': 2468.6508401500555, 'z': 60.0}
+2026-02-13 20:25:33,414 - Drone_5 - INFO - Drone 5: Flying to {'x': 2473.610700993915, 'y': 2564.2305971282035, 'z': 60.0}
+2026-02-13 20:25:34,414 - Drone_2 - INFO - Drone 2: Flying to {'x': 2576.9748115176108, 'y': 2524.3254200750275, 'z': 60.0}
+2026-02-13 20:25:34,415 - Drone_3 - INFO - Drone 3: Flying to {'x': 2529.3053504969575, 'y': 2572.1152985641015, 'z': 60.0}
+2026-02-13 20:25:34,416 - Drone_4 - INFO - Drone 4: Flying to {'x': 2568.9496230352215, 'y': 2468.6508401500555, 'z': 60.0}
+2026-02-13 20:25:34,416 - Drone_5 - INFO - Drone 5: Flying to {'x': 2473.610700993915, 'y': 2564.2305971282035, 'z': 60.0}
+2026-02-13 20:25:34,575 - Drone_2 - ERROR - Drone 2: Motor 0 failed!
+2026-02-13 20:25:34,577 - Drone_2 - WARNING - Drone 2: Degraded return active - Motor failure simulation: return to home with degraded control
+2026-02-13 20:25:35,417 - Drone_3 - INFO - Drone 3: Flying to {'x': 2576.9748115176108, 'y': 2524.3254200750275, 'z': 60.0}
+2026-02-13 20:25:35,417 - Drone_4 - INFO - Drone 4: Flying to {'x': 2529.3053504969575, 'y': 2572.1152985641015, 'z': 60.0}
+2026-02-13 20:25:35,417 - Drone_5 - INFO - Drone 5: Flying to {'x': 2568.9496230352215, 'y': 2468.6508401500555, 'z': 60.0}
+2026-02-13 20:25:36,419 - Drone_3 - INFO - Drone 3: Flying to {'x': 2576.9748115176108, 'y': 2524.3254200750275, 'z': 60.0}
+2026-02-13 20:25:36,419 - Drone_4 - INFO - Drone 4: Flying to {'x': 2529.3053504969575, 'y': 2572.1152985641015, 'z': 60.0}
+2026-02-13 20:25:36,420 - Drone_5 - INFO - Drone 5: Flying to {'x': 2568.9496230352215, 'y': 2468.6508401500555, 'z': 60.0}
+2026-02-13 20:25:37,421 - Drone_3 - INFO - Drone 3: Flying to {'x': 2576.9748115176108, 'y': 2524.3254200750275, 'z': 60.0}
+2026-02-13 20:25:37,422 - Drone_4 - INFO - Drone 4: Flying to {'x': 2529.3053504969575, 'y': 2572.1152985641015, 'z': 60.0}
+2026-02-13 20:25:37,423 - Drone_5 - INFO - Drone 5: Flying to {'x': 2568.9496230352215, 'y': 2468.6508401500555, 'z': 60.0}
+2026-02-13 20:25:38,424 - Drone_3 - INFO - Drone 3: Flying to {'x': 2576.9748115176108, 'y': 2524.3254200750275, 'z': 60.0}
+2026-02-13 20:25:38,425 - Drone_4 - INFO - Drone 4: Flying to {'x': 2529.3053504969575, 'y': 2572.1152985641015, 'z': 60.0}
+2026-02-13 20:25:38,426 - Drone_5 - INFO - Drone 5: Flying to {'x': 2568.9496230352215, 'y': 2468.6508401500555, 'z': 60.0}
+2026-02-13 20:25:39,427 - Drone_3 - INFO - Drone 3: Flying to {'x': 2576.9748115176108, 'y': 2524.3254200750275, 'z': 60.0}
+2026-02-13 20:25:39,428 - Drone_4 - INFO - Drone 4: Flying to {'x': 2529.3053504969575, 'y': 2572.1152985641015, 'z': 60.0}
+2026-02-13 20:25:39,428 - Drone_5 - INFO - Drone 5: Flying to {'x': 2568.9496230352215, 'y': 2468.6508401500555, 'z': 60.0}
+2026-02-13 20:25:40,430 - Drone_3 - INFO - Drone 3: Flying to {'x': 2576.9748115176108, 'y': 2524.3254200750275, 'z': 60.0}
+2026-02-13 20:25:40,430 - Drone_4 - INFO - Drone 4: Flying to {'x': 2529.3053504969575, 'y': 2572.1152985641015, 'z': 60.0}
+2026-02-13 20:25:40,431 - Drone_5 - INFO - Drone 5: Flying to {'x': 2568.9496230352215, 'y': 2468.6508401500555, 'z': 60.0}
+2026-02-13 20:25:41,432 - Drone_3 - INFO - Drone 3: Flying to {'x': 2576.9748115176108, 'y': 2524.3254200750275, 'z': 60.0}
+2026-02-13 20:25:41,433 - Drone_4 - INFO - Drone 4: Flying to {'x': 2529.3053504969575, 'y': 2572.1152985641015, 'z': 60.0}
+2026-02-13 20:25:41,434 - Drone_5 - INFO - Drone 5: Flying to {'x': 2568.9496230352215, 'y': 2468.6508401500555, 'z': 60.0}
+2026-02-13 20:25:42,435 - Drone_3 - INFO - Drone 3: Flying to {'x': 2576.9748115176108, 'y': 2524.3254200750275, 'z': 60.0}
+2026-02-13 20:25:42,436 - Drone_4 - INFO - Drone 4: Flying to {'x': 2529.3053504969575, 'y': 2572.1152985641015, 'z': 60.0}
+2026-02-13 20:25:42,437 - Drone_5 - INFO - Drone 5: Flying to {'x': 2568.9496230352215, 'y': 2468.6508401500555, 'z': 60.0}
+2026-02-13 20:25:42,483 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=451 degree=2 alpha=0.0 val_mse=0.000775
+2026-02-13 20:25:42,580 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=501 degree=2 alpha=0.0 val_mse=0.002771
+2026-02-13 20:25:42,586 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=501 degree=2 alpha=0.0 val_mse=0.002472
+2026-02-13 20:25:42,588 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=501 degree=2 alpha=0.0 val_mse=0.001669
+2026-02-13 20:25:42,588 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=501 degree=2 alpha=0.0 val_mse=0.021336
+2026-02-13 20:25:43,439 - Drone_3 - INFO - Drone 3: Flying to {'x': 2576.9748115176108, 'y': 2524.3254200750275, 'z': 60.0}
+2026-02-13 20:25:43,441 - Drone_4 - INFO - Drone 4: Flying to {'x': 2529.3053504969575, 'y': 2572.1152985641015, 'z': 60.0}
+2026-02-13 20:25:43,442 - Drone_5 - INFO - Drone 5: Flying to {'x': 2568.9496230352215, 'y': 2468.6508401500555, 'z': 60.0}
+2026-02-13 20:25:44,443 - Drone_3 - INFO - Drone 3: Flying to {'x': 2576.9748115176108, 'y': 2524.3254200750275, 'z': 60.0}
+2026-02-13 20:25:44,443 - Drone_4 - INFO - Drone 4: Flying to {'x': 2529.3053504969575, 'y': 2572.1152985641015, 'z': 60.0}
+2026-02-13 20:25:44,444 - Drone_5 - INFO - Drone 5: Flying to {'x': 2568.9496230352215, 'y': 2468.6508401500555, 'z': 60.0}
+2026-02-13 20:25:45,445 - Drone_3 - INFO - Drone 3: Flying to {'x': 2576.9748115176108, 'y': 2524.3254200750275, 'z': 60.0}
+2026-02-13 20:25:45,446 - Drone_4 - INFO - Drone 4: Flying to {'x': 2529.3053504969575, 'y': 2572.1152985641015, 'z': 60.0}
+2026-02-13 20:25:45,447 - Drone_5 - INFO - Drone 5: Flying to {'x': 2568.9496230352215, 'y': 2468.6508401500555, 'z': 60.0}
+2026-02-13 20:25:46,448 - Drone_3 - INFO - Drone 3: Flying to {'x': 2576.9748115176108, 'y': 2524.3254200750275, 'z': 60.0}
+2026-02-13 20:25:46,449 - Drone_4 - INFO - Drone 4: Flying to {'x': 2529.3053504969575, 'y': 2572.1152985641015, 'z': 60.0}
+2026-02-13 20:25:46,449 - Drone_5 - INFO - Drone 5: Flying to {'x': 2568.9496230352215, 'y': 2468.6508401500555, 'z': 60.0}
+2026-02-13 20:25:48,453 - Drone_1 - INFO - Drone 1: Role changed from leader to follower
+2026-02-13 20:25:48,453 - Drone_2 - INFO - Drone 2: Role changed from emergency to follower
+2026-02-13 20:25:48,453 - Drone_3 - INFO - Drone 3: Role changed from follower to leader
+2026-02-13 20:25:48,453 - Drone_4 - INFO - Drone 4: Role changed from follower to follower
+2026-02-13 20:25:48,454 - Drone_5 - INFO - Drone 5: Role changed from follower to follower
+2026-02-13 20:25:48,469 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:25:48,469 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:25:49,470 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:25:49,471 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:25:50,473 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:25:50,473 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:25:51,474 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:25:51,475 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:25:52,477 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:25:52,479 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:25:53,481 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:25:53,481 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:25:54,484 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:25:54,484 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:25:55,486 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:25:55,487 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:25:56,490 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:25:56,491 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:25:57,494 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:25:57,494 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:25:58,497 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:25:58,498 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:25:59,501 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:25:59,502 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:00,503 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:00,504 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:01,505 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:01,505 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:02,507 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:02,507 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:02,705 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=701 degree=2 alpha=0.0 val_mse=0.000713
+2026-02-13 20:26:02,721 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=701 degree=2 alpha=0.0 val_mse=0.000008
+2026-02-13 20:26:02,721 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=701 degree=2 alpha=0.0 val_mse=0.000891
+2026-02-13 20:26:02,722 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=701 degree=2 alpha=0.0 val_mse=0.001079
+2026-02-13 20:26:03,510 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:03,511 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:04,514 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:04,514 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:05,517 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:05,518 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:06,521 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:06,522 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:07,523 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:07,524 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:08,525 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:08,526 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:09,529 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:09,529 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:10,532 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:10,533 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:11,536 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:11,537 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:12,541 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:12,542 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:13,544 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:13,544 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:14,546 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:14,546 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:15,549 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:15,549 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:16,552 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:16,553 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:17,556 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:17,557 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:18,561 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:18,562 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:19,564 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:19,564 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:20,565 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:20,566 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:21,568 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:21,569 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:22,572 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:22,572 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:22,829 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=901 degree=2 alpha=0.0 val_mse=0.001405
+2026-02-13 20:26:22,848 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=901 degree=2 alpha=0.0 val_mse=0.000003
+2026-02-13 20:26:22,851 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=901 degree=2 alpha=0.0 val_mse=0.001754
+2026-02-13 20:26:22,853 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=901 degree=2 alpha=0.0 val_mse=0.002140
+2026-02-13 20:26:23,574 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:23,575 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:24,578 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:24,579 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:25,582 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:25,583 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:26,584 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:26,584 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:27,586 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:27,587 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:28,588 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:28,588 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:29,590 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:29,591 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:30,593 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:30,594 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:31,597 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:31,597 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:32,601 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:32,601 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:33,604 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:33,605 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:34,608 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:34,609 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:35,610 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:35,610 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:36,614 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:36,615 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:37,617 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:37,617 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:38,620 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:38,621 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:39,623 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:39,623 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:40,625 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:40,626 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:41,629 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:41,629 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:42,631 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:42,632 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:42,958 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=1101 degree=2 alpha=0.0 val_mse=0.001853
+2026-02-13 20:26:42,986 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=1101 degree=2 alpha=0.0 val_mse=0.002168
+2026-02-13 20:26:42,987 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=1101 degree=2 alpha=0.0 val_mse=0.002430
+2026-02-13 20:26:42,987 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=1101 degree=2 alpha=0.0 val_mse=0.000002
+2026-02-13 20:26:43,634 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:43,634 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:44,636 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:44,636 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:45,638 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:45,638 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:46,640 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:46,640 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:47,642 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:47,642 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:48,644 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:48,644 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:49,647 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:49,647 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:50,650 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:50,651 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:51,654 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:51,654 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:52,658 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:52,659 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:53,663 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:53,664 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:54,665 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:54,666 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:55,667 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:55,668 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:56,669 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:56,670 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:57,673 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:57,674 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:58,677 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:58,677 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:26:59,681 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:26:59,681 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:00,684 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:00,684 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:01,687 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:01,688 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:02,690 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:02,690 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:03,085 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=1301 degree=2 alpha=0.0 val_mse=0.001806
+2026-02-13 20:27:03,115 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=1301 degree=2 alpha=0.0 val_mse=0.001938
+2026-02-13 20:27:03,120 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=1301 degree=2 alpha=0.0 val_mse=0.001977
+2026-02-13 20:27:03,121 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=1301 degree=2 alpha=0.0 val_mse=0.000002
+2026-02-13 20:27:03,692 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:03,692 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:04,694 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:04,694 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:05,696 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:05,696 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:06,698 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:06,698 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:07,701 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:07,702 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:08,704 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:08,704 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:09,707 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:09,707 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:10,710 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:10,711 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:11,712 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:11,712 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:12,714 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:12,714 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:13,716 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:13,717 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:14,719 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:14,720 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:15,723 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:15,723 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:16,726 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:16,727 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:17,729 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:17,730 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:18,733 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:18,733 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:19,735 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:19,735 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:20,737 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:20,738 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:21,740 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:21,741 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:22,744 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:22,745 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:23,214 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=1501 degree=2 alpha=0.0 val_mse=0.001475
+2026-02-13 20:27:23,242 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=1501 degree=2 alpha=0.0 val_mse=0.001423
+2026-02-13 20:27:23,254 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=1501 degree=2 alpha=0.0 val_mse=0.001466
+2026-02-13 20:27:23,254 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=1501 degree=2 alpha=0.0 val_mse=0.000003
+2026-02-13 20:27:23,748 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:23,749 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:24,752 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:24,753 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:25,755 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:25,755 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:26,756 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:26,757 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:27,759 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:27,760 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:28,763 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:28,763 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:29,766 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:29,766 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:30,768 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:30,768 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:31,770 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:31,771 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:32,772 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:32,773 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:33,774 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:33,774 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:34,776 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:34,776 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:35,779 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:35,779 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:36,783 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:36,783 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:37,786 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:37,787 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:38,791 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:38,791 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:39,793 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:39,793 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:40,795 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:40,795 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:41,797 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:41,798 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:42,801 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:42,802 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:43,342 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=1701 degree=2 alpha=0.0 val_mse=0.001120
+2026-02-13 20:27:43,385 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=1701 degree=2 alpha=0.0 val_mse=0.001032
+2026-02-13 20:27:43,387 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=1701 degree=2 alpha=0.0 val_mse=0.001057
+2026-02-13 20:27:43,387 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=1701 degree=2 alpha=0.0 val_mse=0.000003
+2026-02-13 20:27:43,804 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:43,804 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:44,807 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:44,808 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:45,810 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:45,810 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:46,811 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:46,812 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:47,813 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:47,813 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:48,815 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:48,816 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:49,818 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:49,819 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:50,822 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:50,823 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:51,825 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:51,825 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:52,828 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:52,828 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:53,830 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:53,830 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:54,832 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:54,832 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:55,833 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:55,834 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:56,835 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:56,835 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:57,838 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:57,839 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:58,842 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:58,842 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:27:59,845 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:27:59,846 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:28:00,848 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:00,849 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:28:01,852 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:01,852 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:28:02,854 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:02,854 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:28:03,470 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=1901 degree=2 alpha=0.0 val_mse=0.000848
+2026-02-13 20:28:03,518 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=1901 degree=2 alpha=0.0 val_mse=0.000775
+2026-02-13 20:28:03,518 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=1901 degree=2 alpha=0.0 val_mse=0.000798
+2026-02-13 20:28:03,520 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=1901 degree=2 alpha=1.0 val_mse=0.000004
+2026-02-13 20:28:03,856 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:03,856 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:28:04,858 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:04,859 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:28:05,861 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:05,862 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:28:06,865 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:06,866 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:28:07,868 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:07,868 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:28:08,869 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:08,870 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:28:09,871 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:09,871 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:28:10,872 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:10,872 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:28:11,876 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:11,877 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:28:12,878 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:12,878 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:28:13,881 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:13,882 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:28:14,884 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:14,885 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:28:15,887 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:15,888 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:28:16,890 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:16,891 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:28:17,895 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:17,895 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:28:18,897 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:18,897 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:28:19,900 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:19,901 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:28:20,903 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:20,904 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:28:21,906 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:21,907 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:28:22,910 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:22,910 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:28:23,591 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=2101 degree=2 alpha=0.0 val_mse=0.000663
+2026-02-13 20:28:23,656 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=2101 degree=2 alpha=0.0 val_mse=0.000598
+2026-02-13 20:28:23,657 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=2101 degree=2 alpha=0.0 val_mse=0.000669
+2026-02-13 20:28:23,657 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=2101 degree=2 alpha=1.0 val_mse=0.000004
+2026-02-13 20:28:23,912 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:23,912 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:28:24,914 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:24,914 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:25,915 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:25,915 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:26,917 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:26,917 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:27,920 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:27,920 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:28,924 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:28,924 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:29,928 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:29,928 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:30,930 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:30,930 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:31,932 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:31,932 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:32,934 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:32,934 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:33,936 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:33,937 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:28:34,940 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:34,940 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:35,943 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:35,944 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:36,947 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:36,948 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:37,949 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:37,950 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:38,951 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:38,951 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:39,953 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:39,953 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:40,956 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:40,957 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:28:41,959 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:41,960 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:42,963 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:42,964 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:43,721 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=2301 degree=2 alpha=0.0 val_mse=0.000545
+2026-02-13 20:28:43,794 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=2301 degree=2 alpha=0.0 val_mse=0.000490
+2026-02-13 20:28:43,795 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=2301 degree=2 alpha=0.0 val_mse=0.000602
+2026-02-13 20:28:43,797 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=2301 degree=2 alpha=1.0 val_mse=0.000005
+2026-02-13 20:28:43,968 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:43,968 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:44,971 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:44,971 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:45,973 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:45,973 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:46,975 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:46,976 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:47,979 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:47,980 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:48,983 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:48,984 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:49,986 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:49,987 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:50,988 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:50,989 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:51,991 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:51,991 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:52,994 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:52,995 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:53,997 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:28:53,998 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:55,001 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:28:55,002 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:56,006 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:28:56,007 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:57,009 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:28:57,009 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:58,011 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:28:58,011 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:28:59,014 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:28:59,015 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:00,016 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:00,016 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:01,018 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:01,019 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:02,022 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:02,023 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:03,025 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:03,026 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:03,852 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=2501 degree=2 alpha=0.0 val_mse=0.000473
+2026-02-13 20:29:03,942 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=2501 degree=2 alpha=0.0 val_mse=0.000425
+2026-02-13 20:29:03,942 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=2501 degree=2 alpha=1.0 val_mse=0.000005
+2026-02-13 20:29:03,943 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=2501 degree=2 alpha=0.0 val_mse=0.000573
+2026-02-13 20:29:04,028 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:04,028 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:05,030 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:05,030 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:06,031 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:06,031 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:07,034 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:07,034 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:08,037 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:08,038 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:09,041 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:09,041 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:10,044 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:10,045 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:11,048 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:11,049 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:12,051 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:29:12,051 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:13,053 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:13,053 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:14,055 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:14,056 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:15,058 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:15,058 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:16,062 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:16,062 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:17,066 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:17,066 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:18,068 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:18,068 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:19,070 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:19,070 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:20,073 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:20,074 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:21,075 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:21,075 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:22,077 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:22,078 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:23,079 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:23,080 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:23,983 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=2701 degree=2 alpha=0.0 val_mse=0.000431
+2026-02-13 20:29:24,081 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:24,081 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:24,084 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=2701 degree=2 alpha=0.0 val_mse=0.000387
+2026-02-13 20:29:24,085 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=2701 degree=2 alpha=1.0 val_mse=0.000006
+2026-02-13 20:29:24,086 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=2701 degree=2 alpha=0.0 val_mse=0.000562
+2026-02-13 20:29:25,085 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:25,085 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:26,089 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:26,089 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:27,092 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:27,092 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:27,406 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:28,095 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:28,096 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:28,413 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:29,098 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:29,098 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:29,420 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:30,100 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:30,100 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:30,426 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:31,102 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:31,102 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:31,432 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:32,103 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:32,104 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:32,439 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:33,106 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:33,107 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:33,445 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:34,110 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:34,110 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:34,452 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:35,114 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:35,115 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:35,460 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:36,116 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:36,116 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:36,466 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:37,117 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:37,117 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:37,473 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:38,118 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:38,119 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:38,480 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:39,120 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:39,120 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:39,486 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:40,122 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:40,123 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:40,492 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:41,124 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:41,124 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:41,497 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:42,127 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:42,127 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:42,503 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:43,131 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:43,132 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:43,511 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:44,111 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=2901 degree=2 alpha=0.0 val_mse=0.000410
+2026-02-13 20:29:44,133 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:44,133 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:44,230 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=2901 degree=2 alpha=0.0 val_mse=0.000366
+2026-02-13 20:29:44,230 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=2901 degree=2 alpha=1.0 val_mse=0.000006
+2026-02-13 20:29:44,233 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=2901 degree=2 alpha=1.0 val_mse=0.048369
+2026-02-13 20:29:44,534 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:45,135 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:45,135 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:45,442 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:46,136 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:46,137 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:46,447 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:47,137 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:47,137 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:47,453 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:48,139 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:48,139 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:48,459 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:49,140 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:49,141 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:49,466 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:50,143 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:50,144 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:50,472 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:51,147 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:51,148 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:51,479 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:52,151 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:52,151 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:52,486 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:53,153 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:53,153 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:53,490 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:54,155 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:54,155 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:54,495 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:55,155 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:55,155 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:55,500 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:56,156 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:56,156 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:56,504 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:57,159 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:57,160 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:57,511 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:58,162 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:58,163 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:58,517 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:29:59,165 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:29:59,166 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:29:59,525 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:00,167 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:00,167 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:00,531 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:01,168 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:01,169 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:01,537 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:02,170 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:02,171 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:02,544 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:03,173 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:03,173 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:03,550 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:04,176 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:04,176 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:04,239 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=3101 degree=2 alpha=0.0 val_mse=0.000402
+2026-02-13 20:30:04,362 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=3101 degree=2 alpha=0.0 val_mse=0.000353
+2026-02-13 20:30:04,363 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=3101 degree=2 alpha=1.0 val_mse=0.000006
+2026-02-13 20:30:04,370 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=3101 degree=2 alpha=1.0 val_mse=0.099296
+2026-02-13 20:30:04,572 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:05,179 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:05,180 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:05,578 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:06,181 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:06,182 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:06,584 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:07,184 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:07,184 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:07,490 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:08,187 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:08,188 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:08,496 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:09,191 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:09,192 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:09,502 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:10,193 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:10,193 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:10,509 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:11,194 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:11,194 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:11,516 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:12,196 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:12,197 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:12,525 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:13,199 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:13,200 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:13,530 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:14,202 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:14,203 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:14,539 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:15,204 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:15,204 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:15,547 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:16,205 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:16,205 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:16,551 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:17,207 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:17,207 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:17,557 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:18,208 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:18,208 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:18,563 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:19,209 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:19,209 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:19,568 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:20,211 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:20,212 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:20,575 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:21,212 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:21,213 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:21,581 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:22,214 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:22,214 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:22,571 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:22,586 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:23,216 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:23,216 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:23,576 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:23,601 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:24,217 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.726338576336, 'y': 2523.9109423618847, 'z': 60.0}
+2026-02-13 20:30:24,217 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:24,361 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=3301 degree=2 alpha=0.0 val_mse=0.000403
+2026-02-13 20:30:24,477 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=3301 degree=2 alpha=1.0 val_mse=0.000006
+2026-02-13 20:30:24,487 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=3301 degree=2 alpha=1.0 val_mse=0.005045
+2026-02-13 20:30:24,520 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=3301 degree=2 alpha=1.0 val_mse=0.145300
+2026-02-13 20:30:24,588 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:24,621 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:25,218 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:25,219 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:25,525 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:25,592 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:26,219 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:26,220 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:26,529 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:26,597 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:27,220 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:27,220 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:27,533 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:27,601 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:28,222 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:28,222 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:28,538 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:28,605 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:29,223 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:29,224 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:29,541 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:29,613 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:30,225 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.726338576336, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:30,225 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:30,546 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:30,617 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:31,226 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.726338576336, 'y': 2523.9109423618847, 'z': 60.0}
+2026-02-13 20:30:31,226 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:31,550 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:31,624 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:32,228 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.726338576336, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:32,228 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:32,556 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:32,628 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:33,230 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:33,231 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:33,532 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:33,560 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:34,233 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:34,234 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:34,539 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:34,567 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:35,237 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:35,237 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:35,547 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:35,573 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:36,240 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:36,241 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:36,555 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:36,579 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:37,242 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:37,242 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:37,561 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:37,585 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:38,244 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:38,244 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:38,567 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:38,591 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:39,247 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.726338576336, 'y': 2523.9109423618847, 'z': 60.0}
+2026-02-13 20:30:39,247 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:39,573 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:39,598 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:40,249 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:40,250 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:40,580 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:40,605 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:41,252 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:30:41,253 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:41,586 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:41,611 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:42,256 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.726338576336, 'y': 2523.9109423618847, 'z': 60.0}
+2026-02-13 20:30:42,256 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:42,593 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:42,617 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:43,259 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.726338576336, 'y': 2523.9109423618847, 'z': 60.0}
+2026-02-13 20:30:43,260 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:43,601 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:43,622 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:44,261 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.726338576336, 'y': 2523.9109423618847, 'z': 60.0}
+2026-02-13 20:30:44,261 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:44,481 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=3501 degree=2 alpha=0.0 val_mse=0.000407
+2026-02-13 20:30:44,593 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=3501 degree=2 alpha=1.0 val_mse=0.000006
+2026-02-13 20:30:44,608 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:44,617 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=3501 degree=2 alpha=1.0 val_mse=0.046788
+2026-02-13 20:30:44,628 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:44,637 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=3501 degree=2 alpha=0.1 val_mse=0.003025
+2026-02-13 20:30:45,263 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.726338576336, 'y': 2523.9109423618847, 'z': 60.0}
+2026-02-13 20:30:45,263 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:45,623 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:45,642 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:46,265 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.726338576336, 'y': 2523.9109423618847, 'z': 60.0}
+2026-02-13 20:30:46,265 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.2714638797315, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:46,630 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:46,647 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:47,267 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.726338576336, 'y': 2523.9109423618847, 'z': 60.0}
+2026-02-13 20:30:47,267 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:47,635 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:47,654 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:48,270 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618847, 'z': 60.0}
+2026-02-13 20:30:48,271 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879731, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:48,641 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:48,659 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:49,273 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618847, 'z': 60.0}
+2026-02-13 20:30:49,274 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879731, 'y': 2416.0962445084206, 'z': 60.0}
+2026-02-13 20:30:49,648 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:49,666 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:50,279 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618847, 'z': 60.0}
+2026-02-13 20:30:50,279 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879731, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:50,654 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:50,674 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:51,280 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618847, 'z': 60.0}
+2026-02-13 20:30:51,281 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879731, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:51,660 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:51,681 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:52,282 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618847, 'z': 60.0}
+2026-02-13 20:30:52,282 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879731, 'y': 2416.0962445084206, 'z': 60.0}
+2026-02-13 20:30:52,587 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:52,668 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:53,283 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618847, 'z': 60.0}
+2026-02-13 20:30:53,283 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879731, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:53,593 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:53,675 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:54,286 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618847, 'z': 60.0}
+2026-02-13 20:30:54,287 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879731, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:54,598 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:54,683 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:55,290 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.726338576336, 'y': 2523.9109423618847, 'z': 60.0}
+2026-02-13 20:30:55,290 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.2714638797315, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:30:55,607 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:55,691 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:56,293 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.726338576336, 'y': 2523.9109423618847, 'z': 60.0}
+2026-02-13 20:30:56,294 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.2714638797315, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:56,597 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:56,614 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:57,297 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.726338576336, 'y': 2523.9109423618847, 'z': 60.0}
+2026-02-13 20:30:57,297 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879731, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:30:57,602 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:57,623 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:58,300 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:30:58,301 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879733, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:30:58,609 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:58,629 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:30:59,302 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361884, 'z': 60.0}
+2026-02-13 20:30:59,303 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.2714638797324, 'y': 2416.0962445084197, 'z': 60.0}
+2026-02-13 20:30:59,616 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:30:59,635 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:00,304 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618843, 'z': 60.0}
+2026-02-13 20:31:00,305 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.271463879732, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:31:00,622 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:00,642 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:01,307 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.910942361885, 'z': 60.0}
+2026-02-13 20:31:01,308 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.27146387973, 'y': 2416.09624450842, 'z': 60.0}
+2026-02-13 20:31:01,628 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:01,647 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:02,310 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.7263385763363, 'y': 2523.9109423618866, 'z': 60.0}
+2026-02-13 20:31:02,311 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.2714638797274, 'y': 2416.096244508421, 'z': 60.0}
+2026-02-13 20:31:02,635 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:02,657 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:03,313 - Drone_4 - INFO - Drone 4: Flying to {'x': 2520.726338576336, 'y': 2523.910942361891, 'z': 60.0}
+2026-02-13 20:31:03,314 - Drone_5 - INFO - Drone 5: Flying to {'x': 2546.2714638797192, 'y': 2416.0962445084238, 'z': 60.0}
+2026-02-13 20:31:03,493 - Drone_3 - INFO - Drone 3: Reached target position
+2026-02-13 20:31:03,643 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:03,663 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:04,317 - Drone_4 - INFO - Drone 4: Flying to {'x': 2627.9513827185738, 'y': 2519.0953415642666, 'z': 60.0}
+2026-02-13 20:31:04,317 - Drone_5 - INFO - Drone 5: Flying to {'x': 2606.097994566503, 'y': 2627.7185063417437, 'z': 60.0}
+2026-02-13 20:31:04,616 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=3701 degree=2 alpha=1.0 val_mse=0.005629
+2026-02-13 20:31:04,730 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=3701 degree=2 alpha=1.0 val_mse=0.000006
+2026-02-13 20:31:04,764 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=3701 degree=2 alpha=1.0 val_mse=0.091607
+2026-02-13 20:31:04,778 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=3701 degree=2 alpha=0.0 val_mse=0.004917
+2026-02-13 20:31:05,319 - Drone_4 - INFO - Drone 4: Flying to {'x': 2621.8881729236414, 'y': 2514.777697445711, 'z': 60.0}
+2026-02-13 20:31:05,319 - Drone_5 - INFO - Drone 5: Flying to {'x': 2600.075365102526, 'y': 2623.4090185044142, 'z': 60.0}
+2026-02-13 20:31:06,320 - Drone_4 - INFO - Drone 4: Flying to {'x': 2615.316533998152, 'y': 2510.105966300132, 'z': 60.0}
+2026-02-13 20:31:06,320 - Drone_5 - INFO - Drone 5: Flying to {'x': 2593.538718174067, 'y': 2618.7443077728008, 'z': 60.0}
+2026-02-13 20:31:07,322 - Drone_4 - INFO - Drone 4: Flying to {'x': 2608.727358874887, 'y': 2505.4292848980826, 'z': 60.0}
+2026-02-13 20:31:07,322 - Drone_5 - INFO - Drone 5: Flying to {'x': 2586.975183501989, 'y': 2614.07276314941, 'z': 60.0}
+2026-02-13 20:31:08,325 - Drone_4 - INFO - Drone 4: Flying to {'x': 2602.1550791638674, 'y': 2500.7712472185235, 'z': 60.0}
+2026-02-13 20:31:08,326 - Drone_5 - INFO - Drone 5: Flying to {'x': 2580.419022654955, 'y': 2609.41795148258, 'z': 60.0}
+2026-02-13 20:31:09,329 - Drone_4 - INFO - Drone 4: Flying to {'x': 2595.5790045071863, 'y': 2496.1163145728738, 'z': 60.0}
+2026-02-13 20:31:09,329 - Drone_5 - INFO - Drone 5: Flying to {'x': 2573.8496104944384, 'y': 2604.7643515355307, 'z': 60.0}
+2026-02-13 20:31:10,098 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:10,332 - Drone_4 - INFO - Drone 4: Flying to {'x': 2589.0038541022273, 'y': 2491.4669677007664, 'z': 60.0}
+2026-02-13 20:31:10,333 - Drone_5 - INFO - Drone 5: Flying to {'x': 2567.2716619085436, 'y': 2600.1144449952562, 'z': 60.0}
+2026-02-13 20:31:10,802 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:11,335 - Drone_4 - INFO - Drone 4: Flying to {'x': 2582.4314669471833, 'y': 2486.8236325624375, 'z': 60.0}
+2026-02-13 20:31:11,336 - Drone_5 - INFO - Drone 5: Flying to {'x': 2560.6870512646474, 'y': 2595.468664140624, 'z': 60.0}
+2026-02-13 20:31:11,707 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:12,338 - Drone_4 - INFO - Drone 4: Flying to {'x': 2575.8605190620765, 'y': 2482.184494656625, 'z': 60.0}
+2026-02-13 20:31:12,338 - Drone_5 - INFO - Drone 5: Flying to {'x': 2554.0945072620984, 'y': 2590.825201715826, 'z': 60.0}
+2026-02-13 20:31:12,716 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:13,339 - Drone_4 - INFO - Drone 4: Flying to {'x': 2569.2900023885113, 'y': 2477.547962007245, 'z': 60.0}
+2026-02-13 20:31:13,340 - Drone_5 - INFO - Drone 5: Flying to {'x': 2547.493087639778, 'y': 2586.182473132562, 'z': 60.0}
+2026-02-13 20:31:13,723 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:14,341 - Drone_4 - INFO - Drone 4: Flying to {'x': 2562.7326973273603, 'y': 2472.922168281184, 'z': 60.0}
+2026-02-13 20:31:14,341 - Drone_5 - INFO - Drone 5: Flying to {'x': 2540.895745227447, 'y': 2581.548638457592, 'z': 60.0}
+2026-02-13 20:31:14,731 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:15,343 - Drone_4 - INFO - Drone 4: Flying to {'x': 2556.162373789301, 'y': 2468.2877281121764, 'z': 60.0}
+2026-02-13 20:31:15,344 - Drone_5 - INFO - Drone 5: Flying to {'x': 2534.2761917982707, 'y': 2576.904290099083, 'z': 60.0}
+2026-02-13 20:31:15,738 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:16,245 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:16,346 - Drone_4 - INFO - Drone 4: Flying to {'x': 2549.6053431030446, 'y': 2463.662323384419, 'z': 60.0}
+2026-02-13 20:31:16,346 - Drone_5 - INFO - Drone 5: Flying to {'x': 2527.6610553033656, 'y': 2572.267160905428, 'z': 60.0}
+2026-02-13 20:31:16,744 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:16,949 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:17,349 - Drone_4 - INFO - Drone 4: Flying to {'x': 2543.0447433828817, 'y': 2459.0331836481005, 'z': 60.0}
+2026-02-13 20:31:17,350 - Drone_5 - INFO - Drone 5: Flying to {'x': 2521.033480491953, 'y': 2567.6244669352336, 'z': 60.0}
+2026-02-13 20:31:17,651 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:17,754 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:18,353 - Drone_4 - INFO - Drone 4: Flying to {'x': 2536.481932105082, 'y': 2454.4003920837313, 'z': 60.0}
+2026-02-13 20:31:18,353 - Drone_5 - INFO - Drone 5: Flying to {'x': 2514.394979931809, 'y': 2562.976305820138, 'z': 60.0}
+2026-02-13 20:31:18,659 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:18,659 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:19,355 - Drone_4 - INFO - Drone 4: Flying to {'x': 2529.9256575867603, 'y': 2449.7692596020934, 'z': 60.0}
+2026-02-13 20:31:19,356 - Drone_5 - INFO - Drone 5: Flying to {'x': 2507.754580481164, 'y': 2558.3280263599086, 'z': 60.0}
+2026-02-13 20:31:19,565 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:19,665 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:20,359 - Drone_4 - INFO - Drone 4: Flying to {'x': 2523.37662959232, 'y': 2445.1394381134924, 'z': 60.0}
+2026-02-13 20:31:20,359 - Drone_5 - INFO - Drone 5: Flying to {'x': 2501.1132123649795, 'y': 2553.679305228582, 'z': 60.0}
+2026-02-13 20:31:20,571 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:20,672 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:21,361 - Drone_4 - INFO - Drone 4: Flying to {'x': 2516.8259368049544, 'y': 2440.503781145131, 'z': 60.0}
+2026-02-13 20:31:21,361 - Drone_5 - INFO - Drone 5: Flying to {'x': 2494.4620491848264, 'y': 2549.0229915666705, 'z': 60.0}
+2026-02-13 20:31:21,579 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:21,679 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:22,364 - Drone_4 - INFO - Drone 4: Flying to {'x': 2510.2957401907233, 'y': 2435.8771554335717, 'z': 60.0}
+2026-02-13 20:31:22,365 - Drone_5 - INFO - Drone 5: Flying to {'x': 2487.823840573158, 'y': 2544.374050447107, 'z': 60.0}
+2026-02-13 20:31:22,584 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:22,687 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:23,366 - Drone_4 - INFO - Drone 4: Flying to {'x': 2503.7686199810173, 'y': 2431.246422627162, 'z': 60.0}
+2026-02-13 20:31:23,367 - Drone_5 - INFO - Drone 5: Flying to {'x': 2481.1811490172213, 'y': 2539.7193162709636, 'z': 60.0}
+2026-02-13 20:31:23,590 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:23,694 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:24,369 - Drone_4 - INFO - Drone 4: Flying to {'x': 2497.244590062613, 'y': 2426.6107894102392, 'z': 60.0}
+2026-02-13 20:31:24,369 - Drone_5 - INFO - Drone 5: Flying to {'x': 2474.534241137814, 'y': 2535.0580233616583, 'z': 60.0}
+2026-02-13 20:31:24,597 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:24,701 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:24,759 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=3901 degree=2 alpha=1.0 val_mse=0.093427
+2026-02-13 20:31:24,860 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=3901 degree=2 alpha=1.0 val_mse=0.000006
+2026-02-13 20:31:24,923 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=3901 degree=2 alpha=0.0 val_mse=0.117817
+2026-02-13 20:31:24,925 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=3901 degree=2 alpha=1.0 val_mse=0.236809
+2026-02-13 20:31:25,370 - Drone_4 - INFO - Drone 4: Flying to {'x': 2490.654747723811, 'y': 2421.920373197903, 'z': 60.0}
+2026-02-13 20:31:25,370 - Drone_5 - INFO - Drone 5: Flying to {'x': 2467.813070427981, 'y': 2530.3400221473116, 'z': 60.0}
+2026-02-13 20:31:25,628 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:25,729 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:26,372 - Drone_4 - INFO - Drone 4: Flying to {'x': 2484.1331238830503, 'y': 2417.269798334932, 'z': 60.0}
+2026-02-13 20:31:26,372 - Drone_5 - INFO - Drone 5: Flying to {'x': 2461.154614243627, 'y': 2525.660529464263, 'z': 60.0}
+2026-02-13 20:31:26,634 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:26,735 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:27,374 - Drone_4 - INFO - Drone 4: Flying to {'x': 2478.2732315484727, 'y': 2413.083068186902, 'z': 60.0}
+2026-02-13 20:31:27,375 - Drone_5 - INFO - Drone 5: Flying to {'x': 2455.166183376749, 'y': 2521.4464698721094, 'z': 60.0}
+2026-02-13 20:31:27,640 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:27,641 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:28,377 - Drone_4 - INFO - Drone 4: Flying to {'x': 2471.772995218229, 'y': 2408.4292421525674, 'z': 60.0}
+2026-02-13 20:31:28,378 - Drone_5 - INFO - Drone 5: Flying to {'x': 2448.5174411496637, 'y': 2516.760870521036, 'z': 60.0}
+2026-02-13 20:31:28,646 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:28,750 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:29,381 - Drone_4 - INFO - Drone 4: Flying to {'x': 2465.2763358239013, 'y': 2403.767192876859, 'z': 60.0}
+2026-02-13 20:31:29,382 - Drone_5 - INFO - Drone 5: Flying to {'x': 2441.8664293127117, 'y': 2512.0655713371907, 'z': 60.0}
+2026-02-13 20:31:29,653 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:29,756 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:30,384 - Drone_4 - INFO - Drone 4: Flying to {'x': 2458.786792925382, 'y': 2399.0987755377737, 'z': 60.0}
+2026-02-13 20:31:30,385 - Drone_5 - INFO - Drone 5: Flying to {'x': 2435.217102222232, 'y': 2507.3624914363045, 'z': 60.0}
+2026-02-13 20:31:30,660 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:30,762 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:31,389 - Drone_4 - INFO - Drone 4: Flying to {'x': 2452.3031584864875, 'y': 2394.4224646043526, 'z': 60.0}
+2026-02-13 20:31:31,390 - Drone_5 - INFO - Drone 5: Flying to {'x': 2428.568566440909, 'y': 2502.6501488650347, 'z': 60.0}
+2026-02-13 20:31:31,666 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:31,769 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:32,392 - Drone_4 - INFO - Drone 4: Flying to {'x': 2445.824575084591, 'y': 2389.737003327599, 'z': 60.0}
+2026-02-13 20:31:32,393 - Drone_5 - INFO - Drone 5: Flying to {'x': 2421.9202947505564, 'y': 2497.927335066215, 'z': 60.0}
+2026-02-13 20:31:32,673 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:32,776 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:33,394 - Drone_4 - INFO - Drone 4: Flying to {'x': 2439.3550551315448, 'y': 2385.044690507947, 'z': 60.0}
+2026-02-13 20:31:33,395 - Drone_5 - INFO - Drone 5: Flying to {'x': 2415.2767699293595, 'y': 2493.1964296605015, 'z': 60.0}
+2026-02-13 20:31:33,680 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:33,783 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:34,397 - Drone_4 - INFO - Drone 4: Flying to {'x': 2432.8853512541777, 'y': 2380.3382235451127, 'z': 60.0}
+2026-02-13 20:31:34,397 - Drone_5 - INFO - Drone 5: Flying to {'x': 2408.6288654868795, 'y': 2488.4501349990355, 'z': 60.0}
+2026-02-13 20:31:34,686 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:34,790 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:35,399 - Drone_4 - INFO - Drone 4: Flying to {'x': 2426.4329317409356, 'y': 2375.629772752526, 'z': 60.0}
+2026-02-13 20:31:35,400 - Drone_5 - INFO - Drone 5: Flying to {'x': 2401.994916916096, 'y': 2483.7007953784873, 'z': 60.0}
+2026-02-13 20:31:35,694 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:35,797 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:36,403 - Drone_4 - INFO - Drone 4: Flying to {'x': 2419.96826405601, 'y': 2370.8972299851453, 'z': 60.0}
+2026-02-13 20:31:36,403 - Drone_5 - INFO - Drone 5: Flying to {'x': 2395.3449461591663, 'y': 2478.926183121566, 'z': 60.0}
+2026-02-13 20:31:36,703 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:36,803 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:37,405 - Drone_4 - INFO - Drone 4: Flying to {'x': 2413.530351825505, 'y': 2366.168663784248, 'z': 60.0}
+2026-02-13 20:31:37,405 - Drone_5 - INFO - Drone 5: Flying to {'x': 2388.719475164953, 'y': 2474.1546948222244, 'z': 60.0}
+2026-02-13 20:31:37,709 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:37,709 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:38,408 - Drone_4 - INFO - Drone 4: Flying to {'x': 2407.1022898107126, 'y': 2361.43127758077, 'z': 60.0}
+2026-02-13 20:31:38,408 - Drone_5 - INFO - Drone 5: Flying to {'x': 2382.101528792589, 'y': 2469.3735049457573, 'z': 60.0}
+2026-02-13 20:31:38,715 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:38,715 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:39,411 - Drone_4 - INFO - Drone 4: Flying to {'x': 2400.6658306630547, 'y': 2356.671144311253, 'z': 60.0}
+2026-02-13 20:31:39,412 - Drone_5 - INFO - Drone 5: Flying to {'x': 2375.4727282139133, 'y': 2464.568642377645, 'z': 60.0}
+2026-02-13 20:31:39,723 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:39,722 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:40,413 - Drone_4 - INFO - Drone 4: Flying to {'x': 2394.2563540402334, 'y': 2351.9140569515193, 'z': 60.0}
+2026-02-13 20:31:40,413 - Drone_5 - INFO - Drone 5: Flying to {'x': 2368.8699331400403, 'y': 2459.766234184426, 'z': 60.0}
+2026-02-13 20:31:40,730 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:40,731 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:41,415 - Drone_4 - INFO - Drone 4: Flying to {'x': 2387.8505617221495, 'y': 2347.1424254225376, 'z': 60.0}
+2026-02-13 20:31:41,415 - Drone_5 - INFO - Drone 5: Flying to {'x': 2362.26957608935, 'y': 2454.9486203932097, 'z': 60.0}
+2026-02-13 20:31:41,736 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:41,737 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:42,417 - Drone_4 - INFO - Drone 4: Flying to {'x': 2381.453183524361, 'y': 2342.359440124336, 'z': 60.0}
+2026-02-13 20:31:42,417 - Drone_5 - INFO - Drone 5: Flying to {'x': 2355.6769618756757, 'y': 2450.1191213484276, 'z': 60.0}
+2026-02-13 20:31:42,743 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:42,743 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:43,420 - Drone_4 - INFO - Drone 4: Flying to {'x': 2375.0606656551136, 'y': 2337.562150301481, 'z': 60.0}
+2026-02-13 20:31:43,421 - Drone_5 - INFO - Drone 5: Flying to {'x': 2349.0888656799007, 'y': 2445.2748612786327, 'z': 60.0}
+2026-02-13 20:31:43,749 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:43,750 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:44,424 - Drone_4 - INFO - Drone 4: Flying to {'x': 2368.68481470579, 'y': 2332.7591969097666, 'z': 60.0}
+2026-02-13 20:31:44,425 - Drone_5 - INFO - Drone 5: Flying to {'x': 2342.517897459737, 'y': 2440.424673929275, 'z': 60.0}
+2026-02-13 20:31:44,757 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:44,758 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:44,900 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=4101 degree=2 alpha=1.0 val_mse=0.173679
+2026-02-13 20:31:45,011 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=4101 degree=2 alpha=1.0 val_mse=0.000006
+2026-02-13 20:31:45,080 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=4101 degree=2 alpha=0.0 val_mse=0.124484
+2026-02-13 20:31:45,080 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=4101 degree=2 alpha=1.0 val_mse=0.318647
+2026-02-13 20:31:45,428 - Drone_4 - INFO - Drone 4: Flying to {'x': 2362.1856333707556, 'y': 2327.8443518443646, 'z': 60.0}
+2026-02-13 20:31:45,428 - Drone_5 - INFO - Drone 5: Flying to {'x': 2335.820236216529, 'y': 2435.461396650937, 'z': 60.0}
+2026-02-13 20:31:45,784 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:45,786 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:46,431 - Drone_4 - INFO - Drone 4: Flying to {'x': 2355.8244854419736, 'y': 2323.01513349434, 'z': 60.0}
+2026-02-13 20:31:46,431 - Drone_5 - INFO - Drone 5: Flying to {'x': 2329.265683420174, 'y': 2430.584611206035, 'z': 60.0}
+2026-02-13 20:31:46,791 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:46,790 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:47,433 - Drone_4 - INFO - Drone 4: Flying to {'x': 2349.472240396317, 'y': 2318.1739366338825, 'z': 60.0}
+2026-02-13 20:31:47,433 - Drone_5 - INFO - Drone 5: Flying to {'x': 2322.721609728988, 'y': 2425.695870484145, 'z': 60.0}
+2026-02-13 20:31:47,798 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:47,798 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:48,435 - Drone_4 - INFO - Drone 4: Flying to {'x': 2343.1235142172436, 'y': 2313.3165553347126, 'z': 60.0}
+2026-02-13 20:31:48,436 - Drone_5 - INFO - Drone 5: Flying to {'x': 2316.182922528706, 'y': 2420.79105007403, 'z': 60.0}
+2026-02-13 20:31:48,804 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:48,805 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:49,439 - Drone_4 - INFO - Drone 4: Flying to {'x': 2336.7908407731766, 'y': 2308.45255267731, 'z': 60.0}
+2026-02-13 20:31:49,440 - Drone_5 - INFO - Drone 5: Flying to {'x': 2309.6629822686673, 'y': 2415.8799318362526, 'z': 60.0}
+2026-02-13 20:31:49,810 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:49,814 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:50,442 - Drone_4 - INFO - Drone 4: Flying to {'x': 2330.463368441384, 'y': 2303.573613923161, 'z': 60.0}
+2026-02-13 20:31:50,443 - Drone_5 - INFO - Drone 5: Flying to {'x': 2303.1510668610504, 'y': 2410.9542485012116, 'z': 60.0}
+2026-02-13 20:31:50,817 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:50,821 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:51,446 - Drone_4 - INFO - Drone 4: Flying to {'x': 2324.146340793745, 'y': 2298.6838227934863, 'z': 60.0}
+2026-02-13 20:31:51,446 - Drone_5 - INFO - Drone 5: Flying to {'x': 2296.6530250399646, 'y': 2406.0182538436525, 'z': 60.0}
+2026-02-13 20:31:51,822 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:51,830 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:52,449 - Drone_4 - INFO - Drone 4: Flying to {'x': 2317.8354782405604, 'y': 2293.77995405979, 'z': 60.0}
+2026-02-13 20:31:52,449 - Drone_5 - INFO - Drone 5: Flying to {'x': 2290.164904712712, 'y': 2401.0688251538595, 'z': 60.0}
+2026-02-13 20:31:52,829 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:52,835 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:53,451 - Drone_4 - INFO - Drone 4: Flying to {'x': 2312.158279066526, 'y': 2289.352423768187, 'z': 60.0}
+2026-02-13 20:31:53,451 - Drone_5 - INFO - Drone 5: Flying to {'x': 2284.33168513043, 'y': 2396.6009350395116, 'z': 60.0}
+2026-02-13 20:31:53,735 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:53,844 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:54,453 - Drone_4 - INFO - Drone 4: Flying to {'x': 2305.86375168016, 'y': 2284.425774471248, 'z': 60.0}
+2026-02-13 20:31:54,453 - Drone_5 - INFO - Drone 5: Flying to {'x': 2277.8684022779044, 'y': 2391.630358850115, 'z': 60.0}
+2026-02-13 20:31:54,743 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:54,851 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:55,455 - Drone_4 - INFO - Drone 4: Flying to {'x': 2299.580833061736, 'y': 2279.4898146045716, 'z': 60.0}
+2026-02-13 20:31:55,456 - Drone_5 - INFO - Drone 5: Flying to {'x': 2271.4219165806453, 'y': 2386.651551818052, 'z': 60.0}
+2026-02-13 20:31:55,749 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:55,756 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:56,459 - Drone_4 - INFO - Drone 4: Flying to {'x': 2293.2951414737972, 'y': 2274.5334749106637, 'z': 60.0}
+2026-02-13 20:31:56,459 - Drone_5 - INFO - Drone 5: Flying to {'x': 2264.977914808529, 'y': 2381.6534878587013, 'z': 60.0}
+2026-02-13 20:31:56,756 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:56,765 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:57,462 - Drone_4 - INFO - Drone 4: Flying to {'x': 2287.0273675192348, 'y': 2269.573377531074, 'z': 60.0}
+2026-02-13 20:31:57,463 - Drone_5 - INFO - Drone 5: Flying to {'x': 2258.558036464934, 'y': 2376.653066031371, 'z': 60.0}
+2026-02-13 20:31:57,762 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:57,771 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:58,466 - Drone_4 - INFO - Drone 4: Flying to {'x': 2280.7561420986094, 'y': 2264.592958526015, 'z': 60.0}
+2026-02-13 20:31:58,466 - Drone_5 - INFO - Drone 5: Flying to {'x': 2252.140815481573, 'y': 2371.6337245107575, 'z': 60.0}
+2026-02-13 20:31:58,770 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:58,778 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:31:59,468 - Drone_4 - INFO - Drone 4: Flying to {'x': 2274.4925486810253, 'y': 2259.6013747528887, 'z': 60.0}
+2026-02-13 20:31:59,469 - Drone_5 - INFO - Drone 5: Flying to {'x': 2245.738021092545, 'y': 2366.604830973533, 'z': 60.0}
+2026-02-13 20:31:59,776 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:31:59,785 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:00,471 - Drone_4 - INFO - Drone 4: Flying to {'x': 2268.2405319404443, 'y': 2254.6022331863605, 'z': 60.0}
+2026-02-13 20:32:00,471 - Drone_5 - INFO - Drone 5: Flying to {'x': 2239.3540795314484, 'y': 2361.5701506533414, 'z': 60.0}
+2026-02-13 20:32:00,784 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:00,791 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:01,473 - Drone_4 - INFO - Drone 4: Flying to {'x': 2261.987216605516, 'y': 2249.585711655172, 'z': 60.0}
+2026-02-13 20:32:01,474 - Drone_5 - INFO - Drone 5: Flying to {'x': 2232.9762408892857, 'y': 2356.5199240850225, 'z': 60.0}
+2026-02-13 20:32:01,791 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:01,798 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:02,476 - Drone_4 - INFO - Drone 4: Flying to {'x': 2255.7508444939294, 'y': 2244.566987302089, 'z': 60.0}
+2026-02-13 20:32:02,477 - Drone_5 - INFO - Drone 5: Flying to {'x': 2226.623483646893, 'y': 2351.4695567290514, 'z': 60.0}
+2026-02-13 20:32:02,797 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:02,804 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:03,480 - Drone_4 - INFO - Drone 4: Flying to {'x': 2249.5224571718163, 'y': 2239.539471885462, 'z': 60.0}
+2026-02-13 20:32:03,481 - Drone_5 - INFO - Drone 5: Flying to {'x': 2220.287022545564, 'y': 2346.4125361355996, 'z': 60.0}
+2026-02-13 20:32:03,804 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:03,809 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:04,484 - Drone_4 - INFO - Drone 4: Flying to {'x': 2243.30152874443, 'y': 2234.503371540568, 'z': 60.0}
+2026-02-13 20:32:04,484 - Drone_5 - INFO - Drone 5: Flying to {'x': 2213.9666637269706, 'y': 2341.349186593884, 'z': 60.0}
+2026-02-13 20:32:04,808 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:04,813 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:05,034 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=4301 degree=2 alpha=1.0 val_mse=0.246897
+2026-02-13 20:32:05,143 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=4301 degree=2 alpha=1.0 val_mse=0.000005
+2026-02-13 20:32:05,233 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=4301 degree=2 alpha=0.0 val_mse=0.136432
+2026-02-13 20:32:05,234 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=4301 degree=2 alpha=0.1 val_mse=0.145418
+2026-02-13 20:32:05,486 - Drone_4 - INFO - Drone 4: Flying to {'x': 2236.9624765650206, 'y': 2229.3572633140657, 'z': 60.0}
+2026-02-13 20:32:05,487 - Drone_5 - INFO - Drone 5: Flying to {'x': 2207.535413781706, 'y': 2336.177722384166, 'z': 60.0}
+2026-02-13 20:32:05,837 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:05,838 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:06,488 - Drone_4 - INFO - Drone 4: Flying to {'x': 2230.745825829477, 'y': 2224.29712182015, 'z': 60.0}
+2026-02-13 20:32:06,488 - Drone_5 - INFO - Drone 5: Flying to {'x': 2201.2376294069572, 'y': 2331.095196914648, 'z': 60.0}
+2026-02-13 20:32:06,844 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:06,844 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:07,490 - Drone_4 - INFO - Drone 4: Flying to {'x': 2224.5295923729664, 'y': 2219.224762479161, 'z': 60.0}
+2026-02-13 20:32:07,491 - Drone_5 - INFO - Drone 5: Flying to {'x': 2194.949780202705, 'y': 2326.003024367862, 'z': 60.0}
+2026-02-13 20:32:07,850 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:07,851 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:08,494 - Drone_4 - INFO - Drone 4: Flying to {'x': 2218.3207628397417, 'y': 2214.1466704383893, 'z': 60.0}
+2026-02-13 20:32:08,494 - Drone_5 - INFO - Drone 5: Flying to {'x': 2188.6792116171177, 'y': 2320.9078100965844, 'z': 60.0}
+2026-02-13 20:32:08,857 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:08,857 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:09,497 - Drone_4 - INFO - Drone 4: Flying to {'x': 2212.1041962710447, 'y': 2209.0512661234798, 'z': 60.0}
+2026-02-13 20:32:09,497 - Drone_5 - INFO - Drone 5: Flying to {'x': 2182.4109070594814, 'y': 2315.798027553504, 'z': 60.0}
+2026-02-13 20:32:09,865 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:09,865 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:10,499 - Drone_4 - INFO - Drone 4: Flying to {'x': 2205.905254307576, 'y': 2203.9602091144443, 'z': 60.0}
+2026-02-13 20:32:10,499 - Drone_5 - INFO - Drone 5: Flying to {'x': 2176.1706639826134, 'y': 2310.695473381727, 'z': 60.0}
+2026-02-13 20:32:10,871 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:10,872 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:11,501 - Drone_4 - INFO - Drone 4: Flying to {'x': 2199.712726565492, 'y': 2198.865233096117, 'z': 60.0}
+2026-02-13 20:32:11,501 - Drone_5 - INFO - Drone 5: Flying to {'x': 2169.9473596800617, 'y': 2305.5919187664576, 'z': 60.0}
+2026-02-13 20:32:11,877 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:11,877 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:12,502 - Drone_4 - INFO - Drone 4: Flying to {'x': 2193.5188236759504, 'y': 2193.760860140548, 'z': 60.0}
+2026-02-13 20:32:12,503 - Drone_5 - INFO - Drone 5: Flying to {'x': 2163.73334792116, 'y': 2300.481935538339, 'z': 60.0}
+2026-02-13 20:32:12,882 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:12,883 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:13,504 - Drone_4 - INFO - Drone 4: Flying to {'x': 2187.3215590454865, 'y': 2188.6464007373515, 'z': 60.0}
+2026-02-13 20:32:13,504 - Drone_5 - INFO - Drone 5: Flying to {'x': 2157.5268139477585, 'y': 2295.364888660304, 'z': 60.0}
+2026-02-13 20:32:13,886 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:13,888 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:14,505 - Drone_4 - INFO - Drone 4: Flying to {'x': 2181.1313383519055, 'y': 2183.5314384330854, 'z': 60.0}
+2026-02-13 20:32:14,505 - Drone_5 - INFO - Drone 5: Flying to {'x': 2151.3383049407034, 'y': 2290.25040422717, 'z': 60.0}
+2026-02-13 20:32:14,891 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:14,893 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:15,506 - Drone_4 - INFO - Drone 4: Flying to {'x': 2174.937032625907, 'y': 2178.407802848615, 'z': 60.0}
+2026-02-13 20:32:15,507 - Drone_5 - INFO - Drone 5: Flying to {'x': 2145.1567912590644, 'y': 2285.130339007257, 'z': 60.0}
+2026-02-13 20:32:15,896 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:15,898 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:16,508 - Drone_4 - INFO - Drone 4: Flying to {'x': 2168.7433404362996, 'y': 2173.2804248038765, 'z': 60.0}
+2026-02-13 20:32:16,508 - Drone_5 - INFO - Drone 5: Flying to {'x': 2138.987042405175, 'y': 2280.0096393024514, 'z': 60.0}
+2026-02-13 20:32:16,900 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:16,902 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:17,509 - Drone_4 - INFO - Drone 4: Flying to {'x': 2162.545757995228, 'y': 2168.146647610059, 'z': 60.0}
+2026-02-13 20:32:17,514 - Drone_5 - INFO - Drone 5: Flying to {'x': 2132.8246183122264, 'y': 2274.8856580792567, 'z': 60.0}
+2026-02-13 20:32:17,906 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:17,907 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:18,515 - Drone_4 - INFO - Drone 4: Flying to {'x': 2156.3420311465898, 'y': 2163.005695180303, 'z': 60.0}
+2026-02-13 20:32:18,515 - Drone_5 - INFO - Drone 5: Flying to {'x': 2126.667307352299, 'y': 2269.7576191336093, 'z': 60.0}
+2026-02-13 20:32:18,913 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:18,913 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:19,516 - Drone_4 - INFO - Drone 4: Flying to {'x': 2150.143137778825, 'y': 2157.867779575989, 'z': 60.0}
+2026-02-13 20:32:19,517 - Drone_5 - INFO - Drone 5: Flying to {'x': 2120.525975561609, 'y': 2264.635687686053, 'z': 60.0}
+2026-02-13 20:32:19,917 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:19,917 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:20,518 - Drone_4 - INFO - Drone 4: Flying to {'x': 2143.928948164692, 'y': 2152.717349188496, 'z': 60.0}
+2026-02-13 20:32:20,519 - Drone_5 - INFO - Drone 5: Flying to {'x': 2114.3806383993674, 'y': 2259.5043328991173, 'z': 60.0}
+2026-02-13 20:32:20,822 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:20,822 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:21,520 - Drone_4 - INFO - Drone 4: Flying to {'x': 2137.7139706050534, 'y': 2147.5675749181564, 'z': 60.0}
+2026-02-13 20:32:21,520 - Drone_5 - INFO - Drone 5: Flying to {'x': 2108.2455794042025, 'y': 2254.3766401702856, 'z': 60.0}
+2026-02-13 20:32:21,827 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:21,827 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:22,521 - Drone_4 - INFO - Drone 4: Flying to {'x': 2131.510983307127, 'y': 2142.4301889538574, 'z': 60.0}
+2026-02-13 20:32:22,521 - Drone_5 - INFO - Drone 5: Flying to {'x': 2102.133238286702, 'y': 2249.2642219092545, 'z': 60.0}
+2026-02-13 20:32:22,831 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:22,832 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:23,522 - Drone_4 - INFO - Drone 4: Flying to {'x': 2125.922353142525, 'y': 2137.804671000331, 'z': 60.0}
+2026-02-13 20:32:23,523 - Drone_5 - INFO - Drone 5: Flying to {'x': 2096.6354366135056, 'y': 2244.6636388983143, 'z': 60.0}
+2026-02-13 20:32:23,735 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:23,839 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:24,529 - Drone_4 - INFO - Drone 4: Flying to {'x': 2119.675172835709, 'y': 2132.6385846770627, 'z': 60.0}
+2026-02-13 20:32:24,530 - Drone_5 - INFO - Drone 5: Flying to {'x': 2090.4998639847363, 'y': 2239.5280783303224, 'z': 60.0}
+2026-02-13 20:32:24,840 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:24,846 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:25,146 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=4501 degree=2 alpha=1.0 val_mse=0.313523
+2026-02-13 20:32:25,254 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=4501 degree=2 alpha=1.0 val_mse=0.000005
+2026-02-13 20:32:25,372 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=4501 degree=2 alpha=0.1 val_mse=0.175743
+2026-02-13 20:32:25,372 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=4501 degree=2 alpha=0.0 val_mse=0.152385
+2026-02-13 20:32:25,531 - Drone_4 - INFO - Drone 4: Flying to {'x': 2113.3504384974603, 'y': 2127.414346042008, 'z': 60.0}
+2026-02-13 20:32:25,531 - Drone_5 - INFO - Drone 5: Flying to {'x': 2084.298703934175, 'y': 2234.3374923615233, 'z': 60.0}
+2026-02-13 20:32:25,874 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:25,874 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:26,532 - Drone_4 - INFO - Drone 4: Flying to {'x': 2107.12741560821, 'y': 2122.2811275198733, 'z': 60.0}
+2026-02-13 20:32:26,532 - Drone_5 - INFO - Drone 5: Flying to {'x': 2078.2073647405628, 'y': 2229.239966134607, 'z': 60.0}
+2026-02-13 20:32:26,880 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:26,881 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:27,533 - Drone_4 - INFO - Drone 4: Flying to {'x': 2100.8891788129717, 'y': 2117.1434773619367, 'z': 60.0}
+2026-02-13 20:32:27,533 - Drone_5 - INFO - Drone 5: Flying to {'x': 2072.110855352116, 'y': 2224.140536194329, 'z': 60.0}
+2026-02-13 20:32:27,884 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:27,885 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:28,534 - Drone_4 - INFO - Drone 4: Flying to {'x': 2094.653514641996, 'y': 2112.0171711361236, 'z': 60.0}
+2026-02-13 20:32:28,535 - Drone_5 - INFO - Drone 5: Flying to {'x': 2066.0262249452207, 'y': 2219.0547383011935, 'z': 60.0}
+2026-02-13 20:32:28,887 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:28,889 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:29,535 - Drone_4 - INFO - Drone 4: Flying to {'x': 2088.394730261077, 'y': 2106.882222453005, 'z': 60.0}
+2026-02-13 20:32:29,536 - Drone_5 - INFO - Drone 5: Flying to {'x': 2059.928050104874, 'y': 2213.9626157137905, 'z': 60.0}
+2026-02-13 20:32:29,892 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:29,893 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:30,537 - Drone_4 - INFO - Drone 4: Flying to {'x': 2082.1438588390392, 'y': 2101.7651831490152, 'z': 60.0}
+2026-02-13 20:32:30,537 - Drone_5 - INFO - Drone 5: Flying to {'x': 2053.846169168104, 'y': 2208.890358804822, 'z': 60.0}
+2026-02-13 20:32:30,897 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:30,897 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:31,538 - Drone_4 - INFO - Drone 4: Flying to {'x': 2075.875247528293, 'y': 2096.6461123835693, 'z': 60.0}
+2026-02-13 20:32:31,538 - Drone_5 - INFO - Drone 5: Flying to {'x': 2047.7551786285849, 'y': 2203.818050058857, 'z': 60.0}
+2026-02-13 20:32:31,904 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:31,904 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:32,539 - Drone_4 - INFO - Drone 4: Flying to {'x': 2069.492532251747, 'y': 2091.447755399923, 'z': 60.0}
+2026-02-13 20:32:32,540 - Drone_5 - INFO - Drone 5: Flying to {'x': 2041.5611925006283, 'y': 2198.6690348164066, 'z': 60.0}
+2026-02-13 20:32:32,911 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:32,921 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:33,542 - Drone_4 - INFO - Drone 4: Flying to {'x': 2063.210997851548, 'y': 2086.3464246771587, 'z': 60.0}
+2026-02-13 20:32:33,542 - Drone_5 - INFO - Drone 5: Flying to {'x': 2035.4726239430413, 'y': 2193.6177867124748, 'z': 60.0}
+2026-02-13 20:32:33,919 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:33,928 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:34,546 - Drone_4 - INFO - Drone 4: Flying to {'x': 2056.903686602333, 'y': 2081.2396946451345, 'z': 60.0}
+2026-02-13 20:32:34,546 - Drone_5 - INFO - Drone 5: Flying to {'x': 2029.3657286677571, 'y': 2188.5626808726597, 'z': 60.0}
+2026-02-13 20:32:34,928 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:34,933 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:35,547 - Drone_4 - INFO - Drone 4: Flying to {'x': 2050.5871903779303, 'y': 2076.141997072011, 'z': 60.0}
+2026-02-13 20:32:35,547 - Drone_5 - INFO - Drone 5: Flying to {'x': 2023.2560481063958, 'y': 2183.517837753857, 'z': 60.0}
+2026-02-13 20:32:35,935 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:35,938 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:36,549 - Drone_4 - INFO - Drone 4: Flying to {'x': 2044.2599369262907, 'y': 2071.052963872275, 'z': 60.0}
+2026-02-13 20:32:36,549 - Drone_5 - INFO - Drone 5: Flying to {'x': 2017.1414885736185, 'y': 2178.482718870336, 'z': 60.0}
+2026-02-13 20:32:36,942 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:36,942 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:37,550 - Drone_4 - INFO - Drone 4: Flying to {'x': 2037.9422398733907, 'y': 2065.9896999363086, 'z': 60.0}
+2026-02-13 20:32:37,550 - Drone_5 - INFO - Drone 5: Flying to {'x': 2011.041064143523, 'y': 2173.4740673780475, 'z': 60.0}
+2026-02-13 20:32:37,948 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:37,948 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:38,552 - Drone_4 - INFO - Drone 4: Flying to {'x': 2031.5960062131974, 'y': 2060.9224754244074, 'z': 60.0}
+2026-02-13 20:32:38,552 - Drone_5 - INFO - Drone 5: Flying to {'x': 2004.9173762402013, 'y': 2168.4622968988915, 'z': 60.0}
+2026-02-13 20:32:38,954 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:38,954 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:39,555 - Drone_4 - INFO - Drone 4: Flying to {'x': 2025.239029387054, 'y': 2055.8663244524314, 'z': 60.0}
+2026-02-13 20:32:39,556 - Drone_5 - INFO - Drone 5: Flying to {'x': 1998.78698115599, 'y': 2163.4621033862795, 'z': 60.0}
+2026-02-13 20:32:39,859 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:39,861 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:40,558 - Drone_4 - INFO - Drone 4: Flying to {'x': 2018.8671980558784, 'y': 2050.818690831572, 'z': 60.0}
+2026-02-13 20:32:40,559 - Drone_5 - INFO - Drone 5: Flying to {'x': 1992.6452694998331, 'y': 2158.4707830676343, 'z': 60.0}
+2026-02-13 20:32:40,868 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:40,868 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:41,562 - Drone_4 - INFO - Drone 4: Flying to {'x': 2012.4958061561358, 'y': 2045.7922861816003, 'z': 60.0}
+2026-02-13 20:32:41,563 - Drone_5 - INFO - Drone 5: Flying to {'x': 1986.5063190060346, 'y': 2153.5007308722315, 'z': 60.0}
+2026-02-13 20:32:41,875 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:41,875 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:42,565 - Drone_4 - INFO - Drone 4: Flying to {'x': 2006.1037527575065, 'y': 2040.7710329171252, 'z': 60.0}
+2026-02-13 20:32:42,565 - Drone_5 - INFO - Drone 5: Flying to {'x': 1980.349127854085, 'y': 2148.5358778160253, 'z': 60.0}
+2026-02-13 20:32:42,885 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:42,885 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:43,566 - Drone_4 - INFO - Drone 4: Flying to {'x': 1999.7044012881918, 'y': 2035.7659663272107, 'z': 60.0}
+2026-02-13 20:32:43,566 - Drone_5 - INFO - Drone 5: Flying to {'x': 1974.1858944051608, 'y': 2143.586967558236, 'z': 60.0}
+2026-02-13 20:32:43,890 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:43,893 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:44,568 - Drone_4 - INFO - Drone 4: Flying to {'x': 1993.938225866194, 'y': 2031.2751799921461, 'z': 60.0}
+2026-02-13 20:32:44,568 - Drone_5 - INFO - Drone 5: Flying to {'x': 1968.6327544943258, 'y': 2139.146379200496, 'z': 60.0}
+2026-02-13 20:32:44,795 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:44,900 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:45,294 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=4701 degree=2 alpha=1.0 val_mse=0.001916
+2026-02-13 20:32:45,402 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=4701 degree=2 alpha=1.0 val_mse=0.000005
+2026-02-13 20:32:45,524 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=4701 degree=2 alpha=0.0 val_mse=0.045461
+2026-02-13 20:32:45,525 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=4701 degree=2 alpha=1.0 val_mse=0.065543
+2026-02-13 20:32:45,570 - Drone_4 - INFO - Drone 4: Flying to {'x': 1987.375909378394, 'y': 2026.1866152518758, 'z': 60.0}
+2026-02-13 20:32:45,570 - Drone_5 - INFO - Drone 5: Flying to {'x': 1962.312554849954, 'y': 2134.1143260576823, 'z': 60.0}
+2026-02-13 20:32:45,827 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:45,926 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:46,571 - Drone_4 - INFO - Drone 4: Flying to {'x': 1980.9426702443675, 'y': 2021.2212870123872, 'z': 60.0}
+2026-02-13 20:32:46,572 - Drone_5 - INFO - Drone 5: Flying to {'x': 1956.1156591744634, 'y': 2129.203609738539, 'z': 60.0}
+2026-02-13 20:32:46,932 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:46,934 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:47,573 - Drone_4 - INFO - Drone 4: Flying to {'x': 1974.5039947736684, 'y': 2016.2748700706359, 'z': 60.0}
+2026-02-13 20:32:47,573 - Drone_5 - INFO - Drone 5: Flying to {'x': 1949.9118462450338, 'y': 2124.31092299162, 'z': 60.0}
+2026-02-13 20:32:47,938 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:47,942 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:48,575 - Drone_4 - INFO - Drone 4: Flying to {'x': 1968.0565316360526, 'y': 2011.3449297229674, 'z': 60.0}
+2026-02-13 20:32:48,576 - Drone_5 - INFO - Drone 5: Flying to {'x': 1943.697219439198, 'y': 2119.4337191939217, 'z': 60.0}
+2026-02-13 20:32:48,944 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:48,948 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:49,578 - Drone_4 - INFO - Drone 4: Flying to {'x': 1961.6028486093785, 'y': 2006.4335047643674, 'z': 60.0}
+2026-02-13 20:32:49,579 - Drone_5 - INFO - Drone 5: Flying to {'x': 1937.4735967626177, 'y': 2114.573884388796, 'z': 60.0}
+2026-02-13 20:32:49,951 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:49,953 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:50,582 - Drone_4 - INFO - Drone 4: Flying to {'x': 1955.1134124991604, 'y': 2001.5182789159526, 'z': 60.0}
+2026-02-13 20:32:50,583 - Drone_5 - INFO - Drone 5: Flying to {'x': 1931.2118294918453, 'y': 2109.7092065843312, 'z': 60.0}
+2026-02-13 20:32:50,955 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:50,959 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:51,585 - Drone_4 - INFO - Drone 4: Flying to {'x': 1948.6417029260865, 'y': 1996.6397080118209, 'z': 60.0}
+2026-02-13 20:32:51,586 - Drone_5 - INFO - Drone 5: Flying to {'x': 1924.962886746398, 'y': 2104.879608992598, 'z': 60.0}
+2026-02-13 20:32:51,960 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:51,962 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:52,587 - Drone_4 - INFO - Drone 4: Flying to {'x': 1942.1681937991987, 'y': 1991.7827867787953, 'z': 60.0}
+2026-02-13 20:32:52,587 - Drone_5 - INFO - Drone 5: Flying to {'x': 1918.7073319836152, 'y': 2100.070138130973, 'z': 60.0}
+2026-02-13 20:32:52,964 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:52,967 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:53,590 - Drone_4 - INFO - Drone 4: Flying to {'x': 1935.6785577603534, 'y': 1986.9365968527452, 'z': 60.0}
+2026-02-13 20:32:53,590 - Drone_5 - INFO - Drone 5: Flying to {'x': 1912.4307220998803, 'y': 2095.2698818444946, 'z': 60.0}
+2026-02-13 20:32:53,968 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:53,970 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:54,591 - Drone_4 - INFO - Drone 4: Flying to {'x': 1929.1791419032752, 'y': 1982.105685132691, 'z': 60.0}
+2026-02-13 20:32:54,591 - Drone_5 - INFO - Drone 5: Flying to {'x': 1906.1386067141643, 'y': 2090.483248485072, 'z': 60.0}
+2026-02-13 20:32:54,975 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:54,976 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:55,595 - Drone_4 - INFO - Drone 4: Flying to {'x': 1922.6523050536757, 'y': 1977.2767452166684, 'z': 60.0}
+2026-02-13 20:32:55,595 - Drone_5 - INFO - Drone 5: Flying to {'x': 1899.8133190977371, 'y': 2085.696961138352, 'z': 60.0}
+2026-02-13 20:32:55,983 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:55,983 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:56,597 - Drone_4 - INFO - Drone 4: Flying to {'x': 1916.1285945523687, 'y': 1972.4720497244532, 'z': 60.0}
+2026-02-13 20:32:56,597 - Drone_5 - INFO - Drone 5: Flying to {'x': 1893.4839154701965, 'y': 2080.933015095712, 'z': 60.0}
+2026-02-13 20:32:56,989 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:56,990 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:57,599 - Drone_4 - INFO - Drone 4: Flying to {'x': 1909.5988750504112, 'y': 1967.6843824893817, 'z': 60.0}
+2026-02-13 20:32:57,599 - Drone_5 - INFO - Drone 5: Flying to {'x': 1887.1410432312186, 'y': 2076.1841902771416, 'z': 60.0}
+2026-02-13 20:32:57,994 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:57,995 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:58,600 - Drone_4 - INFO - Drone 4: Flying to {'x': 1903.0705244396318, 'y': 1962.9186195428058, 'z': 60.0}
+2026-02-13 20:32:58,601 - Drone_5 - INFO - Drone 5: Flying to {'x': 1880.7914048387495, 'y': 2071.4552646439397, 'z': 60.0}
+2026-02-13 20:32:58,999 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:32:59,000 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:59,603 - Drone_4 - INFO - Drone 4: Flying to {'x': 1896.5332383800835, 'y': 1958.1666704586803, 'z': 60.0}
+2026-02-13 20:32:59,603 - Drone_5 - INFO - Drone 5: Flying to {'x': 1874.4245355260405, 'y': 2066.73815731463, 'z': 60.0}
+2026-02-13 20:32:59,905 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:32:59,905 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:00,607 - Drone_4 - INFO - Drone 4: Flying to {'x': 1889.9898677137035, 'y': 1953.4300234943046, 'z': 60.0}
+2026-02-13 20:33:00,607 - Drone_5 - INFO - Drone 5: Flying to {'x': 1868.0427822757854, 'y': 2062.034295697477, 'z': 60.0}
+2026-02-13 20:33:00,911 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:00,911 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:01,608 - Drone_4 - INFO - Drone 4: Flying to {'x': 1883.4344159088703, 'y': 1948.703720207333, 'z': 60.0}
+2026-02-13 20:33:01,608 - Drone_5 - INFO - Drone 5: Flying to {'x': 1861.6398871687597, 'y': 2057.338710044846, 'z': 60.0}
+2026-02-13 20:33:01,916 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:01,916 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:02,609 - Drone_4 - INFO - Drone 4: Flying to {'x': 1876.8670575077772, 'y': 1943.9872459235057, 'z': 60.0}
+2026-02-13 20:33:02,610 - Drone_5 - INFO - Drone 5: Flying to {'x': 1855.2156252579953, 'y': 2052.6508459997644, 'z': 60.0}
+2026-02-13 20:33:02,922 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:02,923 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:03,610 - Drone_4 - INFO - Drone 4: Flying to {'x': 1870.2943372949123, 'y': 1939.2845863570026, 'z': 60.0}
+2026-02-13 20:33:03,610 - Drone_5 - INFO - Drone 5: Flying to {'x': 1848.7760451930048, 'y': 2047.9746300823456, 'z': 60.0}
+2026-02-13 20:33:03,928 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:03,927 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:04,611 - Drone_4 - INFO - Drone 4: Flying to {'x': 1863.7146329391517, 'y': 1934.5938058004494, 'z': 60.0}
+2026-02-13 20:33:04,612 - Drone_5 - INFO - Drone 5: Flying to {'x': 1842.3192430476897, 'y': 2043.308109327595, 'z': 60.0}
+2026-02-13 20:33:04,932 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:04,933 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:05,407 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=4901 degree=2 alpha=0.0 val_mse=0.000822
+2026-02-13 20:33:05,512 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=4901 degree=2 alpha=1.0 val_mse=0.000004
+2026-02-13 20:33:05,613 - Drone_4 - INFO - Drone 4: Flying to {'x': 1857.0407564514906, 'y': 1929.8522631044937, 'z': 60.0}
+2026-02-13 20:33:05,613 - Drone_5 - INFO - Drone 5: Flying to {'x': 1835.7591554554783, 'y': 2038.5888988766496, 'z': 60.0}
+2026-02-13 20:33:05,661 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=4901 degree=2 alpha=0.0 val_mse=0.003636
+2026-02-13 20:33:05,661 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=4901 degree=2 alpha=0.0 val_mse=0.000790
+2026-02-13 20:33:05,863 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:05,964 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:06,614 - Drone_4 - INFO - Drone 4: Flying to {'x': 1850.460215132877, 'y': 1925.192261626235, 'z': 60.0}
+2026-02-13 20:33:06,614 - Drone_5 - INFO - Drone 5: Flying to {'x': 1829.2798615085926, 'y': 2033.9486642899415, 'z': 60.0}
+2026-02-13 20:33:06,868 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:06,969 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:07,616 - Drone_4 - INFO - Drone 4: Flying to {'x': 1844.531511968331, 'y': 1921.0060519337612, 'z': 60.0}
+2026-02-13 20:33:07,616 - Drone_5 - INFO - Drone 5: Flying to {'x': 1823.4329003755606, 'y': 2029.7783420119672, 'z': 60.0}
+2026-02-13 20:33:07,874 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:07,974 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:08,617 - Drone_4 - INFO - Drone 4: Flying to {'x': 1837.9439674640614, 'y': 1916.3673272478104, 'z': 60.0}
+2026-02-13 20:33:08,617 - Drone_5 - INFO - Drone 5: Flying to {'x': 1816.9254894506241, 'y': 2025.1551302497953, 'z': 60.0}
+2026-02-13 20:33:08,878 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:08,979 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:09,618 - Drone_4 - INFO - Drone 4: Flying to {'x': 1831.3535214553806, 'y': 1911.7389873577051, 'z': 60.0}
+2026-02-13 20:33:09,618 - Drone_5 - INFO - Drone 5: Flying to {'x': 1810.4038108567336, 'y': 2020.5400541072227, 'z': 60.0}
+2026-02-13 20:33:09,883 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:09,984 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:10,620 - Drone_4 - INFO - Drone 4: Flying to {'x': 1824.7555656438913, 'y': 1907.1168341526345, 'z': 60.0}
+2026-02-13 20:33:10,620 - Drone_5 - INFO - Drone 5: Flying to {'x': 1803.8631601952654, 'y': 2015.9289193939817, 'z': 60.0}
+2026-02-13 20:33:10,889 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:10,990 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:11,622 - Drone_4 - INFO - Drone 4: Flying to {'x': 1818.1589862677718, 'y': 1902.5060979444004, 'z': 60.0}
+2026-02-13 20:33:11,622 - Drone_5 - INFO - Drone 5: Flying to {'x': 1797.3122402369918, 'y': 2011.3269400654212, 'z': 60.0}
+2026-02-13 20:33:11,894 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:11,996 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:12,623 - Drone_4 - INFO - Drone 4: Flying to {'x': 1811.551209770733, 'y': 1897.8969840160005, 'z': 60.0}
+2026-02-13 20:33:12,623 - Drone_5 - INFO - Drone 5: Flying to {'x': 1790.7384744131332, 'y': 2006.7243360325524, 'z': 60.0}
+2026-02-13 20:33:12,900 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:13,000 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:13,625 - Drone_4 - INFO - Drone 4: Flying to {'x': 1804.953209758987, 'y': 1893.3030820359465, 'z': 60.0}
+2026-02-13 20:33:13,625 - Drone_5 - INFO - Drone 5: Flying to {'x': 1784.1626863947365, 'y': 2002.1346796454668, 'z': 60.0}
+2026-02-13 20:33:13,904 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:14,005 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:14,627 - Drone_4 - INFO - Drone 4: Flying to {'x': 1798.339821568882, 'y': 1888.7058237901615, 'z': 60.0}
+2026-02-13 20:33:14,628 - Drone_5 - INFO - Drone 5: Flying to {'x': 1777.5597680174462, 'y': 1997.5394209667663, 'z': 60.0}
+2026-02-13 20:33:14,908 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:15,011 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:15,632 - Drone_4 - INFO - Drone 4: Flying to {'x': 1791.7451352279513, 'y': 1884.1278369000602, 'z': 60.0}
+2026-02-13 20:33:15,632 - Drone_5 - INFO - Drone 5: Flying to {'x': 1770.9637753811992, 'y': 1992.9611846521157, 'z': 60.0}
+2026-02-13 20:33:15,913 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:16,016 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:16,634 - Drone_4 - INFO - Drone 4: Flying to {'x': 1785.1490262691295, 'y': 1879.5540559912208, 'z': 60.0}
+2026-02-13 20:33:16,635 - Drone_5 - INFO - Drone 5: Flying to {'x': 1764.3546609403961, 'y': 1988.384919585034, 'z': 60.0}
+2026-02-13 20:33:16,919 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:17,021 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:17,636 - Drone_4 - INFO - Drone 4: Flying to {'x': 1778.556572277536, 'y': 1874.9869246411986, 'z': 60.0}
+2026-02-13 20:33:17,637 - Drone_5 - INFO - Drone 5: Flying to {'x': 1757.7375757983295, 'y': 1983.813079060064, 'z': 60.0}
+2026-02-13 20:33:17,927 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:18,028 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:18,639 - Drone_4 - INFO - Drone 4: Flying to {'x': 1771.9531410463103, 'y': 1870.415230783109, 'z': 60.0}
+2026-02-13 20:33:18,640 - Drone_5 - INFO - Drone 5: Flying to {'x': 1751.097893668284, 'y': 1979.234443961671, 'z': 60.0}
+2026-02-13 20:33:18,932 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:19,034 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:19,641 - Drone_4 - INFO - Drone 4: Flying to {'x': 1765.3582360653234, 'y': 1865.8513964895167, 'z': 60.0}
+2026-02-13 20:33:19,641 - Drone_5 - INFO - Drone 5: Flying to {'x': 1744.4553201103513, 'y': 1974.6614631404443, 'z': 60.0}
+2026-02-13 20:33:19,938 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:20,040 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:20,643 - Drone_4 - INFO - Drone 4: Flying to {'x': 1758.7687981408774, 'y': 1861.2922171360992, 'z': 60.0}
+2026-02-13 20:33:20,643 - Drone_5 - INFO - Drone 5: Flying to {'x': 1737.8069324476066, 'y': 1970.0909427107, 'z': 60.0}
+2026-02-13 20:33:20,945 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:20,946 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:21,646 - Drone_4 - INFO - Drone 4: Flying to {'x': 1752.182660919162, 'y': 1856.7351137867934, 'z': 60.0}
+2026-02-13 20:33:21,646 - Drone_5 - INFO - Drone 5: Flying to {'x': 1731.1507097112458, 'y': 1965.5203128185908, 'z': 60.0}
+2026-02-13 20:33:21,950 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:21,952 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:22,647 - Drone_4 - INFO - Drone 4: Flying to {'x': 1745.5948866849892, 'y': 1852.175594152987, 'z': 60.0}
+2026-02-13 20:33:22,648 - Drone_5 - INFO - Drone 5: Flying to {'x': 1724.4818277117645, 'y': 1960.9450808705087, 'z': 60.0}
+2026-02-13 20:33:22,957 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:22,958 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:23,649 - Drone_4 - INFO - Drone 4: Flying to {'x': 1739.0077433163815, 'y': 1847.6141560644671, 'z': 60.0}
+2026-02-13 20:33:23,649 - Drone_5 - INFO - Drone 5: Flying to {'x': 1717.8027606980472, 'y': 1956.36575932693, 'z': 60.0}
+2026-02-13 20:33:23,962 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:23,962 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:24,650 - Drone_4 - INFO - Drone 4: Flying to {'x': 1732.314110733515, 'y': 1842.9754568586275, 'z': 60.0}
+2026-02-13 20:33:24,650 - Drone_5 - INFO - Drone 5: Flying to {'x': 1711.0048372338317, 'y': 1951.7066729969365, 'z': 60.0}
+2026-02-13 20:33:24,967 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:24,967 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:25,527 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=5101 degree=2 alpha=0.0 val_mse=0.000553
+2026-02-13 20:33:25,637 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=5101 degree=2 alpha=1.0 val_mse=0.000004
+2026-02-13 20:33:25,651 - Drone_4 - INFO - Drone 4: Flying to {'x': 1725.6415957767697, 'y': 1838.3467719093337, 'z': 60.0}
+2026-02-13 20:33:25,651 - Drone_5 - INFO - Drone 5: Flying to {'x': 1704.2176699473114, 'y': 1947.055455564568, 'z': 60.0}
+2026-02-13 20:33:25,794 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=5101 degree=2 alpha=0.0 val_mse=0.001162
+2026-02-13 20:33:25,795 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=5101 degree=2 alpha=0.0 val_mse=0.000448
+2026-02-13 20:33:25,995 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:25,996 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:26,653 - Drone_4 - INFO - Drone 4: Flying to {'x': 1719.074323914909, 'y': 1833.7855352533934, 'z': 60.0}
+2026-02-13 20:33:26,653 - Drone_5 - INFO - Drone 5: Flying to {'x': 1697.527370093657, 'y': 1942.4699006470637, 'z': 60.0}
+2026-02-13 20:33:26,999 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:27,002 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:27,655 - Drone_4 - INFO - Drone 4: Flying to {'x': 1712.514211632587, 'y': 1829.2227214622048, 'z': 60.0}
+2026-02-13 20:33:27,655 - Drone_5 - INFO - Drone 5: Flying to {'x': 1690.8345295101608, 'y': 1937.8806888786378, 'z': 60.0}
+2026-02-13 20:33:28,004 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:28,006 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:28,656 - Drone_4 - INFO - Drone 4: Flying to {'x': 1705.9581804086722, 'y': 1824.65518836133, 'z': 60.0}
+2026-02-13 20:33:28,656 - Drone_5 - INFO - Drone 5: Flying to {'x': 1684.1362996474093, 'y': 1933.2846872096686, 'z': 60.0}
+2026-02-13 20:33:29,009 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:29,010 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:29,658 - Drone_4 - INFO - Drone 4: Flying to {'x': 1699.3973786057468, 'y': 1820.0757608346046, 'z': 60.0}
+2026-02-13 20:33:29,658 - Drone_5 - INFO - Drone 5: Flying to {'x': 1677.4239189630412, 'y': 1928.6746999239456, 'z': 60.0}
+2026-02-13 20:33:30,014 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:30,016 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:30,659 - Drone_4 - INFO - Drone 4: Flying to {'x': 1692.854081953875, 'y': 1815.4990262001054, 'z': 60.0}
+2026-02-13 20:33:30,659 - Drone_5 - INFO - Drone 5: Flying to {'x': 1670.7205032267032, 'y': 1924.0654445472542, 'z': 60.0}
+2026-02-13 20:33:31,018 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:31,021 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:31,660 - Drone_4 - INFO - Drone 4: Flying to {'x': 1686.3247916214782, 'y': 1810.9216372610013, 'z': 60.0}
+2026-02-13 20:33:31,661 - Drone_5 - INFO - Drone 5: Flying to {'x': 1664.0228449686583, 'y': 1919.4535941930255, 'z': 60.0}
+2026-02-13 20:33:32,023 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:32,027 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:32,663 - Drone_4 - INFO - Drone 4: Flying to {'x': 1679.7971303695117, 'y': 1806.3340030755478, 'z': 60.0}
+2026-02-13 20:33:32,663 - Drone_5 - INFO - Drone 5: Flying to {'x': 1657.3186056047518, 'y': 1914.829525676253, 'z': 60.0}
+2026-02-13 20:33:33,028 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:33,032 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:33,665 - Drone_4 - INFO - Drone 4: Flying to {'x': 1673.283046206825, 'y': 1801.7436331320255, 'z': 60.0}
+2026-02-13 20:33:33,665 - Drone_5 - INFO - Drone 5: Flying to {'x': 1650.6204257875488, 'y': 1910.200851129408, 'z': 60.0}
+2026-02-13 20:33:34,034 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:34,037 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:34,666 - Drone_4 - INFO - Drone 4: Flying to {'x': 1667.4244698118869, 'y': 1797.6039612812842, 'z': 60.0}
+2026-02-13 20:33:34,667 - Drone_5 - INFO - Drone 5: Flying to {'x': 1644.5898443908745, 'y': 1906.0250956688292, 'z': 60.0}
+2026-02-13 20:33:34,941 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:35,042 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:35,670 - Drone_4 - INFO - Drone 4: Flying to {'x': 1660.913610113002, 'y': 1792.9900938625071, 'z': 60.0}
+2026-02-13 20:33:35,671 - Drone_5 - INFO - Drone 5: Flying to {'x': 1637.8810179559796, 'y': 1901.3693455600912, 'z': 60.0}
+2026-02-13 20:33:35,945 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:36,046 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:36,672 - Drone_4 - INFO - Drone 4: Flying to {'x': 1654.4063696882656, 'y': 1788.3639710242394, 'z': 60.0}
+2026-02-13 20:33:36,672 - Drone_5 - INFO - Drone 5: Flying to {'x': 1631.1691262616005, 'y': 1896.6995285200583, 'z': 60.0}
+2026-02-13 20:33:36,951 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:37,053 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:37,675 - Drone_4 - INFO - Drone 4: Flying to {'x': 1647.912858447478, 'y': 1783.7319967907795, 'z': 60.0}
+2026-02-13 20:33:37,675 - Drone_5 - INFO - Drone 5: Flying to {'x': 1624.4650192629747, 'y': 1892.0221687251596, 'z': 60.0}
+2026-02-13 20:33:37,957 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:38,061 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:38,677 - Drone_4 - INFO - Drone 4: Flying to {'x': 1641.4313635686094, 'y': 1779.092225107408, 'z': 60.0}
+2026-02-13 20:33:38,678 - Drone_5 - INFO - Drone 5: Flying to {'x': 1617.7673737228085, 'y': 1887.3353684679823, 'z': 60.0}
+2026-02-13 20:33:38,963 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:39,067 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:39,678 - Drone_4 - INFO - Drone 4: Flying to {'x': 1634.9593072808173, 'y': 1774.4421025667364, 'z': 60.0}
+2026-02-13 20:33:39,679 - Drone_5 - INFO - Drone 5: Flying to {'x': 1611.0739748867513, 'y': 1882.6366190471244, 'z': 60.0}
+2026-02-13 20:33:39,967 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:40,071 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:40,682 - Drone_4 - INFO - Drone 4: Flying to {'x': 1628.5023074708806, 'y': 1769.7850044804393, 'z': 60.0}
+2026-02-13 20:33:40,683 - Drone_5 - INFO - Drone 5: Flying to {'x': 1604.3910949873643, 'y': 1877.9294076299998, 'z': 60.0}
+2026-02-13 20:33:40,974 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:41,077 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:41,687 - Drone_4 - INFO - Drone 4: Flying to {'x': 1622.040130902903, 'y': 1765.1056434216257, 'z': 60.0}
+2026-02-13 20:33:41,687 - Drone_5 - INFO - Drone 5: Flying to {'x': 1597.6982491295612, 'y': 1873.198359604228, 'z': 60.0}
+2026-02-13 20:33:41,981 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:42,083 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:42,691 - Drone_4 - INFO - Drone 4: Flying to {'x': 1615.591914190294, 'y': 1760.4172164826168, 'z': 60.0}
+2026-02-13 20:33:42,692 - Drone_5 - INFO - Drone 5: Flying to {'x': 1591.015722917428, 'y': 1868.4569004997386, 'z': 60.0}
+2026-02-13 20:33:42,988 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:43,092 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:43,694 - Drone_4 - INFO - Drone 4: Flying to {'x': 1609.153212143652, 'y': 1755.7159268854336, 'z': 60.0}
+2026-02-13 20:33:43,695 - Drone_5 - INFO - Drone 5: Flying to {'x': 1584.3394004599036, 'y': 1863.7012835303208, 'z': 60.0}
+2026-02-13 20:33:43,995 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:43,997 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:44,697 - Drone_4 - INFO - Drone 4: Flying to {'x': 1602.7091904484091, 'y': 1750.9903224818029, 'z': 60.0}
+2026-02-13 20:33:44,698 - Drone_5 - INFO - Drone 5: Flying to {'x': 1577.6543851244444, 'y': 1858.920018257239, 'z': 60.0}
+2026-02-13 20:33:45,000 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:45,004 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:45,644 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=5301 degree=2 alpha=0.0 val_mse=0.000358
+2026-02-13 20:33:45,700 - Drone_4 - INFO - Drone 4: Flying to {'x': 1596.2983677896561, 'y': 1746.2681900755574, 'z': 60.0}
+2026-02-13 20:33:45,700 - Drone_5 - INFO - Drone 5: Flying to {'x': 1571.0011470357954, 'y': 1854.1413244609569, 'z': 60.0}
+2026-02-13 20:33:45,749 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=5301 degree=2 alpha=1.0 val_mse=0.000004
+2026-02-13 20:33:45,935 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=5301 degree=2 alpha=0.0 val_mse=0.000444
+2026-02-13 20:33:45,936 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=5301 degree=2 alpha=0.0 val_mse=0.000674
+2026-02-13 20:33:46,037 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:46,037 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:46,701 - Drone_4 - INFO - Drone 4: Flying to {'x': 1589.7747304429572, 'y': 1741.440975553635, 'z': 60.0}
+2026-02-13 20:33:46,702 - Drone_5 - INFO - Drone 5: Flying to {'x': 1564.2286192247473, 'y': 1849.255439804156, 'z': 60.0}
+2026-02-13 20:33:47,044 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:47,044 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:47,703 - Drone_4 - INFO - Drone 4: Flying to {'x': 1583.3645502617167, 'y': 1736.6756270916374, 'z': 60.0}
+2026-02-13 20:33:47,703 - Drone_5 - INFO - Drone 5: Flying to {'x': 1557.5722273345825, 'y': 1844.4314556023144, 'z': 60.0}
+2026-02-13 20:33:48,050 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:48,051 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:48,704 - Drone_4 - INFO - Drone 4: Flying to {'x': 1576.9800365022547, 'y': 1731.9070899050373, 'z': 60.0}
+2026-02-13 20:33:48,704 - Drone_5 - INFO - Drone 5: Flying to {'x': 1550.9413872663151, 'y': 1839.6036601659684, 'z': 60.0}
+2026-02-13 20:33:49,057 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:49,058 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:49,706 - Drone_4 - INFO - Drone 4: Flying to {'x': 1570.6077438278999, 'y': 1727.1250740015037, 'z': 60.0}
+2026-02-13 20:33:49,707 - Drone_5 - INFO - Drone 5: Flying to {'x': 1544.3226752546414, 'y': 1834.7617669556219, 'z': 60.0}
+2026-02-13 20:33:50,064 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:50,064 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:50,710 - Drone_4 - INFO - Drone 4: Flying to {'x': 1564.2382483840936, 'y': 1722.3221840607534, 'z': 60.0}
+2026-02-13 20:33:50,710 - Drone_5 - INFO - Drone 5: Flying to {'x': 1537.7068452027472, 'y': 1829.8984228183378, 'z': 60.0}
+2026-02-13 20:33:51,069 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:51,070 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:51,713 - Drone_4 - INFO - Drone 4: Flying to {'x': 1557.8771875065813, 'y': 1717.5023746206712, 'z': 60.0}
+2026-02-13 20:33:51,714 - Drone_5 - INFO - Drone 5: Flying to {'x': 1531.100302030123, 'y': 1825.0177730721516, 'z': 60.0}
+2026-02-13 20:33:52,075 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:52,077 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:52,718 - Drone_4 - INFO - Drone 4: Flying to {'x': 1551.5178943036835, 'y': 1712.6603352683046, 'z': 60.0}
+2026-02-13 20:33:52,719 - Drone_5 - INFO - Drone 5: Flying to {'x': 1524.4966795182836, 'y': 1820.1145880995502, 'z': 60.0}
+2026-02-13 20:33:53,084 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:53,084 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:53,722 - Drone_4 - INFO - Drone 4: Flying to {'x': 1545.1840453608668, 'y': 1707.8139834359706, 'z': 60.0}
+2026-02-13 20:33:53,722 - Drone_5 - INFO - Drone 5: Flying to {'x': 1517.9211217450184, 'y': 1815.2071652303305, 'z': 60.0}
+2026-02-13 20:33:54,090 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:54,093 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:54,724 - Drone_4 - INFO - Drone 4: Flying to {'x': 1538.8690165536589, 'y': 1702.958281058834, 'z': 60.0}
+2026-02-13 20:33:54,724 - Drone_5 - INFO - Drone 5: Flying to {'x': 1511.3673037046237, 'y': 1810.2905608742242, 'z': 60.0}
+2026-02-13 20:33:55,097 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:55,098 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:55,725 - Drone_4 - INFO - Drone 4: Flying to {'x': 1532.5575223753997, 'y': 1698.0814317337113, 'z': 60.0}
+2026-02-13 20:33:55,725 - Drone_5 - INFO - Drone 5: Flying to {'x': 1504.8199251096696, 'y': 1805.3529945913676, 'z': 60.0}
+2026-02-13 20:33:56,102 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:56,104 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:56,726 - Drone_4 - INFO - Drone 4: Flying to {'x': 1526.26514271982, 'y': 1693.195490134865, 'z': 60.0}
+2026-02-13 20:33:56,727 - Drone_5 - INFO - Drone 5: Flying to {'x': 1498.295711733218, 'y': 1800.406839488773, 'z': 60.0}
+2026-02-13 20:33:57,110 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:57,110 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:57,728 - Drone_4 - INFO - Drone 4: Flying to {'x': 1519.984278910112, 'y': 1688.294666422491, 'z': 60.0}
+2026-02-13 20:33:57,728 - Drone_5 - INFO - Drone 5: Flying to {'x': 1491.7873423127223, 'y': 1795.4464058695144, 'z': 60.0}
+2026-02-13 20:33:58,117 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:58,118 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:58,729 - Drone_4 - INFO - Drone 4: Flying to {'x': 1513.6985911959516, 'y': 1683.3662380399871, 'z': 60.0}
+2026-02-13 20:33:58,730 - Drone_5 - INFO - Drone 5: Flying to {'x': 1485.27846573743, 'y': 1790.4589967537393, 'z': 60.0}
+2026-02-13 20:33:59,124 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:33:59,125 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:33:59,732 - Drone_4 - INFO - Drone 4: Flying to {'x': 1507.4347647103964, 'y': 1678.4312767379301, 'z': 60.0}
+2026-02-13 20:33:59,732 - Drone_5 - INFO - Drone 5: Flying to {'x': 1478.797283916834, 'y': 1785.4661177655055, 'z': 60.0}
+2026-02-13 20:34:00,130 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:34:00,131 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:34:00,735 - Drone_4 - INFO - Drone 4: Flying to {'x': 1501.8084566567693, 'y': 1673.9785213919572, 'z': 60.0}
+2026-02-13 20:34:00,736 - Drone_5 - INFO - Drone 5: Flying to {'x': 1472.9805316327954, 'y': 1780.9622268746712, 'z': 60.0}
+2026-02-13 20:34:01,035 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:34:01,135 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:34:01,738 - Drone_4 - INFO - Drone 4: Flying to {'x': 1495.5582705811382, 'y': 1669.009900238191, 'z': 60.0}
+2026-02-13 20:34:01,739 - Drone_5 - INFO - Drone 5: Flying to {'x': 1466.5246370149625, 'y': 1775.9379630745907, 'z': 60.0}
+2026-02-13 20:34:02,043 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:34:02,043 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:34:02,740 - Drone_4 - INFO - Drone 4: Flying to {'x': 1489.3050624308835, 'y': 1664.0157899737442, 'z': 60.0}
+2026-02-13 20:34:02,741 - Drone_5 - INFO - Drone 5: Flying to {'x': 1460.072354093404, 'y': 1770.8895999706554, 'z': 60.0}
+2026-02-13 20:34:03,049 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:34:03,053 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:34:03,742 - Drone_4 - INFO - Drone 4: Flying to {'x': 1483.0730991574042, 'y': 1659.0159527898852, 'z': 60.0}
+2026-02-13 20:34:03,742 - Drone_5 - INFO - Drone 5: Flying to {'x': 1453.6492760693714, 'y': 1765.8373042833207, 'z': 60.0}
+2026-02-13 20:34:04,055 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:34:04,060 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:34:04,743 - Drone_4 - INFO - Drone 4: Flying to {'x': 1476.866157485013, 'y': 1654.0140078546115, 'z': 60.0}
+2026-02-13 20:34:04,743 - Drone_5 - INFO - Drone 5: Flying to {'x': 1447.259789108917, 'y': 1760.7849095627964, 'z': 60.0}
+2026-02-13 20:34:05,059 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:34:05,064 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:34:05,744 - Drone_4 - INFO - Drone 4: Flying to {'x': 1470.6661899080275, 'y': 1648.9959776752535, 'z': 60.0}
+2026-02-13 20:34:05,744 - Drone_5 - INFO - Drone 5: Flying to {'x': 1440.8858210163378, 'y': 1755.71847824882, 'z': 60.0}
+2026-02-13 20:34:05,780 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=5501 degree=2 alpha=0.0 val_mse=0.000291
+2026-02-13 20:34:05,888 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=5501 degree=2 alpha=1.0 val_mse=0.000003
+2026-02-13 20:34:06,064 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:34:06,071 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:34:06,089 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=5501 degree=2 alpha=0.0 val_mse=0.000454
+2026-02-13 20:34:06,092 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=5501 degree=2 alpha=0.0 val_mse=0.000493
+2026-02-13 20:34:06,745 - Drone_4 - INFO - Drone 4: Flying to {'x': 1464.3515565670787, 'y': 1643.8633013458414, 'z': 60.0}
+2026-02-13 20:34:06,746 - Drone_5 - INFO - Drone 5: Flying to {'x': 1434.4031146196367, 'y': 1750.538759277461, 'z': 60.0}
+2026-02-13 20:34:07,094 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:34:07,096 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:34:07,747 - Drone_4 - INFO - Drone 4: Flying to {'x': 1458.1670359618618, 'y': 1638.8155885745712, 'z': 60.0}
+2026-02-13 20:34:07,747 - Drone_5 - INFO - Drone 5: Flying to {'x': 1428.0634855775781, 'y': 1745.4473791168898, 'z': 60.0}
+2026-02-13 20:34:08,098 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:34:08,100 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:34:08,748 - Drone_4 - INFO - Drone 4: Flying to {'x': 1451.9940248352946, 'y': 1633.7573221001803, 'z': 60.0}
+2026-02-13 20:34:08,748 - Drone_5 - INFO - Drone 5: Flying to {'x': 1421.7455681923207, 'y': 1740.3480973610729, 'z': 60.0}
+2026-02-13 20:34:09,104 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:34:09,104 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:34:09,750 - Drone_4 - INFO - Drone 4: Flying to {'x': 1445.8100780557506, 'y': 1628.6707643956877, 'z': 60.0}
+2026-02-13 20:34:09,751 - Drone_5 - INFO - Drone 5: Flying to {'x': 1415.426910356535, 'y': 1735.2232191799928, 'z': 60.0}
+2026-02-13 20:34:10,110 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:34:10,111 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:34:10,752 - Drone_4 - INFO - Drone 4: Flying to {'x': 1439.6450095830312, 'y': 1623.5811964178777, 'z': 60.0}
+2026-02-13 20:34:10,753 - Drone_5 - INFO - Drone 5: Flying to {'x': 1409.1384589501995, 'y': 1730.0983915954005, 'z': 60.0}
+2026-02-13 20:34:11,114 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:34:11,117 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:34:11,754 - Drone_4 - INFO - Drone 4: Flying to {'x': 1433.488407518106, 'y': 1618.480924287051, 'z': 60.0}
+2026-02-13 20:34:11,754 - Drone_5 - INFO - Drone 5: Flying to {'x': 1402.870004969533, 'y': 1724.966021485549, 'z': 60.0}
+2026-02-13 20:34:12,118 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:34:12,122 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:34:12,755 - Drone_4 - INFO - Drone 4: Flying to {'x': 1427.3287231432282, 'y': 1613.3612472390798, 'z': 60.0}
+2026-02-13 20:34:12,755 - Drone_5 - INFO - Drone 5: Flying to {'x': 1396.6102381442208, 'y': 1719.8175160980143, 'z': 60.0}
+2026-02-13 20:34:13,123 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:34:13,127 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:34:13,756 - Drone_4 - INFO - Drone 4: Flying to {'x': 1421.1872860267308, 'y': 1608.2408613764483, 'z': 60.0}
+2026-02-13 20:34:13,756 - Drone_5 - INFO - Drone 5: Flying to {'x': 1390.381229053584, 'y': 1714.6718218802755, 'z': 60.0}
+2026-02-13 20:34:14,129 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:34:14,131 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:34:14,758 - Drone_4 - INFO - Drone 4: Flying to {'x': 1415.0465260527758, 'y': 1603.1061548024143, 'z': 60.0}
+2026-02-13 20:34:14,758 - Drone_5 - INFO - Drone 5: Flying to {'x': 1384.165512574538, 'y': 1709.5153908045438, 'z': 60.0}
+2026-02-13 20:34:15,133 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:34:15,135 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:34:15,759 - Drone_4 - INFO - Drone 4: Flying to {'x': 1408.8942319119747, 'y': 1597.9479062585785, 'z': 60.0}
+2026-02-13 20:34:15,759 - Drone_5 - INFO - Drone 5: Flying to {'x': 1377.9511469036534, 'y': 1704.3391088561984, 'z': 60.0}
+2026-02-13 20:34:16,138 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:34:16,139 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:34:16,761 - Drone_4 - INFO - Drone 4: Flying to {'x': 1402.7553698559263, 'y': 1592.788143159767, 'z': 60.0}
+2026-02-13 20:34:16,761 - Drone_5 - INFO - Drone 5: Flying to {'x': 1371.763697882544, 'y': 1699.165202567772, 'z': 60.0}
+2026-02-13 20:34:17,144 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:34:17,144 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:34:17,762 - Drone_4 - INFO - Drone 4: Flying to {'x': 1396.6082409852156, 'y': 1587.609789568051, 'z': 60.0}
+2026-02-13 20:34:17,763 - Drone_5 - INFO - Drone 5: Flying to {'x': 1365.5815991325899, 'y': 1693.976654687546, 'z': 60.0}
+2026-02-13 20:34:18,149 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:34:18,149 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:34:18,764 - Drone_4 - INFO - Drone 4: Flying to {'x': 1390.454918149606, 'y': 1582.4157562953203, 'z': 60.0}
+2026-02-13 20:34:18,764 - Drone_5 - INFO - Drone 5: Flying to {'x': 1359.4072695721334, 'y': 1688.7764916153142, 'z': 60.0}
+2026-02-13 20:34:19,155 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:34:19,156 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:34:19,765 - Drone_4 - INFO - Drone 4: Flying to {'x': 1384.3184079768473, 'y': 1577.2267441896151, 'z': 60.0}
+2026-02-13 20:34:19,766 - Drone_5 - INFO - Drone 5: Flying to {'x': 1353.2640048303524, 'y': 1683.5855075578256, 'z': 60.0}
+2026-02-13 20:34:20,160 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:34:20,161 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:34:20,767 - Drone_4 - INFO - Drone 4: Flying to {'x': 1378.1705682777838, 'y': 1572.0202733566425, 'z': 60.0}
+2026-02-13 20:34:20,767 - Drone_5 - INFO - Drone 5: Flying to {'x': 1347.123818973243, 'y': 1678.3812711783112, 'z': 60.0}
+2026-02-13 20:34:21,167 - Drone_4 - INFO - Drone 4: Reached target position
+2026-02-13 20:34:21,167 - Drone_5 - INFO - Drone 5: Reached target position
+2026-02-13 20:34:21,768 - Drone_1 - INFO - Drone 1 stopped
+2026-02-13 20:34:21,860 - Drone_2 - INFO - Drone 2 stopped
+2026-02-13 20:34:21,961 - Drone_3 - INFO - Drone 3 stopped
+2026-02-13 20:34:21,971 - Drone_4 - INFO - Drone 4 stopped
+2026-02-13 20:34:21,971 - Drone_5 - INFO - Drone 5 stopped
+2026-02-13 20:34:21,972 - Main - INFO - System shutdown complete

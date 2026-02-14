@@ -3,7 +3,7 @@
 
 **Project Title:** A Secure and Fault-Tolerant Drone Swarm System with Automatic Leader Replacement
 
-**Authors:** Md Shahanur Islam Shagor & Raihan Kabir  
+**Authors:** Md Shahanur Islam Shagor.
 **Group:** ПиЦТ2-231-ОБ  
 **Course Year:** 3rd Year  
 **Date:** February 2026

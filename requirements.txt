@@ -13,8 +13,8 @@ numpy>=1.24.0
 python-dateutil>=2.8.2
 
 # For real drone integration (optional - uncomment when deploying to real drones)
-# mavsdk>=1.4.0
-# pymavlink>=2.4.0
+mavsdk>=1.4.0
+pymavlink>=2.4.0
 
 # Machine Learning (optional - for advanced ML features)
 # torch>=2.0.0

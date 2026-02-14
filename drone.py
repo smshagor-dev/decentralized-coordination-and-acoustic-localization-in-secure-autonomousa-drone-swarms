@@ -5,6 +5,8 @@ Supports real drone integration via MAVLink/MAVSDK
 
 import time
 import math
+import asyncio
+import queue
 import threading
 import logging
 import os
@@ -99,7 +101,7 @@ class Drone:
     # Flight parameters
     MAX_SPEED = 15.0            # m/s
     MAX_ALTITUDE = 10000.0      # 10 km
-    TAKEOFF_ALTITUDE = 10000.0  # 10 km
+    TAKEOFF_ALTITUDE = 120.0    # practical visual takeoff altitude for simulation
     LANDING_SPEED = 1.0         # m/s
     MAX_OPERATION_RADIUS = 10000.0  # 10 km
     
@@ -140,8 +142,13 @@ class Drone:
         self.waypoints: List[Position] = []
         
         # Real drone connection
-        self.real_drone_connection = real_drone_connection
+        self.real_drone_connection = self._normalize_connection_string(real_drone_connection)
+        self.use_real_drone = bool(real_drone_connection)
         self.mavlink_connected = False
+        self._real_system = None
+        self._real_command_queue: "queue.Queue[Optional[Tuple[str, dict]]]" = queue.Queue()
+        self._real_thread = None
+        self._real_backend_started = False
         
         # Performance metrics
         self.processing_capability = 100.0
@@ -167,6 +174,16 @@ class Drone:
 
         # Personal emergency landing system (per drone)
         self.emergency_status = EmergencyLandingStatus()
+        self.motor_failure_warning = False
+        self.failed_motor_count = 0
+        self.degraded_return_active = False
+        self.emergency_return_active = False
+        self._wind_phase = float(self.drone_id) * 1.37
+        self.wind_vector = Position(
+            1.2 * math.cos(self._wind_phase),
+            1.2 * math.sin(self._wind_phase),
+            0.0
+        )
         
         # GPS reference + per-drone mission
         self.gps_ref_lat = 23.8103
@@ -178,6 +195,16 @@ class Drone:
         self.running = False
         
         self.logger.info(f"Drone {drone_id} initialized at {home_position.to_dict()}")
+
+    def _normalize_connection_string(self, connection: Optional[str]) -> Optional[str]:
+        """Normalize legacy MAVSDK connection URL forms."""
+        if not connection:
+            return connection
+        text = str(connection).strip()
+        if text.startswith("udp://"):
+            # MAVSDK now prefers udpin:// for listen sockets.
+            return "udpin://" + text[len("udp://"):]
+        return text
     
     def setup_logging(self):
         """Configure logging for this drone"""
@@ -274,36 +301,188 @@ class Drone:
         self.logger.info(f"Drone {self.drone_id}: area mission cleared")
 
     def _send_real_drone_command(self, command: str, payload: Optional[dict] = None):
-        """
-        Placeholder bridge for real hardware commands.
-
-        The simulator runs without a real drone. If `real_drone_connection` is configured,
-        this method is where MAVLink/MAVSDK calls should be wired.
-        """
-        if not self.real_drone_connection:
+        """Queue command for MAVSDK backend when real-drone mode is enabled."""
+        if not self.use_real_drone:
             return
-        self.logger.info(
-            f"Drone {self.drone_id}: real-drone command={command} payload={payload}"
+        payload = payload or {}
+        self.logger.info(f"Drone {self.drone_id}: real-drone command={command} payload={payload}")
+        if not self._real_backend_started:
+            self._start_real_backend()
+        self._real_command_queue.put((command, payload))
+
+    def _start_real_backend(self):
+        """Start async MAVSDK backend in a dedicated thread."""
+        if not self.use_real_drone or self._real_backend_started:
+            return
+        self._real_backend_started = True
+        self._real_thread = threading.Thread(
+            target=self._real_backend_thread,
+            name=f"Drone{self.drone_id}-MAVSDK",
+            daemon=True
         )
-        # Real drone integration example (commented intentionally):
-        # from mavsdk import System
-        # real_drone = System(mavsdk_server_address="127.0.0.1", port=50051)
-        # await real_drone.connect(system_address=self.real_drone_connection)
-        # if command == "arm":
-        #     await real_drone.action.arm()
-        # elif command == "takeoff":
-        #     await real_drone.action.takeoff()
-        # elif command == "land":
-        #     await real_drone.action.land()
-        # elif command == "goto":
-        #     await real_drone.action.goto_location(
-        #         payload["lat"], payload["lon"], payload["alt"], payload["yaw"]
-        #     )
+        self._real_thread.start()
+
+    def _stop_real_backend(self):
+        """Stop MAVSDK backend thread gracefully."""
+        if not self._real_backend_started:
+            return
+        self._real_command_queue.put(None)
+        if self._real_thread:
+            self._real_thread.join(timeout=3.0)
+        self._real_backend_started = False
+        self.mavlink_connected = False
+
+    def _real_backend_thread(self):
+        """Thread entrypoint for MAVSDK event loop."""
+        try:
+            asyncio.run(self._real_backend_main())
+        except Exception as e:
+            self.logger.error(f"Drone {self.drone_id}: MAVSDK backend error - {e}", exc_info=True)
+            self.mavlink_connected = False
+
+    async def _real_backend_main(self):
+        """Connect to MAVSDK and process command queue + telemetry."""
+        try:
+            from mavsdk import System
+        except Exception as e:
+            self.logger.error(
+                f"Drone {self.drone_id}: MAVSDK import failed. Install 'mavsdk'. Error: {e}"
+            )
+            return
+
+        self._real_system = System()
+        self.logger.info(
+            f"Drone {self.drone_id}: Connecting to real drone ({self.real_drone_connection})"
+        )
+        await self._real_system.connect(system_address=self.real_drone_connection)
+
+        connected = await self._wait_for_real_connection(timeout_s=20.0)
+        if not connected:
+            self.logger.error(f"Drone {self.drone_id}: MAVSDK connection timeout")
+            return
+
+        self.mavlink_connected = True
+        self.logger.info(f"Drone {self.drone_id}: MAVSDK connected")
+
+        telemetry_tasks = [
+            asyncio.create_task(self._real_telemetry_position_loop()),
+            asyncio.create_task(self._real_telemetry_battery_loop()),
+            asyncio.create_task(self._real_telemetry_armed_loop()),
+            asyncio.create_task(self._real_telemetry_flight_mode_loop()),
+        ]
+
+        try:
+            while self.running and self.use_real_drone:
+                command_item = await asyncio.to_thread(self._real_command_queue.get)
+                if command_item is None:
+                    break
+                command, payload = command_item
+                await self._execute_real_command(command, payload)
+        finally:
+            for task in telemetry_tasks:
+                task.cancel()
+            await asyncio.gather(*telemetry_tasks, return_exceptions=True)
+            self.mavlink_connected = False
+
+    async def _wait_for_real_connection(self, timeout_s: float) -> bool:
+        """Wait for MAVSDK connection state."""
+        deadline = time.time() + timeout_s
+        async for state in self._real_system.core.connection_state():
+            if state.is_connected:
+                return True
+            if time.time() > deadline:
+                return False
+        return False
+
+    async def _execute_real_command(self, command: str, payload: dict):
+        """Translate simulator command names to MAVSDK actions."""
+        if not self._real_system:
+            return
+        try:
+            if command == "arm":
+                await self._real_system.action.arm()
+            elif command == "takeoff":
+                altitude = float(payload.get("altitude_m", self.TAKEOFF_ALTITUDE))
+                await self._real_system.action.set_takeoff_altitude(altitude)
+                await self._real_system.action.takeoff()
+            elif command == "land":
+                await self._real_system.action.land()
+            elif command == "return_to_home" or command == "emergency_return_home":
+                await self._real_system.action.return_to_launch()
+            elif command == "hover":
+                await self._real_system.action.hold()
+            elif command == "goto":
+                x = float(payload.get("x", 0.0))
+                y = float(payload.get("y", 0.0))
+                z = float(payload.get("z", 0.0))
+                gps_lat, gps_lon = self.local_to_gps(Position(x, y, z))
+                rel_alt = max(1.0, z)
+                yaw_deg = float(payload.get("yaw_deg", 0.0))
+                await self._real_system.action.goto_location(gps_lat, gps_lon, rel_alt, yaw_deg)
+            else:
+                self.logger.warning(f"Drone {self.drone_id}: Unknown real command '{command}'")
+        except Exception as e:
+            self.logger.error(
+                f"Drone {self.drone_id}: Real command failed ({command}) - {e}",
+                exc_info=True
+            )
+
+    async def _real_telemetry_position_loop(self):
+        """Continuously sync real GPS/alt telemetry into local frame."""
+        try:
+            async for pos in self._real_system.telemetry.position():
+                local = self.gps_to_local(pos.latitude_deg, pos.longitude_deg)
+                self.current_position.x = local.x
+                self.current_position.y = local.y
+                self.current_position.z = max(0.0, pos.relative_altitude_m)
+                self.last_heartbeat = time.time()
+        except Exception:
+            return
+
+    async def _real_telemetry_battery_loop(self):
+        """Continuously sync real battery telemetry."""
+        try:
+            async for bat in self._real_system.telemetry.battery():
+                self.battery_level = max(0.0, min(100.0, float(bat.remaining_percent) * 100.0))
+        except Exception:
+            return
+
+    async def _real_telemetry_armed_loop(self):
+        """Continuously sync real armed/disarmed state."""
+        try:
+            async for armed in self._real_system.telemetry.armed():
+                self.is_armed = bool(armed)
+        except Exception:
+            return
+
+    async def _real_telemetry_flight_mode_loop(self):
+        """Continuously sync real flight mode to simulator enum."""
+        mapping = {
+            "takeoff": FlightMode.TAKEOFF,
+            "hold": FlightMode.HOVER,
+            "mission": FlightMode.FLYING,
+            "return_to_launch": FlightMode.RETURNING_HOME,
+            "rtl": FlightMode.RETURNING_HOME,
+            "land": FlightMode.LANDING,
+            "offboard": FlightMode.FLYING,
+            "position": FlightMode.FLYING,
+            "manual": FlightMode.HOVER,
+            "altctl": FlightMode.HOVER,
+            "posctl": FlightMode.HOVER,
+        }
+        try:
+            async for mode in self._real_system.telemetry.flight_mode():
+                mode_key = str(mode).split(".")[-1].strip().lower()
+                self.flight_mode = mapping.get(mode_key, self.flight_mode)
+        except Exception:
+            return
     
     def start(self):
         """Start drone autonomous systems"""
         if not self.running:
             self.running = True
+            if self.use_real_drone:
+                self._start_real_backend()
             self.update_thread = threading.Thread(target=self._update_loop, daemon=True)
             self.update_thread.start()
             self.logger.info(f"Drone {self.drone_id} started")
@@ -311,6 +490,7 @@ class Drone:
     def stop(self):
         """Stop drone systems"""
         self.running = False
+        self._stop_real_backend()
         if self.update_thread:
             self.update_thread.join(timeout=2.0)
         self.logger.info(f"Drone {self.drone_id} stopped")
@@ -324,25 +504,25 @@ class Drone:
             delta_time = current_time - last_update
             last_update = current_time
             
-            # Update battery
-            self._update_battery(delta_time)
-            
-            # Check battery status
-            self._check_battery_status()
+            real_connected = self.use_real_drone and self.mavlink_connected
+            if not real_connected:
+                # In simulator mode, battery and position are physics-driven here.
+                self._update_battery(delta_time)
+                self._check_battery_status()
             
             # Check motor status
             self._check_motor_status()
             
-            # Update position based on flight mode
-            prev_position = Position(
-                self.current_position.x, self.current_position.y, self.current_position.z
-            )
-            self._update_position(delta_time)
+            # Update position based on active mode.
+            # Real mode receives position from telemetry loops.
+            prev_position = Position(self.current_position.x, self.current_position.y, self.current_position.z)
+            if not real_connected:
+                self._update_position(delta_time)
             if delta_time > 0:
                 self.velocity = Position(
-                    (self.current_position.x - prev_position.x) / delta_time,
-                    (self.current_position.y - prev_position.y) / delta_time,
-                    (self.current_position.z - prev_position.z) / delta_time
+                    (self.current_position.x - prev_position.x) / max(delta_time, 0.001),
+                    (self.current_position.y - prev_position.y) / max(delta_time, 0.001),
+                    (self.current_position.z - prev_position.z) / max(delta_time, 0.001)
                 )
 
             # Capture physical/sim telemetry samples for training.
@@ -501,15 +681,61 @@ class Drone:
     def _check_motor_status(self):
         """Check motor status and handle failures"""
         failed_motors = [m for m in self.motors if not m.operational]
-        
-        if failed_motors and self.flight_mode not in [
-            FlightMode.EMERGENCY_LANDING, FlightMode.CRASHED, FlightMode.IDLE
-        ]:
-            self.logger.error(f"Drone {self.drone_id}: Motor failure detected - Motors {[m.motor_id for m in failed_motors]}")
-            self.emergency_land(
-                f"Motor failure: {len(failed_motors)} motors failed",
+        failed_count = len(failed_motors)
+        self.failed_motor_count = failed_count
+        self.motor_failure_warning = failed_count > 0
+
+        if failed_count == 0:
+            self.degraded_return_active = False
+            return
+
+        if self.flight_mode in [FlightMode.CRASHED, FlightMode.IDLE]:
+            return
+
+        # One failed motor: keep 3-motor degraded control and return home.
+        if failed_count == 1:
+            if self.degraded_return_active:
+                return
+            self.logger.error(
+                f"Drone {self.drone_id}: Motor failure detected - Motors {[m.motor_id for m in failed_motors]}"
+            )
+            self._activate_degraded_return(
+                "Motor failure (3 motors active): returning to home",
                 trigger_source="motor_monitor"
             )
+            return
+
+        # Two or more failed motors: emergency return to home and immediate landing at home.
+        if self.emergency_return_active:
+            return
+        self.logger.error(
+            f"Drone {self.drone_id}: Motor failure detected - Motors {[m.motor_id for m in failed_motors]}"
+        )
+        self.emergency_land(
+            f"Severe motor failure: {failed_count} motors failed",
+            trigger_source="motor_monitor"
+        )
+
+    def _activate_degraded_return(self, reason: str, trigger_source: str = "motor_monitor"):
+        """Enter degraded return mode: wind affected, slower, but still tries to reach home."""
+        if self.flight_mode in [FlightMode.CRASHED, FlightMode.IDLE]:
+            return
+        self.degraded_return_active = True
+        self.role = DroneRole.EMERGENCY
+        self.target_position = None
+        if not self.emergency_status.active:
+            self.emergency_status = EmergencyLandingStatus(
+                active=True,
+                reason=reason,
+                trigger_source=trigger_source,
+                triggered_at=time.time(),
+                landing_position=Position(self.current_position.x, self.current_position.y, 0.0),
+                completion_note=""
+            )
+        if self.flight_mode != FlightMode.RETURNING_HOME:
+            self.flight_mode = FlightMode.RETURNING_HOME
+            self._send_real_drone_command("return_to_home", {"reason": reason, "degraded": True})
+        self.logger.warning(f"Drone {self.drone_id}: Degraded return active - {reason}")
     
     def _update_position(self, delta_time: float):
         """Update drone position based on current flight mode"""
@@ -608,7 +834,11 @@ class Drone:
         
         if distance < 1.0 and abs(self.current_position.z - self.home_position.z) < 1.0:
             self.logger.info(f"Drone {self.drone_id}: Reached home position")
-            self.land()
+            if self.emergency_status.active or self.emergency_return_active or self.degraded_return_active:
+                self.flight_mode = FlightMode.EMERGENCY_LANDING
+                self.target_position = None
+            else:
+                self.land()
         else:
             # Move towards home
             dx = self.home_position.x - self.current_position.x
@@ -617,13 +847,33 @@ class Drone:
             horizontal_distance = math.sqrt(dx**2 + dy**2)
             
             if horizontal_distance > 1.0:
-                speed = min(self.MAX_SPEED, horizontal_distance / delta_time)
+                speed_cap = self.MAX_SPEED
+                if self.degraded_return_active:
+                    speed_cap *= 0.55
+                if self.emergency_return_active:
+                    speed_cap *= 0.75
+                speed = min(speed_cap, horizontal_distance / max(delta_time, 0.001))
                 self.current_position.x += (dx / horizontal_distance) * speed * delta_time
                 self.current_position.y += (dy / horizontal_distance) * speed * delta_time
+
+                # Degraded control under wind with partial compensation (3-motor fallback feel).
+                if self.degraded_return_active:
+                    self._wind_phase += delta_time * 0.7
+                    gust_x = self.wind_vector.x * (0.65 + 0.35 * math.sin(self._wind_phase))
+                    gust_y = self.wind_vector.y * (0.65 + 0.35 * math.cos(self._wind_phase * 0.9))
+                    compensation = 0.45
+                    self.current_position.x += gust_x * (1.0 - compensation) * delta_time
+                    self.current_position.y += gust_y * (1.0 - compensation) * delta_time
             
             # Descend gradually
             if abs(self.current_position.z - self.home_position.z) > 0.5:
-                self.current_position.z -= self.LANDING_SPEED * 0.5 * delta_time
+                descend_rate = self.LANDING_SPEED * 0.5
+                if self.degraded_return_active:
+                    descend_rate *= 0.6
+                self.current_position.z = max(
+                    self.home_position.z,
+                    self.current_position.z - descend_rate * delta_time
+                )
     
     def _handle_landing(self, delta_time: float):
         """Handle landing procedure"""
@@ -635,6 +885,8 @@ class Drone:
             self.current_position.z = 0
             self.is_armed = False
             self.flight_mode = FlightMode.IDLE
+            self.degraded_return_active = False
+            self.emergency_return_active = False
             self.logger.info(f"Drone {self.drone_id}: Landed safely")
             
             # If emergency landing not at home, mark as needs recovery
@@ -712,11 +964,11 @@ class Drone:
         self.logger.info(f"Drone {self.drone_id}: Landing initiated")
     
     def emergency_land(self, reason: str, trigger_source: str = "manual"):
-        """Initiate emergency landing"""
+        """Emergency behavior: return to home immediately, then perform emergency landing at home."""
         if self.flight_mode in [FlightMode.CRASHED, FlightMode.IDLE]:
             return
         
-        if self.emergency_status.active:
+        if self.emergency_status.active and self.emergency_return_active:
             return
         
         landing_position = Position(self.current_position.x, self.current_position.y, 0.0)
@@ -729,12 +981,13 @@ class Drone:
             completion_note=""
         )
         self.role = DroneRole.EMERGENCY
+        self.emergency_return_active = True
         self.target_position = None
-        self.flight_mode = FlightMode.EMERGENCY_LANDING
-        self._send_real_drone_command("emergency_land", {"reason": reason})
+        self.flight_mode = FlightMode.RETURNING_HOME
+        self._send_real_drone_command("emergency_return_home", {"reason": reason})
         self.logger.error(
-            f"Drone {self.drone_id}: EMERGENCY LANDING - {reason} "
-            f"(source={trigger_source}, site={landing_position.to_dict()})"
+            f"Drone {self.drone_id}: EMERGENCY RETURN HOME - {reason} "
+            f"(source={trigger_source}, origin={landing_position.to_dict()})"
         )
 
     def trigger_personal_emergency(self, reason: str = "Personal emergency command"):
@@ -754,6 +1007,8 @@ class Drone:
     
     def goto(self, position: Position) -> bool:
         """Fly to specified position"""
+        if self.degraded_return_active or self.emergency_return_active:
+            return False
         if self.flight_mode not in [FlightMode.HOVER, FlightMode.FLYING]:
             # Frequent internal callers may attempt goto during transitions.
             # Keep this silent to avoid warning spam in logs.
@@ -799,7 +1054,14 @@ class Drone:
         """Simulate motor failure for testing"""
         if 0 <= motor_id < len(self.motors):
             self.motors[motor_id].operational = False
+            self.failed_motor_count = len([m for m in self.motors if not m.operational])
+            self.motor_failure_warning = self.failed_motor_count > 0
             self.logger.error(f"Drone {self.drone_id}: Motor {motor_id} failed!")
+            if self.flight_mode not in [FlightMode.IDLE, FlightMode.CRASHED, FlightMode.EMERGENCY_LANDING]:
+                self._activate_degraded_return(
+                    "Motor failure simulation: return to home with degraded control",
+                    trigger_source="manual_test"
+                )
     
     def get_suitability_score(self) -> float:
         """
@@ -849,6 +1111,11 @@ class Drone:
                     "rpm": m.rpm
                 } for m in self.motors
             ],
+            "motor_failure_warning": self.motor_failure_warning,
+            "failed_motor_count": self.failed_motor_count,
+            "degraded_return_active": self.degraded_return_active,
+            "emergency_return_active": self.emergency_return_active,
+            "wind_vector": self.wind_vector.to_dict(),
             "emergency": {
                 "active": self.emergency_status.active,
                 "reason": self.emergency_status.reason,

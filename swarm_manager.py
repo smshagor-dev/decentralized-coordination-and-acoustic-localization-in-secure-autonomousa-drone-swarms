@@ -24,9 +24,13 @@ class SwarmManager:
         self.leader_id: Optional[int] = None
         self.election_in_progress = False
         self.running = False
+        self.leader_follow_pattern = "v"   # "v" or "line"
+        self.follow_spacing_m = 45.0
+        self.leader_follow_enabled = True
         
         # Communication
         self.heartbeats: Dict[int, float] = {}
+        self.reported_failures = set()
         
         # Thread management
         self.monitor_thread = None
@@ -39,6 +43,8 @@ class SwarmManager:
     
     def setup_logging(self):
         """Configure logging"""
+        if self.logger.handlers:
+            return
         handler = logging.FileHandler('logs/swarm_manager.log')
         handler.setFormatter(logging.Formatter(
             '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
@@ -51,6 +57,7 @@ class SwarmManager:
         console.setLevel(logging.INFO)
         console.setFormatter(logging.Formatter('%(name)s - %(levelname)s - %(message)s'))
         self.logger.addHandler(console)
+        self.logger.propagate = False
     
     def add_drone(self, drone: Drone) -> bool:
         """Add drone to the swarm"""
@@ -60,6 +67,9 @@ class SwarmManager:
         
         self.drones[drone.drone_id] = drone
         self.heartbeats[drone.drone_id] = time.time()
+        self.reported_failures = {
+            item for item in self.reported_failures if item[0] != drone.drone_id
+        }
         
         # Start drone systems
         drone.start()
@@ -83,6 +93,9 @@ class SwarmManager:
         del self.drones[drone_id]
         if drone_id in self.heartbeats:
             del self.heartbeats[drone_id]
+        self.reported_failures = {
+            item for item in self.reported_failures if item[0] != drone_id
+        }
         
         self.logger.info(f"Drone {drone_id} removed from swarm")
         
@@ -137,44 +150,80 @@ class SwarmManager:
             time.sleep(1.0)
 
     def _prepare_drone_for_goto(self, drone: Drone, preferred_alt: float = 10.0) -> bool:
-        """Ensure drone can accept goto command."""
+        """Ensure drone can accept goto command with coordinated takeoff support."""
         if drone.flight_mode in [FlightMode.EMERGENCY_LANDING, FlightMode.CRASHED]:
             return False
+
+        # If follower is on ground, auto-arm and start takeoff so it can join leader.
         if drone.flight_mode == FlightMode.IDLE:
             if not drone.is_armed:
                 drone.arm()
-            drone.flight_mode = FlightMode.HOVER
-            if drone.current_position.z < 1.0:
-                drone.current_position.z = min(preferred_alt, drone.MAX_ALTITUDE)
+            drone.takeoff()
+            return False
+
+        # While taking off, wait for a minimal safe altitude, then switch to hover.
+        if drone.flight_mode == FlightMode.TAKEOFF:
+            join_alt = max(2.0, min(12.0, preferred_alt * 0.25))
+            if drone.current_position.z >= join_alt:
+                drone.flight_mode = FlightMode.HOVER
+                if drone.current_position.z < 1.0:
+                    drone.current_position.z = 1.0
+                return True
+            return False
+
         return True
 
     def _ml_follow_leader(self):
         """
-        If leader is moving, each follower uses its own ML system
-        to decide if it can safely follow.
+        Followers track leader command intent with formation offsets.
+        Personal ML is used for safety, not to dive directly into leader position.
         """
+        if not self.leader_follow_enabled:
+            return
         leader = self.get_leader()
         if not leader:
             return
         if leader.flight_mode not in [FlightMode.FLYING, FlightMode.HOVER, FlightMode.TAKEOFF]:
             return
 
+        leader_has_target = leader.target_position is not None
         speed = math.sqrt(
             leader.velocity.x ** 2 + leader.velocity.y ** 2 + leader.velocity.z ** 2
         )
-        if speed < 0.05 and leader.flight_mode != FlightMode.FLYING:
+        if speed < 0.05 and not leader_has_target and leader.flight_mode != FlightMode.FLYING:
             return
 
         followers = self.get_followers()
         if not followers:
             return
 
-        if speed < 0.05:
-            dir_x, dir_y = 1.0, 0.0
+        if leader_has_target:
+            base_target = leader.target_position
+            heading_x = base_target.x - leader.current_position.x
+            heading_y = base_target.y - leader.current_position.y
+            heading_norm = math.sqrt(heading_x ** 2 + heading_y ** 2)
+            if heading_norm < 0.001:
+                dir_x, dir_y = (1.0, 0.0) if speed < 0.05 else (
+                    leader.velocity.x / max(speed, 1e-6),
+                    leader.velocity.y / max(speed, 1e-6)
+                )
+            else:
+                dir_x, dir_y = heading_x / heading_norm, heading_y / heading_norm
+            base_x = base_target.x
+            base_y = base_target.y
+            base_z = base_target.z
         else:
-            dir_x = leader.velocity.x / speed
-            dir_y = leader.velocity.y / speed
+            if speed < 0.05:
+                dir_x, dir_y = 1.0, 0.0
+            else:
+                dir_x = leader.velocity.x / speed
+                dir_y = leader.velocity.y / speed
+            base_x = leader.current_position.x
+            base_y = leader.current_position.y
+            base_z = leader.current_position.z
         perp_x, perp_y = -dir_y, dir_x
+        pattern = (self.leader_follow_pattern or "v").strip().lower()
+        spacing = max(15.0, float(self.follow_spacing_m))
 
         for i, follower in enumerate(followers):
             if follower.flight_mode in [FlightMode.EMERGENCY_LANDING, FlightMode.CRASHED]:
@@ -183,22 +232,30 @@ class SwarmManager:
             if not self._prepare_drone_for_goto(follower, preferred_alt=leader.current_position.z):
                 continue
 
-            # Dynamic follow slot behind leader + alternating lateral separation.
-            follow_distance = 30.0 + (i * 12.0)
-            side = -1.0 if i % 2 == 0 else 1.0
-            lateral_distance = 12.0 * ((i // 2) + 1)
+            if pattern == "line":
+                # Single-file line behind leader.
+                rank = i + 1
+                follow_distance = spacing * rank
+                lateral_distance = 0.0
+                side = 1.0
+            else:
+                # Clear V formation behind leader.
+                side = -1.0 if i % 2 == 0 else 1.0
+                rank = (i // 2) + 1
+                follow_distance = spacing * rank
+                lateral_distance = spacing * 0.75 * rank
 
             target_x = (
-                leader.current_position.x
+                base_x
                 - dir_x * follow_distance
                 + perp_x * side * lateral_distance
             )
             target_y = (
-                leader.current_position.y
+                base_y
                 - dir_y * follow_distance
                 + perp_y * side * lateral_distance
             )
-            target_z = max(1.0, min(leader.current_position.z, follower.MAX_ALTITUDE))
+            target_z = max(1.0, min(base_z, follower.MAX_ALTITUDE))
 
             # Personal ML feasibility check.
             can_follow = True
@@ -225,6 +282,25 @@ class SwarmManager:
             
             if can_follow:
                 follower.goto(Position(target_x, target_y, target_z))
+
+    def set_leader_follow_pattern(self, pattern: str, spacing_m: Optional[float] = None) -> bool:
+        """Set continuous leader-follow shape used by followers."""
+        selected = (pattern or "").strip().lower()
+        if selected not in {"v", "line"}:
+            self.logger.warning(f"Invalid leader follow pattern '{pattern}'")
+            return False
+        self.leader_follow_pattern = selected
+        if spacing_m is not None:
+            self.follow_spacing_m = max(10.0, float(spacing_m))
+        self.logger.info(
+            f"Leader follow pattern set to '{self.leader_follow_pattern}' spacing={self.follow_spacing_m:.1f}m"
+        )
+        return True
+
+    def set_leader_follow_enabled(self, enabled: bool):
+        """Enable/disable continuous leader-follow behavior."""
+        self.leader_follow_enabled = bool(enabled)
+        self.logger.info(f"Leader-follow enabled={self.leader_follow_enabled}")
 
     def _apply_personal_ml_separation(self):
         """If drones get too close, use each drone's own ML to move away."""
@@ -310,8 +386,12 @@ class SwarmManager:
         for drone_id, drone in list(self.drones.items()):
             # Check if drone crashed
             if drone.flight_mode == FlightMode.CRASHED:
-                self.logger.error(f"Drone {drone_id} crashed")
-                self._handle_drone_failure(drone_id, "Crashed")
+                failure_key = (drone_id, "crashed")
+                if failure_key not in self.reported_failures:
+                    self.reported_failures.add(failure_key)
+                    self.logger.error(f"Drone {drone_id} crashed")
+                    self._handle_drone_failure(drone_id, "Crashed")
+                continue
             
             # Check motor failures
             failed_motors = [m for m in drone.motors if not m.operational]

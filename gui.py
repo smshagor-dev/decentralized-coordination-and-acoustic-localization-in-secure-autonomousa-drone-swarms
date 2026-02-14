@@ -20,7 +20,7 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
                             QProgressBar, QSizePolicy)
 from PyQt5.QtCore import Qt, QTimer, pyqtSignal, QPointF, QByteArray, QRectF
 from PyQt5.QtGui import QKeySequence
-from PyQt5.QtGui import QPainter, QColor, QPen, QBrush, QFont, QPalette
+from PyQt5.QtGui import QPainter, QColor, QPen, QBrush, QFont, QPalette, QPolygonF
 import logging
 try:
     from PyQt5.QtSvg import QSvgRenderer
@@ -53,6 +53,12 @@ class DroneWidget(QWidget):
             self.fields_renderer = QSvgRenderer(QByteArray(self.fields_svg_template.encode("utf-8")))
         self.position_history = {}
         self.animation_phase = 0.0
+        self.corners = {}
+        self.start_point = None
+        self.destination_point = None
+        self.destination_slots = {}
+        self.start_slots = {}
+        self.minimum_gap_m = 40.0
         
         # Colors
         self.colors = {
@@ -146,6 +152,16 @@ class DroneWidget(QWidget):
 
     def _update_map_origin(self):
         """Center map around active home positions."""
+        if self.corners:
+            pts = [p for p in self.corners.values() if p is not None]
+            if pts:
+                min_x = min(p.x for p in pts)
+                max_x = max(p.x for p in pts)
+                min_y = min(p.y for p in pts)
+                max_y = max(p.y for p in pts)
+                self.origin_x = (min_x + max_x) / 2.0
+                self.origin_y = (min_y + max_y) / 2.0
+                return
         if not self.drones:
             self.origin_x = 0.0
             self.origin_y = 0.0
@@ -204,6 +220,9 @@ class DroneWidget(QWidget):
         
         # Draw grid
         self._draw_grid(painter)
+
+        # Draw ABCD operation box and X->Y mission plan
+        self._draw_operation_overlay(painter)
         
         # Draw obstacles
         self._draw_obstacles(painter)
@@ -218,6 +237,119 @@ class DroneWidget(QWidget):
         
         for drone_id, drone_data in sorted_drones:
             self._draw_drone(painter, drone_id, drone_data)
+
+    def set_operation_overlay(
+        self,
+        corners,
+        start_point,
+        destination_point,
+        destination_slots,
+        minimum_gap_m,
+        start_slots=None
+    ):
+        """Set mission overlay points for ABCD corners and X->Y route."""
+        self.corners = corners or {}
+        self.start_point = start_point
+        self.destination_point = destination_point
+        self.destination_slots = destination_slots or {}
+        self.start_slots = start_slots or {}
+        self.minimum_gap_m = float(minimum_gap_m)
+        self._fit_map_to_operation_zone()
+        self.update()
+
+    def _fit_map_to_operation_zone(self):
+        """Fit map span/grid to ABCD operation box dimensions."""
+        if not self.corners:
+            return
+        pts = [p for p in self.corners.values() if p is not None]
+        if len(pts) < 2:
+            return
+        min_x = min(p.x for p in pts)
+        max_x = max(p.x for p in pts)
+        min_y = min(p.y for p in pts)
+        max_y = max(p.y for p in pts)
+        width_m = max(1.0, max_x - min_x)
+        height_m = max(1.0, max_y - min_y)
+        half_span = max(width_m, height_m) * 0.52
+        self.map_range_m = max(300.0, half_span)
+        self.grid_step_m = max(50.0, round(self.map_range_m / 6.0 / 50.0) * 50.0)
+        self.origin_x = (min_x + max_x) / 2.0
+        self.origin_y = (min_y + max_y) / 2.0
+
+    def _draw_operation_overlay(self, painter):
+        """Draw operation zone corners, X/Y markers, and destination slots."""
+        if self.corners:
+            painter.setFont(QFont("Arial", 10, QFont.Bold))
+            pen = QPen(QColor(255, 240, 120))
+            pen.setWidth(2)
+            painter.setPen(pen)
+            order = ["A", "B", "C", "D"]
+            points = []
+            for key in order:
+                point = self.corners.get(key)
+                if not point:
+                    continue
+                sx, sy, _ = self.world_to_screen(point.x, point.y, point.z)
+                points.append(QPointF(sx, sy))
+                painter.drawEllipse(QPointF(sx, sy), 6, 6)
+                painter.drawText(int(sx + 8), int(sy - 8), key)
+            if len(points) >= 4:
+                painter.drawLine(points[0], points[1])
+                painter.drawLine(points[1], points[2])
+                painter.drawLine(points[2], points[3])
+                painter.drawLine(points[3], points[0])
+
+        if self.start_point:
+            sx, sy, _ = self.world_to_screen(self.start_point.x, self.start_point.y, self.start_point.z)
+            painter.setPen(QPen(QColor(80, 255, 140), 2))
+            painter.setBrush(QBrush(QColor(80, 255, 140, 120)))
+            painter.drawEllipse(QPointF(sx, sy), 9, 9)
+            painter.setFont(QFont("Arial", 10, QFont.Bold))
+            painter.drawText(int(sx + 10), int(sy - 10), "X")
+
+        if self.start_slots:
+            painter.setPen(QPen(QColor(120, 255, 180, 160), 1, Qt.DashLine))
+            painter.setBrush(QBrush(QColor(120, 255, 180, 55)))
+            painter.setFont(QFont("Arial", 7, QFont.Bold))
+            for drone_id, point in self.start_slots.items():
+                sx, sy, _ = self.world_to_screen(point.x, point.y, point.z)
+                painter.drawEllipse(QPointF(sx, sy), 5, 5)
+                painter.drawText(int(sx + 6), int(sy - 6), f"X{drone_id}")
+
+        if self.destination_point:
+            dyx, dyy, _ = self.world_to_screen(
+                self.destination_point.x,
+                self.destination_point.y,
+                self.destination_point.z
+            )
+            painter.setPen(QPen(QColor(255, 120, 120), 2))
+            painter.setBrush(QBrush(QColor(255, 120, 120, 120)))
+            painter.drawEllipse(QPointF(dyx, dyy), 9, 9)
+            painter.setFont(QFont("Arial", 10, QFont.Bold))
+            painter.drawText(int(dyx + 10), int(dyy - 10), "Y")
+
+            if self.start_point:
+                sx, sy, _ = self.world_to_screen(self.start_point.x, self.start_point.y, self.start_point.z)
+                painter.setPen(QPen(QColor(255, 255, 255, 120), 1, Qt.DashLine))
+                painter.drawLine(int(sx), int(sy), int(dyx), int(dyy))
+
+        if self.destination_slots:
+            painter.setPen(QPen(QColor(255, 200, 80, 140), 1, Qt.DashLine))
+            painter.setBrush(QBrush(QColor(255, 200, 80, 40)))
+            for point in self.destination_slots.values():
+                sx, sy, _ = self.world_to_screen(point.x, point.y, point.z)
+                painter.drawEllipse(QPointF(sx, sy), 6, 6)
+
+            if self.destination_point:
+                center_x, center_y, _ = self.world_to_screen(
+                    self.destination_point.x,
+                    self.destination_point.y,
+                    self.destination_point.z
+                )
+                radius_px = self.minimum_gap_m * self._pixels_per_meter()
+                painter.setPen(QPen(QColor(255, 180, 60, 90), 1, Qt.DotLine))
+                painter.setBrush(Qt.NoBrush)
+                painter.drawEllipse(QPointF(center_x, center_y), radius_px, radius_px)
 
     def _draw_field_background(self, painter):
         """Draw static SVG field background with fallback color."""
@@ -350,6 +482,10 @@ class DroneWidget(QWidget):
         # Determine color based on role and status
         if flight_mode == 'emergency_landing':
             color = self.colors['emergency']
+        elif drone_data.get("emergency_return_active"):
+            color = self.colors['emergency']
+        elif drone_data.get("motor_failure_warning"):
+            color = QColor(255, 165, 0)
         elif role == 'leader':
             color = self.colors['leader']
         elif flight_mode == 'idle' or flight_mode == 'crashed':
@@ -412,6 +548,21 @@ class DroneWidget(QWidget):
             painter.setBrush(QBrush(battery_color))
             painter.drawRect(int(battery_x), int(battery_y),
                            int(battery_width * battery / 100), int(battery_height))
+
+        if drone_data.get("motor_failure_warning") or drone_data.get("emergency_return_active"):
+            self._draw_warning_symbol(painter, sx, sy, size)
+
+    def _draw_warning_symbol(self, painter, sx, sy, size):
+        """Draw warning symbol above drone when in fault/emergency return mode."""
+        top = QPointF(sx, sy - size - 22)
+        left = QPointF(sx - 10, sy - size - 2)
+        right = QPointF(sx + 10, sy - size - 2)
+        painter.setPen(QPen(QColor(255, 210, 80), 2))
+        painter.setBrush(QBrush(QColor(255, 210, 80, 180)))
+        painter.drawPolygon(QPolygonF([top, left, right]))
+        painter.setPen(QPen(QColor(30, 30, 30), 2))
+        painter.drawLine(int(sx), int(sy - size - 17), int(sx), int(sy - size - 9))
+        painter.drawPoint(int(sx), int(sy - size - 6))
 
     def _draw_motion_direction(self, painter, sx, sy, size, vx, vy, color):
         """Draw forward direction arrow and animated prop effect."""
@@ -575,6 +726,22 @@ class MainWindow(QMainWindow):
         self.selected_drone_id = None
         self.comm_log_offsets = {}
         self.controller_crypto = None
+        self.pending_takeoff_targets = {}
+        self.active_destination_targets = {}
+        self.mission_to_y_active = False
+        self.operation_corners = {}
+        self.operation_start = None
+        self.operation_destination = None
+        self.operation_slots = {}
+        self.operation_start_slots = {}
+        self.operation_return_slots = {}
+        self.destination_gap_m = 45.0
+        self.auto_fault_demo_enabled = False
+        self.auto_fault_phase = 0
+        self.last_auto_motor_fail_drone_id = None
+        self.last_auto_leader_crash_drone_id = None
+        self._leader_initialized = False
+        self._last_leader_id = None
         self._setup_controller_crypto()
         
         self.setWindowTitle("Drone Swarm Management System")
@@ -633,6 +800,11 @@ class MainWindow(QMainWindow):
         self.comm_log_timer = QTimer()
         self.comm_log_timer.timeout.connect(self._poll_encrypted_comm_logs)
         self.comm_log_timer.start(1000)
+
+        # Automatic fault/election demo timer (GUI simulation).
+        self.auto_fault_timer = QTimer()
+        self.auto_fault_timer.timeout.connect(self._run_auto_fault_scenario)
+        self.auto_fault_timer.start(12000)
         self._setup_keyboard_shortcuts()
         
         # Logger
@@ -722,6 +894,23 @@ class MainWindow(QMainWindow):
         formation_layout.addWidget(self.formation_btn)
         
         layout.addLayout(formation_layout)
+
+        # Continuous leader-follow pattern (for motion without overlap).
+        follow_layout = QHBoxLayout()
+        follow_layout.addWidget(QLabel("Leader Follow:"))
+        self.follow_pattern_combo = QComboBox()
+        self.follow_pattern_combo.addItems(["v", "line"])
+        self.follow_pattern_combo.setCurrentText("v")
+        follow_layout.addWidget(self.follow_pattern_combo)
+        self.follow_spacing_spin = QSpinBox()
+        self.follow_spacing_spin.setRange(10, 300)
+        self.follow_spacing_spin.setValue(45)
+        self.follow_spacing_spin.setSuffix(" m")
+        follow_layout.addWidget(self.follow_spacing_spin)
+        self.follow_pattern_btn = QPushButton("Set")
+        self.follow_pattern_btn.clicked.connect(self.apply_leader_follow_pattern)
+        follow_layout.addWidget(self.follow_pattern_btn)
+        layout.addLayout(follow_layout)
         
         # Test scenarios
         test_layout = QVBoxLayout()
@@ -731,9 +920,14 @@ class MainWindow(QMainWindow):
         self.test_motor_btn.clicked.connect(self.simulate_motor_failure)
         test_layout.addWidget(self.test_motor_btn)
         
-        self.test_leader_btn = QPushButton("Remove Leader")
+        self.test_leader_btn = QPushButton("Crash Leader")
         self.test_leader_btn.clicked.connect(self.test_leader_failure)
         test_layout.addWidget(self.test_leader_btn)
+
+        self.auto_fault_btn = QPushButton("Auto Fault Demo: OFF")
+        self.auto_fault_btn.clicked.connect(self.toggle_auto_fault_demo)
+        self.auto_fault_btn.setStyleSheet("background-color: #5a5f6b; color: white; font-weight: bold")
+        test_layout.addWidget(self.auto_fault_btn)
         
         layout.addLayout(test_layout)
 
@@ -966,12 +1160,14 @@ class MainWindow(QMainWindow):
     def update_display(self):
         """Update all displays"""
         status = self.swarm_manager.get_swarm_status()
+        current_leader_id = status.get("leader_id")
+        self._track_leader_change(current_leader_id)
         
         # Update status labels
         self.status_labels["total_drones"].setText(str(status["total_drones"]))
         self.status_labels["active_drones"].setText(str(status["active_drones"]))
         self.status_labels["leader_id"].setText(
-            str(status["leader_id"]) if status["leader_id"] else "None"
+            str(current_leader_id) if current_leader_id else "None"
         )
         
         # Calculate average battery
@@ -992,6 +1188,10 @@ class MainWindow(QMainWindow):
             mission = drone_data.get("mission", {})
             if mission.get("active"):
                 status_text = f"Mission: {mission.get('status', 'active')}"
+            if drone_data.get("motor_failure_warning"):
+                status_text = "Warning: Motor fail -> Return X"
+            if drone_data.get("emergency_return_active"):
+                status_text = "Emergency Return to X"
             self.drone_table.setItem(row, 5, QTableWidgetItem(status_text))
 
         # Keep table compact: show up to 5 rows worth of height.
@@ -1003,8 +1203,18 @@ class MainWindow(QMainWindow):
         self.drone_table.setMaximumHeight(table_h + 4)
         # Update visualization
         self.drone_widget.update_drones(drones)
+        self.drone_widget.set_operation_overlay(
+            self.operation_corners,
+            self.operation_start,
+            self.operation_destination,
+            self.operation_slots,
+            self.destination_gap_m,
+            self.operation_start_slots
+        )
         self.location_map_widget.update_drones(drones)
         self.location_map_widget.set_selected_drone(self.selected_drone_id)
+        self._dispatch_pending_takeoff_targets()
+        self._monitor_destination_arrivals_for_auto_return()
     
     # Control methods
     
@@ -1037,13 +1247,36 @@ class MainWindow(QMainWindow):
     
     def takeoff_all(self):
         """Takeoff all drones"""
-        for drone in self.swarm_manager.drones.values():
-            drone.takeoff()
+        mission = self._plan_takeoff_route()
+        self.pending_takeoff_targets.clear()
+        self.active_destination_targets.clear()
+        self.mission_to_y_active = False
+        self.swarm_manager.set_leader_follow_enabled(True)
+        self.operation_start_slots = mission.get("start_slots", {})
+        self.operation_return_slots = mission.get("start_slots", {})
+        # Each drone keeps its own X point from current position.
+        for drone_id, drone in self.swarm_manager.drones.items():
+            start_slot = self.operation_start_slots.get(drone_id)
+            if start_slot is None:
+                continue
+            drone.home_position = type(start_slot)(start_slot.x, start_slot.y, 0.0)
+
+        for drone_id, drone in self.swarm_manager.drones.items():
+            if drone.takeoff():
+                target = mission["slots"].get(drone_id)
+                if target is not None:
+                    self.pending_takeoff_targets[drone_id] = target
             self._log_controller_to_drone_encrypted(drone.drone_id, "takeoff", {})
-        self.log("Takeoff commanded to all drones")
+        self.operation_corners = mission["corners"]
+        self.operation_start = mission["start"]
+        self.operation_destination = mission["destination"]
+        self.operation_slots = mission["slots"]
+        self.log("Takeoff commanded: leader in flight হলে followers leader-follow করবে")
     
     def land_all(self):
         """Land all drones"""
+        self.mission_to_y_active = False
+        self.swarm_manager.set_leader_follow_enabled(True)
         for drone in self.swarm_manager.drones.values():
             drone.land()
             self._log_controller_to_drone_encrypted(drone.drone_id, "land", {})
@@ -1051,22 +1284,26 @@ class MainWindow(QMainWindow):
     
     def return_all_home(self):
         """Return all drones to home"""
+        self.mission_to_y_active = False
+        self.swarm_manager.set_leader_follow_enabled(True)
         self.swarm_manager.return_all_to_home()
         for drone in self.swarm_manager.drones.values():
             self._log_controller_to_drone_encrypted(drone.drone_id, "return_to_home", {})
         self.log("RTH commanded to all drones")
     
     def emergency_land_all(self):
-        """Emergency land all drones"""
+        """Emergency return all drones to X and then land."""
+        self.mission_to_y_active = False
+        self.swarm_manager.set_leader_follow_enabled(True)
         self.swarm_manager.emergency_land_all("Emergency button pressed")
         for drone in self.swarm_manager.drones.values():
             self._log_controller_to_drone_encrypted(
                 drone.drone_id, "emergency_land", {"reason": "Emergency button pressed"}
             )
-        self.log("EMERGENCY LAND activated!")
+        self.log("EMERGENCY RETURN activated: drones returning to X")
 
     def emergency_land_selected(self):
-        """Emergency land only the selected drone"""
+        """Emergency return selected drone to X and land."""
         current_row = self.drone_table.currentRow()
         if current_row < 0:
             self.log("Select a drone in the status table first")
@@ -1084,7 +1321,7 @@ class MainWindow(QMainWindow):
             self._log_controller_to_drone_encrypted(
                 drone_id, "emergency_land", {"reason": "Personal emergency button pressed"}
             )
-            self.log(f"Personal emergency landing triggered for Drone {drone_id}")
+            self.log(f"Personal emergency return triggered for Drone {drone_id}")
         else:
             self.log(f"Could not trigger personal emergency for Drone {drone_id}")
     
@@ -1093,26 +1330,308 @@ class MainWindow(QMainWindow):
         formation = self.formation_combo.currentText()
         self.swarm_manager.formation_flight(formation)
         self.log(f"Formation '{formation}' applied")
+
+    def apply_leader_follow_pattern(self):
+        """Apply continuous leader-follow shape used during movement."""
+        pattern = self.follow_pattern_combo.currentText().strip().lower()
+        spacing = float(self.follow_spacing_spin.value())
+        ok = self.swarm_manager.set_leader_follow_pattern(pattern, spacing)
+        if ok:
+            self.log(f"Leader follow pattern set to '{pattern}' spacing={spacing:.0f}m")
+        else:
+            self.log(f"Invalid leader follow pattern: {pattern}")
     
     def simulate_motor_failure(self):
         """Simulate motor failure on selected drone"""
         drone = self.get_selected_drone()
         if drone is None:
-            self.log("Select a drone in the status table first")
+            drone = self._pick_non_leader_drone_for_failure()
+        if drone is None:
+            self.log("No suitable non-leader drone found for motor failure test")
             return
         motor_id = 0
         drone.simulate_motor_failure(motor_id)
         self._log_controller_to_drone_encrypted(
             drone.drone_id, "simulate_motor_failure", {"motor_id": motor_id}
         )
-        self.log(f"Motor failure simulated on Drone {drone.drone_id} (motor {motor_id})")
+        self.log(
+            f"Motor failure simulated on Drone {drone.drone_id} (motor {motor_id}) "
+            f"-> warning shown, drone returning to X"
+        )
+
+    def toggle_auto_fault_demo(self):
+        """Toggle automatic fault simulation in GUI."""
+        self.auto_fault_demo_enabled = not self.auto_fault_demo_enabled
+        if self.auto_fault_demo_enabled:
+            self.auto_fault_btn.setText("Auto Fault Demo: ON")
+            self.auto_fault_btn.setStyleSheet("background-color: #b35b00; color: white; font-weight: bold")
+            self.log("Auto fault demo enabled (motor failure + leader crash)")
+        else:
+            self.auto_fault_btn.setText("Auto Fault Demo: OFF")
+            self.auto_fault_btn.setStyleSheet("background-color: #5a5f6b; color: white; font-weight: bold")
+            self.log("Auto fault demo disabled")
+
+    def _run_auto_fault_scenario(self):
+        """Periodically simulate faults to visualize autonomous handling."""
+        if not self.auto_fault_demo_enabled:
+            return
+        if not self.swarm_manager.drones:
+            return
+        if self._is_real_drone_mode_active():
+            # Never inject synthetic failures when connected to real drones.
+            return
+
+        if self.auto_fault_phase % 2 == 0:
+            targets = []
+            for drone in self.swarm_manager.drones.values():
+                if drone.drone_id == self.swarm_manager.leader_id:
+                    continue
+                if not drone.is_active:
+                    continue
+                if drone.drone_id == self.last_auto_leader_crash_drone_id:
+                    continue
+                targets.append(drone)
+            if targets:
+                import random
+                target = random.choice(targets)
+                target.simulate_motor_failure(0)
+                self.last_auto_motor_fail_drone_id = target.drone_id
+                self.log(f"[AUTO] Motor failure injected on Drone {target.drone_id}")
+        else:
+            leader = self.swarm_manager.get_leader()
+            if leader and leader.is_active and leader.drone_id != self.last_auto_motor_fail_drone_id:
+                from drone import FlightMode
+                leader.flight_mode = FlightMode.CRASHED
+                leader.is_active = False
+                self.last_auto_leader_crash_drone_id = leader.drone_id
+                self.log(f"[AUTO] Leader crash injected on Drone {leader.drone_id}")
+
+        self.auto_fault_phase += 1
+
+    def _is_real_drone_mode_active(self) -> bool:
+        """Check whether any drone is configured for real hardware."""
+        for drone in self.swarm_manager.drones.values():
+            if getattr(drone, "use_real_drone", False):
+                return True
+        return False
+
+    def _pick_non_leader_drone_for_failure(self):
+        """Pick a safe non-leader active drone for motor-failure testing."""
+        leader_id = self.swarm_manager.leader_id
+        candidates = []
+        for drone in self.swarm_manager.drones.values():
+            if not drone.is_active:
+                continue
+            if drone.drone_id == leader_id:
+                continue
+            candidates.append(drone)
+        if not candidates:
+            return None
+        candidates.sort(key=lambda d: d.drone_id)
+        return candidates[0]
+
+    def _track_leader_change(self, current_leader_id):
+        """Log leadership changes once per change."""
+        if not self._leader_initialized:
+            self._leader_initialized = True
+            self._last_leader_id = current_leader_id
+            if current_leader_id is not None:
+                self.log(f"Leader initialized: Drone {current_leader_id}")
+            return
+        if current_leader_id != self._last_leader_id:
+            prev = self._last_leader_id
+            self._last_leader_id = current_leader_id
+            if current_leader_id is None:
+                self.log(f"Leader changed: Drone {prev} -> None")
+            elif prev is None:
+                self.log(f"Leader changed: None -> Drone {current_leader_id}")
+            else:
+                self.log(f"Leader changed: Drone {prev} -> Drone {current_leader_id}")
+
+    def _plan_takeoff_route(self):
+        """Build mission geometry: per-drone X from current position; Y slots near B corner."""
+        drones = self.swarm_manager.drones
+        if not drones:
+            return {
+                "corners": {},
+                "start": None,
+                "destination": None,
+                "slots": {},
+                "start_slots": {}
+            }
+
+        homes = [drone.home_position for drone in drones.values()]
+        start_x = sum(p.x for p in homes) / len(homes)
+        start_y = sum(p.y for p in homes) / len(homes)
+        mission_alt = 60.0
+        half = 2600.0
+        corners = {
+            "A": type(homes[0])(start_x - half, start_y + half, 0.0),
+            "B": type(homes[0])(start_x + half, start_y + half, 0.0),
+            "C": type(homes[0])(start_x + half, start_y - half, 0.0),
+            "D": type(homes[0])(start_x - half, start_y - half, 0.0),
+        }
+        start = type(homes[0])(start_x, start_y, 0.0)
+        destination = type(homes[0])(corners["B"].x, corners["B"].y, mission_alt)
+
+        drone_ids = sorted(drones.keys())
+        total = len(drone_ids)
+        slots = {}  # Y slots
+        start_slots = {}  # X slots
+        for drone_id in drone_ids:
+            drone = drones.get(drone_id)
+            if drone is None:
+                continue
+            start_slots[drone_id] = type(homes[0])(
+                drone.current_position.x,
+                drone.current_position.y,
+                0.0
+            )
+        if total == 1:
+            only_id = drone_ids[0]
+            slots[only_id] = type(homes[0])(destination.x, destination.y, destination.z)
+        else:
+            radius = max(self.destination_gap_m, (self.destination_gap_m * total) / (2.0 * math.pi))
+            for idx, drone_id in enumerate(drone_ids):
+                angle = (2.0 * math.pi * idx) / total
+                sx = destination.x + radius * math.cos(angle)
+                sy = destination.y + radius * math.sin(angle)
+                slots[drone_id] = type(homes[0])(sx, sy, destination.z)
+
+        return {
+            "corners": corners,
+            "start": start,
+            "destination": destination,
+            "slots": slots,
+            "start_slots": start_slots
+        }
+
+    def _dispatch_pending_takeoff_targets(self):
+        """After takeoff reaches controllable mode, send each drone to its Y-slot."""
+        if not self.pending_takeoff_targets:
+            return
+        from drone import FlightMode
+        for drone_id, target in list(self.pending_takeoff_targets.items()):
+            drone = self.swarm_manager.drones.get(drone_id)
+            if drone is None:
+                del self.pending_takeoff_targets[drone_id]
+                continue
+            if drone.flight_mode in [FlightMode.EMERGENCY_LANDING, FlightMode.CRASHED, FlightMode.IDLE]:
+                del self.pending_takeoff_targets[drone_id]
+                continue
+            if drone.flight_mode in [FlightMode.HOVER, FlightMode.FLYING]:
+                if drone.goto(target):
+                    self.active_destination_targets[drone_id] = target
+                    self._log_controller_to_drone_encrypted(
+                        drone_id,
+                        "goto_xy_destination",
+                        {"x": target.x, "y": target.y, "z": target.z}
+                    )
+                    self.log(f"D{drone_id} moving X->Y slot ({target.x:.0f}, {target.y:.0f})")
+                del self.pending_takeoff_targets[drone_id]
+
+    def _enforce_y_targets(self):
+        """Keep drones focused on Y targets instead of following leader during mission phase."""
+        if not self.mission_to_y_active:
+            return
+        if not self.active_destination_targets:
+            return
+        from drone import FlightMode
+        for drone_id, target in list(self.active_destination_targets.items()):
+            drone = self.swarm_manager.drones.get(drone_id)
+            if drone is None:
+                del self.active_destination_targets[drone_id]
+                continue
+            if drone.flight_mode in [FlightMode.EMERGENCY_LANDING, FlightMode.CRASHED, FlightMode.RETURNING_HOME, FlightMode.LANDING]:
+                continue
+            dx = drone.current_position.x - target.x
+            dy = drone.current_position.y - target.y
+            dz = drone.current_position.z - target.z
+            distance = math.sqrt(dx * dx + dy * dy + dz * dz)
+            if distance > 8.0 and drone.flight_mode in [FlightMode.HOVER, FlightMode.FLYING]:
+                drone.goto(target)
+
+    def _monitor_destination_arrivals_for_auto_return(self):
+        """If any drone reaches Y-slot, notify all (encrypted) and command whole team to return to X."""
+        if not self.active_destination_targets:
+            if self.mission_to_y_active and not self.pending_takeoff_targets:
+                self.mission_to_y_active = False
+                self.swarm_manager.set_leader_follow_enabled(True)
+            return
+        from drone import FlightMode
+        for drone_id, target in list(self.active_destination_targets.items()):
+            drone = self.swarm_manager.drones.get(drone_id)
+            if drone is None:
+                del self.active_destination_targets[drone_id]
+                continue
+            if drone.flight_mode in [FlightMode.EMERGENCY_LANDING, FlightMode.CRASHED, FlightMode.IDLE]:
+                del self.active_destination_targets[drone_id]
+                continue
+
+            dx = drone.current_position.x - target.x
+            dy = drone.current_position.y - target.y
+            dz = drone.current_position.z - target.z
+            distance = math.sqrt(dx * dx + dy * dy + dz * dz)
+            if distance > 6.0:
+                continue
+
+            self._broadcast_team_reached_y_and_rth(drone_id)
+            break
+        if self.mission_to_y_active and not self.active_destination_targets and not self.pending_takeoff_targets:
+            self.mission_to_y_active = False
+            self.swarm_manager.set_leader_follow_enabled(True)
+
+    def _broadcast_team_reached_y_and_rth(self, reached_drone_id: int):
+        """Send encrypted team message and command every drone to return to X."""
+        self.log(f"D{reached_drone_id} reached Y -> encrypted team broadcast and ALL return to X")
+        self._send_encrypted_team_broadcast(
+            "team_member_reached_y",
+            {"reached_drone_id": reached_drone_id, "action": "return_to_x"}
+        )
+        for drone_id, drone in self.swarm_manager.drones.items():
+            x_slot = self.operation_return_slots.get(drone_id)
+            if x_slot is not None:
+                drone.home_position = type(x_slot)(x_slot.x, x_slot.y, 0.0)
+            self._log_controller_to_drone_encrypted(
+                drone_id,
+                "team_member_reached_y",
+                {"reached_drone_id": reached_drone_id, "action": "return_to_x"}
+            )
+            drone.return_to_home(f"Team member D{reached_drone_id} reached Y")
+            self._log_controller_to_drone_encrypted(
+                drone_id,
+                "return_to_home",
+                {"reason": f"Team member D{reached_drone_id} reached Y"},
+            )
+        self.active_destination_targets.clear()
+        self.pending_takeoff_targets.clear()
+        self.mission_to_y_active = False
+        self.swarm_manager.set_leader_follow_enabled(True)
+
+    def _send_encrypted_team_broadcast(self, message_type: str, data: dict):
+        """Send real encrypted broadcast over swarm UDP if communication module is available."""
+        if not self.controller_crypto:
+            return
+        try:
+            sent = self.controller_crypto.send_message(message_type, data)
+            if sent:
+                self.log(f"[ENC BROADCAST] type={message_type} delivered")
+            else:
+                self.log(f"[ENC BROADCAST] type={message_type} failed")
+        except Exception as e:
+            self.log(f"[ENC BROADCAST] error: {e}")
     
     def test_leader_failure(self):
         """Test leader failure scenario"""
         if self.swarm_manager.leader_id:
             leader_id = self.swarm_manager.leader_id
-            self.swarm_manager.remove_drone(leader_id)
-            self.log(f"Leader Drone {leader_id} removed - testing election")
+            leader = self.swarm_manager.drones.get(leader_id)
+            if leader is None:
+                return
+            from drone import FlightMode
+            leader.flight_mode = FlightMode.CRASHED
+            leader.is_active = False
+            self.log(f"Leader Drone {leader_id} crashed - testing leader election")
 
     def _on_drone_selection_changed(self):
         """Track selected drone from table and update location map highlight."""
@@ -1131,11 +1650,21 @@ class MainWindow(QMainWindow):
             return None
         return self.swarm_manager.drones.get(self.selected_drone_id)
 
+    def get_control_drone(self):
+        """Selected drone gets priority; otherwise default to leader."""
+        selected = self.get_selected_drone()
+        if selected is not None:
+            return selected
+        leader = self.swarm_manager.get_leader()
+        if leader is not None:
+            return leader
+        return None
+
     def move_selected_drone(self, dx: float, dy: float, dz: float):
-        """Move selected drone by offsets using goto command."""
-        drone = self.get_selected_drone()
+        """Move selected drone, or leader by default, using goto command."""
+        drone = self.get_control_drone()
         if drone is None:
-            self.log("Select a drone in the status table to move it")
+            self.log("No controllable drone found (select one or set leader)")
             return
         from drone import Position, FlightMode
         current = drone.current_position
