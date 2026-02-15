@@ -6566,3 +6566,76 @@
 2026-02-14 22:22:36,010 - Drone_2 - INFO - Drone 2: Reached home position
 2026-02-14 22:22:36,110 - Drone_2 - INFO - Drone 2: Landed safely
 2026-02-14 22:22:46,149 - Drone_2 - ERROR - Drone 2: Motor 0 failed!
+2026-02-14 22:39:31,041 - Drone_2 - INFO - Drone 2: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-14 22:39:31,042 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-14 22:39:31,042 - Drone_2 - INFO - Drone 2 initialized at {'x': 20, 'y': 0, 'z': 0}
+2026-02-14 22:39:31,042 - Drone_2 - INFO - Drone 2 started
+2026-02-14 22:39:31,070 - Drone_2 - INFO - Drone 2: Armed
+2026-02-14 22:39:31,070 - Drone_2 - INFO - Drone 2: Taking off
+2026-02-14 22:39:33,570 - Drone_2 - INFO - Drone 2: Flying to {'x': 100.0, 'y': 100.0, 'z': 30.0}
+2026-02-14 22:39:36,168 - Drone_2 - INFO - Drone 2 stopped
+2026-02-14 22:39:58,734 - Drone_2 - INFO - Drone 2: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-14 22:39:58,735 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-14 22:39:58,735 - Drone_2 - INFO - Drone 2 initialized at {'x': 20, 'y': 0, 'z': 0}
+2026-02-14 22:39:58,735 - Drone_2 - INFO - Drone 2 started
+2026-02-14 22:39:58,762 - Drone_2 - INFO - Drone 2: Armed
+2026-02-14 22:39:58,762 - Drone_2 - INFO - Drone 2: Taking off
+2026-02-14 22:39:59,961 - Drone_2 - INFO - Drone 2: Flying to {'x': 100.0, 'y': 100.0, 'z': 30.0}
+2026-02-14 22:40:01,850 - Drone_2 - INFO - Drone 2 stopped
+2026-02-14 22:40:35,765 - Drone_2 - INFO - Drone 2: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-14 22:40:35,765 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-14 22:40:35,765 - Drone_2 - INFO - Drone 2 initialized at {'x': 50, 'y': 0, 'z': 0}
+2026-02-14 22:40:35,766 - Drone_2 - INFO - Drone 2 started
+2026-02-14 22:40:35,792 - Drone_2 - INFO - Drone 2: area mission assigned lat=23.811 lon=90.412 radius=30m
+2026-02-14 22:40:35,793 - Drone_2 - INFO - Drone 2: Armed
+2026-02-14 22:40:35,793 - Drone_2 - INFO - Drone 2: Taking off
+2026-02-14 22:40:35,870 - Drone_2 - INFO - Drone 2: Flying to {'x': 203.69093638115862, 'y': 111.32000000013605, 'z': 20.0}
+2026-02-14 22:40:36,793 - Drone_2 - INFO - Drone 2: Flying to {'x': 100.0, 'y': 100.0, 'z': 20.0}
+2026-02-14 22:40:37,793 - Drone_2 - INFO - Drone 2: Returning to home - Leader broadcast RETURN_TO_HOME
+2026-02-14 22:40:39,886 - Drone_2 - INFO - Drone 2 stopped
+2026-02-14 22:41:01,952 - Drone_2 - INFO - Drone 2: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-14 22:41:01,952 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-14 22:41:01,952 - Drone_2 - INFO - Drone 2 initialized at {'x': 50, 'y': 0, 'z': 0}
+2026-02-14 22:41:01,953 - Drone_2 - INFO - Drone 2 started
+2026-02-14 22:41:01,979 - Drone_2 - INFO - Drone 2: area mission assigned lat=23.811 lon=90.412 radius=30m
+2026-02-14 22:41:01,980 - Drone_2 - INFO - Drone 2: Armed
+2026-02-14 22:41:01,980 - Drone_2 - INFO - Drone 2: Taking off
+2026-02-14 22:41:02,057 - Drone_2 - INFO - Drone 2: Flying to {'x': 203.69093638115862, 'y': 111.32000000013605, 'z': 20.0}
+2026-02-14 22:41:02,981 - Drone_2 - INFO - Drone 2: Flying to {'x': 100.0, 'y': 100.0, 'z': 20.0}
+2026-02-14 22:41:06,074 - Drone_2 - INFO - Drone 2 stopped
+2026-02-14 22:43:09,114 - Drone_2 - INFO - Drone 2 stopped
+2026-02-14 22:43:14,479 - Drone_2 - INFO - Drone 2: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-14 22:43:14,479 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-14 22:43:14,479 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-14 22:43:14,480 - Drone_2 - INFO - Drone 2 started
+2026-02-14 22:43:23,889 - Drone_2 - INFO - Drone 2: Armed
+2026-02-14 22:43:25,355 - Drone_2 - INFO - Drone 2: Taking off
+2026-02-14 22:43:35,524 - Drone_2 - INFO - Drone 2: Returning to home - Leader broadcast RETURN_TO_HOME
+2026-02-14 22:44:14,335 - Drone_2 - INFO - Drone 2: Reached home position
+2026-02-14 22:44:14,336 - Drone_2 - INFO - Drone 2: Landing initiated
+2026-02-14 22:44:15,359 - Drone_2 - INFO - Drone 2: Landed safely
+2026-02-14 22:44:23,439 - Drone_2 - INFO - Drone 2: Armed
+2026-02-14 22:44:23,440 - Drone_2 - INFO - Drone 2: Taking off
+2026-02-14 22:44:30,154 - Drone_2 - INFO - Drone 2: Flying to {'x': 2589.6219758365955, 'y': 2658.5188789794647, 'z': 60.0}
+2026-02-14 22:45:40,599 - Drone_2 - INFO - Drone 2: Role changed from follower to leader
+2026-02-14 22:47:32,765 - Drone_2 - INFO - Drone 2: Returning to home - Leader broadcast RETURN_TO_HOME
+2026-02-14 22:50:51,483 - Drone_2 - INFO - Drone 2: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-14 22:50:51,483 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-14 22:50:51,484 - Drone_2 - INFO - Drone 2 initialized at {'x': 50, 'y': 0, 'z': 0}
+2026-02-14 22:50:51,484 - Drone_2 - INFO - Drone 2 started
+2026-02-14 22:50:51,514 - Drone_2 - INFO - Drone 2: Armed
+2026-02-14 22:50:51,514 - Drone_2 - INFO - Drone 2: Taking off
+2026-02-14 22:50:52,014 - Drone_2 - INFO - Drone 2: Flying to {'x': 100.0, 'y': 100.0, 'z': 20.0}
+2026-02-14 22:50:52,514 - Drone_2 - INFO - Drone 2: Returning to home - Leader broadcast RETURN_TO_HOME
+2026-02-14 22:50:54,599 - Drone_2 - INFO - Drone 2 stopped
+2026-02-14 22:55:20,368 - Drone_2 - INFO - Drone 2 stopped
+2026-02-14 22:55:24,238 - Drone_2 - INFO - Drone 2: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-14 22:55:24,238 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-14 22:55:24,238 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-14 22:55:24,239 - Drone_2 - INFO - Drone 2 started
+2026-02-14 22:55:38,288 - Drone_2 - INFO - Drone 2: Armed
+2026-02-14 22:55:40,237 - Drone_2 - INFO - Drone 2: Taking off
+2026-02-14 22:55:51,703 - Drone_2 - INFO - Drone 2: Flying to {'x': 2553.9057647468726, 'y': 2622.797543233282, 'z': 60.0}
+2026-02-14 22:58:50,974 - Drone_2 - INFO - Drone 2: Reached target position
+2026-02-14 22:58:51,385 - Drone_2 - INFO - Drone 2: Returning to home - Leader broadcast RETURN_TO_HOME
+2026-02-14 23:29:13,726 - Drone_2 - INFO - Drone 2 stopped

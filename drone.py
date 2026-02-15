@@ -165,8 +165,8 @@ class Drone:
         self._last_auto_train_samples = 0
         self._initialize_ml_system()
 
-        # Demo/visual realism: keep moving in hover after takeoff.
-        self.auto_motion_enabled = True
+        # Followers must hold takeoff position until explicit leader command.
+        self.auto_motion_enabled = False
         self.auto_motion_radius = 220.0   # meters
         self.auto_motion_speed = 8.0      # m/s
         self._auto_motion_phase = float(self.drone_id) * 0.7

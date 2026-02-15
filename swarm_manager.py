@@ -6,9 +6,17 @@ import time
 import threading
 import logging
 import math
+import queue
 from typing import List, Optional, Dict
 from drone import Drone, DroneRole, FlightMode, Position
-from collections import defaultdict
+from leader_follower_logic import (
+    CommunicationManager as EventCommunicationManager,
+    DroneOperationalState,
+    DroneStateManager,
+    GPSNavigationModule,
+    LeaderCommandHandler,
+    MLNavigationModule,
+)
 
 class SwarmManager:
     """
@@ -26,7 +34,8 @@ class SwarmManager:
         self.running = False
         self.leader_follow_pattern = "v"   # "v" or "line"
         self.follow_spacing_m = 45.0
-        self.leader_follow_enabled = True
+        self.leader_follow_enabled = False
+        self._lock = threading.RLock()
         
         # Communication
         self.heartbeats: Dict[int, float] = {}
@@ -34,10 +43,22 @@ class SwarmManager:
         
         # Thread management
         self.monitor_thread = None
+        self._mission_targets: Dict[int, Position] = {}
+        self._mission_active = False
+        self._mission_arrival_threshold_m = 6.0
+        self._event_notifications: "queue.Queue[dict]" = queue.Queue()
+
+        # Event-driven leader/follower architecture
+        self.communication_manager = EventCommunicationManager()
+        self.drone_state_manager = DroneStateManager()
+        self.gps_navigation_module = GPSNavigationModule()
+        self.ml_navigation_module = MLNavigationModule()
+        self.leader_command_handler = LeaderCommandHandler(self)
         
         # Logging
         self.logger = logging.getLogger("SwarmManager")
         self.setup_logging()
+        self._register_event_handlers()
         
         self.logger.info("Swarm Manager initialized")
     
@@ -58,60 +79,217 @@ class SwarmManager:
         console.setFormatter(logging.Formatter('%(name)s - %(levelname)s - %(message)s'))
         self.logger.addHandler(console)
         self.logger.propagate = False
+
+    def _register_event_handlers(self):
+        """Register event handlers for leader commands and mission updates."""
+        self.communication_manager.subscribe("LEADER_COMMAND", self._on_leader_command)
+        self.communication_manager.subscribe("MISSION_COMPLETE", self._on_mission_complete)
+
+    def _push_system_event(self, event: dict):
+        """Push internal swarm event for GUI/system audit stream."""
+        try:
+            self._event_notifications.put_nowait(event)
+        except Exception:
+            pass
+
+    def drain_system_events(self, max_items: int = 100) -> List[dict]:
+        """Drain queued swarm events for external log/audit consumers."""
+        events: List[dict] = []
+        for _ in range(max_items):
+            try:
+                events.append(self._event_notifications.get_nowait())
+            except queue.Empty:
+                break
+        return events
+
+    def _on_leader_command(self, event: dict):
+        """Event handler: execute leader-issued commands."""
+        command = str(event.get("command", "")).strip().upper()
+        payload = event.get("payload", {}) or {}
+        self._push_system_event(
+            {
+                "kind": "command",
+                "command": command,
+                "payload": payload,
+                "issued_by": event.get("issued_by"),
+            }
+        )
+        self.logger.info(
+            "Leader command received: %s by drone=%s",
+            command,
+            event.get("issued_by"),
+        )
+        if command == "TAKEOFF":
+            self._execute_leader_takeoff()
+        elif command == "MOVE_TO_TARGET":
+            self._execute_leader_move(payload)
+        elif command == "RETURN_TO_HOME":
+            self._execute_leader_return_home()
+
+    def _on_mission_complete(self, event: dict):
+        """Event handler: first arrival triggers leader-broadcast return-to-home."""
+        reached_drone_id = int(event.get("drone_id", -1))
+        target = event.get("target", {})
+        self._push_system_event(
+            {
+                "kind": "message",
+                "message_type": "MISSION_COMPLETE",
+                "data": event,
+            }
+        )
+        self._push_system_event(
+            {
+                "kind": "message",
+                "message_type": "LEADER_BROADCAST",
+                "data": {
+                    "action": "RETURN_TO_HOME",
+                    "reason": f"MISSION_COMPLETE by Drone {reached_drone_id}",
+                    "target": target,
+                },
+            }
+        )
+        self.logger.info(
+            "MISSION_COMPLETE received from Drone %s target=%s -> leader broadcasting RETURN_TO_HOME",
+            reached_drone_id,
+            target,
+        )
+        self.leader_command_handler.issue_return_to_home()
+
+    def _execute_leader_takeoff(self):
+        """Leader-issued coordinated takeoff with follower hover-at-own-position policy."""
+        with self._lock:
+            for drone in self.drones.values():
+                if not drone.is_armed:
+                    drone.arm()
+                if drone.takeoff():
+                    self.drone_state_manager.set_state(drone.drone_id, DroneOperationalState.TAKEOFF)
+
+    def _execute_leader_move(self, payload: dict):
+        """Leader-issued movement command: every move is explicit and target-driven."""
+        with self._lock:
+            raw_targets = payload.get("targets", {}) or {}
+            if not raw_targets:
+                return
+
+            self._mission_targets.clear()
+            self._mission_active = True
+            for drone_id_text, raw in raw_targets.items():
+                try:
+                    drone_id = int(drone_id_text)
+                except (TypeError, ValueError):
+                    continue
+                drone = self.drones.get(drone_id)
+                if drone is None:
+                    continue
+                target = Position(
+                    float(raw.get("x", drone.current_position.x)),
+                    float(raw.get("y", drone.current_position.y)),
+                    float(raw.get("z", max(1.0, drone.current_position.z))),
+                )
+                if self._command_move_for_drone(drone, target, payload):
+                    self._mission_targets[drone_id] = target
+
+    def _execute_leader_return_home(self):
+        """Leader broadcasted return home; GPS+ML active drones ignore this by requirement."""
+        with self._lock:
+            for drone in self.drones.values():
+                if self.drone_state_manager.is_gps_ml_active(drone.drone_id) or drone.area_mission.active:
+                    self.logger.info(
+                        "Drone %s ignored RETURN_TO_HOME due to GPS_ML_ACTIVE state",
+                        drone.drone_id,
+                    )
+                    continue
+                drone.return_to_home("Leader broadcast RETURN_TO_HOME")
+                self.drone_state_manager.set_state(drone.drone_id, DroneOperationalState.RETURNING_HOME)
+                self._push_system_event(
+                    {
+                        "kind": "command",
+                        "command": "RETURN_TO_HOME",
+                        "payload": {
+                            "target_drone_id": drone.drone_id,
+                            "reason": "Leader broadcast RETURN_TO_HOME",
+                        },
+                        "issued_by": self.leader_id,
+                    }
+                )
+
+            self._mission_active = False
+            self._mission_targets.clear()
+
+    def _command_move_for_drone(self, drone: Drone, target: Position, payload: dict) -> bool:
+        """Route movement through GPS+ML module if active, else default swarm goto."""
+        if not self._prepare_drone_for_goto(drone, preferred_alt=target.z):
+            return False
+
+        if drone.area_mission.active or self.gps_navigation_module.is_active(payload, drone.drone_id):
+            ok = self.ml_navigation_module.navigate(drone, target)
+            if ok:
+                self.drone_state_manager.set_state(drone.drone_id, DroneOperationalState.GPS_ML_ACTIVE)
+            return ok
+
+        ok = drone.goto(target)
+        if ok:
+            self.drone_state_manager.set_state(drone.drone_id, DroneOperationalState.MOVING_TO_TARGET)
+        return ok
     
     def add_drone(self, drone: Drone) -> bool:
         """Add drone to the swarm"""
-        if drone.drone_id in self.drones:
-            self.logger.warning(f"Drone {drone.drone_id} already in swarm")
-            return False
-        
-        self.drones[drone.drone_id] = drone
-        self.heartbeats[drone.drone_id] = time.time()
-        self.reported_failures = {
-            item for item in self.reported_failures if item[0] != drone.drone_id
-        }
-        
-        # Start drone systems
-        drone.start()
-        
-        self.logger.info(f"Drone {drone.drone_id} added to swarm")
-        
-        # If no leader, elect one
-        if self.leader_id is None and len(self.drones) > 0:
-            self.elect_leader()
-        
-        return True
+        with self._lock:
+            if drone.drone_id in self.drones:
+                self.logger.warning(f"Drone {drone.drone_id} already in swarm")
+                return False
+            
+            self.drones[drone.drone_id] = drone
+            self.heartbeats[drone.drone_id] = time.time()
+            self.reported_failures = {
+                item for item in self.reported_failures if item[0] != drone.drone_id
+            }
+            self.drone_state_manager.init_drone(drone.drone_id)
+            
+            # Start drone systems
+            drone.start()
+            
+            self.logger.info(f"Drone {drone.drone_id} added to swarm")
+            
+            # If no leader, elect one
+            if self.leader_id is None and len(self.drones) > 0:
+                self.elect_leader()
+            
+            return True
     
     def remove_drone(self, drone_id: int) -> bool:
         """Remove drone from swarm"""
-        if drone_id not in self.drones:
-            return False
-        
-        drone = self.drones[drone_id]
-        drone.stop()
-        
-        del self.drones[drone_id]
-        if drone_id in self.heartbeats:
-            del self.heartbeats[drone_id]
-        self.reported_failures = {
-            item for item in self.reported_failures if item[0] != drone_id
-        }
-        
-        self.logger.info(f"Drone {drone_id} removed from swarm")
-        
-        # If removed drone was leader, elect new leader
-        if drone_id == self.leader_id:
-            self.logger.warning(f"Leader drone {drone_id} removed - electing new leader")
-            self.leader_id = None
-            if len(self.drones) > 0:
-                self.elect_leader()
-        
-        return True
+        with self._lock:
+            if drone_id not in self.drones:
+                return False
+            
+            drone = self.drones[drone_id]
+            drone.stop()
+            
+            del self.drones[drone_id]
+            self.drone_state_manager.remove_drone(drone_id)
+            if drone_id in self.heartbeats:
+                del self.heartbeats[drone_id]
+            self.reported_failures = {
+                item for item in self.reported_failures if item[0] != drone_id
+            }
+            
+            self.logger.info(f"Drone {drone_id} removed from swarm")
+            
+            # If removed drone was leader, elect new leader
+            if drone_id == self.leader_id:
+                self.logger.warning(f"Leader drone {drone_id} removed - electing new leader")
+                self.leader_id = None
+                if len(self.drones) > 0:
+                    self.elect_leader()
+            
+            return True
     
     def start(self):
         """Start swarm monitoring"""
         if not self.running:
             self.running = True
+            self.communication_manager.start()
             self.monitor_thread = threading.Thread(target=self._monitor_loop, daemon=True)
             self.monitor_thread.start()
             self.logger.info("Swarm monitoring started")
@@ -121,6 +299,7 @@ class SwarmManager:
         self.running = False
         if self.monitor_thread:
             self.monitor_thread.join(timeout=2.0)
+        self.communication_manager.stop()
         
         # Stop all drones
         for drone in self.drones.values():
@@ -140,14 +319,73 @@ class SwarmManager:
             
             # Check for failed drones
             self._check_drone_status()
-            
-            # Personal ML based leader-follow behavior
-            self._ml_follow_leader()
-            
+
+            # Explicit-command architecture: no autonomous leader-follow movement.
             # Personal ML based close-range separation
             self._apply_personal_ml_separation()
+
+            # Keep high-level state model and event-driven mission completion in sync.
+            self._synchronize_operational_states()
+            self._check_mission_arrivals()
             
             time.sleep(1.0)
+
+    def _synchronize_operational_states(self):
+        """Map low-level flight mode to high-level operational state."""
+        with self._lock:
+            for drone in self.drones.values():
+                current_state = self.drone_state_manager.get_state(drone.drone_id)
+                if drone.flight_mode == FlightMode.IDLE:
+                    self.drone_state_manager.set_state(drone.drone_id, DroneOperationalState.IDLE)
+                    continue
+                if drone.flight_mode == FlightMode.TAKEOFF:
+                    self.drone_state_manager.set_state(drone.drone_id, DroneOperationalState.TAKEOFF)
+                    continue
+                if drone.flight_mode == FlightMode.RETURNING_HOME:
+                    self.drone_state_manager.set_state(drone.drone_id, DroneOperationalState.RETURNING_HOME)
+                    continue
+                if current_state == DroneOperationalState.GPS_ML_ACTIVE:
+                    continue
+                if drone.role == DroneRole.FOLLOWER and drone.flight_mode == FlightMode.HOVER:
+                    self.drone_state_manager.set_state(
+                        drone.drone_id, DroneOperationalState.WAITING_FOR_COMMAND
+                    )
+                    continue
+                if drone.flight_mode == FlightMode.FLYING:
+                    self.drone_state_manager.set_state(
+                        drone.drone_id, DroneOperationalState.MOVING_TO_TARGET
+                    )
+
+    def _check_mission_arrivals(self):
+        """If first drone reaches mission target Y, publish mission completion event."""
+        if not self._mission_active or not self._mission_targets:
+            return
+        with self._lock:
+            for drone_id, target in list(self._mission_targets.items()):
+                drone = self.drones.get(drone_id)
+                if drone is None:
+                    continue
+                distance = drone.current_position.distance_to(target)
+                if distance > self._mission_arrival_threshold_m:
+                    continue
+                self.drone_state_manager.set_state(drone_id, DroneOperationalState.MISSION_COMPLETE)
+                self.logger.info(
+                    "MISSION_COMPLETE: Drone %s reached destination (x=%.1f, y=%.1f, z=%.1f)",
+                    drone_id,
+                    target.x,
+                    target.y,
+                    target.z,
+                )
+                self.communication_manager.publish(
+                    "MISSION_COMPLETE",
+                    {
+                        "drone_id": drone_id,
+                        "target": {"x": target.x, "y": target.y, "z": target.z},
+                        "message": f"MISSION_COMPLETE: Drone {drone_id} reached destination",
+                    },
+                )
+                self._mission_active = False
+                break
 
     def _prepare_drone_for_goto(self, drone: Drone, preferred_alt: float = 10.0) -> bool:
         """Ensure drone can accept goto command with coordinated takeoff support."""
@@ -463,7 +701,7 @@ class SwarmManager:
                 drone.set_role(DroneRole.FOLLOWER)
         
         self.leader_id = new_leader_id
-        self.logger.info(f"✓ Drone {new_leader_id} elected as new LEADER (score: {candidates[new_leader_id]:.2f})")
+        self.logger.info(f"Drone {new_leader_id} elected as new LEADER (score: {candidates[new_leader_id]:.2f})")
         
         self.election_in_progress = False
     
@@ -486,10 +724,11 @@ class SwarmManager:
     
     def get_swarm_status(self) -> dict:
         """Get complete swarm status"""
-        drones_status = {
-            drone_id: drone.get_status()
-            for drone_id, drone in self.drones.items()
-        }
+        drones_status = {}
+        for drone_id, drone in self.drones.items():
+            status = drone.get_status()
+            status["swarm_state"] = self.drone_state_manager.get_state(drone_id).value
+            drones_status[drone_id] = status
         
         return {
             "total_drones": len(self.drones),
@@ -619,9 +858,29 @@ class SwarmManager:
     
     def return_all_to_home(self):
         """Command all drones to return home"""
-        self.logger.info("Commanding all drones to return home")
-        for drone in self.drones.values():
-            drone.return_to_home("Swarm RTH command")
+        self.logger.info("Leader-commanded RETURN_TO_HOME requested")
+        self.leader_command_handler.issue_return_to_home()
+
+    def leader_takeoff(self):
+        """Public API: explicit leader command for coordinated takeoff."""
+        self.leader_command_handler.issue_takeoff()
+
+    def leader_move_to_target(
+        self,
+        targets: Dict[int, Position],
+        gps_mode_map: Optional[Dict[int, bool]] = None,
+    ):
+        """Public API: explicit leader command for movement."""
+        self.leader_command_handler.issue_move_to_target(targets, gps_mode_map=gps_mode_map)
+
+    def leader_move_all_to_single_target(
+        self,
+        target: Position,
+        gps_mode_map: Optional[Dict[int, bool]] = None,
+    ):
+        """Helper: move all active drones to the same target Y."""
+        targets = {drone_id: Position(target.x, target.y, target.z) for drone_id in self.drones.keys()}
+        self.leader_move_to_target(targets, gps_mode_map=gps_mode_map)
 
     def assign_area_mission_to_drone(
         self,
@@ -639,6 +898,7 @@ class SwarmManager:
             return False
         drone.set_gps_reference(ref_lat, ref_lon)
         drone.assign_area_mission(target_lat, target_lon, radius_m)
+        self.drone_state_manager.set_state(drone_id, DroneOperationalState.GPS_ML_ACTIVE)
         self.logger.info(
             f"Area mission assigned to drone={drone_id} target=({target_lat},{target_lon}) radius={radius_m}m"
         )
@@ -650,4 +910,8 @@ class SwarmManager:
         if not drone:
             return False
         drone.clear_area_mission()
+        if drone.flight_mode in [FlightMode.HOVER, FlightMode.FLYING]:
+            self.drone_state_manager.set_state(drone_id, DroneOperationalState.WAITING_FOR_COMMAND)
+        else:
+            self.drone_state_manager.set_state(drone_id, DroneOperationalState.IDLE)
         return True

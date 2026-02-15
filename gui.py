@@ -879,6 +879,10 @@ class MainWindow(QMainWindow):
         self.personal_emergency_btn.setStyleSheet("background-color: #b22222; color: white; font-weight: bold")
         self.personal_emergency_btn.clicked.connect(self.emergency_land_selected)
         flight_layout.addWidget(self.personal_emergency_btn, 3, 0, 1, 2)
+
+        self.command_xy_btn = QPushButton("Leader Command X->Y")
+        self.command_xy_btn.clicked.connect(self.command_move_x_to_y)
+        flight_layout.addWidget(self.command_xy_btn, 4, 0, 1, 2)
         
         layout.addLayout(flight_layout)
         
@@ -1184,10 +1188,11 @@ class MainWindow(QMainWindow):
             self.drone_table.setItem(row, 3, QTableWidgetItem(f"{drone_data['battery']:.1f}%"))
             self.drone_table.setItem(row, 4, QTableWidgetItem(f"{drone_data['position']['z']:.1f}m"))
 
-            status_text = "OK" if drone_data["is_active"] else "Inactive"
+            swarm_state = drone_data.get("swarm_state", "IDLE")
+            status_text = swarm_state if drone_data["is_active"] else "Inactive"
             mission = drone_data.get("mission", {})
             if mission.get("active"):
-                status_text = f"Mission: {mission.get('status', 'active')}"
+                status_text = f"{swarm_state} | Mission: {mission.get('status', 'active')}"
             if drone_data.get("motor_failure_warning"):
                 status_text = "Warning: Motor fail -> Return X"
             if drone_data.get("emergency_return_active"):
@@ -1213,6 +1218,7 @@ class MainWindow(QMainWindow):
         )
         self.location_map_widget.update_drones(drones)
         self.location_map_widget.set_selected_drone(self.selected_drone_id)
+        self._poll_swarm_event_logs()
         self._dispatch_pending_takeoff_targets()
         self._monitor_destination_arrivals_for_auto_return()
     
@@ -1246,12 +1252,12 @@ class MainWindow(QMainWindow):
         self.log("All drones armed")
     
     def takeoff_all(self):
-        """Takeoff all drones"""
+        """Leader-commanded takeoff: followers hover at their own X until explicit command."""
         mission = self._plan_takeoff_route()
         self.pending_takeoff_targets.clear()
         self.active_destination_targets.clear()
         self.mission_to_y_active = False
-        self.swarm_manager.set_leader_follow_enabled(True)
+        self.swarm_manager.set_leader_follow_enabled(False)
         self.operation_start_slots = mission.get("start_slots", {})
         self.operation_return_slots = mission.get("start_slots", {})
         # Each drone keeps its own X point from current position.
@@ -1261,17 +1267,39 @@ class MainWindow(QMainWindow):
                 continue
             drone.home_position = type(start_slot)(start_slot.x, start_slot.y, 0.0)
 
+        self.swarm_manager.leader_takeoff()
         for drone_id, drone in self.swarm_manager.drones.items():
-            if drone.takeoff():
-                target = mission["slots"].get(drone_id)
-                if target is not None:
-                    self.pending_takeoff_targets[drone_id] = target
-            self._log_controller_to_drone_encrypted(drone.drone_id, "takeoff", {})
+            self._log_controller_to_drone_encrypted(drone.drone_id, "leader_takeoff", {})
         self.operation_corners = mission["corners"]
         self.operation_start = mission["start"]
         self.operation_destination = mission["destination"]
         self.operation_slots = mission["slots"]
-        self.log("Takeoff commanded: leader in flight হলে followers leader-follow করবে")
+        self.log("Takeoff commanded by Leader: followers now WAITING_FOR_COMMAND at own X")
+
+    def command_move_x_to_y(self):
+        """Explicit leader movement command from X positions to planned Y slots."""
+        mission = self._plan_takeoff_route()
+        targets = mission.get("slots", {})
+        if not targets:
+            self.log("No drones available for X->Y command")
+            return
+        gps_mode_map = {
+            drone_id: bool(self.swarm_manager.drones.get(drone_id).area_mission.active)
+            for drone_id in targets.keys()
+            if self.swarm_manager.drones.get(drone_id) is not None
+        }
+        self.swarm_manager.leader_move_to_target(targets, gps_mode_map=gps_mode_map)
+        self.operation_corners = mission["corners"]
+        self.operation_start = mission["start"]
+        self.operation_destination = mission["destination"]
+        self.operation_slots = mission["slots"]
+        for drone_id, target in targets.items():
+            self._log_controller_to_drone_encrypted(
+                drone_id,
+                "leader_move_to_target",
+                {"x": target.x, "y": target.y, "z": target.z, "gps_mode": gps_mode_map.get(drone_id, False)},
+            )
+        self.log("Leader command sent: MOVE X->Y for all drones")
     
     def land_all(self):
         """Land all drones"""
@@ -1285,11 +1313,11 @@ class MainWindow(QMainWindow):
     def return_all_home(self):
         """Return all drones to home"""
         self.mission_to_y_active = False
-        self.swarm_manager.set_leader_follow_enabled(True)
+        self.swarm_manager.set_leader_follow_enabled(False)
         self.swarm_manager.return_all_to_home()
         for drone in self.swarm_manager.drones.values():
-            self._log_controller_to_drone_encrypted(drone.drone_id, "return_to_home", {})
-        self.log("RTH commanded to all drones")
+            self._log_controller_to_drone_encrypted(drone.drone_id, "leader_return_to_home", {})
+        self.log("Leader broadcasted RETURN_TO_HOME (GPS_ML_ACTIVE drones ignore)")
     
     def emergency_land_all(self):
         """Emergency return all drones to X and then land."""
@@ -1661,7 +1689,7 @@ class MainWindow(QMainWindow):
         return None
 
     def move_selected_drone(self, dx: float, dy: float, dz: float):
-        """Move selected drone, or leader by default, using goto command."""
+        """Move via explicit Leader command so followers never move autonomously."""
         drone = self.get_control_drone()
         if drone is None:
             self.log("No controllable drone found (select one or set leader)")
@@ -1680,33 +1708,20 @@ class MainWindow(QMainWindow):
             self.log(f"Move rejected for D{drone.drone_id} (emergency/crashed state)")
             return
 
-        if not drone.is_armed:
-            drone.arm()
-
-        # Make movement controls resilient: move command auto-switches
-        # non-emergency transitional modes to manual hover control.
-        if drone.flight_mode in [FlightMode.IDLE, FlightMode.TAKEOFF, FlightMode.LANDING, FlightMode.RETURNING_HOME]:
-            drone.target_position = None
-            drone.flight_mode = FlightMode.HOVER
-            if drone.current_position.z < 1.0:
-                drone.current_position.z = 1.0
-
         target = Position(
             current.x + dx,
             current.y + dy,
             max(0.0, current.z + dz)
         )
-        if drone.goto(target):
-            self._log_controller_to_drone_encrypted(
-                drone.drone_id,
-                "goto",
-                {"x": target.x, "y": target.y, "z": target.z},
-            )
-            self.log(
-                f"Move D{drone.drone_id} -> x:{target.x:.1f} y:{target.y:.1f} z:{target.z:.1f}"
-            )
-        else:
-            self.log(f"Move rejected for D{drone.drone_id} (mode/range/altitude limit)")
+        self.swarm_manager.leader_move_to_target({drone.drone_id: target})
+        self._log_controller_to_drone_encrypted(
+            drone.drone_id,
+            "leader_move_to_target",
+            {"x": target.x, "y": target.y, "z": target.z},
+        )
+        self.log(
+            f"Leader command MOVE D{drone.drone_id} -> x:{target.x:.1f} y:{target.y:.1f} z:{target.z:.1f}"
+        )
 
     def keyPressEvent(self, event):
         """Keyboard control for selected drone movement."""
@@ -1739,6 +1754,51 @@ class MainWindow(QMainWindow):
             encrypted_hex = json.dumps(message, separators=(",", ":")).encode().hex()
         short_hex = encrypted_hex[:96] + ("..." if len(encrypted_hex) > 96 else "")
         self.log(f"[ENC CTRL->D{drone_id}] cmd={command} payload_hex={short_hex}")
+
+    def _log_system_command_encrypted(self, command: str, payload: dict):
+        """Show encrypted system command as separate command log line."""
+        message = {"type": "system_command", "data": {"command": command, "payload": payload}}
+        encrypted_hex = ""
+        if self.controller_crypto:
+            encrypted = self.controller_crypto._encrypt_message(message)
+            encrypted_hex = encrypted.hex() if encrypted else ""
+        if not encrypted_hex:
+            encrypted_hex = json.dumps(message, separators=(",", ":")).encode().hex()
+        short_hex = encrypted_hex[:96] + ("..." if len(encrypted_hex) > 96 else "")
+        self.log(f"[ENC CMD] cmd={command} payload_hex={short_hex}")
+
+    def _log_system_message_encrypted(self, message_type: str, data: dict):
+        """Show encrypted system message as separate message log line."""
+        message = {"type": "system_message", "data": {"message_type": message_type, "payload": data}}
+        encrypted_hex = ""
+        if self.controller_crypto:
+            encrypted = self.controller_crypto._encrypt_message(message)
+            encrypted_hex = encrypted.hex() if encrypted else ""
+        if not encrypted_hex:
+            encrypted_hex = json.dumps(message, separators=(",", ":")).encode().hex()
+        short_hex = encrypted_hex[:96] + ("..." if len(encrypted_hex) > 96 else "")
+        self.log(f"[ENC MSG] type={message_type} payload_hex={short_hex}")
+
+    def _poll_swarm_event_logs(self):
+        """Pull internal swarm events and print encrypted command/message logs separately."""
+        if not hasattr(self.swarm_manager, "drain_system_events"):
+            return
+        try:
+            events = self.swarm_manager.drain_system_events(200)
+        except Exception:
+            return
+        for event in events:
+            kind = str(event.get("kind", "")).strip().lower()
+            if kind == "command":
+                self._log_system_command_encrypted(
+                    str(event.get("command", "UNKNOWN")),
+                    event.get("payload", {}) or {},
+                )
+            elif kind == "message":
+                self._log_system_message_encrypted(
+                    str(event.get("message_type", "UNKNOWN")),
+                    event.get("data", {}) or {},
+                )
 
     def _poll_encrypted_comm_logs(self):
         """Tail drone communication encrypted TX/RX lines into system log."""
