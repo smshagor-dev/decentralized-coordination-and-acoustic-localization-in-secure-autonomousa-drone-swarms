@@ -549,3 +549,23 @@ This is the same standard deviation calculation used by `LatencyMonitor` for jit
 ![Drone Return Physics Math Model](Docs/Drone_Return_physics_math_Calculatiion_Model.png)
 ![Swarm System Infographic](Docs/Drone%20swarm%20system%20infographic%20.jpg)
 ![Plan](Docs/plan.jpg)
+
+## 17. Automated Plotting (CSV-Based)
+
+Use the automated script to generate two plots from the runtime CSV:
+- **Latency Trend**: latency stability over time
+- **Battery Decay vs ML Load**: battery percentage vs `physical_ml_samples`
+
+Run:
+```bash
+python performance_graphs/auto_plot_from_csv.py performance_graphs/runtime_latency_vs_drones_YYYYMMDD_HHMMSS.csv
+```
+
+Example (latest file):
+```bash
+python performance_graphs/auto_plot_from_csv.py performance_graphs/runtime_latency_vs_drones_20260215_120956.csv
+```
+
+Outputs:
+- `performance_graphs/latency_trend_YYYYMMDD_HHMMSS.png`
+- `performance_graphs/battery_vs_ml_load_YYYYMMDD_HHMMSS.png`
