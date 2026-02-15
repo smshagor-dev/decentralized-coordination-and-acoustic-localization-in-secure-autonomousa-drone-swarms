@@ -51,6 +51,14 @@ secure-drone-swarm/
 ├── test_dynamic_features.py
 ├── requirements.txt
 ├── readme.md
+├── performance_graphs/
+│   ├── auto_plot_from_csv.py
+│   ├── latency_vs_drones.py
+│   ├── runtime_latency_vs_drones_YYYYMMDD_HHMMSS.csv
+│   ├── latency_timeseries_YYYYMMDD_HHMMSS.png
+│   ├── latency_spike_timeline_YYYYMMDD_HHMMSS.png
+│   ├── latency_spike_timeline_YYYYMMDD_HHMMSS.csv
+│   └── merged_logs_YYYYMMDD_HHMMSS.log
 ├── config/
 │   └── swarm_config.json
 ├── assets/
