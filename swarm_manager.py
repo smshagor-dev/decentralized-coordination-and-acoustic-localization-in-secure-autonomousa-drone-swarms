@@ -8,6 +8,10 @@ import logging
 import math
 import queue
 import random
+import json
+import re
+from datetime import datetime
+from pathlib import Path
 from typing import List, Optional, Dict
 from drone import Drone, DroneRole, FlightMode, Position
 from dynamic_obstacles import (
@@ -73,6 +77,21 @@ class SwarmManager:
         self.ml_bridge = MLBridge(self.latency_monitor, watchdog_timeout_s=1.8)
         self.fallback_local_avoidance_mode = False
         self.per_drone_latency_threshold_ms: Dict[int, float] = {}
+
+        # Runtime latency graphing (latency vs number of drones)
+        self.runtime_latency_graph_enabled = True
+        self._latency_graph_samples = []
+        self._last_graph_sample_at = 0.0
+        self._last_graph_save_at = 0.0
+        self._last_log_merge_at = 0.0
+        self._log_offsets: Dict[Path, int] = {}
+        self._run_id = time.strftime("%Y%m%d_%H%M%S", time.localtime())
+        self._runtime_dir = Path("performance_graphs")
+        self._runtime_csv_path = self._runtime_dir / f"runtime_latency_vs_drones_{self._run_id}.csv"
+        self._runtime_png_path = self._runtime_dir / f"latency_timeseries_{self._run_id}.png"
+        self._merged_log_path = self._runtime_dir / f"merged_logs_{self._run_id}.log"
+        self._spike_png_path = self._runtime_dir / f"latency_spike_timeline_{self._run_id}.png"
+        self._spike_csv_path = self._runtime_dir / f"latency_spike_timeline_{self._run_id}.csv"
 
         # Event-driven leader/follower architecture
         self.communication_manager = EventCommunicationManager()
@@ -314,6 +333,7 @@ class SwarmManager:
     def start(self):
         """Start swarm monitoring"""
         if not self.running:
+            self._init_runtime_artifacts()
             self.running = True
             self.communication_manager.start()
             self.monitor_thread = threading.Thread(target=self._monitor_loop, daemon=True)
@@ -326,6 +346,9 @@ class SwarmManager:
         if self.monitor_thread:
             self.monitor_thread.join(timeout=2.0)
         self.communication_manager.stop()
+        if self.runtime_latency_graph_enabled:
+            self._save_latency_timeseries_from_csv()
+            self._save_latency_spike_timeline_from_logs()
         
         # Stop all drones
         for drone in self.drones.values():
@@ -380,11 +403,208 @@ class SwarmManager:
             else:
                 self.fallback_local_avoidance_mode = False
 
+            # Auto-collect latency vs drone-count samples and save graph periodically.
+            self._record_latency_graph_sample(latency_stats)
+
             # Keep high-level state model and event-driven mission completion in sync.
             self._synchronize_operational_states()
             self._check_mission_arrivals()
             
             time.sleep(1.0)
+
+    def _record_latency_graph_sample(self, latency_stats: dict):
+        if not self.runtime_latency_graph_enabled:
+            return
+        now = time.time()
+        if now - self._last_graph_sample_at < 2.0:
+            return
+        self._last_graph_sample_at = now
+        drone_count = len(self.drones)
+        total_ms = float(latency_stats.get("total_round_trip_ms", 0.0))
+        self._latency_graph_samples.append((now, drone_count, total_ms))
+        self._append_runtime_csv_sample(now, drone_count, total_ms)
+        if now - self._last_log_merge_at >= 2.0:
+            self._last_log_merge_at = now
+            self._merge_runtime_logs()
+
+    def _init_runtime_artifacts(self):
+        self._runtime_dir.mkdir(parents=True, exist_ok=True)
+        if not self._runtime_csv_path.exists():
+            try:
+                with self._runtime_csv_path.open("w", encoding="utf-8") as f:
+                    f.write("timestamp,drone_count,latency_ms,drone_status_json\n")
+            except Exception as exc:
+                self.logger.warning("Failed to initialize runtime CSV: %s", exc)
+        if not self._merged_log_path.exists():
+            try:
+                with self._merged_log_path.open("w", encoding="utf-8") as f:
+                    f.write(f"merged_log_run_id={self._run_id}\n")
+            except Exception as exc:
+                self.logger.warning("Failed to initialize merged log: %s", exc)
+        # Initialize log offsets so merged log only contains new data from this run.
+        log_dir = Path("logs")
+        candidates = [
+            log_dir / "swarm_manager.log",
+            log_dir / "ml_system.log",
+        ]
+        candidates.extend(sorted(log_dir.glob("system_*.log")))
+        for path in candidates:
+            if not path.exists():
+                continue
+            try:
+                self._log_offsets[path] = path.stat().st_size
+            except Exception:
+                self._log_offsets[path] = 0
+
+    def _append_runtime_csv_sample(self, ts: float, drone_count: int, total_ms: float):
+        try:
+            status = self.get_swarm_status()
+            drones_status = status.get("drones", {})
+            payload = json.dumps(drones_status, separators=(",", ":"), ensure_ascii=False)
+            import csv
+            with self._runtime_csv_path.open("a", encoding="utf-8", newline="") as f:
+                writer = csv.writer(f, quoting=csv.QUOTE_MINIMAL)
+                writer.writerow([f"{ts:.3f}", drone_count, f"{total_ms:.3f}", payload])
+        except Exception as exc:
+            self.logger.warning("Failed to append runtime CSV: %s", exc)
+
+    def _merge_runtime_logs(self):
+        log_dir = Path("logs")
+        candidates = [
+            log_dir / "swarm_manager.log",
+            log_dir / "ml_system.log",
+        ]
+        candidates.extend(sorted(log_dir.glob("system_*.log")))
+        for path in candidates:
+            if not path.exists():
+                continue
+            offset = self._log_offsets.get(path, 0)
+            try:
+                with path.open("r", encoding="utf-8", errors="ignore") as f:
+                    f.seek(offset)
+                    new_data = f.read()
+                    self._log_offsets[path] = f.tell()
+                if not new_data:
+                    continue
+                with self._merged_log_path.open("a", encoding="utf-8") as out:
+                    for line in new_data.splitlines():
+                        out.write(f"[{path.name}] {line}\n")
+            except Exception as exc:
+                self.logger.warning("Failed to merge log %s: %s", path, exc)
+
+    def _save_latency_timeseries_from_csv(self):
+        if not self._runtime_csv_path.exists():
+            return
+        times = []
+        latencies = []
+        try:
+            with self._runtime_csv_path.open("r", encoding="utf-8", errors="ignore") as f:
+                header = f.readline()
+                if not header:
+                    return
+                for line in f:
+                    parts = line.strip().split(",", 3)
+                    if len(parts) < 3:
+                        continue
+                    try:
+                        ts = float(parts[0])
+                        ms = float(parts[2])
+                    except ValueError:
+                        continue
+                    times.append(datetime.fromtimestamp(ts))
+                    latencies.append(ms)
+        except Exception as exc:
+            self.logger.warning("Failed to read runtime CSV for graph: %s", exc)
+            return
+
+        if not times:
+            return
+
+        try:
+            import matplotlib.pyplot as plt
+        except Exception as exc:
+            self.logger.warning("matplotlib unavailable for latency graph: %s", exc)
+            return
+
+        try:
+            plt.figure(figsize=(9, 4.5))
+            plt.plot(times, latencies, linewidth=1.8, color="#1b5e20")
+            plt.title("Latency Over Time (Runtime)")
+            plt.xlabel("Time")
+            plt.ylabel("Round-Trip Latency (ms)")
+            plt.grid(True, linestyle="--", alpha=0.4)
+            plt.tight_layout()
+            plt.savefig(self._runtime_png_path, dpi=160)
+        except Exception as exc:
+            self.logger.warning("Failed to save latency graph PNG: %s", exc)
+        finally:
+            plt.close("all")
+
+    def _save_latency_spike_timeline_from_logs(self):
+        """
+        Parse merged logs and plot latency spike counts over time.
+        """
+        if not self._merged_log_path.exists():
+            return
+        spike_pattern = re.compile(r"latency spike", re.IGNORECASE)
+        event_times = []
+        try:
+            with self._merged_log_path.open("r", encoding="utf-8", errors="ignore") as f:
+                for line in f:
+                    if not spike_pattern.search(line):
+                        continue
+                    # Expect timestamp at start of log line: YYYY-MM-DD HH:MM:SS,mmm
+                    ts_match = re.search(r"(20\\d{2}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}),\\d{3}", line)
+                    if not ts_match:
+                        continue
+                    try:
+                        ts = datetime.strptime(ts_match.group(1), "%Y-%m-%d %H:%M:%S")
+                        event_times.append(ts)
+                    except ValueError:
+                        continue
+        except Exception as exc:
+            self.logger.warning("Failed to parse merged logs for spike timeline: %s", exc)
+            return
+
+        if not event_times:
+            return
+
+        # Bucket counts per minute
+        buckets: Dict[datetime, int] = {}
+        for ts in event_times:
+            minute = ts.replace(second=0, microsecond=0)
+            buckets[minute] = buckets.get(minute, 0) + 1
+        times = sorted(buckets.keys())
+        counts = [buckets[t] for t in times]
+
+        # Write CSV
+        try:
+            with self._spike_csv_path.open("w", encoding="utf-8") as f:
+                f.write("minute,count\n")
+                for t, c in zip(times, counts):
+                    f.write(f"{t.strftime('%Y-%m-%d %H:%M')},{c}\n")
+        except Exception as exc:
+            self.logger.warning("Failed to write spike timeline CSV: %s", exc)
+
+        try:
+            import matplotlib.pyplot as plt
+        except Exception as exc:
+            self.logger.warning("matplotlib unavailable for spike timeline: %s", exc)
+            return
+
+        try:
+            plt.figure(figsize=(9, 4.5))
+            plt.plot(times, counts, marker="o", linewidth=2, color="#b71c1c")
+            plt.title("Latency Spike Count vs Time (Per Minute)")
+            plt.xlabel("Time")
+            plt.ylabel("Spike Count")
+            plt.grid(True, linestyle="--", alpha=0.4)
+            plt.tight_layout()
+            plt.savefig(self._spike_png_path, dpi=160)
+        except Exception as exc:
+            self.logger.warning("Failed to save spike timeline PNG: %s", exc)
+        finally:
+            plt.close("all")
 
     def _synchronize_operational_states(self):
         """Map low-level flight mode to high-level operational state."""

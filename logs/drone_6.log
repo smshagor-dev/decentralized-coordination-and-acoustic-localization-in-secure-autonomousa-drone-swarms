@@ -1,8 +1,0 @@
-2026-02-15 10:39:53,645 - Drone_6 - INFO - Drone 6: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
-2026-02-15 10:39:53,646 - Drone_6 - INFO - Drone 6: Personal ML system initialized
-2026-02-15 10:39:53,646 - Drone_6 - INFO - Drone 6 initialized at {'x': -1475.9629816828344, 'y': -2197.2800153618496, 'z': 0}
-2026-02-15 10:39:53,647 - Drone_6 - INFO - Drone 6 started
-2026-02-15 10:40:42,277 - Drone_6 - INFO - Drone 6: Armed
-2026-02-15 10:40:42,903 - Drone_6 - INFO - Drone 6: Taking off
-2026-02-15 10:40:45,427 - Drone_6 - INFO - Drone 6: Flying to {'x': 2426.1799839690243, 'y': 2021.8116881942099, 'z': 60.0}
-2026-02-15 10:41:41,625 - Drone_6 - INFO - Drone 6 stopped
