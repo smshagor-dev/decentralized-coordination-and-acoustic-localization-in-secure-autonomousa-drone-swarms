@@ -1,0 +1,46 @@
+2026-02-15 10:14:13,418 - Main - INFO - Starting Drone Swarm Management System
+2026-02-15 10:14:13,420 - MLDecisionSupport_Drone1 - INFO - ML Decision Support initialized
+2026-02-15 10:14:13,431 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=250 degree=2 alpha=0.0 val_mse=0.000155
+2026-02-15 10:14:13,431 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-15 10:14:13,432 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-15 10:14:13,432 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-15 10:14:13,434 - Drone_1 - INFO - Drone 1 started
+2026-02-15 10:14:13,436 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-15 10:14:13,437 - MLDecisionSupport_Drone2 - INFO - ML Decision Support initialized
+2026-02-15 10:14:13,437 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=251 degree=2 alpha=0.0 val_mse=0.000157
+2026-02-15 10:14:13,443 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=300 degree=2 alpha=0.1 val_mse=0.000128
+2026-02-15 10:14:13,444 - Drone_2 - INFO - Drone 2: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-15 10:14:13,444 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-15 10:14:13,444 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-15 10:14:13,445 - Drone_2 - INFO - Drone 2 started
+2026-02-15 10:14:13,447 - MLDecisionSupport_Drone3 - INFO - ML Decision Support initialized
+2026-02-15 10:14:13,448 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=301 degree=2 alpha=0.1 val_mse=0.000128
+2026-02-15 10:14:13,454 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=300 degree=2 alpha=0.1 val_mse=0.000128
+2026-02-15 10:14:13,454 - Drone_3 - INFO - Drone 3: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-15 10:14:13,455 - Drone_3 - INFO - Drone 3: Personal ML system initialized
+2026-02-15 10:14:13,455 - Drone_3 - INFO - Drone 3 initialized at {'x': -1400, 'y': -500, 'z': 0}
+2026-02-15 10:14:13,456 - Drone_3 - INFO - Drone 3 started
+2026-02-15 10:14:13,457 - MLDecisionSupport_Drone4 - INFO - ML Decision Support initialized
+2026-02-15 10:14:13,458 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=301 degree=2 alpha=0.1 val_mse=0.000128
+2026-02-15 10:14:13,463 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=300 degree=2 alpha=0.1 val_mse=0.000128
+2026-02-15 10:14:13,464 - Drone_4 - INFO - Drone 4: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-15 10:14:13,464 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-15 10:14:13,464 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-15 10:14:13,465 - Drone_4 - INFO - Drone 4 started
+2026-02-15 10:14:13,466 - MLDecisionSupport_Drone5 - INFO - ML Decision Support initialized
+2026-02-15 10:14:13,468 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=301 degree=2 alpha=0.1 val_mse=0.000128
+2026-02-15 10:14:13,473 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=300 degree=2 alpha=0.1 val_mse=0.000128
+2026-02-15 10:14:13,474 - Drone_5 - INFO - Drone 5: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-15 10:14:13,474 - Drone_5 - INFO - Drone 5: Personal ML system initialized
+2026-02-15 10:14:13,474 - Drone_5 - INFO - Drone 5 initialized at {'x': -900, 'y': 1600, 'z': 0}
+2026-02-15 10:14:13,475 - Drone_5 - INFO - Drone 5 started
+2026-02-15 10:14:13,476 - Main - INFO - Swarm created with 5 drones
+2026-02-15 10:14:13,476 - Main - INFO - Leader elected: Drone 1
+2026-02-15 10:14:13,477 - Main - INFO - Starting GUI...
+2026-02-15 10:14:13,477 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=301 degree=2 alpha=0.1 val_mse=0.000128
+2026-02-15 10:14:23,574 - Drone_1 - INFO - Drone 1 stopped
+2026-02-15 10:14:23,675 - Drone_2 - INFO - Drone 2 stopped
+2026-02-15 10:14:23,766 - Drone_3 - INFO - Drone 3 stopped
+2026-02-15 10:14:23,774 - Drone_4 - INFO - Drone 4 stopped
+2026-02-15 10:14:23,873 - Drone_5 - INFO - Drone 5 stopped
+2026-02-15 10:14:23,876 - Main - INFO - System shutdown complete
