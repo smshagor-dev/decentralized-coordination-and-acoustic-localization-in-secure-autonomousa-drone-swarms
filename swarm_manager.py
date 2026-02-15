@@ -7,8 +7,18 @@ import threading
 import logging
 import math
 import queue
+import random
 from typing import List, Optional, Dict
 from drone import Drone, DroneRole, FlightMode, Position
+from dynamic_obstacles import (
+    AvoidanceController,
+    DynamicObstaclePredictor,
+    MotionType,
+    ObstacleManager,
+    PathReplanner,
+    TrajectoryEstimator,
+)
+from latency_monitor import LatencyMonitor, MLBridge
 from leader_follower_logic import (
     CommunicationManager as EventCommunicationManager,
     DroneOperationalState,
@@ -47,6 +57,22 @@ class SwarmManager:
         self._mission_active = False
         self._mission_arrival_threshold_m = 6.0
         self._event_notifications: "queue.Queue[dict]" = queue.Queue()
+        self._avoidance_active_ids = set()
+
+        # Dynamic obstacle prediction and avoidance stack
+        self.obstacle_manager = ObstacleManager()
+        self.dynamic_predictor = DynamicObstaclePredictor()
+        self.trajectory_estimator = TrajectoryEstimator()
+        self.path_replanner = PathReplanner()
+        self.avoidance_controller = AvoidanceController()
+        self.dynamic_collision_threshold = 0.42
+        self.use_personal_ml_avoidance = True
+
+        # C++ <-> Python latency monitor and bridge hooks
+        self.latency_monitor = LatencyMonitor(window_size=120, latency_threshold_ms=220.0)
+        self.ml_bridge = MLBridge(self.latency_monitor, watchdog_timeout_s=1.8)
+        self.fallback_local_avoidance_mode = False
+        self.per_drone_latency_threshold_ms: Dict[int, float] = {}
 
         # Event-driven leader/follower architecture
         self.communication_manager = EventCommunicationManager()
@@ -310,6 +336,9 @@ class SwarmManager:
     def _monitor_loop(self):
         """Main monitoring loop"""
         while self.running:
+            self.obstacle_manager.update()
+            self._update_adaptive_latency_thresholds()
+
             # Check heartbeats
             self._check_heartbeats()
             
@@ -323,6 +352,33 @@ class SwarmManager:
             # Explicit-command architecture: no autonomous leader-follow movement.
             # Personal ML based close-range separation
             self._apply_personal_ml_separation()
+            self._apply_dynamic_obstacle_avoidance()
+
+            # Bridge latency heartbeat.
+            try:
+                latency_stats = self.ml_bridge.round_trip()
+            except Exception as exc:
+                self.logger.warning("MLBridge round-trip failed: %s", exc)
+                latency_stats = self.latency_monitor.get_stats()
+
+            watchdog_timed_out = self.ml_bridge.is_watchdog_timed_out()
+            if latency_stats.get("fallback_required", False) or watchdog_timed_out:
+                if not self.fallback_local_avoidance_mode:
+                    reason = "watchdog timeout" if watchdog_timed_out else "latency threshold"
+                    self.logger.warning("Switching to fallback local avoidance due to %s", reason)
+                self.fallback_local_avoidance_mode = True
+                self._push_system_event(
+                    {
+                        "kind": "warning",
+                        "message_type": "ML_BRIDGE_TIMEOUT" if watchdog_timed_out else "LATENCY_SPIKE",
+                        "data": {
+                            **latency_stats,
+                            "watchdog_timed_out": watchdog_timed_out,
+                        },
+                    }
+                )
+            else:
+                self.fallback_local_avoidance_mode = False
 
             # Keep high-level state model and event-driven mission completion in sync.
             self._synchronize_operational_states()
@@ -344,6 +400,11 @@ class SwarmManager:
                 if drone.flight_mode == FlightMode.RETURNING_HOME:
                     self.drone_state_manager.set_state(drone.drone_id, DroneOperationalState.RETURNING_HOME)
                     continue
+                if drone.drone_id in self._avoidance_active_ids:
+                    self.drone_state_manager.set_state(
+                        drone.drone_id, DroneOperationalState.AVOIDING_DYNAMIC_OBSTACLE
+                    )
+                    continue
                 if current_state == DroneOperationalState.GPS_ML_ACTIVE:
                     continue
                 if drone.role == DroneRole.FOLLOWER and drone.flight_mode == FlightMode.HOVER:
@@ -355,6 +416,25 @@ class SwarmManager:
                     self.drone_state_manager.set_state(
                         drone.drone_id, DroneOperationalState.MOVING_TO_TARGET
                     )
+
+    def _update_adaptive_latency_thresholds(self):
+        """
+        Adaptive per-drone threshold:
+        - faster drones and drones with lower processing capability get tighter thresholds
+        - keep thresholds bounded for stability
+        """
+        thresholds: Dict[int, float] = {}
+        for drone in self.drones.values():
+            speed = math.sqrt(drone.velocity.x ** 2 + drone.velocity.y ** 2 + drone.velocity.z ** 2)
+            proc = float(max(1.0, getattr(drone, "processing_capability", 100.0)))
+            speed_penalty = min(70.0, speed * 3.0)
+            proc_penalty = min(55.0, max(0.0, (100.0 - proc) * 0.8))
+            threshold_ms = max(110.0, min(280.0, 220.0 - speed_penalty - proc_penalty))
+            thresholds[drone.drone_id] = threshold_ms
+
+        self.per_drone_latency_threshold_ms = thresholds
+        if thresholds:
+            self.latency_monitor.set_threshold_ms(min(thresholds.values()))
 
     def _check_mission_arrivals(self):
         """If first drone reaches mission target Y, publish mission completion event."""
@@ -590,6 +670,263 @@ class SwarmManager:
                         tz = max(1.0, drone.current_position.z + suggested[2] * 0.3)
 
                     drone.goto(Position(tx, ty, min(tz, drone.MAX_ALTITUDE)))
+
+    def _apply_dynamic_obstacle_avoidance(self):
+        """Predict dynamic obstacle motion and proactively replan drone movement."""
+        obstacles = self.obstacle_manager.get_obstacles()
+        if not obstacles:
+            self._avoidance_active_ids.clear()
+            return
+
+        obstacles_by_id = {o.obstacle_id: o for o in obstacles}
+        active_ids = set()
+        for drone in self.drones.values():
+            if not drone.is_active:
+                continue
+            if drone.flight_mode in [FlightMode.IDLE, FlightMode.LANDING, FlightMode.CRASHED, FlightMode.EMERGENCY_LANDING]:
+                continue
+            if not self._prepare_drone_for_goto(drone):
+                continue
+
+            target = self._mission_targets.get(drone.drone_id) or drone.target_position
+            if target is None:
+                continue
+
+            current = (drone.current_position.x, drone.current_position.y, drone.current_position.z)
+            velocity = (drone.velocity.x, drone.velocity.y, drone.velocity.z)
+            to_goal = (
+                target.x - drone.current_position.x,
+                target.y - drone.current_position.y,
+                target.z - drone.current_position.z,
+            )
+            norm_goal = math.sqrt(to_goal[0] ** 2 + to_goal[1] ** 2 + to_goal[2] ** 2) or 1.0
+            measured_speed = math.sqrt(velocity[0] ** 2 + velocity[1] ** 2 + velocity[2] ** 2)
+            intent_speed = min(drone.MAX_SPEED, max(2.5, norm_goal * 0.25))
+            speed = min(drone.MAX_SPEED, max(measured_speed, intent_speed))
+            v_goal = (
+                (to_goal[0] / norm_goal) * speed,
+                (to_goal[1] / norm_goal) * speed,
+                (to_goal[2] / norm_goal) * min(speed, 3.0),
+            )
+
+            current_speed = math.sqrt(velocity[0] ** 2 + velocity[1] ** 2 + velocity[2] ** 2)
+            prediction_velocity = velocity
+            # If immediate measured speed is near zero but the drone has a target,
+            # use intent velocity so static-front obstacles are still predicted early.
+            if current_speed < 0.5 and target is not None:
+                prediction_velocity = v_goal
+
+            if self.fallback_local_avoidance_mode or not self.use_personal_ml_avoidance or not drone.personal_ml_enabled:
+                # Geometric fallback: short side-step from nearest obstacle.
+                nearest = min(
+                    obstacles,
+                    key=lambda o: math.hypot(drone.current_position.x - o.x, drone.current_position.y - o.y),
+                )
+                dx = drone.current_position.x - nearest.x
+                dy = drone.current_position.y - nearest.y
+                d = math.hypot(dx, dy) or 1.0
+                v_avoid = ((-dy / d) * 5.0, (dx / d) * 5.0, 0.0)
+                risk_result = {
+                    "collision_probability": 0.65,
+                    "collision_cone_probability": 0.55,
+                    "ml_confidence": 0.35,
+                    "predictions": {},
+                }
+            else:
+                risk_result = self.dynamic_predictor.predict_for_drone(
+                    current,
+                    prediction_velocity,
+                    obstacles,
+                    self.trajectory_estimator,
+                    horizon_s=6.0,
+                )
+                v_avoid = risk_result.get("avoidance_vector", (0.0, 0.0, 0.0))
+
+            collision_prob = float(risk_result.get("collision_probability", 0.0))
+            cone_prob = float(risk_result.get("collision_cone_probability", 0.0))
+            ml_confidence = float(risk_result.get("ml_confidence", 0.0))
+            should_avoid = (
+                collision_prob > self.dynamic_collision_threshold
+                or cone_prob > (self.dynamic_collision_threshold * 0.8)
+            )
+            if not should_avoid:
+                goal = self._mission_targets.get(drone.drone_id)
+                if (
+                    goal is not None
+                    and drone.flight_mode == FlightMode.HOVER
+                    and drone.current_position.distance_to(goal) > 6.0
+                ):
+                    drone.goto(Position(goal.x, goal.y, goal.z))
+                continue
+
+            v_new = self.avoidance_controller.blend_velocity(
+                current_v=velocity,
+                v_goal=v_goal,
+                v_avoidance=v_avoid,
+                max_accel=float(getattr(drone, "max_lateral_accel", 4.5)),
+                smooth_factor=float(getattr(drone, "steering_smooth_factor", 0.28)),
+                dt=0.25,
+            )
+            replanned = self.path_replanner.replan_target(current, v_new, lookahead_s=2.8)
+
+            threat_id = risk_result.get("threat_obstacle_id")
+            bypass_target = None
+            threat = obstacles_by_id.get(threat_id) if threat_id is not None else None
+            if threat is not None:
+                bypass_target = self._build_bypass_target(drone.current_position, target, threat)
+
+            safe_target = Position(
+                (bypass_target.x if bypass_target else replanned[0]),
+                (bypass_target.y if bypass_target else replanned[1]),
+                max(1.0, min(drone.MAX_ALTITUDE, replanned[2])),
+            )
+            if drone.goto(safe_target):
+                active_ids.add(drone.drone_id)
+                self.logger.info(
+                    "Dynamic obstacle avoidance drone=%s prob=%.2f cone=%.2f conf=%.2f target=(%.1f, %.1f, %.1f)",
+                    drone.drone_id,
+                    collision_prob,
+                    cone_prob,
+                    ml_confidence,
+                    safe_target.x,
+                    safe_target.y,
+                    safe_target.z,
+                )
+                self._push_system_event(
+                    {
+                        "kind": "path_replan",
+                        "message_type": "DYNAMIC_OBSTACLE_AVOIDANCE",
+                        "data": {
+                            "drone_id": drone.drone_id,
+                            "collision_probability": collision_prob,
+                            "collision_cone_probability": cone_prob,
+                            "ml_confidence": ml_confidence,
+                            "fallback_mode": self.fallback_local_avoidance_mode,
+                            "target": {"x": safe_target.x, "y": safe_target.y, "z": safe_target.z},
+                        },
+                    }
+                )
+        self._avoidance_active_ids = active_ids
+
+    def _build_bypass_target(self, current: Position, goal: Position, obstacle) -> Position:
+        """Create a meaningful side-step waypoint around a blocking obstacle."""
+        gx = goal.x - current.x
+        gy = goal.y - current.y
+        gnorm = math.hypot(gx, gy) or 1.0
+        dir_x, dir_y = gx / gnorm, gy / gnorm
+        perp_x, perp_y = -dir_y, dir_x
+
+        clearance = float(getattr(obstacle, "radius", 8.0)) + 18.0
+        forward = min(90.0, max(35.0, gnorm * 0.25))
+        c1 = Position(
+            current.x + dir_x * forward + perp_x * clearance,
+            current.y + dir_y * forward + perp_y * clearance,
+            max(1.0, current.z),
+        )
+        c2 = Position(
+            current.x + dir_x * forward - perp_x * clearance,
+            current.y + dir_y * forward - perp_y * clearance,
+            max(1.0, current.z),
+        )
+        d1 = math.hypot(c1.x - obstacle.x, c1.y - obstacle.y)
+        d2 = math.hypot(c2.x - obstacle.x, c2.y - obstacle.y)
+        return c1 if d1 >= d2 else c2
+
+    def add_dynamic_obstacle(
+        self,
+        x: float,
+        y: float,
+        vx: float,
+        vy: float,
+        motion_type: str = "linear",
+        radius: float = 8.0,
+        z: float = 0.0,
+    ) -> int:
+        try:
+            mtype = MotionType(str(motion_type).strip().lower())
+        except Exception:
+            mtype = MotionType.LINEAR
+        return self.obstacle_manager.add_obstacle(x, y, vx, vy, motion_type=mtype, radius=radius, z=z)
+
+    def populate_dynamic_obstacle_field(
+        self,
+        count: int = 24,
+        center_x: Optional[float] = None,
+        center_y: Optional[float] = None,
+        area_radius: float = 2600.0,
+    ) -> int:
+        """
+        Auto-create a field of moving obstacles in the visible operation frame.
+        Returns number of obstacles added.
+        """
+        if count <= 0:
+            return 0
+
+        if center_x is None or center_y is None:
+            if self.drones:
+                homes = [d.home_position for d in self.drones.values()]
+                center_x = sum(p.x for p in homes) / len(homes)
+                center_y = sum(p.y for p in homes) / len(homes)
+            else:
+                center_x = 0.0
+                center_y = 0.0
+
+        motion_pool = ["linear", "circular", "random_walk"]
+        added = 0
+        for _ in range(int(count)):
+            angle = random.uniform(0.0, 2.0 * math.pi)
+            r = random.uniform(180.0, max(200.0, float(area_radius)))
+            x = float(center_x) + r * math.cos(angle)
+            y = float(center_y) + r * math.sin(angle)
+
+            speed = random.uniform(2.0, 11.0)
+            heading = random.uniform(0.0, 2.0 * math.pi)
+            vx = speed * math.cos(heading)
+            vy = speed * math.sin(heading)
+            motion_type = random.choice(motion_pool)
+            radius = random.uniform(7.0, 18.0)
+
+            self.add_dynamic_obstacle(
+                x=x,
+                y=y,
+                vx=vx,
+                vy=vy,
+                motion_type=motion_type,
+                radius=radius,
+            )
+            added += 1
+
+        self.logger.info(
+            "Auto obstacle field initialized with %s dynamic obstacles (center=%.1f, %.1f, radius=%.1f)",
+            added,
+            float(center_x),
+            float(center_y),
+            float(area_radius),
+        )
+        return added
+
+    def add_static_obstacle(self, x: float, y: float, radius: float = 8.0, z: float = 0.0) -> int:
+        return self.obstacle_manager.add_obstacle(x, y, 0.0, 0.0, motion_type=MotionType.LINEAR, radius=radius, z=z)
+
+    def clear_obstacles(self):
+        self.obstacle_manager.clear()
+
+    def set_use_personal_ml_avoidance(self, enabled: bool):
+        self.use_personal_ml_avoidance = bool(enabled)
+
+    def set_personal_ml_enabled(self, drone_id: int, enabled: bool) -> bool:
+        drone = self.drones.get(drone_id)
+        if drone is None:
+            return False
+        drone.personal_ml_enabled = bool(enabled)
+        return True
+
+    def set_personal_ml_enabled_all(self, enabled: bool):
+        for drone in self.drones.values():
+            drone.personal_ml_enabled = bool(enabled)
+
+    def simulate_latency_spike(self, total_ms: float = 450.0) -> dict:
+        return self.ml_bridge.inject_spike(total_ms=total_ms)
     
     def _check_heartbeats(self):
         """Check heartbeat status of all drones"""
@@ -655,7 +992,7 @@ class SwarmManager:
             self.leader_id = None
             
             # Give remaining drones time to stabilize
-            time.sleep(1.0)
+            time.sleep(0.2)
             
             if len(self.drones) > 1:  # Still have drones
                 self.elect_leader()
@@ -735,7 +1072,12 @@ class SwarmManager:
             "active_drones": len(self.get_active_drones()),
             "leader_id": self.leader_id,
             "election_in_progress": self.election_in_progress,
-            "drones": drones_status
+            "drones": drones_status,
+            "dynamic_obstacles": self.obstacle_manager.get_obstacles_as_dict(),
+            "latency": self.latency_monitor.get_stats(),
+            "per_drone_latency_threshold_ms": dict(self.per_drone_latency_threshold_ms),
+            "fallback_local_avoidance_mode": self.fallback_local_avoidance_mode,
+            "use_personal_ml_avoidance": self.use_personal_ml_avoidance,
         }
     
     def formation_flight(self, formation_type: str = "line"):

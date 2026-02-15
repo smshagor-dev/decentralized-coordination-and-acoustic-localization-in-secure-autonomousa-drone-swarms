@@ -12,6 +12,8 @@
 #include <memory>
 #include <functional>
 #include <chrono>
+#include <deque>
+#include <mutex>
 
 namespace DroneSwarm {
 
@@ -100,6 +102,44 @@ struct Telemetry {
             motors[i].current = 0.0f;
         }
     }
+};
+
+struct LatencyMetrics {
+    double cpp_to_py_ms = 0.0;
+    double py_processing_ms = 0.0;
+    double py_to_cpp_ms = 0.0;
+    double total_round_trip_ms = 0.0;
+    double threshold_ms = 220.0;
+    size_t samples = 0;
+    bool fallback_required = false;
+};
+
+class LatencyMonitor {
+public:
+    explicit LatencyMonitor(size_t window_size = 120, double threshold_ms = 220.0);
+
+    void markCppSend(uint64_t ts_us);
+    void markPyReceive(uint64_t ts_us);
+    void markPySend(uint64_t ts_us);
+    LatencyMetrics markCppReceive(uint64_t ts_us);
+    LatencyMetrics getAverages() const;
+
+private:
+    struct Sample {
+        double cpp_to_py_ms = 0.0;
+        double py_processing_ms = 0.0;
+        double py_to_cpp_ms = 0.0;
+        double total_round_trip_ms = 0.0;
+    };
+
+    size_t window_size_;
+    double threshold_ms_;
+    mutable std::mutex mutex_;
+    std::deque<Sample> samples_;
+
+    uint64_t t_cpp_send_us_ = 0;
+    uint64_t t_py_receive_us_ = 0;
+    uint64_t t_py_send_us_ = 0;
 };
 
 /**

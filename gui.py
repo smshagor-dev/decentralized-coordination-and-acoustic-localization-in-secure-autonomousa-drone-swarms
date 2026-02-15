@@ -13,7 +13,9 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
                             QHBoxLayout, QPushButton, QLabel, QGroupBox,
                             QGridLayout, QTextEdit, QComboBox, QSpinBox,
                             QSlider, QTabWidget, QTableWidget, QTableWidgetItem,
+                            QAbstractItemView,
                             QDoubleSpinBox,
+                            QCheckBox,
                             QScrollArea,
                             QHeaderView,
                             QShortcut,
@@ -185,12 +187,19 @@ class DroneWidget(QWidget):
     
     def add_obstacle(self, x, y, z, radius):
         """Add obstacle to visualization"""
-        self.obstacles.append({'x': x, 'y': y, 'z': z, 'radius': radius})
+        self.obstacles.append(
+            {"x": x, "y": y, "z": z, "radius": radius, "motion_type": "static", "dynamic": False}
+        )
         self.update()
     
     def clear_obstacles(self):
         """Clear all obstacles"""
         self.obstacles.clear()
+        self.update()
+
+    def set_obstacles(self, obstacles):
+        """Replace obstacle list for live dynamic rendering."""
+        self.obstacles = list(obstacles or [])
         self.update()
     
     def world_to_screen(self, x, y, z=0):
@@ -432,18 +441,45 @@ class DroneWidget(QWidget):
             y = obstacle['y']
             z = obstacle.get('z', 0)
             radius = obstacle['radius']
+            is_dynamic = obstacle.get("dynamic", obstacle.get("motion_type", "static") != "static")
             
             sx, sy, depth = self.world_to_screen(x, y, z)
             scaled_radius = radius * self._pixels_per_meter() * depth
             
             # Draw obstacle
-            pen = QPen(QColor(255, 100, 100))
+            pen = QPen(QColor(255, 175, 50) if is_dynamic else QColor(255, 100, 100))
             pen.setWidth(2)
             painter.setPen(pen)
-            brush = QBrush(QColor(255, 50, 50, 50))
+            brush = QBrush(QColor(255, 175, 50, 85) if is_dynamic else QColor(255, 50, 50, 50))
             painter.setBrush(brush)
             
             painter.drawEllipse(QPointF(sx, sy), scaled_radius, scaled_radius)
+            if is_dynamic:
+                vx = obstacle.get("vx", 0.0)
+                vy = obstacle.get("vy", 0.0)
+                tip_x, tip_y, _ = self.world_to_screen(x + vx * 2.0, y + vy * 2.0, z)
+                painter.setPen(QPen(QColor(255, 235, 150), 2))
+                painter.drawLine(int(sx), int(sy), int(tip_x), int(tip_y))
+
+                # Animated pulse ring around moving obstacle.
+                pulse = 1.0 + 0.22 * math.sin(self.animation_phase * 0.55 + (x + y) * 0.003)
+                pulse_radius = scaled_radius * pulse
+                painter.setPen(QPen(QColor(255, 220, 120, 130), 1, Qt.DashLine))
+                painter.setBrush(Qt.NoBrush)
+                painter.drawEllipse(QPointF(sx, sy), pulse_radius, pulse_radius)
+
+                # Simple motion trail to make movement intent visible.
+                speed = math.hypot(float(vx), float(vy))
+                if speed > 0.05:
+                    ux = float(vx) / speed
+                    uy = float(vy) / speed
+                    for i in range(1, 4):
+                        trail_dist = 8.0 * i
+                        tx, ty, _ = self.world_to_screen(x - ux * trail_dist, y - uy * trail_dist, z)
+                        alpha = max(40, 160 - i * 40)
+                        painter.setPen(Qt.NoPen)
+                        painter.setBrush(QBrush(QColor(255, 210, 120, alpha)))
+                        painter.drawEllipse(QPointF(tx, ty), max(2.0, 5.0 - i), max(2.0, 5.0 - i))
     
     def _draw_home_positions(self, painter):
         """Draw home positions for all drones"""
@@ -742,6 +778,9 @@ class MainWindow(QMainWindow):
         self.last_auto_leader_crash_drone_id = None
         self._leader_initialized = False
         self._last_leader_id = None
+        self.show_static_obstacles = True
+        self.show_dynamic_obstacles = True
+        self.latency_value_labels = {}
         self._setup_controller_crypto()
         
         self.setWindowTitle("Drone Swarm Management System")
@@ -932,8 +971,76 @@ class MainWindow(QMainWindow):
         self.auto_fault_btn.clicked.connect(self.toggle_auto_fault_demo)
         self.auto_fault_btn.setStyleSheet("background-color: #5a5f6b; color: white; font-weight: bold")
         test_layout.addWidget(self.auto_fault_btn)
+
+        self.test_latency_btn = QPushButton("Simulate Latency Spike")
+        self.test_latency_btn.clicked.connect(self.simulate_latency_spike)
+        test_layout.addWidget(self.test_latency_btn)
         
         layout.addLayout(test_layout)
+
+        obstacle_group = QGroupBox("Dynamic Obstacles")
+        obstacle_layout = QGridLayout()
+
+        self.obs_x_spin = QDoubleSpinBox()
+        self.obs_x_spin.setRange(-10000.0, 10000.0)
+        self.obs_x_spin.setValue(250.0)
+        self.obs_y_spin = QDoubleSpinBox()
+        self.obs_y_spin.setRange(-10000.0, 10000.0)
+        self.obs_y_spin.setValue(250.0)
+        self.obs_vx_spin = QDoubleSpinBox()
+        self.obs_vx_spin.setRange(-60.0, 60.0)
+        self.obs_vx_spin.setValue(-6.0)
+        self.obs_vy_spin = QDoubleSpinBox()
+        self.obs_vy_spin.setRange(-60.0, 60.0)
+        self.obs_vy_spin.setValue(0.0)
+        self.obs_radius_spin = QDoubleSpinBox()
+        self.obs_radius_spin.setRange(1.0, 120.0)
+        self.obs_radius_spin.setValue(10.0)
+        self.obs_motion_combo = QComboBox()
+        self.obs_motion_combo.addItems(["linear", "circular", "random_walk"])
+
+        obstacle_layout.addWidget(QLabel("Start X"), 0, 0)
+        obstacle_layout.addWidget(self.obs_x_spin, 0, 1)
+        obstacle_layout.addWidget(QLabel("Start Y"), 0, 2)
+        obstacle_layout.addWidget(self.obs_y_spin, 0, 3)
+        obstacle_layout.addWidget(QLabel("Vx"), 1, 0)
+        obstacle_layout.addWidget(self.obs_vx_spin, 1, 1)
+        obstacle_layout.addWidget(QLabel("Vy"), 1, 2)
+        obstacle_layout.addWidget(self.obs_vy_spin, 1, 3)
+        obstacle_layout.addWidget(QLabel("Radius"), 2, 0)
+        obstacle_layout.addWidget(self.obs_radius_spin, 2, 1)
+        obstacle_layout.addWidget(QLabel("Motion"), 2, 2)
+        obstacle_layout.addWidget(self.obs_motion_combo, 2, 3)
+
+        self.add_dynamic_obstacle_btn = QPushButton("Add Moving Obstacle")
+        self.add_dynamic_obstacle_btn.clicked.connect(self.add_moving_obstacle)
+        obstacle_layout.addWidget(self.add_dynamic_obstacle_btn, 3, 0, 1, 2)
+
+        self.add_static_obstacle_btn = QPushButton("Add Static Obstacle")
+        self.add_static_obstacle_btn.clicked.connect(self.add_static_obstacle)
+        obstacle_layout.addWidget(self.add_static_obstacle_btn, 3, 2, 1, 2)
+
+        self.toggle_static_cb = QCheckBox("Show Static Obstacles")
+        self.toggle_static_cb.setChecked(True)
+        self.toggle_static_cb.stateChanged.connect(self._on_obstacle_filter_changed)
+        obstacle_layout.addWidget(self.toggle_static_cb, 4, 0, 1, 2)
+
+        self.toggle_dynamic_cb = QCheckBox("Show Dynamic Obstacles")
+        self.toggle_dynamic_cb.setChecked(True)
+        self.toggle_dynamic_cb.stateChanged.connect(self._on_obstacle_filter_changed)
+        obstacle_layout.addWidget(self.toggle_dynamic_cb, 4, 2, 1, 2)
+
+        self.use_ml_avoidance_cb = QCheckBox("Use Personal ML Avoidance")
+        self.use_ml_avoidance_cb.setChecked(True)
+        self.use_ml_avoidance_cb.stateChanged.connect(self._on_use_ml_avoidance_changed)
+        obstacle_layout.addWidget(self.use_ml_avoidance_cb, 5, 0, 1, 3)
+
+        self.clear_obstacles_btn = QPushButton("Clear Obstacles")
+        self.clear_obstacles_btn.clicked.connect(self.clear_all_obstacles)
+        obstacle_layout.addWidget(self.clear_obstacles_btn, 5, 3)
+
+        obstacle_group.setLayout(obstacle_layout)
+        layout.addWidget(obstacle_group)
 
         # Manual movement controls for selected drone
         move_group = QGroupBox("Selected Drone Movement")
@@ -993,35 +1100,35 @@ class MainWindow(QMainWindow):
         # Mission panel:
         # Reference coordinates define the local frame used by drone mission logic.
         # Target coordinates + radius define the circular area mission center.
-        # gps_group = QGroupBox("Google Map GPS Mission (Selected)")
-        # gps_layout = QGridLayout()
-        # gps_layout.setHorizontalSpacing(12)
-        # gps_layout.setVerticalSpacing(8)
-        # gps_group.setMinimumHeight(235)
-        # gps_layout.setColumnStretch(0, 0)
-        # gps_layout.setColumnStretch(1, 1)
-        # gps_layout.setColumnStretch(2, 0)
-        # gps_layout.setColumnStretch(3, 1)
+        gps_group = QGroupBox("Google Map GPS Mission (Selected)")
+        gps_layout = QGridLayout()
+        gps_layout.setHorizontalSpacing(12)
+        gps_layout.setVerticalSpacing(8)
+        gps_group.setMinimumHeight(235)
+        gps_layout.setColumnStretch(0, 0)
+        gps_layout.setColumnStretch(1, 1)
+        gps_layout.setColumnStretch(2, 0)
+        gps_layout.setColumnStretch(3, 1)
 
         # Reference GPS origin (used for geo->local conversions in mission code).
-        # gps_layout.addWidget(QLabel("Ref Lat"), 0, 0)
+        gps_layout.addWidget(QLabel("Ref Lat"), 0, 0)
         self.ref_lat_spin = QDoubleSpinBox()
         self.ref_lat_spin.setRange(-90.0, 90.0)
         self.ref_lat_spin.setDecimals(6)
         self.ref_lat_spin.setValue(51.660781)  # Voronezh
         self.ref_lat_spin.setMinimumWidth(130)
-        # gps_layout.addWidget(self.ref_lat_spin, 0, 1)
+        gps_layout.addWidget(self.ref_lat_spin, 0, 1)
 
-        # gps_layout.addWidget(QLabel("Ref Lon"), 0, 2)
+        gps_layout.addWidget(QLabel("Ref Lon"), 0, 2)
         self.ref_lon_spin = QDoubleSpinBox()
         self.ref_lon_spin.setRange(-180.0, 180.0)
         self.ref_lon_spin.setDecimals(6)
         self.ref_lon_spin.setValue(39.200269)  # Voronezh
         self.ref_lon_spin.setMinimumWidth(130)
-        # gps_layout.addWidget(self.ref_lon_spin, 0, 3)
+        gps_layout.addWidget(self.ref_lon_spin, 0, 3)
 
         # Target GPS center for the mission zone.
-        # gps_layout.addWidget(QLabel("Target Lat"), 1, 0)
+        gps_layout.addWidget(QLabel("Target Lat"), 1, 0)
         self.target_lat_spin = QDoubleSpinBox()
         self.target_lat_spin.setRange(-90.0, 90.0)
         self.target_lat_spin.setDecimals(6)
@@ -1029,47 +1136,47 @@ class MainWindow(QMainWindow):
         self.target_lat_spin.setMinimumWidth(130)
         # gps_layout.addWidget(self.target_lat_spin, 1, 1)
 
-        # gps_layout.addWidget(QLabel("Target Lon"), 1, 2)
+        gps_layout.addWidget(QLabel("Target Lon"), 1, 2)
         self.target_lon_spin = QDoubleSpinBox()
         self.target_lon_spin.setRange(-180.0, 180.0)
         self.target_lon_spin.setDecimals(6)
         self.target_lon_spin.setValue(39.214300)
         self.target_lon_spin.setMinimumWidth(130)
-        # gps_layout.addWidget(self.target_lon_spin, 1, 3)
+        gps_layout.addWidget(self.target_lon_spin, 1, 3)
 
         # Radius of mission search/coverage area in meters.
-        # gps_layout.addWidget(QLabel("Radius m"), 2, 0)
+        gps_layout.addWidget(QLabel("Radius m"), 2, 0)
         self.target_radius_spin = QSpinBox()
         self.target_radius_spin.setRange(10, 5000)
         self.target_radius_spin.setValue(200)
         self.target_radius_spin.setMinimumWidth(100)
-        # gps_layout.addWidget(self.target_radius_spin, 2, 1)
+        gps_layout.addWidget(self.target_radius_spin, 2, 1)
 
         # 0 means broadcast to all drones; any other value targets one drone.
-        # gps_layout.addWidget(QLabel("Drone ID (0=All)"), 2, 2)
+        gps_layout.addWidget(QLabel("Drone ID (0=All)"), 2, 2)
         self.mission_drone_id_spin = QSpinBox()
         self.mission_drone_id_spin.setRange(0, 9999)
         self.mission_drone_id_spin.setValue(0)  # default: all drones
         self.mission_drone_id_spin.setMinimumWidth(100)
-        # gps_layout.addWidget(self.mission_drone_id_spin, 2, 3)
+        gps_layout.addWidget(self.mission_drone_id_spin, 2, 3)
 
         self.assign_mission_btn = QPushButton("Assign Mission")
         self.assign_mission_btn.clicked.connect(self.assign_selected_drone_mission)
         self.assign_mission_btn.setMinimumHeight(32)
-        # gps_layout.addWidget(self.assign_mission_btn, 3, 2)
+        gps_layout.addWidget(self.assign_mission_btn, 3, 2)
 
         self.clear_mission_btn = QPushButton("Clear Mission")
         self.clear_mission_btn.clicked.connect(self.clear_selected_drone_mission)
         self.clear_mission_btn.setMinimumHeight(32)
-        # gps_layout.addWidget(self.clear_mission_btn, 3, 3)
+        gps_layout.addWidget(self.clear_mission_btn, 3, 3)
 
         self.open_map_btn = QPushButton("Open Target in Google Maps")
         self.open_map_btn.clicked.connect(self.open_target_in_google_maps)
         self.open_map_btn.setMinimumHeight(34)
-        # gps_layout.addWidget(self.open_map_btn, 4, 0, 1, 4)
+        gps_layout.addWidget(self.open_map_btn, 4, 0, 1, 4)
 
-        # gps_group.setLayout(gps_layout)
-        # layout.addWidget(gps_group)
+        gps_group.setLayout(gps_layout)
+        layout.addWidget(gps_group)
         
         group.setLayout(layout)
         return group
@@ -1080,8 +1187,8 @@ class MainWindow(QMainWindow):
         layout = QVBoxLayout()
         layout.setContentsMargins(6, 8, 6, 6)
         layout.setSpacing(4)
-        group.setMinimumHeight(230)
-        group.setMaximumHeight(270)
+        group.setMinimumHeight(260)
+        group.setMaximumHeight(360)
         
         # Status labels
         self.status_labels = {}
@@ -1110,6 +1217,25 @@ class MainWindow(QMainWindow):
             stats_grid.addWidget(value_label, row, col + 1)
             self.status_labels[key] = value_label
         layout.addLayout(stats_grid)
+
+        latency_grid = QGridLayout()
+        latency_keys = [
+            ("cpp_to_py_ms", "C++->Py"),
+            ("py_processing_ms", "Py Proc"),
+            ("py_to_cpp_ms", "Py->C++"),
+            ("total_round_trip_ms", "RTT"),
+            ("total_round_trip_jitter_std_ms", "RTT Jitter"),
+        ]
+        for idx, (key, title) in enumerate(latency_keys):
+            row = idx // 2
+            col = (idx % 2) * 2
+            name = QLabel(f"{title}:")
+            value = QLabel("0.0 ms")
+            value.setStyleSheet("font-size: 11px;")
+            latency_grid.addWidget(name, row, col)
+            latency_grid.addWidget(value, row, col + 1)
+            self.latency_value_labels[key] = value
+        layout.addLayout(latency_grid)
         
         # Drone table
         self.drone_table = QTableWidget()
@@ -1118,9 +1244,14 @@ class MainWindow(QMainWindow):
             "ID", "Role", "Mode", "Battery", "Altitude", "Status"
         ])
         self.drone_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.drone_table.verticalHeader().setSectionResizeMode(QHeaderView.Fixed)
+        self.drone_table.verticalHeader().setDefaultSectionSize(24)
         self.drone_table.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.drone_table.setMinimumHeight(190)
-        self.drone_table.setMaximumHeight(210)
+        self.drone_table.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.drone_table.setVerticalScrollMode(QAbstractItemView.ScrollPerItem)
+        self.drone_table.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.drone_table.setMinimumHeight(150)
+        self.drone_table.setMaximumHeight(150)
         self.drone_table.itemSelectionChanged.connect(self._on_drone_selection_changed)
         layout.addWidget(self.drone_table)
         
@@ -1179,9 +1310,32 @@ class MainWindow(QMainWindow):
         if drones:
             avg_battery = sum(d["battery"] for d in drones.values()) / len(drones)
             self.status_labels["avg_battery"].setText(f"{avg_battery:.1f}%")
+        else:
+            self.status_labels["avg_battery"].setText("0.0%")
+
+        latency = status.get("latency", {})
+        for key, label in self.latency_value_labels.items():
+            label.setText(f"{float(latency.get(key, 0.0)):.1f} ms")
+
+        raw_obstacles = status.get("dynamic_obstacles", [])
+        filtered_obstacles = []
+        for obstacle in raw_obstacles:
+            motion_type = obstacle.get("motion_type", "linear")
+            dynamic = motion_type != "static" and (
+                abs(float(obstacle.get("vx", 0.0))) > 0.001 or abs(float(obstacle.get("vy", 0.0))) > 0.001
+                or motion_type in {"circular", "random_walk"}
+            )
+            if dynamic and not self.show_dynamic_obstacles:
+                continue
+            if (not dynamic) and not self.show_static_obstacles:
+                continue
+            view = dict(obstacle)
+            view["dynamic"] = dynamic
+            filtered_obstacles.append(view)
         # Update drone table
-        self.drone_table.setRowCount(len(drones))
-        for row, (drone_id, drone_data) in enumerate(drones.items()):
+        ordered_rows = sorted(drones.items(), key=lambda kv: int(kv[0]))
+        self.drone_table.setRowCount(len(ordered_rows))
+        for row, (drone_id, drone_data) in enumerate(ordered_rows):
             self.drone_table.setItem(row, 0, QTableWidgetItem(str(drone_id)))
             self.drone_table.setItem(row, 1, QTableWidgetItem(drone_data["role"]))
             self.drone_table.setItem(row, 2, QTableWidgetItem(drone_data["flight_mode"]))
@@ -1199,13 +1353,6 @@ class MainWindow(QMainWindow):
                 status_text = "Emergency Return to X"
             self.drone_table.setItem(row, 5, QTableWidgetItem(status_text))
 
-        # Keep table compact: show up to 5 rows worth of height.
-        visible_rows = min(5, max(1, len(drones)))
-        header_h = self.drone_table.horizontalHeader().height()
-        row_h = self.drone_table.verticalHeader().defaultSectionSize()
-        table_h = header_h + (row_h * visible_rows) + 8
-        self.drone_table.setMinimumHeight(table_h)
-        self.drone_table.setMaximumHeight(table_h + 4)
         # Update visualization
         self.drone_widget.update_drones(drones)
         self.drone_widget.set_operation_overlay(
@@ -1216,6 +1363,7 @@ class MainWindow(QMainWindow):
             self.destination_gap_m,
             self.operation_start_slots
         )
+        self.drone_widget.set_obstacles(filtered_obstacles)
         self.location_map_widget.update_drones(drones)
         self.location_map_widget.set_selected_drone(self.selected_drone_id)
         self._poll_swarm_event_logs()
@@ -1243,6 +1391,56 @@ class MainWindow(QMainWindow):
             drone_id = max(self.swarm_manager.drones.keys())
             self.swarm_manager.remove_drone(drone_id)
             self.log(f"Removed Drone {drone_id}")
+
+    def add_moving_obstacle(self):
+        """Create a dynamic obstacle with selected start, velocity and motion model."""
+        obstacle_id = self.swarm_manager.add_dynamic_obstacle(
+            x=float(self.obs_x_spin.value()),
+            y=float(self.obs_y_spin.value()),
+            vx=float(self.obs_vx_spin.value()),
+            vy=float(self.obs_vy_spin.value()),
+            motion_type=self.obs_motion_combo.currentText(),
+            radius=float(self.obs_radius_spin.value()),
+            z=0.0,
+        )
+        self.log(
+            f"Dynamic obstacle added id={obstacle_id} "
+            f"start=({self.obs_x_spin.value():.1f},{self.obs_y_spin.value():.1f}) "
+            f"vel=({self.obs_vx_spin.value():.1f},{self.obs_vy_spin.value():.1f}) "
+            f"type={self.obs_motion_combo.currentText()}"
+        )
+
+    def add_static_obstacle(self):
+        """Create a static obstacle."""
+        obstacle_id = self.swarm_manager.add_static_obstacle(
+            x=float(self.obs_x_spin.value()),
+            y=float(self.obs_y_spin.value()),
+            radius=float(self.obs_radius_spin.value()),
+            z=0.0,
+        )
+        self.log(f"Static obstacle added id={obstacle_id} at ({self.obs_x_spin.value():.1f},{self.obs_y_spin.value():.1f})")
+
+    def clear_all_obstacles(self):
+        self.swarm_manager.clear_obstacles()
+        self.log("All obstacles cleared")
+
+    def _on_use_ml_avoidance_changed(self, _state: int):
+        enabled = bool(self.use_ml_avoidance_cb.isChecked())
+        self.swarm_manager.set_use_personal_ml_avoidance(enabled)
+        self.swarm_manager.set_personal_ml_enabled_all(enabled)
+        self.log(f"Personal ML avoidance {'enabled' if enabled else 'disabled'}")
+
+    def _on_obstacle_filter_changed(self, _state: int):
+        self.show_static_obstacles = bool(self.toggle_static_cb.isChecked())
+        self.show_dynamic_obstacles = bool(self.toggle_dynamic_cb.isChecked())
+
+    def simulate_latency_spike(self):
+        stats = self.swarm_manager.simulate_latency_spike(500.0)
+        self.log(
+            "Latency spike injected: RTT="
+            f"{float(stats.get('total_round_trip_ms', 0.0)):.1f}ms "
+            f"(threshold={float(stats.get('threshold_ms', 0.0)):.1f}ms)"
+        )
     
     def arm_all(self):
         """Arm all drones"""
@@ -1798,6 +1996,21 @@ class MainWindow(QMainWindow):
                 self._log_system_message_encrypted(
                     str(event.get("message_type", "UNKNOWN")),
                     event.get("data", {}) or {},
+                )
+            elif kind == "warning":
+                msg_type = str(event.get("message_type", "WARNING"))
+                data = event.get("data", {}) or {}
+                self.log(f"[WARN] {msg_type}: {data}")
+            elif kind == "path_replan":
+                data = event.get("data", {}) or {}
+                self.log(
+                    "[AVOID] D{drone} prob={prob:.2f} cone={cone:.2f} conf={conf:.2f} fallback={fallback}".format(
+                        drone=data.get("drone_id", "?"),
+                        prob=float(data.get("collision_probability", 0.0)),
+                        cone=float(data.get("collision_cone_probability", 0.0)),
+                        conf=float(data.get("ml_confidence", 0.0)),
+                        fallback=bool(data.get("fallback_mode", False)),
+                    )
                 )
 
     def _poll_encrypted_comm_logs(self):

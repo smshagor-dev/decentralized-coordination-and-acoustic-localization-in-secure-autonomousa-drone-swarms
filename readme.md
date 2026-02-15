@@ -1,476 +1,182 @@
 ﻿# Drone Swarm Management System
 
-A complete, production-ready drone fleet management system with automatic leader election, fault tolerance, secure communication, and real drone integration capabilities.
+Production-ready multi-drone swarm simulation and control stack with:
+- event-driven swarm coordination
+- personal ML-based dynamic obstacle avoidance
+- C++ <-> Python latency monitoring and fallback safety
+- encrypted communication logs
+- PyQt5 GUI control + visualization
 
-## 🎯 Project Overview
+## What Is Implemented
 
-This system implements a secure and fault-tolerant drone swarm with the following key features:
+### Core Swarm Features
+- Leader election and follower coordination
+- Per-drone operational state tracking
+- Return-to-home and emergency behaviors
+- Motor-failure handling and degraded return logic
 
-- **Automatic Leader Election**: When the leader drone fails, remaining drones automatically elect a new leader based on battery level, signal strength, and processing capability
-- **Dynamic Battery Management**: Real-time battery monitoring starting at 100%, with automatic return-to-home at 30% and emergency landing at 20%
-- **Emergency Landing System**: Intelligent emergency landing with return-to-home capabilities
-- **Motor Failure Detection**: Automatic detection and handling of motor failures
-- **Secure Communication**: AES-256 encrypted drone-to-drone communication
-- **ML Decision Support**: Machine learning for obstacle avoidance and formation optimization
-- **Real Drone Integration**: Ready for MAVLink/PX4 integration with real hardware
+### Dynamic Obstacle + Personal ML
+- Dynamic obstacle models: `linear`, `circular`, `random_walk`
+- Short-horizon trajectory prediction (velocity + optional acceleration)
+- Collision probability + collision-cone verification
+- ML confidence scoring for avoidance decisions
+- Automatic path replanning with smooth steering and acceleration limits
+- New state: `AVOIDING_DYNAMIC_OBSTACLE`
 
-## 📁 Project Structure
+### Latency Monitoring and Safety
+- Monitors:
+  - `T_cpp_to_py`
+  - `T_py_processing`
+  - `T_py_to_cpp`
+  - `Total_round_trip`
+- Rolling averages + jitter standard deviation
+- Watchdog timeout for ML bridge response delays
+- Adaptive per-drone latency thresholds
+- Automatic fallback to local geometric avoidance when latency is unsafe
 
+### GUI Improvements
+- Add moving obstacle from GUI controls
+- Obstacle motion visualization (direction, pulse, trail)
+- Toggle static/dynamic obstacle visibility
+- Toggle personal ML avoidance
+- Latency panel (including RTT jitter)
+- Swarm status table is always vertically scrollable
+
+### Auto Dynamic Obstacle Field
+- On startup (`python main.py`), system auto-generates **20-30 dynamic obstacles** in the operation frame.
+- Manual obstacle add is still available from GUI.
+
+## Actual Project Structure
+
+```text
+secure-drone-swarm/
+├── main.py
+├── gui.py
+├── swarm_manager.py
+├── drone.py
+├── leader_follower_logic.py
+├── dynamic_obstacles.py
+├── latency_monitor.py
+├── ml_system.py
+├── ml_trainer.py
+├── communication.py
+├── test_dynamic_features.py
+├── dronecontroller.h
+├── dronecontroller.cpp
+├── main_test.cpp
+├── cmakelists.txt
+├── requirements.txt
+├── readme.md
+├── assets/
+│   ├── drone.svg
+│   └── fields.svg
+├── config/
+│   └── swarm_config.json
+├── datasets/
+│   ├── personal_training.csv
+│   ├── personal_training.json
+│   └── personal_drone_1.csv
+├── models/
+├── logs/
+└── build/
 ```
-drone_swarm_system/
-├── main.py                      # Application entry point
-├── requirements.txt             # Python dependencies
-├── CMakeLists.txt              # C++ build configuration
-├── README.md                   # This file
-├── src/
-│   ├── python/                 # Python components
-│   │   ├── drone.py           # Core drone class with dynamic battery
-│   │   ├── swarm_manager.py   # Swarm management and leader election
-│   │   ├── communication.py   # Secure encrypted communication
-│   │   ├── ml_system.py       # ML decision support
-│   │   └── gui.py             # PyQt5 graphical interface
-│   └── cpp/                   # C++ low-level control
-│       ├── DroneController.h  # Drone controller interface
-│       ├── DroneController.cpp # Controller implementation
-│       └── main_test.cpp      # C++ test program
-├── config/                    # Configuration files
-├── logs/                      # System logs
-└── tests/                     # Unit tests
-```
 
-## 🚀 Installation
+## Requirements
 
-### System Requirements
+- Python 3.10+ (recommended)
+- Windows/Linux/macOS
+- Optional C++ toolchain + CMake (for native controller builds)
 
-- Python 3.8+
-- C++ compiler (GCC 7+ or Clang 5+)
-- CMake 3.10+
-- Qt5 development libraries
-
-### Python Setup
+Install Python dependencies:
 
 ```bash
-# Create virtual environment
-python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+python -m venv venv
+# Windows
+venv\Scripts\activate
+# Linux/macOS
+# source venv/bin/activate
 
-# Install dependencies
 pip install -r requirements.txt
 ```
 
-### C++ Compilation
+## Run Instructions
+
+### 1. Start Full System (GUI)
 
 ```bash
-# Create build directory
-mkdir build && cd build
-
-# Configure and build
-cmake ..
-make
-
-# Install (optional)
-sudo make install
-```
-
-## 💻 Usage
-
-### Running the System
-
-```bash
-# Start the complete system with GUI
 python main.py
 ```
 
-### GUI Controls
+What happens on start:
+- demo swarm is created
+- swarm monitor/event loop starts
+- GUI launches
+- 20-30 dynamic obstacles are auto-populated
 
-The graphical interface provides:
-
-1. **Visualization Panel**: Real-time 3D-like view of drone positions
-   - Gold diamond: Leader drone
-   - Blue circles: Follower drones
-   - Red: Emergency state
-   - Green markers: Home positions
-
-2. **Control Panel**:
-   - Add/Remove drones
-   - Arm/Disarm all
-   - Takeoff/Land all
-   - Return to home
-   - Emergency land
-   - Formation control (line, V, circle, grid)
-
-3. **Status Panel**:
-   - Total and active drones
-   - Leader ID
-   - Average battery
-   - Detailed drone table
-
-4. **Test Scenarios**:
-   - Simulate motor failure
-   - Test leader failure and re-election
-
-## 🎮 Key Features
-
-### 1. Dynamic Battery Management
-
-All drones start with 100% battery and consume power based on activity:
-- **Idle**: 0.1% per 100 seconds
-- **Hover**: 1% per 100 seconds  
-- **Flying**: 2% per 100 seconds
-- **Emergency**: 0.5% per 100 seconds
-
-**Automatic Actions**:
-- Battery < 30%: Automatic return to home
-- Battery < 20%: Emergency landing
-- Battery = 0%: System shutdown
-
-### 2. Leader Election Algorithm
-
-When a leader fails, automatic election based on:
-```
-Score = 0.4 × Battery + 0.3 × Signal + 0.2 × Processing + 0.1 × Motors
-```
-
-The drone with the highest score becomes the new leader.
-
-### 3. Emergency Landing
-
-Triggered by:
-- Critical battery (<20%)
-- Motor failure (≥2 motors)
-- Communication loss
-- Manual emergency command
-
-The drone:
-1. Stops all waypoint following
-2. Initiates controlled descent
-3. Attempts to stabilize orientation
-4. Lands at current position or returns home if possible
-
-### 4. Return-to-Home (RTH)
-
-Automatically activated when:
-- Low battery (<30%)
-- Signal loss
-- Mission abort
-- Manual command
-
-Process:
-1. Mark current position
-2. Climb to safe altitude (if needed)
-3. Fly direct path to home
-4. Descend and land at home position
-
-### 5. Secure Communication
-
-- **AES-256-GCM encryption**
-- **HMAC authentication**
-- **Replay attack prevention**
-- **No internet required** - direct multicast
-- **Heartbeat system** with 5-second timeout
-
-### 6. Formation Flight
-
-Supported formations:
-- **Line**: Single file behind leader
-- **V-Formation**: Classic V-shape
-- **Circle**: Circular perimeter around leader
-- **Grid**: Rectangular grid pattern
-
-## 🔧 Real Drone Integration
-
-### MAVLink/PX4 Setup
-
-For real drone deployment, update connection strings:
-
-```python
-# In drone.py
-drone = Drone(
-    drone_id=1,
-    home_position=Position(lat, lon, alt),
-    real_drone_connection="udp://:14540"  # PX4 SITL
-    # or "serial:///dev/ttyUSB0:57600"    # Serial connection
-)
-```
-
-### Hardware Requirements per Drone
-
-- Flight Controller: PX4 or ArduPilot
-- Companion Computer: Raspberry Pi 4+ or NVIDIA Jetson
-- GPS Module: u-blox M8N or better
-- Telemetry: 915MHz or 433MHz radio
-- Battery: 4S LiPo (minimum)
-- Motors: 4 brushless motors (quadcopter)
-
-### Deployment Steps
-
-1. **Flash PX4 Firmware** on flight controller
-2. **Install MAVSDK and all Python modules used by this project**:
-   ```bash
-   pip install -r requirements.txt mavsdk pymavlink
-   ```
-3. **Advanced personal ML training (CSV/JSON trainer)**:
-   ```bash
-   # Train from CSV dataset
-   python ml_trainer.py --drone-id 1 --dataset datasets/personal_training.csv --min-samples 50 --poly-degree 2
-
-   # Train from JSON dataset
-   python ml_trainer.py --drone-id 1 --dataset datasets/personal_training.json --min-samples 50 --poly-degree 2
-
-   # Generate your own demo dataset + train
-   python ml_trainer.py --drone-id 1 --generate-demo --dataset datasets/personal_training.csv --format csv --samples 1000
-   ```
-   Dataset files included:
-   - `datasets/personal_training.csv`
-   - `datasets/personal_training.json`
-   - `datasets/personal_drone_1.csv`
-4. **Configure Communication**:
-   - Set up MAVLink connection
-   - Configure telemetry radio
-   - Set swarm encryption key
-
-5. **Calibration**:
-   - Compass calibration
-   - Accelerometer calibration
-   - ESC calibration
-   - Radio calibration
-
-6. **Test Flight**:
-   - Manual stabilization test
-   - Position hold test
-   - RTH test
-   - Formation flight test
-
-## 🧪 Testing
-
-### Unit Tests
+### 2. Run Tests (Single Entry Point)
 
 ```bash
-# Run all tests
-pytest tests/
-
-# Run with coverage
-pytest --cov=src tests/
+python main.py --test
 ```
 
-### Simulation Testing
+This runs all `test*.py` tests (including dynamic obstacle + latency tests).
+
+### 3. Run Specific Test File (optional)
 
 ```bash
-# Test leader election
-python -c "from tests.test_swarm import test_leader_election; test_leader_election()"
-
-# Test motor failure
-python -c "from tests.test_drone import test_motor_failure; test_motor_failure()"
-
-# Test battery management
-python -c "from tests.test_drone import test_battery_management; test_battery_management()"
+python -m unittest test_dynamic_features.py
 ```
 
-### Integration with PX4 SITL
+## GUI Usage Quick Guide
 
-```bash
-# Start PX4 SITL
-cd PX4-Autopilot
-make px4_sitl gazebo
+1. Start with `python main.py`
+2. In controls panel:
+- Arm/Takeoff drones
+- Send movement commands (`Leader Command X->Y` or manual move)
+- Enable `Use Personal ML Avoidance`
+- Add static/dynamic obstacles if needed
+3. In `Swarm Status` panel:
+- View ID/Role/Mode/Battery/Altitude/Status table
+- Scroll vertically to see all drones
+4. In logs panel:
+- Monitor avoidance events, confidence, and latency warnings
 
-# In another terminal, run the system
-python main.py
-```
+## Environment Variables (Optional)
 
-## 📊 System Architecture
+- `REAL_DRONE_ENABLED=1`
+- `REAL_DRONE_CONNECTIONS=1=udpin://:14540,2=udpin://:14541`
+- `REAL_GPS_REF_LAT=<value>`
+- `REAL_GPS_REF_LON=<value>`
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                    User Interface (GUI)                  │
-│                      (PyQt5)                            │
-└────────────────┬────────────────────────────────────────┘
-                 │
-┌────────────────▼────────────────────────────────────────┐
-│              Swarm Manager (Python)                      │
-│  • Leader Election    • Fault Detection                 │
-│  • Formation Control  • Mission Planning                │
-└────┬─────────────────────────────────────────────┬──────┘
-     │                                             │
-┌────▼──────────────┐                  ┌──────────▼──────┐
-│  Communication    │                  │   ML System     │
-│  • AES Encryption │                  │   • Obstacle    │
-│  • Heartbeat      │                  │   • Formation   │
-│  • Message Queue  │                  │   • Path Plan   │
-└────┬──────────────┘                  └─────────────────┘
-     │
-┌────▼─────────────────────────────────────────────────────┐
-│              Individual Drones (Python + C++)             │
-│  ┌──────────────┐  ┌─────────────┐  ┌─────────────────┐│
-│  │ Drone State  │  │  Battery    │  │  Motor Control  ││
-│  │ Management   │  │  Monitor    │  │  (C++)          ││
-│  └──────────────┘  └─────────────┘  └─────────────────┘│
-└────┬──────────────────────────────────────────────────────┘
-     │
-┌────▼──────────────────────────────────────────────────────┐
-│          MAVLink / PX4 Interface (C++)                     │
-│  • Flight Control  • Telemetry  • Safety Systems          │
-└────┬───────────────────────────────────────────────────────┘
-     │
-┌────▼───────────────────────────────────────────────────────┐
-│              Physical Drone Hardware                        │
-│  • Flight Controller  • GPS  • Motors  • Sensors           │
-└────────────────────────────────────────────────────────────┘
-```
+If these are unset, simulation mode is used.
 
-## 🔐 Security Features
+## C++ Notes
 
-1. **Encrypted Communication**: All drone-to-drone messages encrypted with AES-256
-2. **Authentication**: HMAC-based message authentication
-3. **Replay Protection**: Sequence numbers prevent replay attacks
-4. **Access Control**: Only authenticated drones can join swarm
-5. **Secure Key Exchange**: PBKDF2 key derivation from shared secret
+C++ controller files are present:
+- `dronecontroller.h`
+- `dronecontroller.cpp`
 
-## ⚙️ Configuration
+Latency monitor types are also implemented on the C++ side.
 
-### config/swarm_config.json
+If you use CMake, verify `cmakelists.txt` source paths match your local layout before building.
 
-```json
-{
-  "swarm": {
-    "encryption_key": "your_secure_key_here",
-    "heartbeat_timeout": 5.0,
-    "max_drones": 10
-  },
-  "battery": {
-    "low_threshold": 30.0,
-    "critical_threshold": 20.0,
-    "consumption_rates": {
-      "idle": 0.001,
-      "hover": 0.01,
-      "flying": 0.02
-    }
-  },
-  "flight": {
-    "max_speed": 15.0,
-    "max_altitude": 120.0,
-    "min_spacing": 5.0
-  }
-}
-```
+## Logs
 
-## 📝 Logging
+Runtime logs are written under `logs/`, including:
+- swarm manager
+- per-drone logs
+- ML system logs
+- encrypted communication logs
 
-All system events are logged to `logs/` directory:
+## Troubleshooting
 
-- `system_YYYYMMDD_HHMMSS.log`: Main system log
-- `drone_N.log`: Individual drone logs
-- `swarm_manager.log`: Swarm management events
-- `comm_drone_N.log`: Communication logs
-- `ml_system.log`: ML decision logs
+### Drone not avoiding obstacle
+- Ensure drone is moving toward a target (`MOVE` / `goto` commanded)
+- Keep `Use Personal ML Avoidance` checked
+- Confirm obstacle is inside operation area and visible
+- Check logs for `DYNAMIC_OBSTACLE_AVOIDANCE` events
 
-## 🐛 Troubleshooting
-
-### GUI doesn't start
-- Ensure PyQt5 is installed: `pip install PyQt5`
-- Check X11 forwarding if on remote system
-
-### Drones not communicating
-- Check firewall settings for multicast
-- Verify encryption keys match
-- Check network connectivity
-
-### Battery draining too fast
-- Adjust consumption rates in configuration
-- Check for motor failures
-- Verify idle mode is working
-
-### Motor failure not detected
-- Check motor status update frequency
-- Verify telemetry thread is running
-- Ensure motor health monitoring is enabled
-
-## 📚 API Reference
-
-### Drone Class
-
-```python
-drone = Drone(drone_id, home_position, real_drone_connection)
-drone.arm()                    # Arm motors
-drone.takeoff()               # Takeoff to default altitude
-drone.goto(position)          # Fly to position
-drone.return_to_home(reason)  # Return to home
-drone.emergency_land(reason)  # Emergency landing
-drone.train_physical_ml_model(min_samples=200)  # Train on live telemetry
-drone.train_physical_ml_from_dataset("datasets/personal_training.csv")  # Train from CSV/JSON
-drone.export_physical_training_dataset("datasets/export.csv", "csv")  # Export collected samples
-drone.get_status()            # Get full status dict
-```
-
-### SwarmManager Class
-
-```python
-swarm = SwarmManager()
-swarm.add_drone(drone)              # Add drone
-swarm.remove_drone(drone_id)        # Remove drone
-swarm.elect_leader()                # Force leader election
-swarm.formation_flight(type)        # Formation control
-swarm.emergency_land_all(reason)    # Emergency all
-```
-
-## 🤝 Contributing
-
-This project is designed for academic and research purposes. For contributions:
-
-1. Fork the repository
-2. Create feature branch
-3. Add tests for new features
-4. Submit pull request
-
-## License
-
-Choose one of the common license types below for this project:
-
-- MIT License (permissive): https://opensource.org/licenses/MIT
-- Apache License 2.0 (permissive + patent grant): https://www.apache.org/licenses/LICENSE-2.0
-- BSD 2-Clause (permissive): https://opensource.org/license/bsd-2-clause
-- BSD 3-Clause (permissive): https://opensource.org/license/bsd-3-clause
-- GPL v3.0 (strong copyleft): https://www.gnu.org/licenses/gpl-3.0.en.html
-- LGPL v3.0 (library copyleft): https://www.gnu.org/licenses/lgpl-3.0.en.html
-- AGPL v3.0 (network copyleft): https://www.gnu.org/licenses/agpl-3.0.en.html
-- MPL 2.0 (file-level copyleft): https://www.mozilla.org/en-US/MPL/2.0/
-- The Unlicense (public domain style): https://unlicense.org/
-- CC0 1.0 (public domain dedication): https://creativecommons.org/publicdomain/zero/1.0/
-- Proprietary / All Rights Reserved (closed source)
-
-Recommended default for most open-source code projects: MIT or Apache-2.0.
-After choosing, add a `LICENSE` file in the repository root with the full text.
-
-## ?? Authors
-
-- Md Shahanur Islam Shagor
-- www.smshagor.com
-
-- Bachelor of Science
-- University: Voronezh State University of Forestry and Technology, Voronezh, Russia
-- Department of Computer Science and Microelectronic Engineering
-
-## 📞 Support
-
-For issues and questions:
-- Check logs in `logs/` directory
-- Review troubleshooting section
-- Contact project maintainers
-- smshagor.ru@gmail.com or contact@smshagor.com
-- Whatsapp https://wa.ma/+79954949836
-- Telegram [@smshagor1](https://t.me/smshagor1)
-
-## 🎓 Academic Context
-
-This system was developed as part of a research project on:
-- Fault-tolerant drone swarm systems
-- Automatic leader replacement
-- Secure drone-to-drone communication
-- Machine learning for autonomous navigation
-
-The implementation combines theoretical concepts with practical, deployable code suitable for real drone hardware.
-
----
-
-**Status**: Production-Ready for Simulation | Integration-Ready for Real Drones
-**Version**: 1.0.0
-**Last Updated**: February 2026
+### Latency fallback triggers too often
+- Watch `RTT` and `RTT Jitter` in GUI
+- Increase stability by reducing injected spikes/tests
+- Review per-drone processing capability and current speed

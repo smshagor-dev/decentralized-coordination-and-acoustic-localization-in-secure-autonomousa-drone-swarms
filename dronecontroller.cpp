@@ -9,8 +9,89 @@
 #include <mutex>
 #include <cmath>
 #include <chrono>
+#include <algorithm>
 
 namespace DroneSwarm {
+
+LatencyMonitor::LatencyMonitor(size_t window_size, double threshold_ms)
+    : window_size_(std::max<size_t>(10, window_size)), threshold_ms_(threshold_ms) {}
+
+void LatencyMonitor::markCppSend(uint64_t ts_us) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    t_cpp_send_us_ = ts_us;
+}
+
+void LatencyMonitor::markPyReceive(uint64_t ts_us) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    t_py_receive_us_ = ts_us;
+}
+
+void LatencyMonitor::markPySend(uint64_t ts_us) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    t_py_send_us_ = ts_us;
+}
+
+LatencyMetrics LatencyMonitor::markCppReceive(uint64_t ts_us) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (t_cpp_send_us_ == 0 || t_py_receive_us_ == 0 || t_py_send_us_ == 0) {
+        LatencyMetrics metrics;
+        metrics.threshold_ms = threshold_ms_;
+        metrics.samples = samples_.size();
+        return metrics;
+    }
+
+    auto clamp_ms = [](double us) { return std::max(0.0, us / 1000.0); };
+    Sample sample;
+    sample.cpp_to_py_ms = clamp_ms(static_cast<double>(t_py_receive_us_ - t_cpp_send_us_));
+    sample.py_processing_ms = clamp_ms(static_cast<double>(t_py_send_us_ - t_py_receive_us_));
+    sample.py_to_cpp_ms = clamp_ms(static_cast<double>(ts_us - t_py_send_us_));
+    sample.total_round_trip_ms = clamp_ms(static_cast<double>(ts_us - t_cpp_send_us_));
+
+    samples_.push_back(sample);
+    while (samples_.size() > window_size_) {
+        samples_.pop_front();
+    }
+    LatencyMetrics metrics;
+    metrics.threshold_ms = threshold_ms_;
+    metrics.samples = samples_.size();
+    for (const auto& s : samples_) {
+        metrics.cpp_to_py_ms += s.cpp_to_py_ms;
+        metrics.py_processing_ms += s.py_processing_ms;
+        metrics.py_to_cpp_ms += s.py_to_cpp_ms;
+        metrics.total_round_trip_ms += s.total_round_trip_ms;
+    }
+    const double n = static_cast<double>(samples_.size());
+    metrics.cpp_to_py_ms /= n;
+    metrics.py_processing_ms /= n;
+    metrics.py_to_cpp_ms /= n;
+    metrics.total_round_trip_ms /= n;
+    metrics.fallback_required = metrics.total_round_trip_ms > threshold_ms_;
+    return metrics;
+}
+
+LatencyMetrics LatencyMonitor::getAverages() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    LatencyMetrics metrics;
+    metrics.threshold_ms = threshold_ms_;
+    metrics.samples = samples_.size();
+    if (samples_.empty()) {
+        return metrics;
+    }
+
+    for (const auto& s : samples_) {
+        metrics.cpp_to_py_ms += s.cpp_to_py_ms;
+        metrics.py_processing_ms += s.py_processing_ms;
+        metrics.py_to_cpp_ms += s.py_to_cpp_ms;
+        metrics.total_round_trip_ms += s.total_round_trip_ms;
+    }
+    const double n = static_cast<double>(samples_.size());
+    metrics.cpp_to_py_ms /= n;
+    metrics.py_processing_ms /= n;
+    metrics.py_to_cpp_ms /= n;
+    metrics.total_round_trip_ms /= n;
+    metrics.fallback_required = metrics.total_round_trip_ms > threshold_ms_;
+    return metrics;
+}
 
 // Implementation class (PIMPL pattern)
 class DroneController::Impl {

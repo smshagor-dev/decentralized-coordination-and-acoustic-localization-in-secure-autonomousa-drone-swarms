@@ -6,6 +6,9 @@ Drone Swarm Management System
 import sys
 import os
 import logging
+import argparse
+import unittest
+import random
 from datetime import datetime
 
 # Add src directory to path
@@ -110,11 +113,31 @@ def create_demo_swarm():
         if "lat" in gps_ref and "lon" in gps_ref:
             drone.set_gps_reference(float(gps_ref["lat"]), float(gps_ref["lon"]))
         swarm.add_drone(drone)
+
+    # Auto-populate dynamic obstacles so simulation starts with active traffic.
+    auto_obstacles = random.randint(20, 30)
+    swarm.populate_dynamic_obstacle_field(
+        count=auto_obstacles,
+        area_radius=2600.0,
+    )
     
     return swarm
 
 def main():
     """Main application entry"""
+    parser = argparse.ArgumentParser(description="Drone Swarm Management System")
+    parser.add_argument(
+        "--test",
+        action="store_true",
+        help="Run test suite only and exit",
+    )
+    args = parser.parse_args()
+
+    if args.test:
+        suite = unittest.defaultTestLoader.discover(".", pattern="test*.py")
+        result = unittest.TextTestRunner(verbosity=2).run(suite)
+        raise SystemExit(0 if result.wasSuccessful() else 1)
+
     print("=" * 60)
     print("DRONE SWARM MANAGEMENT SYSTEM")
     print("Secure and Fault-Tolerant Multi-Drone System")

@@ -164,6 +164,9 @@ class Drone:
         self.ml_trainer = None
         self._last_auto_train_samples = 0
         self._initialize_ml_system()
+        self.personal_ml_enabled = True
+        self.max_lateral_accel = 4.5
+        self.steering_smooth_factor = 0.28
 
         # Followers must hold takeoff position until explicit leader command.
         self.auto_motion_enabled = False
@@ -1089,6 +1092,7 @@ class Drone:
             "battery": round(self.battery_level, 2),
             "signal_strength": round(self.signal_strength, 2),
             "ml_enabled": self.ml_system is not None,
+            "personal_ml_enabled": self.personal_ml_enabled,
             "physical_ml_enabled": self.ml_trainer is not None,
             "physical_ml_samples": (
                 len(self.ml_trainer.samples_x) if self.ml_trainer else 0
