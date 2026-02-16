@@ -11,3 +11,8 @@
 2026-02-15 12:16:25,527 - Drone_5 - INFO - Drone 5: Landing initiated
 2026-02-15 12:16:26,030 - Drone_5 - INFO - Drone 5: Landed safely
 2026-02-15 12:17:49,433 - Drone_5 - INFO - Drone 5 stopped
+2026-02-15 17:41:30,018 - Drone_5 - INFO - Drone 5: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-15 17:41:30,018 - Drone_5 - INFO - Drone 5: Personal ML system initialized
+2026-02-15 17:41:30,019 - Drone_5 - INFO - Drone 5 initialized at {'x': -900, 'y': 1600, 'z': 0}
+2026-02-15 17:41:30,019 - Drone_5 - INFO - Drone 5 started
+2026-02-15 17:42:03,018 - Drone_5 - INFO - Drone 5 stopped

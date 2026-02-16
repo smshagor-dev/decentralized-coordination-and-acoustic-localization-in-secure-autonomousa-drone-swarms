@@ -458,3 +458,74 @@
 2026-02-15 12:17:47,254 - SwarmManager - ERROR - Drone 1 heartbeat timeout
 2026-02-15 12:17:47,254 - SwarmManager - ERROR - Handling failure of drone 1: Heartbeat timeout
 2026-02-15 12:17:49,434 - SwarmManager - INFO - Swarm monitoring stopped
+2026-02-15 17:41:22,512 - SwarmManager - INFO - Swarm Manager initialized
+2026-02-15 17:41:22,545 - SwarmManager - INFO - Drone 1 added to swarm
+2026-02-15 17:41:22,546 - SwarmManager - INFO - Starting leader election...
+2026-02-15 17:41:22,548 - SwarmManager - INFO -   Drone 1: suitability score = 100.00
+2026-02-15 17:41:22,549 - SwarmManager - INFO - Drone 1 elected as new LEADER (score: 100.00)
+2026-02-15 17:41:22,653 - SwarmManager - INFO - Swarm monitoring stopped
+2026-02-15 17:41:22,655 - SwarmManager - INFO - Swarm Manager initialized
+2026-02-15 17:41:22,671 - SwarmManager - INFO - Drone 1 added to swarm
+2026-02-15 17:41:22,673 - SwarmManager - INFO - Starting leader election...
+2026-02-15 17:41:22,674 - SwarmManager - INFO -   Drone 1: suitability score = 100.00
+2026-02-15 17:41:22,675 - SwarmManager - INFO - Drone 1 elected as new LEADER (score: 100.00)
+2026-02-15 17:41:22,778 - SwarmManager - INFO - Swarm monitoring stopped
+2026-02-15 17:41:22,780 - SwarmManager - INFO - Swarm Manager initialized
+2026-02-15 17:41:22,800 - SwarmManager - INFO - Drone 1 added to swarm
+2026-02-15 17:41:22,800 - SwarmManager - INFO - Starting leader election...
+2026-02-15 17:41:22,801 - SwarmManager - INFO -   Drone 1: suitability score = 100.00
+2026-02-15 17:41:22,801 - SwarmManager - INFO - Drone 1 elected as new LEADER (score: 100.00)
+2026-02-15 17:41:22,904 - SwarmManager - INFO - Swarm monitoring stopped
+2026-02-15 17:41:22,905 - SwarmManager - INFO - Swarm Manager initialized
+2026-02-15 17:41:22,915 - SwarmManager - INFO - Drone 1 added to swarm
+2026-02-15 17:41:22,916 - SwarmManager - INFO - Starting leader election...
+2026-02-15 17:41:22,919 - SwarmManager - INFO -   Drone 1: suitability score = 100.00
+2026-02-15 17:41:22,919 - SwarmManager - INFO - Drone 1 elected as new LEADER (score: 100.00)
+2026-02-15 17:41:22,923 - SwarmManager - INFO - Dynamic obstacle avoidance drone=1 prob=0.65 cone=0.55 conf=0.35 target=(3.0, -1.0, 1.0)
+2026-02-15 17:41:23,026 - SwarmManager - INFO - Swarm monitoring stopped
+2026-02-15 17:41:23,027 - SwarmManager - INFO - Swarm Manager initialized
+2026-02-15 17:41:23,037 - SwarmManager - INFO - Drone 1 added to swarm
+2026-02-15 17:41:23,038 - SwarmManager - INFO - Starting leader election...
+2026-02-15 17:41:23,038 - SwarmManager - INFO -   Drone 1: suitability score = 100.00
+2026-02-15 17:41:23,039 - SwarmManager - INFO - Drone 1 elected as new LEADER (score: 100.00)
+2026-02-15 17:41:23,142 - SwarmManager - INFO - Swarm monitoring stopped
+2026-02-15 17:41:23,144 - SwarmManager - INFO - Swarm Manager initialized
+2026-02-15 17:41:23,153 - SwarmManager - INFO - Drone 1 added to swarm
+2026-02-15 17:41:23,154 - SwarmManager - INFO - Starting leader election...
+2026-02-15 17:41:23,155 - SwarmManager - INFO -   Drone 1: suitability score = 100.00
+2026-02-15 17:41:23,155 - SwarmManager - INFO - Drone 1 elected as new LEADER (score: 100.00)
+2026-02-15 17:41:23,156 - SwarmManager - INFO - Dynamic obstacle avoidance drone=1 prob=0.58 cone=0.00 conf=0.54 target=(105.0, 34.0, 12.0)
+2026-02-15 17:41:23,259 - SwarmManager - INFO - Swarm monitoring stopped
+2026-02-15 17:41:23,259 - SwarmManager - INFO - Swarm Manager initialized
+2026-02-15 17:41:23,270 - SwarmManager - INFO - Drone 1 added to swarm
+2026-02-15 17:41:23,271 - SwarmManager - INFO - Starting leader election...
+2026-02-15 17:41:23,271 - SwarmManager - INFO -   Drone 1: suitability score = 100.00
+2026-02-15 17:41:23,271 - SwarmManager - INFO - Drone 1 elected as new LEADER (score: 100.00)
+2026-02-15 17:41:23,272 - SwarmManager - INFO - Dynamic obstacle avoidance drone=1 prob=0.43 cone=0.00 conf=0.55 target=(75.0, 38.0, 1.0)
+2026-02-15 17:41:23,375 - SwarmManager - INFO - Swarm monitoring stopped
+2026-02-15 17:41:23,376 - SwarmManager - INFO - Swarm Manager initialized
+2026-02-15 17:41:23,387 - SwarmManager - INFO - Drone 1 added to swarm
+2026-02-15 17:41:23,387 - SwarmManager - INFO - Starting leader election...
+2026-02-15 17:41:23,387 - SwarmManager - INFO -   Drone 1: suitability score = 100.00
+2026-02-15 17:41:23,389 - SwarmManager - INFO - Drone 1 elected as new LEADER (score: 100.00)
+2026-02-15 17:41:23,390 - SwarmManager - INFO - Dynamic obstacle avoidance drone=1 prob=0.46 cone=0.00 conf=0.54 target=(70.0, 36.0, 1.0)
+2026-02-15 17:41:23,492 - SwarmManager - INFO - Swarm monitoring stopped
+2026-02-15 17:41:23,493 - SwarmManager - INFO - Swarm Manager initialized
+2026-02-15 17:41:23,506 - SwarmManager - INFO - Drone 1 added to swarm
+2026-02-15 17:41:23,506 - SwarmManager - INFO - Starting leader election...
+2026-02-15 17:41:23,506 - SwarmManager - INFO -   Drone 1: suitability score = 100.00
+2026-02-15 17:41:23,508 - SwarmManager - INFO - Drone 1 elected as new LEADER (score: 100.00)
+2026-02-15 17:41:23,509 - SwarmManager - INFO - Dynamic obstacle avoidance drone=1 prob=0.48 cone=0.00 conf=0.55 target=(75.0, -34.0, 1.0)
+2026-02-15 17:41:23,611 - SwarmManager - INFO - Swarm monitoring stopped
+2026-02-15 17:41:29,923 - SwarmManager - INFO - Swarm Manager initialized
+2026-02-15 17:41:29,955 - SwarmManager - INFO - Drone 1 added to swarm
+2026-02-15 17:41:29,957 - SwarmManager - INFO - Starting leader election...
+2026-02-15 17:41:29,958 - SwarmManager - INFO -   Drone 1: suitability score = 100.00
+2026-02-15 17:41:29,959 - SwarmManager - INFO - Drone 1 elected as new LEADER (score: 100.00)
+2026-02-15 17:41:29,975 - SwarmManager - INFO - Drone 2 added to swarm
+2026-02-15 17:41:29,991 - SwarmManager - INFO - Drone 3 added to swarm
+2026-02-15 17:41:30,009 - SwarmManager - INFO - Drone 4 added to swarm
+2026-02-15 17:41:30,020 - SwarmManager - INFO - Drone 5 added to swarm
+2026-02-15 17:41:30,027 - SwarmManager - INFO - Auto obstacle field initialized with 20 dynamic obstacles (center=-60.0, -20.0, radius=2600.0)
+2026-02-15 17:41:30,033 - SwarmManager - INFO - Swarm monitoring started
+2026-02-15 17:42:03,019 - SwarmManager - INFO - Swarm monitoring stopped

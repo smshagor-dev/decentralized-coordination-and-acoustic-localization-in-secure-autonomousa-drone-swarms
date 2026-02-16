@@ -1,0 +1,13 @@
+merged_log_run_id=20260215_174129
+[swarm_manager.log] 2026-02-15 17:41:30,033 - SwarmManager - INFO - Swarm monitoring started
+[system_20260215_174129.log] 2026-02-15 17:41:30,034 - Main - INFO - Swarm created with 5 drones
+[system_20260215_174129.log] 2026-02-15 17:41:30,034 - Main - INFO - Leader elected: Drone 1
+[system_20260215_174129.log] 2026-02-15 17:41:30,035 - Main - INFO - Starting GUI...
+[ml_system.log] 2026-02-15 17:41:51,024 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=501 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-15 17:41:51,025 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=501 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-15 17:41:51,114 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=501 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260215_174129.log] 2026-02-15 17:41:51,023 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=501 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260215_174129.log] 2026-02-15 17:41:51,024 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=501 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260215_174129.log] 2026-02-15 17:41:51,024 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=451 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260215_174129.log] 2026-02-15 17:41:51,025 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=501 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260215_174129.log] 2026-02-15 17:41:51,114 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=501 degree=2 alpha=0.0 val_mse=0.000000
