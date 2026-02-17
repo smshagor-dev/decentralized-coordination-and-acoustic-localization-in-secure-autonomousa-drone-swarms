@@ -76,10 +76,3 @@ Any copies elsewhere should reference the original source.
 ---
 
 © Md Shahanur Islam Shagor — All Rights Reserved
-
-## Update: February 17, 2026
-- Added Differential Drone Immune System (Self-Healing Flight System) in dronecontroller.cpp.
-- Added real-time motor health logic (RPM drop detection at >=10%), thrust redistribution, adaptive PID, and emergency return handling for 2+ degraded motors.
-- Added structured immune logs, including [IMMUNE] Motor X degraded ... | Compensation Active and SWARM_ALERT behavior.
-- Swarm Status drone table (ID, Role, Mode, Battery, Altitude, Status) is now fully dynamic in the GUI (defensive row updates, dynamic resizing, always-visible vertical scrollbar, smooth scrolling, and sortable columns).
-- Latency indicators (C++->Py, Py Proc, Py->C++, RTT, RTT Jitter) are dynamically refreshed from runtime latency stats.

@@ -245,6 +245,30 @@ High-level swarm states:
 - Swarm event logs include encrypted command/message records
 - Optional encrypted team broadcast on mission events
 
+## 5.9 Differential Drone Immune System (Self-Healing Flight)
+- Implemented in `dronecontroller.cpp` as a lightweight real-time motor resilience layer.
+- Continuous monitoring:
+  - `motor_rpm[4]`
+  - `motor_vibration[4]`
+  - `battery_drain_rate`
+  - `total_thrust`
+- Failure detection:
+  - motor is marked `DEGRADED` when RPM drops `>=10%` vs rolling average.
+  - self-healing mode activates automatically for single-motor degradation.
+- Physics compensation:
+  - uses `T = sum(T_i)` to maintain total lift.
+  - redistributes thrust across remaining motors.
+  - boosts opposite motor and adjusts roll/yaw torque balance.
+  - applies low-pass smoothing to prevent oscillation.
+  - updates PID gains adaptively under degradation.
+- Safety layer:
+  - if `2+` motors are degraded, system switches to emergency return (`AUTO_RTL` mapping),
+    reduces altitude gradually, and emits `SWARM_ALERT`.
+- Structured runtime log format:
+  - `[IMMUNE] Motor 2 degraded | RPM drop: 12.4% | Compensation Active`
+- Performance target:
+  - non-blocking logic with lightweight math and minimal added control-loop overhead.
+
 ## 6. Startup Behavior
 
 When running `python main.py`:
@@ -578,9 +602,138 @@ Outputs:
 - `performance_graphs/latency_trend_YYYYMMDD_HHMMSS.png`
 - `performance_graphs/battery_vs_ml_load_YYYYMMDD_HHMMSS.png`
 
+## 18. Upgrade Spec: Flying Ledger + Acoustic TDOA
+
+### 18.1 Subsystem A: Decentralized Quantum-Resistant Flying Ledger
+
+New module:
+- `flying_ledger.py`
+
+Block model:
+```python
+class Block:
+    index: int
+    timestamp: float
+    drone_id: str
+    telemetry_hash: str
+    event_hash: str
+    previous_hash: str
+    block_hash: str
+    signature: str
+```
+
+Hashing rules (`hashlib.sha3_256`):
+- Telemetry hash:
+  - `telemetry_hash = sha3_256(serialize(telemetry_snapshot))`
+- Event hash:
+  - `event_hash = sha3_256(serialize(event_payload))`
+- Block hash:
+  - `block_hash = sha3_256(index + timestamp + drone_id + telemetry_hash + event_hash + previous_hash)`
+
+Signature model:
+- Current algorithm: `Ed25519`
+- Interface is algorithm-pluggable to support future Dilithium-style signatures.
+
+Consensus/replication flow:
+1. Drone detects critical event.
+2. Drone creates and signs a block.
+3. Drone broadcasts block through secure comm/event channel.
+4. Peers verify:
+   - signature validity
+   - `previous_hash == local_chain_tail_hash`
+5. Valid block is appended, invalid/tampered/forked block is rejected.
+
+Ledger-triggered event categories:
+- state transition
+- ML avoidance event
+- collision-cone high-probability event
+- latency threshold breach
+- ML bridge timeout
+- emergency landing
+- mission complete
+- acoustic detection event
+
+State-machine addition:
+- `LEDGER_SYNCING`
+
+Threading requirement:
+- replication path is asynchronous and thread-safe.
+
+### 18.2 Subsystem B: Swarm Acoustic Source Localization (TDOA)
+
+New module:
+- `acoustic_tracking.py`
+
+Core components:
+- `AudioSensor`
+- `CrossCorrelationEngine`
+- `TDOAEstimator`
+- `AcousticFusionEngine`
+
+Signal-processing model:
+- Cross-correlation via `scipy.signal.correlate`
+- GCC-PHAT weighting for robust delay estimation under noise
+- Delay estimate:
+  - `Δt = argmax(cross_correlation(sig_i, sig_j)) / sample_rate`
+
+TDOA localization math:
+- Speed of sound:
+  - `c = 343 m/s`
+- Drone positions:
+  - `p_i = (x_i, y_i)`
+- Arrival times:
+  - `t_i`
+- Pairwise delay:
+  - `Δt_ij = t_j - t_i`
+- Hyperbolic constraint:
+  - `sqrt((x_s - x_j)^2 + (y_s - y_j)^2) - sqrt((x_s - x_i)^2 + (y_s - y_i)^2) = c * Δt_ij`
+
+Least-squares objective (nonlinear):
+- `min_(x_s, y_s) Σ_((i,j)) [ d_j(x_s,y_s) - d_i(x_s,y_s) - cΔt_ij ]^2`
+- where `d_k(x_s,y_s) = sqrt((x_s - x_k)^2 + (y_s - y_k)^2)`
+
+Swarm behavior:
+1. Sound detected.
+2. TDOA is computed across drones.
+3. Source `(x_s, y_s)` and confidence are estimated.
+4. Acoustic event is broadcast.
+5. Swarm enters `ACOUSTIC_TRACKING`.
+6. Leader issues `move_formation_to(source_position)`.
+7. If confidence is below threshold, event is ignored.
+
+Latency-aware fallback:
+- Constraint: `Total_round_trip < acoustic_latency_limit`
+- If violated:
+  - switch to local-only estimation
+  - log latency/fallback event in flying ledger.
+
+### 18.3 GUI Additions for This Upgrade
+- Toggle: `Enable Acoustic Detection`
+- Slider: `Detection Confidence Threshold`
+- Sound source marker visualization on map
+- Ledger status panel:
+  - block height
+  - sync state
+  - chain integrity indicator
+
+### 18.4 Test Plan (Automated)
+- `test_blockchain_consensus`
+- `test_block_validation_rejection`
+- `test_acoustic_tdoa_accuracy`
+- `test_noise_resilience`
+- `test_swarm_response_to_acoustic_event`
+- `test_ledger_persistence_after_drone_failure`
+
+Simulation scenarios:
+- drone crash with replicated ledger persistence
+- tampered block injection rejection
+- known-position acoustic impulse localization
+- high-latency spike during acoustic tracking
+
 ## Update: February 17, 2026
 - Added Differential Drone Immune System (Self-Healing Flight System) in dronecontroller.cpp.
 - Added real-time motor health logic (RPM drop detection at >=10%), thrust redistribution, adaptive PID, and emergency return handling for 2+ degraded motors.
 - Added structured immune logs, including [IMMUNE] Motor X degraded ... | Compensation Active and SWARM_ALERT behavior.
+- Added subsystem spec and math notes for decentralized flying ledger + acoustic TDOA localization integration.
 - Swarm Status drone table (ID, Role, Mode, Battery, Altitude, Status) is now fully dynamic in the GUI (defensive row updates, dynamic resizing, always-visible vertical scrollbar, smooth scrolling, and sortable columns).
 - Latency indicators (C++->Py, Py Proc, Py->C++, RTT, RTT Jitter) are dynamically refreshed from runtime latency stats.
