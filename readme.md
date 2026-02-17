@@ -59,7 +59,7 @@ flowchart TD
     PRED --> RISK[DynamicObstaclePredictor\ncollision + cone probability]
     RISK --> AVOID[AvoidanceController\nvelocity blend + accel limit]
     AVOID --> REPLAN[PathReplanner]
-    REPLAN --> GOTO[drone.goto(safe_target)]
+    REPLAN --> GOTO["drone.goto(safe_target)"]
 
     LATMODE[Fallback Local Avoidance Mode] --> AVOID
 ```
@@ -87,7 +87,7 @@ flowchart TD
     FUSE --> SRC[Source XY + RMSE + Confidence]
 
     LAT[Current RTT] --> GATE{RTT > acoustic_latency_limit?}
-    GATE -->|Yes| LOCAL[Local-only (first 3 sensors)]
+    GATE -->|Yes| LOCAL["Local-only (first 3 sensors)"]
     GATE -->|No| GLOBAL[Use full sensor set]
     LOCAL --> FUSE
     GLOBAL --> FUSE
@@ -566,163 +566,163 @@ S = 0.4B + 0.3Q + 0.2P + 0.1M
 
 In `drone.py`:
 
-\[
+$$
 \Delta x = x_t - x,\quad \Delta y = y_t - y,\quad \Delta z = z_t - z
-\]
-\[
+$$
+$$
 d = \sqrt{\Delta x^2 + \Delta y^2 + \Delta z^2},\quad v = \min(V_{max}, d/\Delta t)
-\]
-\[
+$$
+$$
 x_{new}=x+\frac{\Delta x}{d}v\Delta t,\quad y_{new}=y+\frac{\Delta y}{d}v\Delta t,\quad z_{new}=z+\frac{\Delta z}{d}v\Delta t
-\]
+$$
 
 ### 13.3 Return-to-Home with Degraded/Emergency Caps
 
 In `drone.py`:
 
-\[
+$$
 d_h = \sqrt{(x_h-x)^2 + (y_h-y)^2}
-\]
-\[
+$$
+$$
 v_{cap} = \begin{cases}
 V_{max}, & \text{normal RTH}\\
 0.55V_{max}, & \text{degraded return}\\
 0.75V_{max}, & \text{emergency return}
 \end{cases}
-\]
-\[
+$$
+$$
 v = \min(v_{cap}, d_h/\Delta t)
-\]
-\[
+$$
+$$
 x_{new}=x+\frac{x_h-x}{d_h}v\Delta t,\quad y_{new}=y+\frac{y_h-y}{d_h}v\Delta t
-\]
+$$
 
 Descent rule:
 
-\[
+$$
 z_{new}=\max(z_h, z-r_d\Delta t),\quad r_d=0.5V_{land}\ (\text{degraded: }0.6\times 0.5V_{land})
-\]
+$$
 
 ### 13.4 Wind Disturbance + Compensation (Degraded Mode)
 
-\[
+$$
 \phi_{t+1}=\phi_t+0.7\Delta t
-\]
-\[
+$$
+$$
 g_x=w_x\left(0.65+0.35\sin\phi\right),\quad g_y=w_y\left(0.65+0.35\cos(0.9\phi)\right)
-\]
+$$
 
 Compensation factor in code: \(c=0.45\), so residual factor is \(1-c=0.55\):
 
-\[
+$$
 x_{new}=x+\frac{x_h-x}{d_h}v\Delta t+0.55g_x\Delta t
-\]
-\[
+$$
+$$
 y_{new}=y+\frac{y_h-y}{d_h}v\Delta t+0.55g_y\Delta t
-\]
+$$
 
 Initial wind vector magnitude in `Drone.__init__` is approximately 1.2:
 
-\[
+$$
 (w_x,w_y)=\left(1.2\cos\phi_0,\ 1.2\sin\phi_0\right)
-\]
+$$
 
 ### 13.5 Dynamic Obstacle Prediction and Collision Risk
 
 In `dynamic_obstacles.py` trajectory prediction:
 
-\[
+$$
 p_o(t)=p_o+v_ot+\frac{1}{2}a_ot^2
-\]
+$$
 
 Risk memory update:
 
-\[
+$$
 r_{k+1}=0.86r_k+0.14\cdot\min\left(1,\frac{\|v_o\|}{20}+\frac{\|a_o\|}{6}\right)
-\]
+$$
 
 Collision probability term per predicted point:
 
-\[
+$$
 \text{safe\_dist}=R_o+8+0.25\|v_d\|
-\]
-\[
+$$
+$$
 \text{proximity}=1-\frac{d}{\text{safe\_dist}},\quad
 \text{prob}=\min(1,0.7\cdot\text{proximity}+0.3\cdot r)\cdot\text{time\_factor}
-\]
+$$
 
 ### 13.6 Collision-Cone Probability
 
 Relative geometry in `DynamicObstaclePredictor._collision_cone_probability`:
 
-\[
+$$
 r = p_o - p_d,\quad v_{rel}=v_o-v_d
-\]
-\[
+$$
+$$
 \theta_c = \arcsin\left(\frac{R_o}{\max(R_o+1,\|r\|)}\right)
-\]
+$$
 
 If the angle between \(v_{rel}\) and line-of-sight is below \(\theta_c\), and closest-approach time \(t_{ca}\in[0,4]\), cone risk is:
 
-\[
+$$
 P_{cone}=\min\left(1,\left(1-\frac{\theta}{\theta_c}\right)\cdot\left(1-\frac{t_{ca}}{4}\right)\right)
-\]
+$$
 (with lower-bound clamp applied in code for stability).
 
 ### 13.7 Avoidance Velocity Blending with Acceleration Limit
 
 In `AvoidanceController.blend_velocity`:
 
-\[
+$$
 v_{des}=v_{goal}+v_{avoid}
-\]
-\[
+$$
+$$
 v_{blend}=v_{cur}+\alpha(v_{des}-v_{cur}),\quad \alpha\in[0,1]
-\]
-\[
+$$
+$$
 a=\frac{\|v_{blend}-v_{cur}\|}{\Delta t}
-\]
+$$
 
 If \(a>a_{max}\), scale toward \(v_{cur}\):
 
-\[
+$$
 v_{new}=v_{cur}+\frac{a_{max}}{a}(v_{blend}-v_{cur})
-\]
+$$
 
 ### 13.8 Latency and Jitter Metrics
 
 From `latency_monitor.py`:
 
-\[
+$$
 T_{c2p}=t_{py\_recv}-t_{cpp\_send},\quad T_{proc}=t_{py\_send}-t_{py\_recv},\quad T_{p2c}=t_{cpp\_recv}-t_{py\_send}
-\]
-\[
+$$
+$$
 T_{rtt}=t_{cpp\_recv}-t_{cpp\_send}
-\]
+$$
 
 Windowed average (ms):
 
-\[
+$$
 \overline{T}_{rtt,ms}=1000\cdot\frac{1}{N}\sum_{i=1}^{N}T_{rtt,i}
-\]
+$$
 
 Jitter (std. dev. in ms):
 
-\[
+$$
 \sigma=\sqrt{\frac{1}{N}\sum_{i=1}^{N}(x_i-\bar{x})^2}
-\]
+$$
 
 Fallback rule:
 
-\[
+$$
 \text{fallback\_required} = (\overline{T}_{rtt,ms} > T_{th})
-\]
+$$
 
 Adaptive threshold in `swarm_manager.py`:
 
-\[
+$$
 T_{th}=\text{clip}_{[110,280]}\left(220-\min(70,3\|v\|)-\min(55,0.8(100-P))\right)
-\]
+$$
 
 ### 13.9 Acoustic Localization (TDOA)
 
@@ -730,45 +730,45 @@ From `acoustic_tracking.py` with speed of sound \(c=343\,m/s\):
 
 Delay estimation (per sensor pair):
 
-\[
+$$
 \Delta t_{ij}=\frac{\operatorname*{argmax}_{\tau}\,R_{ij}(\tau)}{f_s}
-\]
+$$
 
 TDOA residual for reference sensor \(i\):
 
-\[
+$$
 \left(\|s-x_j\| - \|s-x_i\|\right) - c\left(\Delta t_j-\Delta t_i\right)=0
-\]
+$$
 
 Solved by nonlinear least squares. Confidence from RMSE:
 
-\[
+$$
 \text{confidence}=\frac{1}{1+\text{RMSE}/6}
-\]
+$$
 
 Latency gate:
 
-\[
+$$
 \text{local\_only} = (T_{rtt,ms} > T_{acoustic\_limit})
-\]
+$$
 
 ### 13.10 Flying Ledger Integrity
 
 From `flying_ledger.py`:
 
-\[
+$$
 H_{tele}=\operatorname{SHA3\_256}(\text{stable\_json}(telemetry)),\quad
 H_{evt}=\operatorname{SHA3\_256}(\text{stable\_json}(event))
-\]
-\[
+$$
+$$
 H_{blk}=\operatorname{SHA3\_256}(index\,|\,timestamp\,|\,drone\_id\,|\,H_{tele}\,|\,H_{evt}\,|\,H_{prev})
-\]
+$$
 
 Signature:
 
-\[
+$$
 \sigma=\operatorname{Ed25519\_Sign}(H_{blk})
-\]
+$$
 
 Replication accepts block only if index/prev-hash/hash/signature all verify.
 
