@@ -800,6 +800,19 @@ $$
 - Added Differential Drone Immune System (Self-Healing Flight System) in dronecontroller.cpp.
 - Added real-time motor health logic (RPM drop detection at >=10%), thrust redistribution, adaptive PID, and emergency return handling for 2+ degraded motors.
 - Added structured immune logs, including [IMMUNE] Motor X degraded ... | Compensation Active and SWARM_ALERT behavior.
-- Added subsystem spec and math notes for decentralized flying ledger + acoustic TDOA localization integration.
+- Added decentralized flying ledger architecture requirements:
+  - new module `flying_ledger.py`
+  - `Block` model: `index`, `timestamp`, `drone_id`, `telemetry_hash`, `event_hash`, `previous_hash`, `block_hash`, `signature`
+  - SHA3-256 hashing for telemetry/event/block payloads
+  - Ed25519 signatures with quantum-resistant-ready signing abstraction (future Dilithium-style replacement)
+  - per-drone chain flow: create -> sign -> broadcast -> peer verify -> append/reject
+  - fork/tamper rejection with `previous_hash` tail validation
+  - asynchronous, thread-safe ledger replication
+  - new swarm state: `LEDGER_SYNCING`
+  - critical-event trigger coverage: state transition, ML avoidance, collision cone high probability, latency breach, ML bridge timeout, emergency landing, mission complete, acoustic detection
+- Added Subsystem 2 objective/spec:
+  - new module `acoustic_tracking.py`
+  - distributed microphone-based acoustic source localization (TDOA)
+  - camera-independent sound detection/localization for swarm response.
 - Swarm Status drone table (ID, Role, Mode, Battery, Altitude, Status) is now fully dynamic in the GUI (defensive row updates, dynamic resizing, always-visible vertical scrollbar, smooth scrolling, and sortable columns).
 - Latency indicators (C++->Py, Py Proc, Py->C++, RTT, RTT Jitter) are dynamically refreshed from runtime latency stats.
