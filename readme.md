@@ -607,6 +607,47 @@ Outputs:
 
 ## 17. Upgrade Spec: Flying Ledger + Acoustic TDOA
 
+### 17.0 Architecture Diagram (Drone-Ledger-Acoustic Integration)
+
+```mermaid
+flowchart LR
+    subgraph Swarm["Drone Swarm Layer"]
+        D1["Drone-1"]
+        D2["Drone-2"]
+        D3["Drone-N"]
+    end
+
+    subgraph Ledger["Flying Ledger Layer"]
+        LB["Block Create + Sign"]
+        LC["Peer Verify + Consensus"]
+        LS["Distributed Chain Sync"]
+    end
+
+    subgraph Acoustic["Acoustic TDOA Layer"]
+        AS["Audio Sensors (per drone)"]
+        CC["GCC-PHAT Correlation"]
+        TL["TDOA Localization"]
+        EV["Acoustic Event + Confidence"]
+    end
+
+    D1 --> LB
+    D2 --> LB
+    D3 --> LB
+    LB --> LC --> LS
+    LS --> D1
+    LS --> D2
+    LS --> D3
+
+    D1 --> AS
+    D2 --> AS
+    D3 --> AS
+    AS --> CC --> TL --> EV
+    EV --> LS
+    EV --> D1
+    EV --> D2
+    EV --> D3
+```
+
 ### 17.1 Subsystem A: Decentralized Quantum-Resistant Flying Ledger
 
 New module:
