@@ -801,6 +801,14 @@ The system computes Return-to-Home (RTH) success probability to position `X` usi
 
 Core equation:
 
+The system calculates the probability of a successful Return to Home (RTH) to position $X$ using a multi-variate reliability model:
+
+$$P_{success} = \prod (Health_{motor}, Energy_{margin}, Signal_{quality})$$
+
+- **Motor Integrity:** Derived from the C++ Differential Immune System (RPM variance).
+- **Energy Constraint:** $P(E) = \frac{V_{current} - V_{min}}{V_{required\_for\_X}}$.
+- **Decision Threshold:** If $P_{success} < 0.65$, the swarm initiates a 'Land-In-Place' protocol; otherwise, it proceeds with 'Autonomous RTH'.
+
 $$
 P_{RTH} = P_{battery} \times P_{motor} \times P_{distance}
 $$
