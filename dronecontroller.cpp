@@ -10,8 +10,25 @@
 #include <cmath>
 #include <chrono>
 #include <algorithm>
+#include <array>
+#include <iomanip>
+#include <numeric>
 
 namespace DroneSwarm {
+namespace {
+constexpr size_t kMotorCount = 4;
+constexpr size_t kRollingWindow = 20;
+constexpr float kDegradedDropThreshold = 0.10f; // 10%
+constexpr float kThrustToCurrentScale = 0.45f;
+
+int oppositeMotorIndex(int idx) {
+    return (idx + 2) % static_cast<int>(kMotorCount);
+}
+
+float clampNonNegative(float value) {
+    return std::max(0.0f, value);
+}
+} // namespace
 
 LatencyMonitor::LatencyMonitor(size_t window_size, double threshold_ms)
     : window_size_(std::max<size_t>(10, window_size)), threshold_ms_(threshold_ms) {}
@@ -113,11 +130,43 @@ public:
     
     uint64_t last_heartbeat;
     Position home_position;
+    std::array<std::deque<float>, kMotorCount> rpm_history;
+    std::array<float, kMotorCount> motor_vibration;
+    std::array<float, kMotorCount> motor_thrust;
+    std::array<float, kMotorCount> thrust_lpf;
+    float battery_drain_rate;
+    float total_thrust;
+    float baseline_total_thrust;
+    bool self_healing_active;
+    bool emergency_return_mode;
+    bool swarm_alert_pending;
+    std::string swarm_alert_message;
+    float filtered_roll_comp;
+    float filtered_yaw_comp;
+    float pid_roll_p;
+    float pid_roll_i;
+    float pid_roll_d;
+    float pid_yaw_p;
+    float pid_yaw_i;
+    float pid_yaw_d;
+    std::chrono::steady_clock::time_point last_battery_sample;
+    float last_battery_remaining;
     
     Impl(const std::string& conn_str, int id)
         : connection_string(conn_str), drone_id(id), connected(false),
           armed(false), current_mode(FlightMode::MANUAL), running(false),
-          last_heartbeat(0) {}
+          battery_drain_rate(0.0f), total_thrust(0.0f), baseline_total_thrust(10.0f),
+          self_healing_active(false), emergency_return_mode(false),
+          swarm_alert_pending(false),
+          filtered_roll_comp(0.0f), filtered_yaw_comp(0.0f),
+          pid_roll_p(1.0f), pid_roll_i(0.0f), pid_roll_d(0.05f),
+          pid_yaw_p(0.8f), pid_yaw_i(0.0f), pid_yaw_d(0.04f),
+          last_battery_sample(std::chrono::steady_clock::now()),
+          last_battery_remaining(100.0f), last_heartbeat(0) {
+        motor_vibration.fill(0.0f);
+        motor_thrust.fill(0.0f);
+        thrust_lpf.fill(0.0f);
+    }
     
     ~Impl() {
         running = false;
@@ -396,20 +445,16 @@ bool DroneController::disableMotor(int motor_id) {
               << pImpl->drone_id << std::endl;
     
     pImpl->telemetry.motors[motor_id].operational = false;
+    pImpl->telemetry.motors[motor_id].degraded = true;
     pImpl->telemetry.motors[motor_id].rpm = 0;
-    
-    // Trigger emergency if too many motors failed
-    int operational = 0;
-    for (const auto& motor : pImpl->telemetry.motors) {
-        if (motor.operational) operational++;
+    pImpl->telemetry.motors[motor_id].vibration = 1.0f;
+    pImpl->motor_vibration[motor_id] = 1.0f;
+    pImpl->rpm_history[motor_id].push_back(0.0f);
+    if (pImpl->rpm_history[motor_id].size() > kRollingWindow) {
+        pImpl->rpm_history[motor_id].pop_front();
     }
     
-    if (operational < 3) {
-        if (pImpl->emergency_callback) {
-            pImpl->emergency_callback("Critical motor failure");
-        }
-        emergencyLand();
-    }
+    detectMotorHealth();
     
     return true;
 }
@@ -437,6 +482,8 @@ uint64_t DroneController::getLastHeartbeat() const {
 // Telemetry loop
 void DroneController::telemetryLoop() {
     while (pImpl->running) {
+        bool emit_swarm_alert = false;
+        std::string swarm_alert_message;
         {
             std::lock_guard<std::mutex> lock(pImpl->telemetry_mutex);
             
@@ -453,6 +500,19 @@ void DroneController::telemetryLoop() {
         
         // Update battery
         updateBatteryStatus();
+
+        {
+            std::lock_guard<std::mutex> lock(pImpl->telemetry_mutex);
+            if (pImpl->swarm_alert_pending) {
+                emit_swarm_alert = true;
+                swarm_alert_message = pImpl->swarm_alert_message;
+                pImpl->swarm_alert_pending = false;
+            }
+        }
+
+        if (emit_swarm_alert && pImpl->emergency_callback) {
+            pImpl->emergency_callback(swarm_alert_message);
+        }
         
         // Call callback if registered
         if (pImpl->telemetry_callback) {
@@ -467,15 +527,203 @@ void DroneController::telemetryLoop() {
 // Check motor health
 void DroneController::checkMotorHealth() {
     std::lock_guard<std::mutex> lock(pImpl->telemetry_mutex);
-    
-    for (auto& motor : pImpl->telemetry.motors) {
+
+    for (size_t i = 0; i < pImpl->telemetry.motors.size() && i < kMotorCount; i++) {
+        auto& motor = pImpl->telemetry.motors[i];
+        if (!pImpl->armed) {
+            motor.rpm = 0.0f;
+            motor.temperature = 25.0f;
+            motor.current = 0.0f;
+            motor.vibration = 0.0f;
+            pImpl->motor_thrust[i] = 0.0f;
+            pImpl->thrust_lpf[i] = 0.0f;
+            continue;
+        }
+
+        const float nominal_rpm = 5000.0f;
         if (motor.operational) {
-            // Simulate normal motor operation
-            motor.rpm = pImpl->armed ? 5000.0f : 0.0f;
-            motor.temperature = 25.0f + (pImpl->armed ? 15.0f : 0.0f);
-            motor.current = pImpl->armed ? 5.0f : 0.0f;
+            if (motor.degraded) {
+                motor.rpm = nominal_rpm * 0.85f;
+                motor.vibration = 0.65f;
+            } else {
+                motor.rpm = nominal_rpm;
+                motor.vibration = 0.18f;
+            }
+            pImpl->motor_vibration[i] = motor.vibration;
+            motor.temperature = 40.0f + (motor.degraded ? 6.0f : 0.0f);
+            motor.current = 5.0f + pImpl->motor_thrust[i] * kThrustToCurrentScale;
+        } else {
+            motor.rpm = 0.0f;
+            motor.degraded = true;
+            motor.vibration = 1.0f;
+            pImpl->motor_vibration[i] = 1.0f;
+            motor.temperature = 42.0f;
+            motor.current = 0.0f;
+        }
+
+        pImpl->motor_thrust[i] = motor.rpm * 0.0005f;
+    }
+
+    pImpl->total_thrust = 0.0f;
+    for (float thrust : pImpl->motor_thrust) {
+        pImpl->total_thrust += thrust;
+    }
+
+    detectMotorHealth();
+}
+
+void DroneController::detectMotorHealth() {
+    int degraded_count = 0;
+    int first_failed_index = -1;
+
+    for (size_t i = 0; i < pImpl->telemetry.motors.size() && i < kMotorCount; i++) {
+        auto& motor = pImpl->telemetry.motors[i];
+
+        if (!motor.operational) {
+            motor.degraded = true;
+            degraded_count++;
+            if (first_failed_index < 0) {
+                first_failed_index = static_cast<int>(i);
+            }
+            continue;
+        }
+
+        auto& history = pImpl->rpm_history[i];
+        float rolling_avg = motor.rpm;
+        if (!history.empty()) {
+            const float sum = std::accumulate(history.begin(), history.end(), 0.0f);
+            rolling_avg = sum / static_cast<float>(history.size());
+        }
+
+        history.push_back(motor.rpm);
+        if (history.size() > kRollingWindow) {
+            history.pop_front();
+        }
+
+        if (history.size() >= 5 && rolling_avg > 1.0f) {
+            const float drop_pct = ((rolling_avg - motor.rpm) / rolling_avg) * 100.0f;
+            if (drop_pct >= (kDegradedDropThreshold * 100.0f)) {
+                if (!motor.degraded) {
+                    std::cout << std::fixed << std::setprecision(1)
+                              << "[IMMUNE] Motor " << i << " degraded | RPM drop: "
+                              << drop_pct << "% | Compensation Active" << std::defaultfloat
+                              << std::endl;
+                }
+                motor.degraded = true;
+                degraded_count++;
+                if (first_failed_index < 0) {
+                    first_failed_index = static_cast<int>(i);
+                }
+            }
         }
     }
+
+    if (degraded_count == 1 && first_failed_index >= 0) {
+        activateSelfHealingMode(first_failed_index);
+    } else if (degraded_count == 0) {
+        pImpl->self_healing_active = false;
+        updateAdaptivePID();
+    }
+
+    if (degraded_count >= 2) {
+        if (!pImpl->emergency_return_mode) {
+            pImpl->emergency_return_mode = true;
+            pImpl->self_healing_active = false;
+            pImpl->current_mode = FlightMode::EMERGENCY_RETURN;
+            pImpl->telemetry.flight_mode = FlightMode::EMERGENCY_RETURN;
+            pImpl->swarm_alert_pending = true;
+            pImpl->swarm_alert_message = "SWARM_ALERT: 2+ motors degraded, EMERGENCY_RETURN enabled";
+            std::cout << "[IMMUNE] SWARM_ALERT | 2+ motors degraded | Entering EMERGENCY_RETURN" << std::endl;
+        }
+    }
+
+    if (pImpl->emergency_return_mode && pImpl->armed) {
+        pImpl->telemetry.position.relative_alt = std::max(0.0f, pImpl->telemetry.position.relative_alt - 0.05f);
+        pImpl->telemetry.position.altitude = std::max(0.0f, pImpl->telemetry.position.altitude - 0.05f);
+    }
+}
+
+void DroneController::activateSelfHealingMode(int failed_motor_index) {
+    if (failed_motor_index < 0 || failed_motor_index >= static_cast<int>(kMotorCount)) {
+        return;
+    }
+    pImpl->self_healing_active = true;
+    redistributeThrust(failed_motor_index);
+    updateAdaptivePID();
+}
+
+void DroneController::redistributeThrust(int failed_motor_index) {
+    if (!pImpl->armed) {
+        return;
+    }
+
+    const float required_total = std::max(pImpl->baseline_total_thrust, pImpl->total_thrust);
+    const float failed_motor_floor = required_total * 0.12f;
+    const int opposite = oppositeMotorIndex(failed_motor_index);
+
+    for (size_t i = 0; i < kMotorCount; i++) {
+        if (static_cast<int>(i) == failed_motor_index) {
+            pImpl->motor_thrust[i] = std::max(failed_motor_floor, pImpl->motor_thrust[i] * 0.45f);
+        } else {
+            pImpl->motor_thrust[i] = (required_total - pImpl->motor_thrust[failed_motor_index]) / 3.0f;
+        }
+    }
+
+    pImpl->motor_thrust[opposite] *= 1.08f;
+
+    // Re-normalize to preserve total thrust T = sum(T_i).
+    float non_failed_sum = 0.0f;
+    for (size_t i = 0; i < kMotorCount; i++) {
+        if (static_cast<int>(i) != failed_motor_index) {
+            non_failed_sum += pImpl->motor_thrust[i];
+        }
+    }
+    const float target_non_failed_sum = required_total - pImpl->motor_thrust[failed_motor_index];
+    const float renorm = non_failed_sum > 1e-3f ? (target_non_failed_sum / non_failed_sum) : 1.0f;
+    for (size_t i = 0; i < kMotorCount; i++) {
+        if (static_cast<int>(i) != failed_motor_index) {
+            pImpl->motor_thrust[i] *= renorm;
+        }
+    }
+
+    // Low-pass filtered torque compensation to avoid oscillation.
+    const float roll_target = (pImpl->motor_thrust[1] + pImpl->motor_thrust[2]) -
+                              (pImpl->motor_thrust[0] + pImpl->motor_thrust[3]);
+    const float yaw_target = (pImpl->motor_thrust[0] + pImpl->motor_thrust[2]) -
+                             (pImpl->motor_thrust[1] + pImpl->motor_thrust[3]);
+    constexpr float lpf_alpha = 0.25f;
+    pImpl->filtered_roll_comp = lpf_alpha * roll_target + (1.0f - lpf_alpha) * pImpl->filtered_roll_comp;
+    pImpl->filtered_yaw_comp = lpf_alpha * yaw_target + (1.0f - lpf_alpha) * pImpl->filtered_yaw_comp;
+
+    pImpl->motor_thrust[0] += 0.03f * pImpl->filtered_yaw_comp - 0.03f * pImpl->filtered_roll_comp;
+    pImpl->motor_thrust[1] -= 0.03f * pImpl->filtered_yaw_comp + 0.03f * pImpl->filtered_roll_comp;
+    pImpl->motor_thrust[2] += 0.03f * pImpl->filtered_yaw_comp + 0.03f * pImpl->filtered_roll_comp;
+    pImpl->motor_thrust[3] -= 0.03f * pImpl->filtered_yaw_comp - 0.03f * pImpl->filtered_roll_comp;
+
+    pImpl->total_thrust = 0.0f;
+    for (size_t i = 0; i < kMotorCount; i++) {
+        pImpl->motor_thrust[i] = clampNonNegative(pImpl->motor_thrust[i]);
+        pImpl->thrust_lpf[i] = lpf_alpha * pImpl->motor_thrust[i] + (1.0f - lpf_alpha) * pImpl->thrust_lpf[i];
+        pImpl->motor_thrust[i] = pImpl->thrust_lpf[i];
+        pImpl->total_thrust += pImpl->motor_thrust[i];
+    }
+}
+
+void DroneController::updateAdaptivePID() {
+    int degraded_count = 0;
+    for (size_t i = 0; i < pImpl->telemetry.motors.size() && i < kMotorCount; i++) {
+        if (pImpl->telemetry.motors[i].degraded) {
+            degraded_count++;
+        }
+    }
+
+    const float adaptation = pImpl->self_healing_active ? 1.0f : 0.0f;
+    pImpl->pid_roll_p = 1.0f + adaptation * 0.22f + 0.08f * degraded_count;
+    pImpl->pid_roll_i = 0.0f;
+    pImpl->pid_roll_d = 0.05f + adaptation * 0.02f + 0.01f * degraded_count;
+    pImpl->pid_yaw_p = 0.8f + adaptation * 0.18f + 0.06f * degraded_count;
+    pImpl->pid_yaw_i = 0.0f;
+    pImpl->pid_yaw_d = 0.04f + adaptation * 0.015f + 0.01f * degraded_count;
 }
 
 // Update battery status
@@ -487,24 +735,33 @@ void DroneController::updateBatteryStatus() {
     
     float discharge_rate = 0.0f;
     if (pImpl->armed) {
+        const float thrust_load = std::clamp(pImpl->total_thrust / std::max(1.0f, pImpl->baseline_total_thrust), 0.5f, 2.0f);
         if (pImpl->current_mode == FlightMode::AUTO_TAKEOFF) {
-            discharge_rate = 0.02f; // 2% per second when taking off
+            discharge_rate = 0.02f * thrust_load; // 2% per second baseline
         } else if (pImpl->current_mode == FlightMode::OFFBOARD) {
-            discharge_rate = 0.01f; // 1% per second when flying
+            discharge_rate = 0.01f * thrust_load; // 1% per second baseline
+        } else if (pImpl->current_mode == FlightMode::EMERGENCY_RETURN) {
+            discharge_rate = 0.012f * thrust_load;
         } else {
-            discharge_rate = 0.005f; // 0.5% per second when hovering
+            discharge_rate = 0.005f * thrust_load; // 0.5% per second baseline
         }
     }
     
     // Apply discharge (would be real measurement in actual drone)
     // This is just for simulation
-    static auto last_update = std::chrono::steady_clock::now();
     auto now = std::chrono::steady_clock::now();
-    float dt = std::chrono::duration<float>(now - last_update).count();
-    last_update = now;
+    float dt = std::chrono::duration<float>(now - pImpl->last_battery_sample).count();
+    pImpl->last_battery_sample = now;
     
     pImpl->telemetry.battery.remaining -= discharge_rate * dt;
     pImpl->telemetry.battery.remaining = std::max(0.0f, pImpl->telemetry.battery.remaining);
+
+    if (dt > 1e-3f) {
+        pImpl->battery_drain_rate = std::max(0.0f, (pImpl->last_battery_remaining - pImpl->telemetry.battery.remaining) / dt);
+    } else {
+        pImpl->battery_drain_rate = 0.0f;
+    }
+    pImpl->last_battery_remaining = pImpl->telemetry.battery.remaining;
     
     // Estimate time remaining
     if (discharge_rate > 0) {

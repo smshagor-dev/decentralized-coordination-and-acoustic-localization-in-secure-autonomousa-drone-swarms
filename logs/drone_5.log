@@ -16,3 +16,36 @@
 2026-02-15 17:41:30,019 - Drone_5 - INFO - Drone 5 initialized at {'x': -900, 'y': 1600, 'z': 0}
 2026-02-15 17:41:30,019 - Drone_5 - INFO - Drone 5 started
 2026-02-15 17:42:03,018 - Drone_5 - INFO - Drone 5 stopped
+2026-02-17 08:16:39,795 - Drone_5 - INFO - Drone 5: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-17 08:16:39,796 - Drone_5 - INFO - Drone 5: Personal ML system initialized
+2026-02-17 08:16:39,796 - Drone_5 - INFO - Drone 5 initialized at {'x': -900, 'y': 1600, 'z': 0}
+2026-02-17 08:16:39,797 - Drone_5 - INFO - Drone 5 started
+2026-02-17 08:17:09,054 - Drone_5 - INFO - Drone 5: Armed
+2026-02-17 08:17:09,840 - Drone_5 - INFO - Drone 5: Taking off
+2026-02-17 08:17:13,039 - Drone_5 - INFO - Drone 5: Flying to {'x': 2553.9057647468726, 'y': 2537.202456766718, 'z': 60.0}
+2026-02-17 08:19:00,418 - Drone_5 - INFO - Drone 5: Flying to {'x': 731.469966551739, 'y': 2079.5807755429532, 'z': 29.7963150275984}
+2026-02-17 08:19:01,426 - Drone_5 - INFO - Drone 5: Flying to {'x': 743.900623003653, 'y': 2088.5196821533264, 'z': 29.533510470975603}
+2026-02-17 08:19:02,434 - Drone_5 - INFO - Drone 5: Flying to {'x': 756.1710573982598, 'y': 2097.287410897824, 'z': 29.444508904678134}
+2026-02-17 08:19:03,446 - Drone_5 - INFO - Drone 5: Flying to {'x': 768.4459521848249, 'y': 2106.002974639595, 'z': 29.412633979129474}
+2026-02-17 08:19:09,449 - Drone_5 - INFO - Drone 5 stopped
+2026-02-17 08:19:12,816 - Drone_5 - INFO - Drone 5: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-17 08:19:12,816 - Drone_5 - INFO - Drone 5: Personal ML system initialized
+2026-02-17 08:19:12,817 - Drone_5 - INFO - Drone 5 initialized at {'x': -900, 'y': 1600, 'z': 0}
+2026-02-17 08:19:12,818 - Drone_5 - INFO - Drone 5 started
+2026-02-17 08:20:23,086 - Drone_5 - INFO - Drone 5: Armed
+2026-02-17 08:20:23,496 - Drone_5 - INFO - Drone 5: Taking off
+2026-02-17 08:20:27,192 - Drone_5 - INFO - Drone 5: Flying to {'x': 2779.4553882885266, 'y': 2518.2787497810464, 'z': 60.0}
+2026-02-17 08:21:14,034 - Drone_5 - INFO - Drone 5 stopped
+2026-02-17 08:21:16,943 - Drone_5 - INFO - Drone 5: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-17 08:21:16,943 - Drone_5 - INFO - Drone 5: Personal ML system initialized
+2026-02-17 08:21:16,943 - Drone_5 - INFO - Drone 5 initialized at {'x': -900, 'y': 1600, 'z': 0}
+2026-02-17 08:21:16,944 - Drone_5 - INFO - Drone 5 started
+2026-02-17 08:23:36,127 - Drone_5 - INFO - Drone 5 stopped
+2026-02-17 08:23:39,729 - Drone_5 - INFO - Drone 5: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-17 08:23:39,730 - Drone_5 - INFO - Drone 5: Personal ML system initialized
+2026-02-17 08:23:39,730 - Drone_5 - INFO - Drone 5 initialized at {'x': -900, 'y': 1600, 'z': 0}
+2026-02-17 08:23:39,731 - Drone_5 - INFO - Drone 5 started
+2026-02-17 08:23:54,569 - Drone_5 - INFO - Drone 5: Armed
+2026-02-17 08:23:55,075 - Drone_5 - INFO - Drone 5: Taking off
+2026-02-17 08:24:00,817 - Drone_5 - INFO - Drone 5: Flying to {'x': 2553.9057647468726, 'y': 2537.202456766718, 'z': 60.0}
+2026-02-17 08:26:59,822 - Drone_5 - INFO - Drone 5: Returning to home - Leader broadcast RETURN_TO_HOME

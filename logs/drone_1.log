@@ -400,3 +400,513 @@
 2026-02-15 17:41:29,954 - Drone_1 - INFO - Drone 1 started
 2026-02-15 17:41:29,959 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
 2026-02-15 17:42:02,752 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:01:00,963 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:01:00,963 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:01:00,963 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:01:00,964 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:01:00,965 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:01:01,168 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:01:01,198 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:01:01,198 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:01:01,198 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:01:01,198 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:01:01,199 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:01:01,199 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:01:01,213 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:01:01,213 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:01:01,215 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:01:01,215 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:01:01,226 - Drone_1 - INFO - Drone 1: Flying to {'x': 29.683098576326323, 'y': 29.2605390914772, 'z': 5.0}
+2026-02-17 08:01:01,226 - Drone_1 - INFO - Drone 1: Flying to {'x': 29.683098576326323, 'y': 29.2605390914772, 'z': 5.0}
+2026-02-17 08:01:01,319 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:01:01,319 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:01:01,325 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:01:01,325 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:01,922 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:01,922 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:01,922 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:01,924 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:01,926 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:02,127 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:02,182 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:02,182 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:02,182 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:02,182 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:02,182 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:02,182 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:02,197 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:02,197 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:02,199 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:02,199 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:02,235 - Drone_1 - INFO - Drone 1: Flying to {'x': 13.998564122035514, 'y': 10.000886550881788, 'z': 5.0}
+2026-02-17 08:02:02,235 - Drone_1 - INFO - Drone 1: Flying to {'x': 13.998564122035514, 'y': 10.000886550881788, 'z': 5.0}
+2026-02-17 08:02:02,306 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:02,306 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:02,309 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:02,309 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:22,045 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:22,046 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:22,046 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:22,047 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:22,048 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:22,251 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:22,310 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:22,310 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:22,311 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:22,311 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:22,311 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:22,311 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:22,324 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:22,324 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:22,326 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:22,326 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:22,356 - Drone_1 - INFO - Drone 1: Flying to {'x': 13.998564122035514, 'y': 10.000886550881788, 'z': 5.0}
+2026-02-17 08:02:22,356 - Drone_1 - INFO - Drone 1: Flying to {'x': 13.998564122035514, 'y': 10.000886550881788, 'z': 5.0}
+2026-02-17 08:02:22,427 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:22,427 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:22,435 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:22,435 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:40,595 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:40,595 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:40,595 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:40,615 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:40,617 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:40,650 - Drone_1 - INFO - Drone 1: Flying to {'x': 13.998564122035514, 'y': 10.000886550881788, 'z': 5.0}
+2026-02-17 08:02:40,724 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:40,727 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:50,509 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:50,510 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:50,510 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:50,511 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:50,512 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:50,715 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:50,779 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:50,779 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:50,779 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:50,779 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:50,779 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:50,779 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:50,792 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:50,792 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:50,794 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:50,794 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:50,826 - Drone_1 - INFO - Drone 1: Flying to {'x': 13.998564122035514, 'y': 10.000886550881788, 'z': 5.0}
+2026-02-17 08:02:50,826 - Drone_1 - INFO - Drone 1: Flying to {'x': 13.998564122035514, 'y': 10.000886550881788, 'z': 5.0}
+2026-02-17 08:02:50,901 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:50,901 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:51,005 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:51,005 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,042 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,042 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,043 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,051 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,052 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,155 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,155 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,163 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,163 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,163 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,163 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,164 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,164 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,165 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,165 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,166 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,166 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,268 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,268 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,268 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,268 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,275 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,275 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,275 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,275 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,275 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,275 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,275 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,275 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,275 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,276 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,276 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,276 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,278 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,278 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,278 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,380 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,380 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,380 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,380 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,380 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,380 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,387 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,387 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,387 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,387 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,387 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,387 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,387 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,387 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,387 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,387 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,387 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,387 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,388 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,388 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,388 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,388 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,390 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,390 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,390 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,390 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,390 - Drone_1 - INFO - Drone 1: Flying to {'x': 250, 'y': 0, 'z': 20}
+2026-02-17 08:02:59,390 - Drone_1 - INFO - Drone 1: Flying to {'x': 250, 'y': 0, 'z': 20}
+2026-02-17 08:02:59,390 - Drone_1 - INFO - Drone 1: Flying to {'x': 250, 'y': 0, 'z': 20}
+2026-02-17 08:02:59,390 - Drone_1 - INFO - Drone 1: Flying to {'x': 250, 'y': 0, 'z': 20}
+2026-02-17 08:02:59,391 - Drone_1 - INFO - Drone 1: Flying to {'x': 2.9870527062707675, 'y': -0.9988653433219874, 'z': 1.0}
+2026-02-17 08:02:59,391 - Drone_1 - INFO - Drone 1: Flying to {'x': 2.9870527062707675, 'y': -0.9988653433219874, 'z': 1.0}
+2026-02-17 08:02:59,391 - Drone_1 - INFO - Drone 1: Flying to {'x': 2.9870527062707675, 'y': -0.9988653433219874, 'z': 1.0}
+2026-02-17 08:02:59,391 - Drone_1 - INFO - Drone 1: Flying to {'x': 2.9870527062707675, 'y': -0.9988653433219874, 'z': 1.0}
+2026-02-17 08:02:59,392 - Drone_1 - INFO - Drone 1: Returning to home - test
+2026-02-17 08:02:59,392 - Drone_1 - INFO - Drone 1: Returning to home - test
+2026-02-17 08:02:59,392 - Drone_1 - INFO - Drone 1: Returning to home - test
+2026-02-17 08:02:59,392 - Drone_1 - INFO - Drone 1: Returning to home - test
+2026-02-17 08:02:59,493 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,493 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,493 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,493 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,493 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,493 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,493 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,493 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,501 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,501 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,501 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,501 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,501 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,501 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,501 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,501 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,501 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,501 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,501 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,501 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,501 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,501 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,501 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,502 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,502 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,502 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,502 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,502 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,504 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,504 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,504 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,504 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,504 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,607 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,607 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,607 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,607 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,607 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,607 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,607 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,607 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,607 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,607 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,616 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,616 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,616 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,616 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,616 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,616 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,616 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,616 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,616 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,616 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,616 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,616 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,616 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,616 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,616 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,616 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,616 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,616 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,617 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,617 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,617 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,617 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,617 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,617 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,619 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,619 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,619 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,619 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,619 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,619 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,619 - Drone_1 - INFO - Drone 1: Flying to {'x': 105.0, 'y': 34.0, 'z': 12.043476447565965}
+2026-02-17 08:02:59,619 - Drone_1 - INFO - Drone 1: Flying to {'x': 105.0, 'y': 34.0, 'z': 12.043476447565965}
+2026-02-17 08:02:59,619 - Drone_1 - INFO - Drone 1: Flying to {'x': 105.0, 'y': 34.0, 'z': 12.043476447565965}
+2026-02-17 08:02:59,619 - Drone_1 - INFO - Drone 1: Flying to {'x': 105.0, 'y': 34.0, 'z': 12.043476447565965}
+2026-02-17 08:02:59,619 - Drone_1 - INFO - Drone 1: Flying to {'x': 105.0, 'y': 34.0, 'z': 12.043476447565965}
+2026-02-17 08:02:59,619 - Drone_1 - INFO - Drone 1: Flying to {'x': 105.0, 'y': 34.0, 'z': 12.043476447565965}
+2026-02-17 08:02:59,721 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,721 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,721 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,721 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,721 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,721 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,722 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,722 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,722 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,722 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,722 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,722 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,728 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,728 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,728 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,728 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,728 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,728 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,728 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,729 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,729 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,729 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,729 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,729 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,729 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,729 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,729 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,729 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,729 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,729 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,729 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,729 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,729 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,730 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,730 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,730 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,730 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,730 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,730 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,730 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,731 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,731 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,731 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,731 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,731 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,731 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,731 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,732 - Drone_1 - INFO - Drone 1: Flying to {'x': 300, 'y': 0, 'z': 30}
+2026-02-17 08:02:59,732 - Drone_1 - INFO - Drone 1: Flying to {'x': 300, 'y': 0, 'z': 30}
+2026-02-17 08:02:59,732 - Drone_1 - INFO - Drone 1: Flying to {'x': 300, 'y': 0, 'z': 30}
+2026-02-17 08:02:59,732 - Drone_1 - INFO - Drone 1: Flying to {'x': 300, 'y': 0, 'z': 30}
+2026-02-17 08:02:59,732 - Drone_1 - INFO - Drone 1: Flying to {'x': 300, 'y': 0, 'z': 30}
+2026-02-17 08:02:59,732 - Drone_1 - INFO - Drone 1: Flying to {'x': 300, 'y': 0, 'z': 30}
+2026-02-17 08:02:59,732 - Drone_1 - INFO - Drone 1: Flying to {'x': 300, 'y': 0, 'z': 30}
+2026-02-17 08:02:59,732 - Drone_1 - INFO - Drone 1: Flying to {'x': 75.0, 'y': 38.0, 'z': 1.0}
+2026-02-17 08:02:59,732 - Drone_1 - INFO - Drone 1: Flying to {'x': 75.0, 'y': 38.0, 'z': 1.0}
+2026-02-17 08:02:59,732 - Drone_1 - INFO - Drone 1: Flying to {'x': 75.0, 'y': 38.0, 'z': 1.0}
+2026-02-17 08:02:59,732 - Drone_1 - INFO - Drone 1: Flying to {'x': 75.0, 'y': 38.0, 'z': 1.0}
+2026-02-17 08:02:59,732 - Drone_1 - INFO - Drone 1: Flying to {'x': 75.0, 'y': 38.0, 'z': 1.0}
+2026-02-17 08:02:59,732 - Drone_1 - INFO - Drone 1: Flying to {'x': 75.0, 'y': 38.0, 'z': 1.0}
+2026-02-17 08:02:59,732 - Drone_1 - INFO - Drone 1: Flying to {'x': 75.0, 'y': 38.0, 'z': 1.0}
+2026-02-17 08:02:59,834 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,834 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,834 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,834 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,834 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,834 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,834 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,835 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,835 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,835 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,835 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,835 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,835 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,835 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,842 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,842 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,842 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,842 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,842 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,842 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,842 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,842 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,842 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,842 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,842 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,842 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,842 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,842 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,842 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,842 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,843 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,843 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,843 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,843 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,843 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,843 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,843 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,843 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,844 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,844 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,844 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,844 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,844 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,844 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,844 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,844 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,846 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,846 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,846 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,846 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,846 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,846 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,846 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,846 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,846 - Drone_1 - INFO - Drone 1: Flying to {'x': 280, 'y': 0, 'z': 30}
+2026-02-17 08:02:59,846 - Drone_1 - INFO - Drone 1: Flying to {'x': 280, 'y': 0, 'z': 30}
+2026-02-17 08:02:59,846 - Drone_1 - INFO - Drone 1: Flying to {'x': 280, 'y': 0, 'z': 30}
+2026-02-17 08:02:59,846 - Drone_1 - INFO - Drone 1: Flying to {'x': 280, 'y': 0, 'z': 30}
+2026-02-17 08:02:59,846 - Drone_1 - INFO - Drone 1: Flying to {'x': 280, 'y': 0, 'z': 30}
+2026-02-17 08:02:59,846 - Drone_1 - INFO - Drone 1: Flying to {'x': 280, 'y': 0, 'z': 30}
+2026-02-17 08:02:59,846 - Drone_1 - INFO - Drone 1: Flying to {'x': 280, 'y': 0, 'z': 30}
+2026-02-17 08:02:59,846 - Drone_1 - INFO - Drone 1: Flying to {'x': 280, 'y': 0, 'z': 30}
+2026-02-17 08:02:59,847 - Drone_1 - INFO - Drone 1: Flying to {'x': 70.0, 'y': 36.0, 'z': 1.0}
+2026-02-17 08:02:59,847 - Drone_1 - INFO - Drone 1: Flying to {'x': 70.0, 'y': 36.0, 'z': 1.0}
+2026-02-17 08:02:59,847 - Drone_1 - INFO - Drone 1: Flying to {'x': 70.0, 'y': 36.0, 'z': 1.0}
+2026-02-17 08:02:59,847 - Drone_1 - INFO - Drone 1: Flying to {'x': 70.0, 'y': 36.0, 'z': 1.0}
+2026-02-17 08:02:59,847 - Drone_1 - INFO - Drone 1: Flying to {'x': 70.0, 'y': 36.0, 'z': 1.0}
+2026-02-17 08:02:59,847 - Drone_1 - INFO - Drone 1: Flying to {'x': 70.0, 'y': 36.0, 'z': 1.0}
+2026-02-17 08:02:59,847 - Drone_1 - INFO - Drone 1: Flying to {'x': 70.0, 'y': 36.0, 'z': 1.0}
+2026-02-17 08:02:59,847 - Drone_1 - INFO - Drone 1: Flying to {'x': 70.0, 'y': 36.0, 'z': 1.0}
+2026-02-17 08:02:59,948 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,948 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,948 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,948 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,948 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,948 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,948 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,948 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,949 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,949 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,949 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,949 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,949 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,949 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,949 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,949 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:02:59,955 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,955 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,955 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,955 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,955 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,955 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,955 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,955 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,955 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:02:59,955 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,955 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,955 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,955 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,955 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,955 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,955 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,955 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,955 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:02:59,955 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,955 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,955 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,955 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,955 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,955 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,955 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,955 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,955 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:02:59,956 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,956 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,956 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,956 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,956 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,956 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,956 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,956 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,956 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:02:59,958 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,958 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,958 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,958 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,958 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,958 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,958 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,958 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,958 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:02:59,958 - Drone_1 - INFO - Drone 1: Flying to {'x': 300, 'y': 0, 'z': 30}
+2026-02-17 08:02:59,958 - Drone_1 - INFO - Drone 1: Flying to {'x': 300, 'y': 0, 'z': 30}
+2026-02-17 08:02:59,958 - Drone_1 - INFO - Drone 1: Flying to {'x': 300, 'y': 0, 'z': 30}
+2026-02-17 08:02:59,958 - Drone_1 - INFO - Drone 1: Flying to {'x': 300, 'y': 0, 'z': 30}
+2026-02-17 08:02:59,958 - Drone_1 - INFO - Drone 1: Flying to {'x': 300, 'y': 0, 'z': 30}
+2026-02-17 08:02:59,958 - Drone_1 - INFO - Drone 1: Flying to {'x': 300, 'y': 0, 'z': 30}
+2026-02-17 08:02:59,958 - Drone_1 - INFO - Drone 1: Flying to {'x': 300, 'y': 0, 'z': 30}
+2026-02-17 08:02:59,958 - Drone_1 - INFO - Drone 1: Flying to {'x': 300, 'y': 0, 'z': 30}
+2026-02-17 08:02:59,958 - Drone_1 - INFO - Drone 1: Flying to {'x': 300, 'y': 0, 'z': 30}
+2026-02-17 08:02:59,959 - Drone_1 - INFO - Drone 1: Flying to {'x': 75.0, 'y': -34.0, 'z': 1.0}
+2026-02-17 08:02:59,959 - Drone_1 - INFO - Drone 1: Flying to {'x': 75.0, 'y': -34.0, 'z': 1.0}
+2026-02-17 08:02:59,959 - Drone_1 - INFO - Drone 1: Flying to {'x': 75.0, 'y': -34.0, 'z': 1.0}
+2026-02-17 08:02:59,959 - Drone_1 - INFO - Drone 1: Flying to {'x': 75.0, 'y': -34.0, 'z': 1.0}
+2026-02-17 08:02:59,959 - Drone_1 - INFO - Drone 1: Flying to {'x': 75.0, 'y': -34.0, 'z': 1.0}
+2026-02-17 08:02:59,959 - Drone_1 - INFO - Drone 1: Flying to {'x': 75.0, 'y': -34.0, 'z': 1.0}
+2026-02-17 08:02:59,959 - Drone_1 - INFO - Drone 1: Flying to {'x': 75.0, 'y': -34.0, 'z': 1.0}
+2026-02-17 08:02:59,959 - Drone_1 - INFO - Drone 1: Flying to {'x': 75.0, 'y': -34.0, 'z': 1.0}
+2026-02-17 08:02:59,959 - Drone_1 - INFO - Drone 1: Flying to {'x': 75.0, 'y': -34.0, 'z': 1.0}
+2026-02-17 08:03:00,061 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:03:00,061 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:03:00,061 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:03:00,061 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:03:00,061 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:03:00,061 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:03:00,061 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:03:00,061 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:03:00,061 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:03:00,061 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:03:00,061 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:03:00,061 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:03:00,061 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:03:00,061 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:03:00,061 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:03:00,061 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:03:00,061 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:03:00,061 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:16:39,747 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:16:39,748 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:16:39,748 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:16:39,756 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:16:39,758 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:17:09,050 - Drone_1 - INFO - Drone 1: Armed
+2026-02-17 08:17:09,836 - Drone_1 - INFO - Drone 1: Taking off
+2026-02-17 08:17:13,035 - Drone_1 - INFO - Drone 1: Flying to {'x': 2585.0, 'y': 2580.0, 'z': 60.0}
+2026-02-17 08:19:09,047 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:19:12,760 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:19:12,760 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:19:12,760 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:19:12,770 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:19:12,773 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:20:23,083 - Drone_1 - INFO - Drone 1: Armed
+2026-02-17 08:20:23,493 - Drone_1 - INFO - Drone 1: Taking off
+2026-02-17 08:20:27,189 - Drone_1 - INFO - Drone 1: Flying to {'x': 2874.7581947655262, 'y': 2540.030993450489, 'z': 60.0}
+2026-02-17 08:21:13,831 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:21:16,892 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:21:16,893 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:21:16,893 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:21:16,901 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:21:16,903 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:23:35,855 - Drone_1 - INFO - Drone 1 stopped
+2026-02-17 08:23:39,679 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-17 08:23:39,679 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-17 08:23:39,679 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-17 08:23:39,688 - Drone_1 - INFO - Drone 1 started
+2026-02-17 08:23:39,690 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-17 08:23:54,567 - Drone_1 - INFO - Drone 1: Armed
+2026-02-17 08:23:55,069 - Drone_1 - INFO - Drone 1: Taking off
+2026-02-17 08:24:00,813 - Drone_1 - INFO - Drone 1: Flying to {'x': 2585.0, 'y': 2580.0, 'z': 60.0}
+2026-02-17 08:26:59,818 - Drone_1 - INFO - Drone 1: Returning to home - Leader broadcast RETURN_TO_HOME

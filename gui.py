@@ -61,6 +61,8 @@ class DroneWidget(QWidget):
         self.destination_slots = {}
         self.start_slots = {}
         self.minimum_gap_m = 40.0
+        self.acoustic_source = None
+        self.acoustic_confidence = 0.0
         
         # Colors
         self.colors = {
@@ -201,6 +203,11 @@ class DroneWidget(QWidget):
         """Replace obstacle list for live dynamic rendering."""
         self.obstacles = list(obstacles or [])
         self.update()
+
+    def set_acoustic_source(self, source: dict, confidence: float = 0.0):
+        self.acoustic_source = source
+        self.acoustic_confidence = float(confidence)
+        self.update()
     
     def world_to_screen(self, x, y, z=0):
         """Convert world coordinates to screen coordinates"""
@@ -235,6 +242,7 @@ class DroneWidget(QWidget):
         
         # Draw obstacles
         self._draw_obstacles(painter)
+        self._draw_acoustic_source(painter)
         
         # Draw home positions and paths
         self._draw_home_positions(painter)
@@ -498,6 +506,21 @@ class DroneWidget(QWidget):
                 
                 # Draw circle
                 painter.drawEllipse(QPointF(sx, sy), 8, 8)
+
+    def _draw_acoustic_source(self, painter):
+        if not self.acoustic_source:
+            return
+        x = float(self.acoustic_source.get("x", 0.0))
+        y = float(self.acoustic_source.get("y", 0.0))
+        sx, sy, _ = self.world_to_screen(x, y, 0.0)
+        conf = max(0.0, min(1.0, float(self.acoustic_confidence)))
+        radius = 12.0 + 18.0 * conf
+        painter.setPen(QPen(QColor(0, 255, 255), 2))
+        painter.setBrush(QBrush(QColor(0, 255, 255, 70)))
+        painter.drawEllipse(QPointF(sx, sy), radius, radius)
+        painter.setPen(QPen(QColor(225, 255, 255)))
+        painter.setFont(QFont("Arial", 9, QFont.Bold))
+        painter.drawText(int(sx + radius + 4), int(sy - radius - 4), f"SRC {conf:.2f}")
     
     def _draw_drone(self, painter, drone_id, drone_data):
         """Draw individual drone"""
@@ -781,6 +804,8 @@ class MainWindow(QMainWindow):
         self.show_static_obstacles = True
         self.show_dynamic_obstacles = True
         self.latency_value_labels = {}
+        self.ledger_value_labels = {}
+        self.acoustic_conf_label = None
         self._setup_controller_crypto()
         
         self.setWindowTitle("Drone Swarm Management System")
@@ -1042,6 +1067,24 @@ class MainWindow(QMainWindow):
         obstacle_group.setLayout(obstacle_layout)
         layout.addWidget(obstacle_group)
 
+        acoustic_group = QGroupBox("Acoustic Tracking")
+        acoustic_layout = QGridLayout()
+        self.acoustic_enable_cb = QCheckBox("Enable Acoustic Detection")
+        self.acoustic_enable_cb.setChecked(False)
+        self.acoustic_enable_cb.stateChanged.connect(self._on_acoustic_detection_changed)
+        acoustic_layout.addWidget(self.acoustic_enable_cb, 0, 0, 1, 2)
+
+        acoustic_layout.addWidget(QLabel("Confidence Threshold"), 1, 0)
+        self.acoustic_conf_slider = QSlider(Qt.Horizontal)
+        self.acoustic_conf_slider.setRange(0, 100)
+        self.acoustic_conf_slider.setValue(65)
+        self.acoustic_conf_slider.valueChanged.connect(self._on_acoustic_threshold_changed)
+        acoustic_layout.addWidget(self.acoustic_conf_slider, 1, 1)
+        self.acoustic_conf_label = QLabel("0.65")
+        acoustic_layout.addWidget(self.acoustic_conf_label, 1, 2)
+        acoustic_group.setLayout(acoustic_layout)
+        layout.addWidget(acoustic_group)
+
         # Manual movement controls for selected drone
         move_group = QGroupBox("Selected Drone Movement")
         move_layout = QGridLayout()
@@ -1187,8 +1230,7 @@ class MainWindow(QMainWindow):
         layout = QVBoxLayout()
         layout.setContentsMargins(6, 8, 6, 6)
         layout.setSpacing(4)
-        group.setMinimumHeight(260)
-        group.setMaximumHeight(360)
+        group.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         
         # Status labels
         self.status_labels = {}
@@ -1236,6 +1278,23 @@ class MainWindow(QMainWindow):
             latency_grid.addWidget(value, row, col + 1)
             self.latency_value_labels[key] = value
         layout.addLayout(latency_grid)
+
+        ledger_grid = QGridLayout()
+        ledger_keys = [
+            ("block_height", "Ledger Height"),
+            ("sync_state", "Ledger Sync"),
+            ("integrity", "Chain Integrity"),
+        ]
+        for idx, (key, title) in enumerate(ledger_keys):
+            row = idx // 2
+            col = (idx % 2) * 2
+            name = QLabel(f"{title}:")
+            value = QLabel("-")
+            value.setStyleSheet("font-size: 11px;")
+            ledger_grid.addWidget(name, row, col)
+            ledger_grid.addWidget(value, row, col + 1)
+            self.ledger_value_labels[key] = value
+        layout.addLayout(ledger_grid)
         
         # Drone table
         self.drone_table = QTableWidget()
@@ -1243,17 +1302,29 @@ class MainWindow(QMainWindow):
         self.drone_table.setHorizontalHeaderLabels([
             "ID", "Role", "Mode", "Battery", "Altitude", "Status"
         ])
-        self.drone_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.drone_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeToContents)
+        self.drone_table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeToContents)
+        self.drone_table.horizontalHeader().setSectionResizeMode(2, QHeaderView.ResizeToContents)
+        self.drone_table.horizontalHeader().setSectionResizeMode(3, QHeaderView.ResizeToContents)
+        self.drone_table.horizontalHeader().setSectionResizeMode(4, QHeaderView.ResizeToContents)
+        self.drone_table.horizontalHeader().setSectionResizeMode(5, QHeaderView.Stretch)
         self.drone_table.verticalHeader().setSectionResizeMode(QHeaderView.Fixed)
         self.drone_table.verticalHeader().setDefaultSectionSize(24)
         self.drone_table.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.drone_table.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-        self.drone_table.setVerticalScrollMode(QAbstractItemView.ScrollPerItem)
+        self.drone_table.setVerticalScrollMode(QAbstractItemView.ScrollPerPixel)
         self.drone_table.setSelectionBehavior(QAbstractItemView.SelectRows)
-        self.drone_table.setMinimumHeight(150)
-        self.drone_table.setMaximumHeight(150)
+        self.drone_table.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.drone_table.setFocusPolicy(Qt.StrongFocus)
+        self.drone_table.setAutoScroll(True)
+        self.drone_table.verticalScrollBar().setSingleStep(20)
+        self.drone_table.setAlternatingRowColors(True)
+        self.drone_table.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.drone_table.setMinimumHeight(120)
+        self.drone_table.setMaximumHeight(16777215)
+        self.drone_table.setSortingEnabled(True)
         self.drone_table.itemSelectionChanged.connect(self._on_drone_selection_changed)
-        layout.addWidget(self.drone_table)
+        layout.addWidget(self.drone_table, 1)
         
         group.setLayout(layout)
         return group
@@ -1317,6 +1388,20 @@ class MainWindow(QMainWindow):
         for key, label in self.latency_value_labels.items():
             label.setText(f"{float(latency.get(key, 0.0)):.1f} ms")
 
+        ledger = status.get("ledger", {})
+        self.ledger_value_labels["block_height"].setText(str(int(ledger.get("block_height", 0))))
+        self.ledger_value_labels["sync_state"].setText(str(ledger.get("sync_state", "UNKNOWN")))
+        integrity_ok = bool(ledger.get("integrity_ok", False))
+        self.ledger_value_labels["integrity"].setText("OK" if integrity_ok else "FAIL")
+        self.ledger_value_labels["integrity"].setStyleSheet(
+            "font-size: 11px; font-weight: bold; color: %s;" % ("#22aa44" if integrity_ok else "#cc2233")
+        )
+
+        acoustic = status.get("acoustic", {})
+        src = acoustic.get("latest_source")
+        conf = float(acoustic.get("latest_confidence", 0.0))
+        self.drone_widget.set_acoustic_source(src, conf)
+
         raw_obstacles = status.get("dynamic_obstacles", [])
         filtered_obstacles = []
         for obstacle in raw_obstacles:
@@ -1332,19 +1417,37 @@ class MainWindow(QMainWindow):
             view = dict(obstacle)
             view["dynamic"] = dynamic
             filtered_obstacles.append(view)
-        # Update drone table
-        ordered_rows = sorted(drones.items(), key=lambda kv: int(kv[0]))
+        # Update drone table (defensive: one bad row must not block remaining drones)
+        def _sort_key(item):
+            drone_id = item[0]
+            try:
+                return (0, int(drone_id))
+            except Exception:
+                return (1, str(drone_id))
+
+        ordered_rows = sorted(drones.items(), key=_sort_key)
+        sorting_enabled = self.drone_table.isSortingEnabled()
+        if sorting_enabled:
+            self.drone_table.setSortingEnabled(False)
+        self.drone_table.clearContents()
         self.drone_table.setRowCount(len(ordered_rows))
         for row, (drone_id, drone_data) in enumerate(ordered_rows):
-            self.drone_table.setItem(row, 0, QTableWidgetItem(str(drone_id)))
-            self.drone_table.setItem(row, 1, QTableWidgetItem(drone_data["role"]))
-            self.drone_table.setItem(row, 2, QTableWidgetItem(drone_data["flight_mode"]))
-            self.drone_table.setItem(row, 3, QTableWidgetItem(f"{drone_data['battery']:.1f}%"))
-            self.drone_table.setItem(row, 4, QTableWidgetItem(f"{drone_data['position']['z']:.1f}m"))
+            role = str(drone_data.get("role", "unknown"))
+            flight_mode = str(drone_data.get("flight_mode", "unknown"))
+            battery = float(drone_data.get("battery", 0.0))
+            pos = drone_data.get("position", {}) or {}
+            altitude = float(pos.get("z", 0.0))
+            is_active = bool(drone_data.get("is_active", False))
 
-            swarm_state = drone_data.get("swarm_state", "IDLE")
-            status_text = swarm_state if drone_data["is_active"] else "Inactive"
-            mission = drone_data.get("mission", {})
+            self.drone_table.setItem(row, 0, QTableWidgetItem(str(drone_id)))
+            self.drone_table.setItem(row, 1, QTableWidgetItem(role))
+            self.drone_table.setItem(row, 2, QTableWidgetItem(flight_mode))
+            self.drone_table.setItem(row, 3, QTableWidgetItem(f"{battery:.1f}%"))
+            self.drone_table.setItem(row, 4, QTableWidgetItem(f"{altitude:.1f}m"))
+
+            swarm_state = str(drone_data.get("swarm_state", "IDLE"))
+            status_text = swarm_state if is_active else "Inactive"
+            mission = drone_data.get("mission", {}) or {}
             if mission.get("active"):
                 status_text = f"{swarm_state} | Mission: {mission.get('status', 'active')}"
             if drone_data.get("motor_failure_warning"):
@@ -1352,6 +1455,8 @@ class MainWindow(QMainWindow):
             if drone_data.get("emergency_return_active"):
                 status_text = "Emergency Return to X"
             self.drone_table.setItem(row, 5, QTableWidgetItem(status_text))
+        if sorting_enabled:
+            self.drone_table.setSortingEnabled(True)
 
         # Update visualization
         self.drone_widget.update_drones(drones)
@@ -1429,6 +1534,19 @@ class MainWindow(QMainWindow):
         self.swarm_manager.set_use_personal_ml_avoidance(enabled)
         self.swarm_manager.set_personal_ml_enabled_all(enabled)
         self.log(f"Personal ML avoidance {'enabled' if enabled else 'disabled'}")
+
+    def _on_acoustic_detection_changed(self, _state: int):
+        enabled = bool(self.acoustic_enable_cb.isChecked())
+        if hasattr(self.swarm_manager, "set_acoustic_detection_enabled"):
+            self.swarm_manager.set_acoustic_detection_enabled(enabled)
+        self.log(f"Acoustic detection {'enabled' if enabled else 'disabled'}")
+
+    def _on_acoustic_threshold_changed(self, value: int):
+        threshold = max(0.0, min(1.0, float(value) / 100.0))
+        if self.acoustic_conf_label:
+            self.acoustic_conf_label.setText(f"{threshold:.2f}")
+        if hasattr(self.swarm_manager, "set_acoustic_confidence_threshold"):
+            self.swarm_manager.set_acoustic_confidence_threshold(threshold)
 
     def _on_obstacle_filter_changed(self, _state: int):
         self.show_static_obstacles = bool(self.toggle_static_cb.isChecked())

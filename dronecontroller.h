@@ -27,14 +27,17 @@ enum class FlightMode {
     AUTO_RTL,
     AUTO_LAND,
     AUTO_TAKEOFF,
-    OFFBOARD
+    OFFBOARD,
+    EMERGENCY_RETURN
 };
 
 // Motor status
 struct MotorStatus {
     int motor_id;
     bool operational;
+    bool degraded;
     float rpm;
+    float vibration;
     float temperature;
     float current;
 };
@@ -97,7 +100,9 @@ struct Telemetry {
         for (int i = 0; i < 4; i++) {
             motors[i].motor_id = i;
             motors[i].operational = true;
+            motors[i].degraded = false;
             motors[i].rpm = 0.0f;
+            motors[i].vibration = 0.0f;
             motors[i].temperature = 25.0f;
             motors[i].current = 0.0f;
         }
@@ -214,6 +219,10 @@ private:
     // Internal methods
     void telemetryLoop();
     void checkMotorHealth();
+    void detectMotorHealth();
+    void activateSelfHealingMode(int failed_motor_index);
+    void redistributeThrust(int failed_motor_index);
+    void updateAdaptivePID();
     void updateBatteryStatus();
 };
 

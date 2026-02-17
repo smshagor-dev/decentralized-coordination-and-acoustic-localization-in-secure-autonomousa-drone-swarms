@@ -10,9 +10,10 @@ import queue
 import random
 import json
 import re
+import copy
 from datetime import datetime
 from pathlib import Path
-from typing import List, Optional, Dict
+from typing import List, Optional, Dict, Tuple
 from drone import Drone, DroneRole, FlightMode, Position
 from dynamic_obstacles import (
     AvoidanceController,
@@ -23,6 +24,8 @@ from dynamic_obstacles import (
     TrajectoryEstimator,
 )
 from latency_monitor import LatencyMonitor, MLBridge
+from flying_ledger import Ed25519SignatureProvider, FlyingLedger
+from acoustic_tracking import AcousticTrackingSystem
 from leader_follower_logic import (
     CommunicationManager as EventCommunicationManager,
     DroneOperationalState,
@@ -62,6 +65,7 @@ class SwarmManager:
         self._mission_arrival_threshold_m = 6.0
         self._event_notifications: "queue.Queue[dict]" = queue.Queue()
         self._avoidance_active_ids = set()
+        self._drone_state_cache: Dict[int, DroneOperationalState] = {}
 
         # Dynamic obstacle prediction and avoidance stack
         self.obstacle_manager = ObstacleManager()
@@ -77,6 +81,7 @@ class SwarmManager:
         self.ml_bridge = MLBridge(self.latency_monitor, watchdog_timeout_s=1.8)
         self.fallback_local_avoidance_mode = False
         self.per_drone_latency_threshold_ms: Dict[int, float] = {}
+        self._last_latency_ledger_log_at = 0.0
 
         # Runtime latency graphing (latency vs number of drones)
         self.runtime_latency_graph_enabled = True
@@ -92,6 +97,7 @@ class SwarmManager:
         self._merged_log_path = self._runtime_dir / f"merged_logs_{self._run_id}.log"
         self._spike_png_path = self._runtime_dir / f"latency_spike_timeline_{self._run_id}.png"
         self._spike_csv_path = self._runtime_dir / f"latency_spike_timeline_{self._run_id}.csv"
+        self._latest_latency_stats: Dict[str, float] = {}
 
         # Event-driven leader/follower architecture
         self.communication_manager = EventCommunicationManager()
@@ -99,6 +105,21 @@ class SwarmManager:
         self.gps_navigation_module = GPSNavigationModule()
         self.ml_navigation_module = MLNavigationModule()
         self.leader_command_handler = LeaderCommandHandler(self)
+
+        # Decentralized flying ledger (per-drone mini blockchain replicas)
+        self.flying_ledgers: Dict[int, FlyingLedger] = {}
+        self._ledger_signature_providers: Dict[int, Ed25519SignatureProvider] = {}
+        self._ledger_public_keys: Dict[str, bytes] = {}
+        self._ledger_last_sync_status = "IDLE"
+
+        # Acoustic source localization subsystem
+        self.acoustic_tracker = AcousticTrackingSystem()
+        self.acoustic_detection_enabled = False
+        self.acoustic_confidence_threshold = 0.65
+        self.acoustic_latency_limit_ms = 280.0
+        self._latest_acoustic_source: Optional[Dict[str, float]] = None
+        self._latest_acoustic_confidence = 0.0
+        self._latest_acoustic_local_only = False
         
         # Logging
         self.logger = logging.getLogger("SwarmManager")
@@ -129,6 +150,238 @@ class SwarmManager:
         """Register event handlers for leader commands and mission updates."""
         self.communication_manager.subscribe("LEADER_COMMAND", self._on_leader_command)
         self.communication_manager.subscribe("MISSION_COMPLETE", self._on_mission_complete)
+        self.communication_manager.subscribe("LEDGER_BLOCK", self._on_ledger_block)
+        self.communication_manager.subscribe("ACOUSTIC_EVENT", self._on_acoustic_event)
+        self.drone_state_manager.register_transition_listener(self._on_state_transition)
+
+    def _on_state_transition(
+        self,
+        drone_id: int,
+        old_state: DroneOperationalState,
+        new_state: DroneOperationalState,
+    ):
+        self._drone_state_cache[drone_id] = new_state
+        if new_state == DroneOperationalState.LEDGER_SYNCING:
+            return
+        self._record_critical_event(
+            drone_id=drone_id,
+            event_type="STATE_TRANSITION",
+            payload={"from": old_state.value, "to": new_state.value},
+        )
+
+    def _init_drone_ledger(self, drone_id: int):
+        provider = Ed25519SignatureProvider()
+        self._ledger_signature_providers[drone_id] = provider
+        self._ledger_public_keys[str(drone_id)] = provider.public_key_bytes()
+        ledger = FlyingLedger(
+            drone_id=str(drone_id),
+            signature_provider=provider,
+            broadcaster=lambda block, sender=drone_id: self._broadcast_ledger_block(sender, block),
+            peer_public_keys=self._ledger_public_keys,
+        )
+        self.flying_ledgers[drone_id] = ledger
+        self._refresh_ledger_peer_keys()
+
+    def _refresh_ledger_peer_keys(self):
+        for ledger in self.flying_ledgers.values():
+            ledger.set_peer_public_keys(self._ledger_public_keys)
+
+    def _broadcast_ledger_block(self, sender_id: int, block_data: dict):
+        self._ledger_last_sync_status = "BROADCASTING"
+        accepted = 0
+        rejected = 0
+        for drone_id, ledger in self.flying_ledgers.items():
+            if drone_id == sender_id:
+                continue
+            if ledger.append_replicated_block(copy.deepcopy(block_data)):
+                accepted += 1
+            else:
+                rejected += 1
+        self._ledger_last_sync_status = "SYNCED" if rejected == 0 else "PARTIAL_REJECT"
+        self._push_system_event(
+            {
+                "kind": "message",
+                "message_type": "LEDGER_SYNC",
+                "data": {
+                    "sender_id": int(sender_id),
+                    "accepted": accepted,
+                    "rejected": rejected,
+                    "status": self._ledger_last_sync_status,
+                },
+            }
+        )
+
+    def _on_ledger_block(self, event: dict):
+        sender_id = int(event.get("sender_id", -1))
+        block_data = event.get("block") or {}
+        if sender_id < 0 or not block_data:
+            return
+
+        accepted = 0
+        rejected = 0
+        for drone_id, ledger in self.flying_ledgers.items():
+            if drone_id == sender_id:
+                continue
+            self.drone_state_manager.set_state(drone_id, DroneOperationalState.LEDGER_SYNCING)
+            ok = ledger.append_replicated_block(block_data)
+            if ok:
+                accepted += 1
+            else:
+                rejected += 1
+
+        self._ledger_last_sync_status = "SYNCED" if rejected == 0 else "PARTIAL_REJECT"
+        if rejected:
+            self.logger.warning(
+                "Ledger block rejected sender=%s accepted=%s rejected=%s",
+                sender_id,
+                accepted,
+                rejected,
+            )
+        self._push_system_event(
+            {
+                "kind": "message",
+                "message_type": "LEDGER_SYNC",
+                "data": {
+                    "sender_id": sender_id,
+                    "accepted": accepted,
+                    "rejected": rejected,
+                    "status": self._ledger_last_sync_status,
+                },
+            }
+        )
+
+    def _record_critical_event(
+        self,
+        drone_id: int,
+        event_type: str,
+        payload: Optional[dict] = None,
+        telemetry_snapshot: Optional[dict] = None,
+    ):
+        ledger = self.flying_ledgers.get(drone_id)
+        drone = self.drones.get(drone_id)
+        if ledger is None or drone is None:
+            return
+        telemetry = telemetry_snapshot or {
+            "position": {
+                "x": float(drone.current_position.x),
+                "y": float(drone.current_position.y),
+                "z": float(drone.current_position.z),
+            },
+            "velocity": {
+                "x": float(drone.velocity.x),
+                "y": float(drone.velocity.y),
+                "z": float(drone.velocity.z),
+            },
+            "battery": float(drone.battery_level),
+            "flight_mode": str(drone.flight_mode.value),
+            "is_active": bool(drone.is_active),
+        }
+        event_payload = {
+            "event_type": str(event_type),
+            "drone_id": int(drone_id),
+            "payload": payload or {},
+            "ts": time.time(),
+        }
+        try:
+            ledger.append_local_event(telemetry, event_payload)
+        except Exception as exc:
+            self.logger.warning("Failed to append ledger event for drone=%s: %s", drone_id, exc)
+
+    def _on_acoustic_event(self, event: dict):
+        data = event.get("data", {}) or {}
+        self._latest_acoustic_source = data.get("source_position")
+        self._latest_acoustic_confidence = float(data.get("confidence", 0.0))
+        self._latest_acoustic_local_only = bool(data.get("local_only", False))
+        if self._latest_acoustic_source:
+            self._push_system_event(
+                {
+                    "kind": "message",
+                    "message_type": "ACOUSTIC_EVENT",
+                    "data": data,
+                }
+            )
+
+    def set_acoustic_detection_enabled(self, enabled: bool):
+        self.acoustic_detection_enabled = bool(enabled)
+
+    def set_acoustic_confidence_threshold(self, threshold: float):
+        self.acoustic_confidence_threshold = max(0.0, min(1.0, float(threshold)))
+
+    def move_formation_to(self, source_position: dict):
+        targets: Dict[int, Position] = {}
+        for drone_id, drone in self.drones.items():
+            target = Position(
+                float(source_position.get("x", drone.current_position.x)),
+                float(source_position.get("y", drone.current_position.y)),
+                max(5.0, float(drone.current_position.z)),
+            )
+            targets[drone_id] = target
+        if targets:
+            self.leader_move_to_target(targets)
+
+    def process_acoustic_signals(
+        self,
+        signals: Dict[int, object],
+        sample_rate_hz: float,
+        total_round_trip_ms: Optional[float] = None,
+    ) -> dict:
+        if not self.acoustic_detection_enabled:
+            return {"detected": False, "reason": "disabled", "confidence": 0.0}
+
+        sensor_positions: Dict[int, Tuple[float, float]] = {}
+        for drone_id, drone in self.drones.items():
+            sensor_positions[drone_id] = (float(drone.current_position.x), float(drone.current_position.y))
+
+        latency_ms = (
+            float(total_round_trip_ms)
+            if total_round_trip_ms is not None
+            else float(self._latest_latency_stats.get("total_round_trip_ms", 0.0))
+        )
+        result = self.acoustic_tracker.localize(
+            signals=signals,
+            sensor_positions=sensor_positions,
+            sample_rate_hz=float(sample_rate_hz),
+            total_round_trip_ms=latency_ms,
+            acoustic_latency_limit_ms=self.acoustic_latency_limit_ms,
+        )
+
+        if result.get("local_only"):
+            self._record_critical_event(
+                drone_id=self.leader_id or next(iter(self.drones.keys()), -1),
+                event_type="ACOUSTIC_LATENCY_LOCAL_ONLY",
+                payload={"latency_ms": latency_ms, "limit_ms": self.acoustic_latency_limit_ms},
+            )
+
+        if not result.get("detected"):
+            return result
+
+        confidence = float(result.get("confidence", 0.0))
+        if confidence < self.acoustic_confidence_threshold:
+            result["ignored"] = True
+            return result
+
+        source_position = result.get("source_position")
+        self._latest_acoustic_source = source_position
+        self._latest_acoustic_confidence = confidence
+        self._latest_acoustic_local_only = bool(result.get("local_only", False))
+
+        event_payload = {
+            "source_position": source_position,
+            "confidence": confidence,
+            "rmse": float(result.get("rmse", 0.0)),
+            "local_only": bool(result.get("local_only", False)),
+            "latency_ms": latency_ms,
+        }
+        self.communication_manager.publish("ACOUSTIC_EVENT", {"data": event_payload})
+        self.move_formation_to(source_position or {})
+        for drone in self.drones.values():
+            self.drone_state_manager.set_state(drone.drone_id, DroneOperationalState.ACOUSTIC_TRACKING)
+        self._record_critical_event(
+            drone_id=self.leader_id or next(iter(self.drones.keys()), -1),
+            event_type="ACOUSTIC_DETECTION",
+            payload=event_payload,
+        )
+        return result
 
     def _push_system_event(self, event: dict):
         """Push internal swarm event for GUI/system audit stream."""
@@ -269,12 +522,16 @@ class SwarmManager:
         if drone.area_mission.active or self.gps_navigation_module.is_active(payload, drone.drone_id):
             ok = self.ml_navigation_module.navigate(drone, target)
             if ok:
-                self.drone_state_manager.set_state(drone.drone_id, DroneOperationalState.GPS_ML_ACTIVE)
+                current = self.drone_state_manager.get_state(drone.drone_id)
+                if current != DroneOperationalState.ACOUSTIC_TRACKING:
+                    self.drone_state_manager.set_state(drone.drone_id, DroneOperationalState.GPS_ML_ACTIVE)
             return ok
 
         ok = drone.goto(target)
         if ok:
-            self.drone_state_manager.set_state(drone.drone_id, DroneOperationalState.MOVING_TO_TARGET)
+            current = self.drone_state_manager.get_state(drone.drone_id)
+            if current != DroneOperationalState.ACOUSTIC_TRACKING:
+                self.drone_state_manager.set_state(drone.drone_id, DroneOperationalState.MOVING_TO_TARGET)
         return ok
     
     def add_drone(self, drone: Drone) -> bool:
@@ -290,11 +547,17 @@ class SwarmManager:
                 item for item in self.reported_failures if item[0] != drone.drone_id
             }
             self.drone_state_manager.init_drone(drone.drone_id)
+            self._init_drone_ledger(drone.drone_id)
             
             # Start drone systems
             drone.start()
             
             self.logger.info(f"Drone {drone.drone_id} added to swarm")
+            self._record_critical_event(
+                drone_id=drone.drone_id,
+                event_type="DRONE_JOINED",
+                payload={"leader_id": self.leader_id},
+            )
             
             # If no leader, elect one
             if self.leader_id is None and len(self.drones) > 0:
@@ -313,6 +576,10 @@ class SwarmManager:
             
             del self.drones[drone_id]
             self.drone_state_manager.remove_drone(drone_id)
+            self.flying_ledgers.pop(drone_id, None)
+            self._ledger_signature_providers.pop(drone_id, None)
+            self._ledger_public_keys.pop(str(drone_id), None)
+            self._refresh_ledger_peer_keys()
             if drone_id in self.heartbeats:
                 del self.heartbeats[drone_id]
             self.reported_failures = {
@@ -383,6 +650,7 @@ class SwarmManager:
             except Exception as exc:
                 self.logger.warning("MLBridge round-trip failed: %s", exc)
                 latency_stats = self.latency_monitor.get_stats()
+            self._latest_latency_stats = dict(latency_stats)
 
             watchdog_timed_out = self.ml_bridge.is_watchdog_timed_out()
             if latency_stats.get("fallback_required", False) or watchdog_timed_out:
@@ -400,6 +668,17 @@ class SwarmManager:
                         },
                     }
                 )
+                now = time.time()
+                if now - self._last_latency_ledger_log_at >= 1.0:
+                    self._last_latency_ledger_log_at = now
+                    self._record_critical_event(
+                        drone_id=self.leader_id or next(iter(self.drones.keys()), -1),
+                        event_type="ML_BRIDGE_TIMEOUT" if watchdog_timed_out else "LATENCY_THRESHOLD_BREACH",
+                        payload={
+                            "watchdog_timed_out": watchdog_timed_out,
+                            "latency_stats": latency_stats,
+                        },
+                    )
             else:
                 self.fallback_local_avoidance_mode = False
 
@@ -627,6 +906,8 @@ class SwarmManager:
                     continue
                 if current_state == DroneOperationalState.GPS_ML_ACTIVE:
                     continue
+                if current_state == DroneOperationalState.ACOUSTIC_TRACKING:
+                    continue
                 if drone.role == DroneRole.FOLLOWER and drone.flight_mode == FlightMode.HOVER:
                     self.drone_state_manager.set_state(
                         drone.drone_id, DroneOperationalState.WAITING_FOR_COMMAND
@@ -683,6 +964,11 @@ class SwarmManager:
                         "target": {"x": target.x, "y": target.y, "z": target.z},
                         "message": f"MISSION_COMPLETE: Drone {drone_id} reached destination",
                     },
+                )
+                self._record_critical_event(
+                    drone_id=drone_id,
+                    event_type="MISSION_COMPLETE",
+                    payload={"target": {"x": target.x, "y": target.y, "z": target.z}},
                 )
                 self._mission_active = False
                 break
@@ -1026,6 +1312,22 @@ class SwarmManager:
                         },
                     }
                 )
+                self._record_critical_event(
+                    drone_id=drone.drone_id,
+                    event_type="ML_AVOIDANCE_EVENT",
+                    payload={
+                        "collision_probability": collision_prob,
+                        "collision_cone_probability": cone_prob,
+                        "ml_confidence": ml_confidence,
+                        "fallback_mode": self.fallback_local_avoidance_mode,
+                    },
+                )
+                if cone_prob >= 0.7:
+                    self._record_critical_event(
+                        drone_id=drone.drone_id,
+                        event_type="COLLISION_CONE_HIGH_PROBABILITY",
+                        payload={"collision_cone_probability": cone_prob},
+                    )
         self._avoidance_active_ids = active_ids
 
     def _build_bypass_target(self, current: Position, goal: Position, obstacle) -> Position:
@@ -1205,6 +1507,11 @@ class SwarmManager:
     def _handle_drone_failure(self, drone_id: int, reason: str):
         """Handle drone failure"""
         self.logger.error(f"Handling failure of drone {drone_id}: {reason}")
+        self._record_critical_event(
+            drone_id=drone_id,
+            event_type="DRONE_FAILURE",
+            payload={"reason": reason},
+        )
         
         # If failed drone was leader, elect new one
         if drone_id == self.leader_id:
@@ -1286,6 +1593,10 @@ class SwarmManager:
             status = drone.get_status()
             status["swarm_state"] = self.drone_state_manager.get_state(drone_id).value
             drones_status[drone_id] = status
+
+        ledger_heights = {drone_id: ledger.block_height() for drone_id, ledger in self.flying_ledgers.items()}
+        ledger_integrity = all(ledger.integrity_ok() for ledger in self.flying_ledgers.values()) if self.flying_ledgers else True
+        block_height = max(ledger_heights.values()) if ledger_heights else 0
         
         return {
             "total_drones": len(self.drones),
@@ -1298,6 +1609,19 @@ class SwarmManager:
             "per_drone_latency_threshold_ms": dict(self.per_drone_latency_threshold_ms),
             "fallback_local_avoidance_mode": self.fallback_local_avoidance_mode,
             "use_personal_ml_avoidance": self.use_personal_ml_avoidance,
+            "ledger": {
+                "block_height": int(block_height),
+                "sync_state": self._ledger_last_sync_status,
+                "integrity_ok": bool(ledger_integrity),
+                "per_drone_height": ledger_heights,
+            },
+            "acoustic": {
+                "enabled": bool(self.acoustic_detection_enabled),
+                "confidence_threshold": float(self.acoustic_confidence_threshold),
+                "latest_source": self._latest_acoustic_source,
+                "latest_confidence": float(self._latest_acoustic_confidence),
+                "local_only_mode": bool(self._latest_acoustic_local_only),
+            },
         }
     
     def formation_flight(self, formation_type: str = "line"):
@@ -1407,6 +1731,11 @@ class SwarmManager:
         self.logger.error(f"EMERGENCY LAND ALL DRONES: {reason}")
         for drone in self.drones.values():
             drone.trigger_personal_emergency(reason)
+            self._record_critical_event(
+                drone_id=drone.drone_id,
+                event_type="EMERGENCY_LANDING",
+                payload={"reason": reason},
+            )
 
     def emergency_land_drone(self, drone_id: int, reason: str = "Personal emergency commanded") -> bool:
         """Emergency land a specific drone only"""
@@ -1416,6 +1745,11 @@ class SwarmManager:
             return False
         drone.trigger_personal_emergency(reason)
         self.logger.error(f"Personal emergency landing triggered for Drone {drone_id}: {reason}")
+        self._record_critical_event(
+            drone_id=drone_id,
+            event_type="EMERGENCY_LANDING",
+            payload={"reason": reason},
+        )
         return True
     
     def return_all_to_home(self):

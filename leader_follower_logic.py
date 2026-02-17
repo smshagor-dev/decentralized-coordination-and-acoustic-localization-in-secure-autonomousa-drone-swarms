@@ -18,6 +18,8 @@ class DroneOperationalState(str, Enum):
     WAITING_FOR_COMMAND = "WAITING_FOR_COMMAND"
     MOVING_TO_TARGET = "MOVING_TO_TARGET"
     AVOIDING_DYNAMIC_OBSTACLE = "AVOIDING_DYNAMIC_OBSTACLE"
+    ACOUSTIC_TRACKING = "ACOUSTIC_TRACKING"
+    LEDGER_SYNCING = "LEDGER_SYNCING"
     MISSION_COMPLETE = "MISSION_COMPLETE"
     RETURNING_HOME = "RETURNING_HOME"
     GPS_ML_ACTIVE = "GPS_ML_ACTIVE"
@@ -37,6 +39,9 @@ class DroneStateManager:
     def __init__(self):
         self._states: Dict[int, DroneOperationalState] = {}
         self._lock = threading.RLock()
+        self._transition_listeners: List[
+            Callable[[int, DroneOperationalState, DroneOperationalState], None]
+        ] = []
         self.logger = logging.getLogger("DroneStateManager")
 
     def init_drone(self, drone_id: int):
@@ -52,17 +57,31 @@ class DroneStateManager:
             return self._states.get(drone_id, DroneOperationalState.IDLE)
 
     def set_state(self, drone_id: int, new_state: DroneOperationalState):
+        listeners = []
         with self._lock:
             old_state = self._states.get(drone_id, DroneOperationalState.IDLE)
             if old_state == new_state:
                 return
             self._states[drone_id] = new_state
+            listeners = list(self._transition_listeners)
             self.logger.info(
                 "Drone %s state transition %s -> %s",
                 drone_id,
                 old_state.value,
                 new_state.value,
             )
+        for listener in listeners:
+            try:
+                listener(drone_id, old_state, new_state)
+            except Exception as exc:
+                self.logger.warning("State transition listener failed: %s", exc)
+
+    def register_transition_listener(
+        self,
+        listener: Callable[[int, DroneOperationalState, DroneOperationalState], None],
+    ):
+        with self._lock:
+            self._transition_listeners.append(listener)
 
     def is_gps_ml_active(self, drone_id: int) -> bool:
         return self.get_state(drone_id) == DroneOperationalState.GPS_ML_ACTIVE
