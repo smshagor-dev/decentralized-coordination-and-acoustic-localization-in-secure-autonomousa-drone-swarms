@@ -730,6 +730,59 @@ Simulation scenarios:
 - known-position acoustic impulse localization
 - high-latency spike during acoustic tracking
 
+### 18.5 Intelligent Leader Election & Immune System Math (Updated)
+
+This update extends the previous leader-election mechanism with a weighted multi-criteria scoring model and aligns it with immune-system fault math.
+
+#### Weighted Leader Election Scoring
+For each drone `i`, the suitability score `S_i` is:
+
+$$
+S_i = (w_{batt} \cdot B_i) + (w_{motor} \cdot M_i) + (w_{link} \cdot L_i)
+$$
+
+Where:
+- `B_i`: normalized battery level (`0.0` to `1.0`)
+- `M_i`: motor health index (RPM stability + vibration quality)
+- `L_i`: network link quality (RSSI stability)
+- default weights: `w_batt = 0.4`, `w_motor = 0.4`, `w_link = 0.2`
+
+The drone with the highest `S_i` is elected leader.
+
+#### Differential Immune System: Motor Fault Detection
+A motor `m` is marked `DEGRADED` when relative RPM error crosses `10%`:
+
+$$
+\text{IF} \quad \left| \frac{RPM_{target} - RPM_{actual}}{RPM_{target}} \right| \ge 0.10
+\quad \text{THEN} \quad \text{Status} = \text{DEGRADED}
+$$
+
+#### Thrust Redistribution Logic
+When motor fault is detected, thrust is redistributed over healthy motors:
+
+$$
+T_{compensated} = T_{nominal} + \sum_{j \in \text{healthy}} \Delta T_j
+$$
+
+The controller maintains near-constant vertical thrust (`F_z`) to avoid sudden altitude loss while preserving attitude stability.
+
+#### Acoustic Localization (TDOA)
+Pairwise TDOA distance difference:
+
+$$
+d_{ij} = v_s \cdot (t_i - t_j)
+$$
+
+Where:
+- `v_s`: speed of sound (`\approx 343 m/s`)
+- `(t_i - t_j)`: delay from GCC-PHAT cross-correlation
+
+Source position `(x, y)` is solved via least-squares minimization:
+
+$$
+\min_{x,y} \sum_{i=1}^{N} \left( \sqrt{(x-x_i)^2 + (y-y_i)^2} - d_i \right)^2
+$$
+
 ## Update: February 17, 2026
 - Added Differential Drone Immune System (Self-Healing Flight System) in dronecontroller.cpp.
 - Added real-time motor health logic (RPM drop detection at >=10%), thrust redistribution, adaptive PID, and emergency return handling for 2+ degraded motors.
