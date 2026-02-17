@@ -1,4 +1,4 @@
-﻿<!--
+<!--
 #########################################################################
 #                                                                       #
 #   SECURE DRONE SWARM SYSTEM - CORE MODULE                             #
@@ -647,7 +647,7 @@ flowchart LR
     EV --> D2
     EV --> D3
 ```
-```
+```mermaid
 graph TD
     A[Ground Control Station / GUI] -->|Encrypted Commands| B(Swarm Manager)
     B --> C{Decision Engine}
@@ -1034,3 +1034,4 @@ Verification is performed via Ed25519 digital signatures to ensure non-repudiati
   - camera-independent sound detection/localization for swarm response.
 - Swarm Status drone table (ID, Role, Mode, Battery, Altitude, Status) is now fully dynamic in the GUI (defensive row updates, dynamic resizing, always-visible vertical scrollbar, smooth scrolling, and sortable columns).
 - Latency indicators (C++->Py, Py Proc, Py->C++, RTT, RTT Jitter) are dynamically refreshed from runtime latency stats.
+
