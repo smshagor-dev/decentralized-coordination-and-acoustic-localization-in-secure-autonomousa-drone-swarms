@@ -397,14 +397,17 @@ Variables:
 - `R = R_d + R_o`
 
 Collision condition:
+
 $$
 \|r - vt\| \le R,\quad t>0
 $$
 
 Quadratic form:
+
 $$
 at^2 + bt + c \le 0
 $$
+
 $$
 a = v \cdot v,\quad b = -2(r \cdot v),\quad c = (r \cdot r) - R^2
 $$
@@ -437,18 +440,23 @@ Given:
 - Time step: `Δt`
 
 Core equations:
+
 $$
 dx = x_h - x,\quad dy = y_h - y,\quad d_h = \sqrt{dx^2 + dy^2}
 $$
+
 $$
 u_x = \frac{dx}{d_h},\quad u_y = \frac{dy}{d_h}
 $$
+
 $$
 v = \min(v_{cap}, d_h/\Delta t)
 $$
+
 $$
 x_{new} = x + u_x v\Delta t,\quad y_{new} = y + u_y v\Delta t
 $$
+
 $$
 z_{new} = \max(z_h, z - r_d\Delta t)
 $$
@@ -467,11 +475,13 @@ Goal:
 - keep realistic disturbance while preserving controllability.
 
 Wind phase:
+
 $$
 \phi_{t+1} = \phi_t + 0.7\Delta t
 $$
 
 Disturbance components:
+
 $$
 g_x = w_x(0.65 + 0.35\sin\phi),\quad g_y = w_y(0.65 + 0.35\cos(0.9\phi))
 $$
@@ -480,14 +490,17 @@ Compensation factor:
 - `c = 0.45` (so residual disturbance is `1-c = 0.55`)
 
 Combined degraded update:
+
 $$
 x_{new} = x + u_xv\Delta t + 0.55g_x\Delta t
 $$
+
 $$
 y_{new} = y + u_yv\Delta t + 0.55g_y\Delta t
 $$
 
 Initialization:
+
 $$
 w_x = 1.2\cos\phi_0,\quad w_y = 1.2\sin\phi_0,\quad \sqrt{w_x^2 + w_y^2}=1.2
 $$
@@ -497,6 +510,7 @@ Goal:
 - estimate battery state from mode-dependent drain rate.
 
 Equation:
+
 $$
 B_{new} = \max(0, B - r_{mode}\Delta t)
 $$
@@ -507,30 +521,36 @@ Where `r_mode` is selected by current flight mode (`IDLE`, `HOVER`, `FLYING`, `E
 Let leader be `p_L=(x_L,y_L,z_L)` and spacing `s`.
 
 Line:
+
 $$
 p_i=(x_L, y_L+si, z_L),\ i=\pm1,\pm2,\dots
 $$
 
 V-shape:
+
 $$
 rank=\lfloor i/2 \rfloor + 1,\quad side\in\{+1,-1\}
 $$
+
 $$
 p_i=(x_L-s\cdot rank,\ y_L+side\cdot s\cdot rank,\ z_L)
 $$
 
 Circle:
+
 $$
 \theta_i=\frac{2\pi i}{N},\quad p_i=(x_L+R\cos\theta_i,\ y_L+R\sin\theta_i,\ z_L)
 $$
 
 Grid:
+
 $$
 p_i=(x_L+sr,\ y_L+sc,\ z_L)
 $$
 
 ### 14.5 Latency Jitter
 For latency samples `L={l_1,\dots,l_n}` (ms):
+
 $$
 \mu=\frac{1}{n}\sum l_i,\quad
 \sigma=\sqrt{\frac{1}{n}\sum(l_i-\mu)^2}
@@ -642,11 +662,14 @@ Core components:
 Signal-processing model:
 - Cross-correlation via `scipy.signal.correlate`
 - GCC-PHAT weighting for robust delay estimation in noise
-- Delay estimator:
-  $$
-  \Delta t_{ij} = \frac{\arg\max_\tau \text{corr}(sig_i, sig_j)}{f_s}
-  $$
-  where `f_s` is the sample rate.
+
+Delay estimator:
+
+$$
+\Delta t_{ij} = \frac{\arg\max_\tau \text{corr}(sig_i, sig_j)}{f_s}
+$$
+
+where `f_s` is the sample rate.
 
 TDOA localization math:
 - `c = 343 m/s` (speed of sound)
@@ -655,15 +678,19 @@ TDOA localization math:
 - Pairwise delay: `Δt_ij=t_j-t_i`
 
 Hyperbolic constraint:
+
 $$
 \sqrt{(x_s-x_j)^2+(y_s-y_j)^2} - \sqrt{(x_s-x_i)^2+(y_s-y_i)^2} = c\Delta t_{ij}
 $$
 
 Least-squares objective (nonlinear):
+
 $$
 \min_{x_s,y_s}\sum_{(i,j)}\left[d_j(x_s,y_s)-d_i(x_s,y_s)-c\Delta t_{ij}\right]^2
 $$
+
 where
+
 $$
 d_k(x_s,y_s)=\sqrt{(x_s-x_k)^2+(y_s-y_k)^2}
 $$
