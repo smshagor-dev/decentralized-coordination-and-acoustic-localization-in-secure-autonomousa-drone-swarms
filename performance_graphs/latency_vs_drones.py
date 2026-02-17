@@ -1,3 +1,15 @@
+#########################################################################
+#                                                                       #
+#   SECURE DRONE SWARM SYSTEM - CORE MODULE                             #
+#                                                                       #
+#   Developer : Md Shahanur Islam Shagor                                #
+#   Role      : Project Architect & Lead Developer                      #
+#   Version   : 1.0.2                                                   #
+#   Status    : Production Ready                                        #
+#                                                                       #
+#   "Protecting the skies with decentralized intelligence."             #
+#                                                                       #
+#########################################################################
 import argparse
 import random
 import sys

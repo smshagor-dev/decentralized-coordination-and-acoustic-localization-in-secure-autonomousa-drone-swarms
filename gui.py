@@ -1,4 +1,16 @@
-﻿"""
+#########################################################################
+#                                                                       #
+#   SECURE DRONE SWARM SYSTEM - CORE MODULE                             #
+#                                                                       #
+#   Developer : Md Shahanur Islam Shagor                                #
+#   Role      : Project Architect & Lead Developer                      #
+#   Version   : 1.0.2                                                   #
+#   Status    : Production Ready                                        #
+#                                                                       #
+#   "Protecting the skies with decentralized intelligence."             #
+#                                                                       #
+#########################################################################
+"""
 Graphical User Interface - Real-time drone swarm visualization
 Built with PyQt5 for professional visualization
 """

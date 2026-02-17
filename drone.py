@@ -1,3 +1,15 @@
+#########################################################################
+#                                                                       #
+#   SECURE DRONE SWARM SYSTEM - CORE MODULE                             #
+#                                                                       #
+#   Developer : Md Shahanur Islam Shagor                                #
+#   Role      : Project Architect & Lead Developer                      #
+#   Version   : 1.0.2                                                   #
+#   Status    : Production Ready                                        #
+#                                                                       #
+#   "Protecting the skies with decentralized intelligence."             #
+#                                                                       #
+#########################################################################
 """
 Drone Class - Core drone functionality with dynamic battery management
 Supports real drone integration via MAVLink/MAVSDK

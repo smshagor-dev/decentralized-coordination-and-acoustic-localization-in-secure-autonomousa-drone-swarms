@@ -1,4 +1,18 @@
-﻿# Secure Drone Swarm With Wireless Comonication
+<!--
+#########################################################################
+#                                                                       #
+#   SECURE DRONE SWARM SYSTEM - CORE MODULE                             #
+#                                                                       #
+#   Developer : Md Shahanur Islam Shagor                                #
+#   Role      : Project Architect & Lead Developer                      #
+#   Version   : 1.0.2                                                   #
+#   Status    : Production Ready                                        #
+#                                                                       #
+#   "Protecting the skies with decentralized intelligence."             #
+#                                                                       #
+#########################################################################
+-->
+# Secure Drone Swarm with Wireless Communication
 
 End-to-end multi-drone swarm simulation/control platform with Python + C++ modules, event-driven orchestration, personal ML obstacle avoidance, latency-aware fallback safety, and a full-featured PyQt GUI.
 
@@ -35,42 +49,42 @@ Core files:
 
 ```text
 secure-drone-swarm/
-├── main.py
-├── gui.py
-├── swarm_manager.py
-├── drone.py
-├── leader_follower_logic.py
-├── dynamic_obstacles.py
-├── latency_monitor.py
-├── communication.py
-├── ml_system.py
-├── ml_trainer.py
-├── dronecontroller.h
-├── dronecontroller.cpp
-├── main_test.cpp
-├── test_dynamic_features.py
-├── requirements.txt
-├── readme.md
-├── performance_graphs/
-│   ├── auto_plot_from_csv.py
-│   ├── latency_vs_drones.py
-│   ├── runtime_latency_vs_drones_YYYYMMDD_HHMMSS.csv
-│   ├── latency_timeseries_YYYYMMDD_HHMMSS.png
-│   ├── latency_spike_timeline_YYYYMMDD_HHMMSS.png
-│   ├── latency_spike_timeline_YYYYMMDD_HHMMSS.csv
-│   └── merged_logs_YYYYMMDD_HHMMSS.log
-├── config/
-│   └── swarm_config.json
-├── assets/
-│   ├── drone.svg
-│   └── fields.svg
-├── datasets/
-│   ├── personal_training.csv
-│   ├── personal_training.json
-│   └── personal_drone_1.csv
-├── models/
-├── logs/
-└── build/
++-- main.py
++-- gui.py
++-- swarm_manager.py
++-- drone.py
++-- leader_follower_logic.py
++-- dynamic_obstacles.py
++-- latency_monitor.py
++-- communication.py
++-- ml_system.py
++-- ml_trainer.py
++-- dronecontroller.h
++-- dronecontroller.cpp
++-- main_test.cpp
++-- test_dynamic_features.py
++-- requirements.txt
++-- readme.md
++-- performance_graphs/
+�   +-- auto_plot_from_csv.py
+�   +-- latency_vs_drones.py
+�   +-- runtime_latency_vs_drones_YYYYMMDD_HHMMSS.csv
+�   +-- latency_timeseries_YYYYMMDD_HHMMSS.png
+�   +-- latency_spike_timeline_YYYYMMDD_HHMMSS.png
+�   +-- latency_spike_timeline_YYYYMMDD_HHMMSS.csv
+�   +-- merged_logs_YYYYMMDD_HHMMSS.log
++-- config/
+�   +-- swarm_config.json
++-- assets/
+�   +-- drone.svg
+�   +-- fields.svg
++-- datasets/
+�   +-- personal_training.csv
+�   +-- personal_training.json
+�   +-- personal_drone_1.csv
++-- models/
++-- logs/
++-- build/
 ```
 
 ## 4. Full GUI Feature Description
@@ -385,7 +399,7 @@ This section is organized as a compact spec so equations are easy to map to code
 - `r`: relative position
 - `v`: relative velocity
 - `R`: combined safety radius
-- `Δt`: simulation/update time step
+- `?t`: simulation/update time step
 
 #### Collision Cone (Vector Math)
 Goal:
@@ -413,7 +427,7 @@ a = v \cdot v,\quad b = -2(r \cdot v),\quad c = (r \cdot r) - R^2
 $$
 
 Decision rule:
-- If `Δ = b^2 - 4ac > 0` and at least one positive `t` satisfies the inequality, motion lies inside the collision cone and avoidance must trigger.
+- If `? = b^2 - 4ac > 0` and at least one positive `t` satisfies the inequality, motion lies inside the collision cone and avoidance must trigger.
 
 #### AES-256 Performance (Latency Impact)
 Small comparison table showing how encryption increases latency in a simulated control loop.
@@ -437,7 +451,7 @@ Goal:
 Given:
 - Current position: `(x, y, z)`
 - Home position: `(x_h, y_h, z_h)`
-- Time step: `Δt`
+- Time step: `?t`
 
 Core equations:
 
@@ -556,7 +570,7 @@ $$
 \sigma=\sqrt{\frac{1}{n}\sum(l_i-\mu)^2}
 $$
 
-`σ` is the jitter metric used by `LatencyMonitor`.
+`s` is the jitter metric used by `LatencyMonitor`.
 
 ## 15. Documentation & Visuals
 
@@ -675,7 +689,7 @@ TDOA localization math:
 - `c = 343 m/s` (speed of sound)
 - Drone positions: `p_i=(x_i,y_i)`
 - Arrival times: `t_i`
-- Pairwise delay: `Δt_ij=t_j-t_i`
+- Pairwise delay: `?t_ij=t_j-t_i`
 
 Hyperbolic constraint:
 

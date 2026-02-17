@@ -1,3 +1,15 @@
+#########################################################################
+#                                                                       #
+#   SECURE DRONE SWARM SYSTEM - CORE MODULE                             #
+#                                                                       #
+#   Developer : Md Shahanur Islam Shagor                                #
+#   Role      : Project Architect & Lead Developer                      #
+#   Version   : 1.0.2                                                   #
+#   Status    : Production Ready                                        #
+#                                                                       #
+#   "Protecting the skies with decentralized intelligence."             #
+#                                                                       #
+#########################################################################
 """
 Secure Communication Module - AES encryption for drone-to-drone communication
 No IP/Internet required - direct peer-to-peer
