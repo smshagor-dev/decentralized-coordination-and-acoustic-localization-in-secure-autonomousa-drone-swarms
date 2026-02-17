@@ -796,6 +796,73 @@ $$
 \min_{x,y} \sum_{i=1}^{N} \left( \sqrt{(x-x_i)^2 + (y-y_i)^2} - d_i \right)^2
 $$
 
+### 18. Emergency Landing & RTH Probability Math
+The system computes Return-to-Home (RTH) success probability to position `X` using a multiplicative reliability model.
+
+Core equation:
+
+$$
+P_{RTH} = P_{battery} \times P_{motor} \times P_{distance}
+$$
+
+Interpretation:
+- `P_battery`: energy sufficiency score
+- `P_motor`: propulsion/health score (from immune-system degradation)
+- `P_distance`: distance + link reliability score
+
+Decision policy:
+- `P_{RTH} > 0.70` -> Autonomous `Return to Home`
+- `P_{RTH} < 0.70` -> Immediate `Emergency Landing` (Land-In-Place)
+
+#### Worked Example (Emergency Moment)
+Equation:
+
+$$
+P_{RTH} = P_{battery} \times P_{motor} \times P_{distance}
+$$
+
+Assume the drone state at an emergency moment:
+- Required battery to return: `B_{req} = 20%`
+- Current battery: `B_{curr} = 30%`
+- Safety margin: `5%`
+- Motor degradation: `10%`
+- Current distance: `D_{current} = 5 km`
+- Max reliable distance: `D_{max} = 10 km`
+
+1) Battery factor (`P_{battery}`):
+
+$$
+P_{battery} = \frac{B_{curr}}{B_{req} + SafetyMargin}
+= \frac{30}{20+5} = 1.2
+$$
+
+Clamp to `[0,1]`:
+
+$$
+P_{battery} = \min(1.0, 1.2) = 1.0
+$$
+
+2) Motor health factor (`P_{motor}`):
+
+$$
+P_{motor} = 1.0 - Degradation = 1.0 - 0.10 = 0.90
+$$
+
+3) Distance/latency factor (`P_{distance}`):
+
+$$
+P_{distance} = 1 - \left(\frac{D_{current}}{D_{max}}\right)\times 0.2
+= 1 - (0.5 \times 0.2) = 0.90
+$$
+
+Final result:
+
+$$
+P_{RTH} = 1.0 \times 0.90 \times 0.90 = 0.81
+$$
+
+Therefore, the drone has an `81%` safe RTH probability, so the system selects `Autonomous RTH` (`0.81 > 0.70`).
+
 ## Update: February 17, 2026
 - Added Differential Drone Immune System (Self-Healing Flight System) in dronecontroller.cpp.
 - Added real-time motor health logic (RPM drop detection at >=10%), thrust redistribution, adaptive PID, and emergency return handling for 2+ degraded motors.
