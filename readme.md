@@ -12,7 +12,7 @@
 #                                                                       #
 #########################################################################
 -->
-# Secure Drone Swarm with Wireless Communication
+# Decentralized Coordination and Acoustic Localization in Secure Autonomous Drone Swarms
 
 End-to-end multi-drone swarm simulation/control platform with Python + C++ modules, event-driven orchestration, personal ML obstacle avoidance, latency-aware fallback safety, and a full-featured PyQt GUI.
 
