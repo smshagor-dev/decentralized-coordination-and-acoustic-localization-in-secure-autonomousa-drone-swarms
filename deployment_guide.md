@@ -57,7 +57,7 @@ Optional:
 ### 3.1 Clone and Virtual Environment
 
 ```bash
-git clone [https://github.com/smshagor-dev/decentralized-coordination-and-acoustic-localization.git](https://github.com/smshagor-dev/decentralized-coordination-and-acoustic-localization.git)
+git clone https://github.com/smshagor-dev/decentralized-coordination-and-acoustic-localization.git
 cd "Decentralized Coordination and Acoustic Localization in Secure Autonomous Drone Swarms"
 python -m venv venv
 ```
