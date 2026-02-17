@@ -12,81 +12,79 @@
 #                                                                       #
 #########################################################################
 -->
-# Project Ownership & Intellectual Property Notice
 
-## Projects Covered
+# Project Ownership and Intellectual Property Notice
 
-This ownership declaration applies to the following projects:
+## Project Covered
 
-Secure Drone Swarm With Wireless Commonication
+This ownership notice applies to:
 
----
+- `Decentralized Coordination and Acoustic Localization in Secure Autonomous Drone Swarms`
 
 ## Legal Owner
 
-**Name:** Md Shahanur Islam Shagor  
-**Email:** smshagor.ru@gmail.com  
-**Alternate Email:** contact@smshagor.com  
-**Website:** https://smshagor.com  
-
----
+- Name: Md Shahanur Islam Shagor
+- Email: smshagor.ru@gmail.com
+- Alternate Email: contact@smshagor.com
+- Website: https://smshagor.com
 
 ## Ownership Statement
 
-All architecture, source code, algorithms, modules, documentation, system design, and research implementations within these projects are originally created and fully owned by Md Shahanur Islam Shagor.
+The core architecture, source code, algorithms, module design, documentation, and research implementation of this project are authored and owned by Md Shahanur Islam Shagor, unless explicitly stated otherwise in writing.
 
-All modules in these repositories are developed by the owner unless otherwise explicitly stated in writing.
-
-No individual, organization, or contributor may claim authorship, ownership, or original creation rights over any part of these projects.
-
----
+Third-party libraries, tools, and frameworks remain the property of their respective owners and are governed by their own licenses.
 
 ## Usage Policy
 
-These projects may be:
+You may:
 
-- Viewed
-- Studied
-- Forked (if repository visibility allows)
-- Used for research or educational purposes
+- View and study the repository
+- Fork the repository (if visibility allows)
+- Use it for research or educational purposes
 
-However:
+You may not:
 
-- Republishing the full project as your own work is strictly prohibited  
-- Removing author credits is prohibited  
-- Commercial use requires written permission from the owner  
-- Modifying and redistributing without attribution is not allowed  
-
----
+- Republish the full project as your own original work
+- Remove or falsify author attribution
+- Use it commercially without written permission from the owner
+- Redistribute modified versions without proper attribution and license compliance
 
 ## Contribution Policy
 
-External contributions are welcome only through official pull requests and must:
+External contributions are accepted through pull requests.
 
-- Clearly acknowledge the original owner  
-- Not alter or remove ownership statements  
-- Not change licensing terms  
+Contributors must:
 
-Final authority on merging, modifying, or rejecting contributions remains with the project owner.
+- Keep ownership and attribution notices intact
+- Follow repository contribution rules in `CONTRIBUTING.md`
+- Respect license constraints defined by this repository
 
----
+Final merge/review authority remains with the project owner/maintainer.
+
+## License and Governance Reference
+
+- Legal licensing terms are defined by the root `LICENSE` file.
+- Contribution workflow and engineering standards are defined in `CONTRIBUTING.md`.
+- Deployment and operational guidance is documented in `deployment_guide.md`.
+
+If there is any conflict between this document and the root `LICENSE`, the `LICENSE` takes precedence for legal licensing terms.
 
 ## Intellectual Property Protection
 
-All core ideas, system logic, AI models, swarm coordination mechanisms, embedded systems logic, and assistive technology implementations are the intellectual property of Md Shahanur Islam Shagor.
+Core project concepts and implementations, including swarm coordination logic, safety/fallback mechanisms, acoustic localization pipeline, and ledger integrity flow, are protected as intellectual work of the owner.
 
-Any unauthorized commercial exploitation, plagiarism, or misrepresentation may result in legal action.
+Unauthorized commercial exploitation, plagiarism, or misrepresentation may lead to formal action.
 
----
+## Official Sources
 
-## Official Source
+- Website: https://smshagor.com
+- Repository: https://github.com/smshagor-dev/decentralized-coordination-and-acoustic-localization
 
-The official and authoritative versions of these projects are maintained under the owner’s GitHub account and official domain:
+Any mirrored copy should reference the official sources above.
 
-https://smshagor.com  
+## Document Metadata
 
-Any copies elsewhere should reference the original source.
+- Version: 1.1.0
+- Last Updated: February 17, 2026
 
----
-
-© Md Shahanur Islam Shagor — All Rights Reserved
+Copyright (c) Md Shahanur Islam Shagor. All Rights Reserved.

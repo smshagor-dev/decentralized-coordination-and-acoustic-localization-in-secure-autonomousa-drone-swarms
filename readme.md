@@ -1,6 +1,36 @@
+<!--
+#########################################################################
+#                                                                       #
+#   SECURE DRONE SWARM SYSTEM - CORE MODULE                             #
+#                                                                       #
+#   Developer : Md Shahanur Islam Shagor                                #
+#   Role      : Project Architect & Lead Developer                      #
+#   Version   : 1.0.2                                                   #
+#   Status    : Production Ready                                        #
+#                                                                       #
+#   "Protecting the skies with decentralized intelligence."             #
+#                                                                       #
+#########################################################################
+-->
+
 # Decentralized Coordination and Acoustic Localization in Secure Autonomous Drone Swarms
 
-End-to-end multi-drone swarm platform combining decentralized coordination, dynamic obstacle avoidance, secure communication, acoustic source localization, latency-aware safety fallback, and a PyQt5 operator GUI.
+This is an end-to-end multi-drone swarm platform designed for high-security environments and vision-impaired conditions. The system integrates advanced Decentralized Coordination, Dynamic Obstacle Avoidance, and Acoustic Source Localization to ensure mission success even when GPS or visual data fails.
+
+## System Summary
+This project implements a high-security autonomous swarm framework designed for GPS-denied or vision-impaired environments. Key features include:
+
+- **Swarm Orchestration:** Automatic leader election and follower synchronization via event-driven command flow.
+- **Dynamic Obstacle Avoidance:** Personal ML-based pathfinding combined with geometric collision-cone logic.
+- **Decentralized Flying Ledger:** Tamper-proof telemetry logging using SHA3-256 hashing and Ed25519 digital signatures.
+- **Acoustic Intelligence:** Sound-based source tracking using Time Difference of Arrival (TDOA) and Least-Squares fusion.
+- **Safety Fallback:** Low-latency C++ controller with motor fault self-healing and RTT jitter monitoring.
+
+## Technology Stack
+- **Python:** Swarm logic, Drone behavior, ML modules, and PyQt5 GUI.
+- **C++:** Low-level controller interfaces and real-time latency monitoring.
+- **Communication:** AES-GCM encrypted telemetry channels.
+- **Mathematical Framework:** GCC-PHAT for acoustic signals and Bayesian estimation for system health.
 
 ## 1. What This Project Implements
 
