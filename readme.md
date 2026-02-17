@@ -644,11 +644,11 @@ $$
 Collision probability term per predicted point:
 
 $$
-\text{safe\_dist}=R_o+8+0.25\|v_d\|
+d_{\text{safe}} = R_o + 8 + 0.25\|v_d\|
 $$
 $$
-\text{proximity}=1-\frac{d}{\text{safe\_dist}},\quad
-\text{prob}=\min(1,0.7\cdot\text{proximity}+0.3\cdot r)\cdot\text{time\_factor}
+\text{proximity} = 1 - \frac{d}{d_{\text{safe}}},\quad
+P = \min\!\left(1,\,0.7\cdot\text{proximity}+0.3\cdot r\right)\cdot f_{\text{time}}
 $$
 
 ### 13.6 Collision-Cone Probability
@@ -715,7 +715,7 @@ $$
 Fallback rule:
 
 $$
-\text{fallback\_required} = (\overline{T}_{rtt,ms} > T_{th})
+\mathrm{fallback\_required} = \left(\overline{T}_{\mathrm{rtt,ms}} > T_{\mathrm{th}}\right)
 $$
 
 Adaptive threshold in `swarm_manager.py`:
@@ -731,7 +731,7 @@ From `acoustic_tracking.py` with speed of sound \(c=343\,m/s\):
 Delay estimation (per sensor pair):
 
 $$
-\Delta t_{ij}=\frac{\operatorname*{argmax}_{\tau}\,R_{ij}(\tau)}{f_s}
+\Delta t_{ij}=\frac{\underset{\tau}{\arg\max}\,R_{ij}(\tau)}{f_s}
 $$
 
 TDOA residual for reference sensor \(i\):
@@ -749,7 +749,7 @@ $$
 Latency gate:
 
 $$
-\text{local\_only} = (T_{rtt,ms} > T_{acoustic\_limit})
+\mathrm{local\_only} = \left(T_{\mathrm{rtt,ms}} > T_{\mathrm{acoustic\_limit}}\right)
 $$
 
 ### 13.10 Flying Ledger Integrity
@@ -757,17 +757,17 @@ $$
 From `flying_ledger.py`:
 
 $$
-H_{tele}=\operatorname{SHA3\_256}(\text{stable\_json}(telemetry)),\quad
-H_{evt}=\operatorname{SHA3\_256}(\text{stable\_json}(event))
+H_{tele}=\mathrm{SHA3\_256}\!\left(\mathrm{stable\_json}(telemetry)\right),\quad
+H_{evt}=\mathrm{SHA3\_256}\!\left(\mathrm{stable\_json}(event)\right)
 $$
 $$
-H_{blk}=\operatorname{SHA3\_256}(index\,|\,timestamp\,|\,drone\_id\,|\,H_{tele}\,|\,H_{evt}\,|\,H_{prev})
+H_{blk}=\mathrm{SHA3\_256}\!\left(index\,|\,timestamp\,|\,drone\_id\,|\,H_{tele}\,|\,H_{evt}\,|\,H_{prev}\right)
 $$
 
 Signature:
 
 $$
-\sigma=\operatorname{Ed25519\_Sign}(H_{blk})
+\sigma=\mathrm{Ed25519\_Sign}\!\left(H_{blk}\right)
 $$
 
 Replication accepts block only if index/prev-hash/hash/signature all verify.
