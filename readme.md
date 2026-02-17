@@ -647,6 +647,25 @@ flowchart LR
     EV --> D2
     EV --> D3
 ```
+```
+graph TD
+    A[Ground Control Station / GUI] -->|Encrypted Commands| B(Swarm Manager)
+    B --> C{Decision Engine}
+    C -->|Telemetry Logging| D[Flying Ledger - Blockchain]
+    C -->|Acoustic Data| E[Acoustic Tracking - TDOA]
+    C -->|Obstacle Avoidance| F[ML System - YOLO/Vision]
+    
+    subgraph Drone Unit
+    F --> G[C++ Core Controller]
+    E --> G
+    G --> H[Motor Control & Sensors]
+    H -->|Feedback| I[Latency Monitor]
+    I -->|Jitter Stats| G
+    end
+    
+    D -->|Distributed Sync| J[Other Drones in Swarm]
+
+```
 
 ### 17.1 Subsystem A: Decentralized Quantum-Resistant Flying Ledger
 
