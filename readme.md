@@ -377,24 +377,40 @@ Real-time latency-aware watchdog and safety fallback protocols. The latency moni
 
 ### Mathematical Formalization
 
-#### Collision Cone (Vector Math)
-Let the drone be at position `p_d` with velocity `v_d`, and an obstacle at `p_o` with velocity `v_o`. Define the relative position and velocity:
+This section is organized as a compact spec so equations are easy to map to code.
 
+#### Notation
+- `p_d, v_d`: drone position and velocity
+- `p_o, v_o`: obstacle position and velocity
+- `r`: relative position
+- `v`: relative velocity
+- `R`: combined safety radius
+- `Δt`: simulation/update time step
+
+#### Collision Cone (Vector Math)
+Goal:
+- decide if current relative motion can produce a future collision.
+
+Variables:
 - `r = p_o - p_d`
 - `v = v_d - v_o`
+- `R = R_d + R_o`
 
-Assume a combined safety radius `R = R_d + R_o`. A collision is possible if there exists a time `t > 0` such that:
+Collision condition:
+$$
+\|r - vt\| \le R,\quad t>0
+$$
 
-- `|| r - v t || <= R`
+Quadratic form:
+$$
+at^2 + bt + c \le 0
+$$
+$$
+a = v \cdot v,\quad b = -2(r \cdot v),\quad c = (r \cdot r) - R^2
+$$
 
-This leads to the quadratic:
-
-- `a t^2 + b t + c <= 0`
-- `a = v · v`
-- `b = -2 (r · v)`
-- `c = (r · r) - R^2`
-
-If the discriminant `Δ = b^2 - 4ac` is positive and there exists a positive `t` with `a t^2 + b t + c <= 0`, then the relative velocity lies inside the collision cone, and avoidance is required. This is the geometric basis for the collision-cone probability and avoidance direction used in the dynamic obstacle logic.
+Decision rule:
+- If `Δ = b^2 - 4ac > 0` and at least one positive `t` satisfies the inequality, motion lies inside the collision cone and avoidance must trigger.
 
 #### AES-256 Performance (Latency Impact)
 Small comparison table showing how encryption increases latency in a simulated control loop.
@@ -409,167 +425,120 @@ Small comparison table showing how encryption increases latency in a simulated c
 - **Scenario B (High Risk)**: Multiple moving obstacles, ML-based avoidance active.
 - **Scenario C (Emergency)**: High latency spike triggered, drones switched to safety fallback mode.
 
-## 14. Mathematical Model of Drone Return Behavior
+## 14. Math Spec (Easy Reference)
 
-### 1. Vector Toward Home
-Current position: `(x, y)`  
-Home position: `(x_h, y_h)`
+### 14.1 Return-to-Home Kinematics
+Goal:
+- move drone to home without overshoot and with stable descent.
 
-Direction components:
-`dx = x_h - x`  
-`dy = y_h - y`
+Given:
+- Current position: `(x, y, z)`
+- Home position: `(x_h, y_h, z_h)`
+- Time step: `Δt`
 
-Distance to home:
-`d_h = sqrt(dx^2 + dy^2)`
+Core equations:
+$$
+dx = x_h - x,\quad dy = y_h - y,\quad d_h = \sqrt{dx^2 + dy^2}
+$$
+$$
+u_x = \frac{dx}{d_h},\quad u_y = \frac{dy}{d_h}
+$$
+$$
+v = \min(v_{cap}, d_h/\Delta t)
+$$
+$$
+x_{new} = x + u_x v\Delta t,\quad y_{new} = y + u_y v\Delta t
+$$
+$$
+z_{new} = \max(z_h, z - r_d\Delta t)
+$$
 
-This Euclidean distance defines how far the drone is from home.
-
-### 2. Speed Constraint Model
-Let `Δt` be the time step.  
-Maximum allowed speed:
-
+Mode-specific caps:
 - Normal return: `v_cap = V_max`
 - Degraded return: `v_cap = 0.55 V_max`
 - Emergency return: `v_cap = 0.75 V_max`
 
-Actual speed per update:
-`v = min(v_cap, d_h / Δt)`
+Descent rates:
+- Normal: `r_d = 0.5 V_land`
+- Degraded: `r_d = 0.3 V_land`
 
-Meaning:
-- If far, move at capped speed.
-- If close, slow down to avoid overshoot.
+### 14.2 Wind + Compensation (Degraded Mode)
+Goal:
+- keep realistic disturbance while preserving controllability.
 
-### 3. Direction Normalization
-Unit vector toward home:
-`u_x = dx / d_h`  
-`u_y = dy / d_h`
+Wind phase:
+$$
+\phi_{t+1} = \phi_t + 0.7\Delta t
+$$
 
-This ensures motion purely in the home direction.
+Disturbance components:
+$$
+g_x = w_x(0.65 + 0.35\sin\phi),\quad g_y = w_y(0.65 + 0.35\cos(0.9\phi))
+$$
 
-### 4. Position Update (Core Kinematics)
-`x_new = x + u_x * v * Δt`  
-`y_new = y + u_y * v * Δt`
+Compensation factor:
+- `c = 0.45` (so residual disturbance is `1-c = 0.55`)
 
-First-order discrete-time motion:
-`p_(t+1) = p_t + v * Δt`, where `v = v * u`.
+Combined degraded update:
+$$
+x_{new} = x + u_xv\Delta t + 0.55g_x\Delta t
+$$
+$$
+y_{new} = y + u_yv\Delta t + 0.55g_y\Delta t
+$$
 
-### 5. Wind Disturbance Model (Degraded Mode)
-Wind phase evolution:
-`ϕ_(t+1) = ϕ_t + 0.7 Δt`
+Initialization:
+$$
+w_x = 1.2\cos\phi_0,\quad w_y = 1.2\sin\phi_0,\quad \sqrt{w_x^2 + w_y^2}=1.2
+$$
 
-Disturbed wind components:
-`g_x = w_x * (0.65 + 0.35 sin ϕ)`  
-`g_y = w_y * (0.65 + 0.35 cos(0.9 ϕ))`
+### 14.3 Battery Drain Model
+Goal:
+- estimate battery state from mode-dependent drain rate.
 
-Wind amplitude oscillates between `0.30` and `1.00` of base wind strength.
+Equation:
+$$
+B_{new} = \max(0, B - r_{mode}\Delta t)
+$$
 
-### 6. Partial Wind Compensation
-Compensation factor: `c = 0.45`  
-Residual disturbance: `1 - c = 0.55`
+Where `r_mode` is selected by current flight mode (`IDLE`, `HOVER`, `FLYING`, `EMERGENCY`).
 
-Applied disturbance:
-`x_new = x + g_x * 0.55 * Δt`  
-`y_new = y + g_y * 0.55 * Δt`
+### 14.4 Formation Geometry
+Let leader be `p_L=(x_L,y_L,z_L)` and spacing `s`.
 
-So only 55% of wind affects the drone.
+Line:
+$$
+p_i=(x_L, y_L+si, z_L),\ i=\pm1,\pm2,\dots
+$$
 
-### 7. Combined Position Update (Degraded Mode)
-Full discrete update:
-`x_new = x + u_x * v * Δt + 0.55 g_x * Δt`  
-`y_new = y + u_y * v * Δt + 0.55 g_y * Δt`
+V-shape:
+$$
+rank=\lfloor i/2 \rfloor + 1,\quad side\in\{+1,-1\}
+$$
+$$
+p_i=(x_L-s\cdot rank,\ y_L+side\cdot s\cdot rank,\ z_L)
+$$
 
-Vector form:
-`p_(t+1) = p_t + v_home * Δt + v_wind * Δt`
+Circle:
+$$
+\theta_i=\frac{2\pi i}{N},\quad p_i=(x_L+R\cos\theta_i,\ y_L+R\sin\theta_i,\ z_L)
+$$
 
-### 8. Altitude Descent Model
-Let altitude be `z` and home altitude be `z_h`.
+Grid:
+$$
+p_i=(x_L+sr,\ y_L+sc,\ z_L)
+$$
 
-Update rule:
-`z_new = max(z_h, z - r_d * Δt)`
+### 14.5 Latency Jitter
+For latency samples `L={l_1,\dots,l_n}` (ms):
+$$
+\mu=\frac{1}{n}\sum l_i,\quad
+\sigma=\sqrt{\frac{1}{n}\sum(l_i-\mu)^2}
+$$
 
-Descent rate:
-- Normal return: `r_d = 0.5 V_land`
-- Degraded return: `r_d = 0.6 * 0.5 V_land = 0.3 V_land`
+`σ` is the jitter metric used by `LatencyMonitor`.
 
-So degraded descent is slower for stability.
-
-### 9. Wind Initialization
-Initial wind:
-`w_x = 1.2 cos(ϕ_0)`  
-`w_y = 1.2 sin(ϕ_0)`
-
-Magnitude:
-`sqrt(w_x^2 + w_y^2) = 1.2`
-
-So each drone has identical wind strength but different phase orientation.
-
-### 10. System Nature (Mathematical View)
-The motion equation is a discrete-time dynamical system:
-`p_(t+1) = p_t + f_deterministic + f_disturbance`
-
-Where:
-- Deterministic term = controlled return vector
-- Disturbance term = partially compensated oscillatory wind
-
-This creates:
-- Stable convergence toward home
-- Reduced speed under degradation
-- Controlled descent
-- Realistic lateral disturbance
-
-## 15. Additional Calculations
-
-### Battery Drain Model
-This model matches the actual fields and constants in `drone.py`.
-
-Let battery level be `B` (%) and update interval `Δt` (s). The drain rate depends on `flight_mode`:
-
-- `FlightMode.IDLE` → `BATTERY_IDLE`
-- `FlightMode.HOVER` → `BATTERY_HOVER`
-- `FlightMode.FLYING` → `BATTERY_FLYING`
-- `FlightMode.EMERGENCY_LANDING` (and emergency states) → `BATTERY_EMERGENCY`
-
-With base drain rate `r_mode`, the update is:
-`B_new = max(0, B - r_mode * Δt)`
-
-This matches the constant-rate drain logic used by the simulator’s battery management.
-
-### Formation Spacing Math
-Let leader position be `p_L = (x_L, y_L, z_L)` and spacing be `s`.
-
-**Line formation**
-- Followers are placed at offsets along the `y` axis:
-`p_i = (x_L, y_L + s * i, z_L)` for `i = ±1, ±2, ...`
-
-**V formation**
-- For follower index `i`:
-`rank = floor(i / 2) + 1`
-`side = +1` for even `i`, `-1` for odd `i`
-`p_i = (x_L - s * rank, y_L + side * s * rank, z_L)`
-
-**Circle formation**
-- With `N` followers and radius `R`:
-`θ_i = 2π i / N`
-`p_i = (x_L + R cos θ_i, y_L + R sin θ_i, z_L)`
-
-**Grid formation**
-- With grid indices `(r, c)` centered around leader:
-`p_i = (x_L + s * r, y_L + s * c, z_L)`
-
-These match the formation logic used in `swarm_manager.py`.
-
-### Latency Jitter Formula
-Let latency samples be `L = {l_1, l_2, ..., l_n}` in milliseconds.
-
-Mean latency:
-`μ = (1/n) * Σ l_i`
-
-Jitter (std dev):
-`σ = sqrt((1/n) * Σ (l_i - μ)^2)`
-
-This is the same standard deviation calculation used by `LatencyMonitor` for jitter tracking.
-
-## 16. Documentation & Visuals
+## 15. Documentation & Visuals
 
 ### PDFs
 - [Drone Return Physics Math Calculation Model](Docs/Drone_Return_physics_math_Calculatiion_Model.pdf)
@@ -582,7 +551,7 @@ This is the same standard deviation calculation used by `LatencyMonitor` for jit
 ![Swarm System Infographic](Docs/Drone%20swarm%20system%20infographic%20.jpg)
 ![Plan](Docs/plan.jpg)
 
-## 17. Automated Plotting (CSV-Based)
+## 16. Automated Plotting (CSV-Based)
 
 Use the automated script to generate two plots from the runtime CSV:
 - **Latency Trend**: latency stability over time
@@ -602,9 +571,9 @@ Outputs:
 - `performance_graphs/latency_trend_YYYYMMDD_HHMMSS.png`
 - `performance_graphs/battery_vs_ml_load_YYYYMMDD_HHMMSS.png`
 
-## 18. Upgrade Spec: Flying Ledger + Acoustic TDOA
+## 17. Upgrade Spec: Flying Ledger + Acoustic TDOA
 
-### 18.1 Subsystem A: Decentralized Quantum-Resistant Flying Ledger
+### 17.1 Subsystem A: Decentralized Quantum-Resistant Flying Ledger
 
 New module:
 - `flying_ledger.py`
@@ -659,7 +628,7 @@ State-machine addition:
 Threading requirement:
 - replication path is asynchronous and thread-safe.
 
-### 18.2 Subsystem B: Swarm Acoustic Source Localization (TDOA)
+### 17.2 Subsystem B: Swarm Acoustic Source Localization (TDOA)
 
 New module:
 - `acoustic_tracking.py`
@@ -672,25 +641,32 @@ Core components:
 
 Signal-processing model:
 - Cross-correlation via `scipy.signal.correlate`
-- GCC-PHAT weighting for robust delay estimation under noise
-- Delay estimate:
-  - `Δt = argmax(cross_correlation(sig_i, sig_j)) / sample_rate`
+- GCC-PHAT weighting for robust delay estimation in noise
+- Delay estimator:
+  $$
+  \Delta t_{ij} = \frac{\arg\max_\tau \text{corr}(sig_i, sig_j)}{f_s}
+  $$
+  where `f_s` is the sample rate.
 
 TDOA localization math:
-- Speed of sound:
-  - `c = 343 m/s`
-- Drone positions:
-  - `p_i = (x_i, y_i)`
-- Arrival times:
-  - `t_i`
-- Pairwise delay:
-  - `Δt_ij = t_j - t_i`
-- Hyperbolic constraint:
-  - `sqrt((x_s - x_j)^2 + (y_s - y_j)^2) - sqrt((x_s - x_i)^2 + (y_s - y_i)^2) = c * Δt_ij`
+- `c = 343 m/s` (speed of sound)
+- Drone positions: `p_i=(x_i,y_i)`
+- Arrival times: `t_i`
+- Pairwise delay: `Δt_ij=t_j-t_i`
+
+Hyperbolic constraint:
+$$
+\sqrt{(x_s-x_j)^2+(y_s-y_j)^2} - \sqrt{(x_s-x_i)^2+(y_s-y_i)^2} = c\Delta t_{ij}
+$$
 
 Least-squares objective (nonlinear):
-- `min_(x_s, y_s) Σ_((i,j)) [ d_j(x_s,y_s) - d_i(x_s,y_s) - cΔt_ij ]^2`
-- where `d_k(x_s,y_s) = sqrt((x_s - x_k)^2 + (y_s - y_k)^2)`
+$$
+\min_{x_s,y_s}\sum_{(i,j)}\left[d_j(x_s,y_s)-d_i(x_s,y_s)-c\Delta t_{ij}\right]^2
+$$
+where
+$$
+d_k(x_s,y_s)=\sqrt{(x_s-x_k)^2+(y_s-y_k)^2}
+$$
 
 Swarm behavior:
 1. Sound detected.
@@ -707,7 +683,7 @@ Latency-aware fallback:
   - switch to local-only estimation
   - log latency/fallback event in flying ledger.
 
-### 18.3 GUI Additions for This Upgrade
+### 17.3 GUI Additions for This Upgrade
 - Toggle: `Enable Acoustic Detection`
 - Slider: `Detection Confidence Threshold`
 - Sound source marker visualization on map
@@ -716,7 +692,7 @@ Latency-aware fallback:
   - sync state
   - chain integrity indicator
 
-### 18.4 Test Plan (Automated)
+### 17.4 Test Plan (Automated)
 - `test_blockchain_consensus`
 - `test_block_validation_rejection`
 - `test_acoustic_tdoa_accuracy`
@@ -730,7 +706,7 @@ Simulation scenarios:
 - known-position acoustic impulse localization
 - high-latency spike during acoustic tracking
 
-### 18.5 Intelligent Leader Election & Immune System Math (Updated)
+### 17.5 Intelligent Leader Election & Immune System Math (Updated)
 
 This update extends the previous leader-election mechanism with a weighted multi-criteria scoring model and aligns it with immune-system fault math.
 
@@ -749,6 +725,11 @@ Where:
 
 The drone with the highest `S_i` is elected leader.
 
+Implementation note:
+- Keep normalized terms in `[0,1]`.
+- Enforce `w_batt + w_motor + w_link = 1`.
+- Default profile prioritizes energy + actuator health over link quality.
+
 #### Differential Immune System: Motor Fault Detection
 A motor `m` is marked `DEGRADED` when relative RPM error crosses `10%`:
 
@@ -765,6 +746,11 @@ T_{compensated} = T_{nominal} + \sum_{j \in \text{healthy}} \Delta T_j
 $$
 
 The controller maintains near-constant vertical thrust (`F_z`) to avoid sudden altitude loss while preserving attitude stability.
+
+Practical control interpretation:
+- One degraded motor -> opposite motor gets largest compensation.
+- Side motors receive smaller compensation.
+- Apply low-pass filtering to compensation terms to suppress oscillation.
 
 #### Acoustic Localization (TDOA)
 Pairwise TDOA distance difference:
