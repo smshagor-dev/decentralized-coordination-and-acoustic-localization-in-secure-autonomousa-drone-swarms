@@ -49,3 +49,16 @@
 2026-02-17 08:23:55,075 - Drone_5 - INFO - Drone 5: Taking off
 2026-02-17 08:24:00,817 - Drone_5 - INFO - Drone 5: Flying to {'x': 2553.9057647468726, 'y': 2537.202456766718, 'z': 60.0}
 2026-02-17 08:26:59,822 - Drone_5 - INFO - Drone 5: Returning to home - Leader broadcast RETURN_TO_HOME
+2026-02-17 11:31:17,186 - Drone_5 - INFO - Drone 5: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-17 11:31:17,187 - Drone_5 - INFO - Drone 5: Personal ML system initialized
+2026-02-17 11:31:17,187 - Drone_5 - INFO - Drone 5 initialized at {'x': -900, 'y': 1600, 'z': 0}
+2026-02-17 11:31:17,188 - Drone_5 - INFO - Drone 5 started
+2026-02-17 11:31:25,947 - Drone_5 - INFO - Drone 5: Armed
+2026-02-17 11:31:27,872 - Drone_5 - INFO - Drone 5: Taking off
+2026-02-17 11:31:29,657 - Drone_5 - INFO - Drone 5: Flying to {'x': 2553.9057647468726, 'y': 2537.202456766718, 'z': 60.0}
+2026-02-17 11:31:41,367 - Drone_5 - ERROR - Drone 5: Motor 0 failed!
+2026-02-17 11:31:41,368 - Drone_5 - WARNING - Drone 5: Degraded return active - Motor failure simulation: return to home with degraded control
+2026-02-17 11:31:54,557 - Drone_5 - INFO - Drone 5: Role changed from emergency to follower
+2026-02-17 11:32:03,634 - Drone_5 - INFO - Drone 5: Reached home position
+2026-02-17 11:32:04,038 - Drone_5 - INFO - Drone 5: Landed safely
+2026-02-17 11:34:44,901 - Drone_5 - INFO - Drone 5 stopped

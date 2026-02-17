@@ -53,3 +53,13 @@
 2026-02-17 08:23:55,074 - Drone_4 - INFO - Drone 4: Taking off
 2026-02-17 08:24:00,816 - Drone_4 - INFO - Drone 4: Flying to {'x': 2503.5942352531274, 'y': 2553.549663646839, 'z': 60.0}
 2026-02-17 08:26:59,821 - Drone_4 - INFO - Drone 4: Returning to home - Leader broadcast RETURN_TO_HOME
+2026-02-17 11:31:17,176 - Drone_4 - INFO - Drone 4: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-17 11:31:17,176 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-17 11:31:17,176 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-17 11:31:17,178 - Drone_4 - INFO - Drone 4 started
+2026-02-17 11:31:25,946 - Drone_4 - INFO - Drone 4: Armed
+2026-02-17 11:31:27,871 - Drone_4 - INFO - Drone 4: Taking off
+2026-02-17 11:31:29,657 - Drone_4 - INFO - Drone 4: Flying to {'x': 2503.5942352531274, 'y': 2553.549663646839, 'z': 60.0}
+2026-02-17 11:31:54,557 - Drone_4 - INFO - Drone 4: Role changed from follower to leader
+2026-02-17 11:34:28,711 - Drone_4 - INFO - Drone 4: Returning to home - Leader broadcast RETURN_TO_HOME
+2026-02-17 11:34:44,800 - Drone_4 - INFO - Drone 4 stopped

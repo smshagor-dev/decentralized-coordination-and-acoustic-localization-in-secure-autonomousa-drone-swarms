@@ -1,4 +1,4 @@
-<!--
+ï»¿<!--
 #########################################################################
 #                                                                       #
 #   SECURE DRONE SWARM SYSTEM - CORE MODULE                             #
@@ -66,22 +66,22 @@ secure-drone-swarm/
 +-- requirements.txt
 +-- readme.md
 +-- performance_graphs/
-¦   +-- auto_plot_from_csv.py
-¦   +-- latency_vs_drones.py
-¦   +-- runtime_latency_vs_drones_YYYYMMDD_HHMMSS.csv
-¦   +-- latency_timeseries_YYYYMMDD_HHMMSS.png
-¦   +-- latency_spike_timeline_YYYYMMDD_HHMMSS.png
-¦   +-- latency_spike_timeline_YYYYMMDD_HHMMSS.csv
-¦   +-- merged_logs_YYYYMMDD_HHMMSS.log
+?   +-- auto_plot_from_csv.py
+?   +-- latency_vs_drones.py
+?   +-- runtime_latency_vs_drones_YYYYMMDD_HHMMSS.csv
+?   +-- latency_timeseries_YYYYMMDD_HHMMSS.png
+?   +-- latency_spike_timeline_YYYYMMDD_HHMMSS.png
+?   +-- latency_spike_timeline_YYYYMMDD_HHMMSS.csv
+?   +-- merged_logs_YYYYMMDD_HHMMSS.log
 +-- config/
-¦   +-- swarm_config.json
+?   +-- swarm_config.json
 +-- assets/
-¦   +-- drone.svg
-¦   +-- fields.svg
+?   +-- drone.svg
+?   +-- fields.svg
 +-- datasets/
-¦   +-- personal_training.csv
-¦   +-- personal_training.json
-¦   +-- personal_drone_1.csv
+?   +-- personal_training.csv
+?   +-- personal_training.json
+?   +-- personal_drone_1.csv
 +-- models/
 +-- logs/
 +-- build/
@@ -909,45 +909,54 @@ To ensure the highest level of autonomy and safety, the system employs rigorous 
 ### A. Multi-Criteria Weighted Leader Election
 The suitability score $S_i$ for a candidate drone $i$ is calculated using a normalized weighted sum model. This ensures that the leader always has the best hardware health and energy reserves.
 
-$$S_i = \omega_B \cdot \hat{B}_i + \omega_M \cdot \hat{M}_i + \omega_L \cdot \hat{L}_i$$
+$$
+S_i = \omega_B \cdot \hat{B}_i + \omega_M \cdot \hat{M}_i + \omega_L \cdot \hat{L}_i
+$$
 
 **Where:**
 * $\hat{B}_i \in [0,1]$: Normalized battery state of charge (0.0 to 1.0).
-* $\hat{M}_i$: **Motor Health Index**, defined as $1 - \text{max}(\Delta RPM_{normalized})$. If any motor deviates $>10\%$, $\hat{M}_i$ drops significantly.
+* $\hat{M}_i$: **Motor Health Index**, defined as $1 - \max(\Delta \mathrm{RPM}_{\mathrm{normalized}})$. If any motor deviates $>10\%$, $\hat{M}_i$ drops significantly.
 * $\hat{L}_i$: Link quality based on RSSI and packet loss.
-* **Weights:** $\omega_B = 0.4$, $\omega_M = 0.4$, $\omega_L = 0.2$ (Ensuring health and power are prioritized).
-
-
+* **Weights:** $\omega_B = 0.4$, $\omega_M = 0.4$, $\omega_L = 0.2$ (ensuring health and power are prioritized).
 
 ### B. Recursive Reliability Model for Return-to-Home (RTH)
-Before initiating an RTH sequence, the system validates the success probability $P_{success}$ against a safety threshold $\Gamma$ (where $\Gamma = 0.65$).
+Before initiating an RTH sequence, the system validates the success probability $P_{\mathrm{success}}$ against a safety threshold $\Gamma$ (where $\Gamma = 0.65$).
 
-$$P_{success} = P(B \cap M \cap C) = P(B) \cdot P(M) \cdot P(C)$$
+$$
+P_{\mathrm{success}} = P(B \cap M \cap C) = P(B) \cdot P(M) \cdot P(C)
+$$
 
-1.  **Energy Probability $P(B)$:** Calculated against the estimated energy required to reach home $E_{req}$ plus a safety margin $\sigma$.
-    $$P(B) = \frac{E_{available}}{E_{req} \cdot (1 + \sigma)}$$
+1.  **Energy Probability $P(B)$:** Calculated against the estimated energy required to reach home $E_{\mathrm{req}}$ plus a safety margin $\sigma$.
+    $$
+    P(B) = \frac{E_{\mathrm{available}}}{E_{\mathrm{req}} \cdot (1 + \sigma)}
+    $$
 2.  **Hardware Integrity $P(M)$:** Derived from the **Differential Immune System**. If motors are degraded:
-    $$P(M) = \prod_{j=1}^{4} (1 - \text{vibration}_j) \cdot \eta_{comp}$$
-    *(where $\eta_{comp}$ is the compensation efficiency of the thrust redistribution).*
-3.  **Communication Stability $P(C)$:** Based on real-time RTT (Round Trip Time) and Jitter measured by the C++ Latency Monitor.
-
-
+    $$
+    P(M) = \prod_{j=1}^{4} \left(1 - \mathrm{vibration}_j\right) \cdot \eta_{\mathrm{comp}}
+    $$
+    *(where $\eta_{\mathrm{comp}}$ is the compensation efficiency of thrust redistribution).*
+3.  **Communication Stability $P(C)$:** Based on real-time RTT (Round Trip Time) and jitter measured by the C++ Latency Monitor.
 
 ### C. Acoustic TDOA Localization (Objective Function)
 The target coordinates $(x, y)$ are estimated by minimizing the error between measured time delays and theoretical distances using the Least Squares method:
 
-$$\arg \min_{x,y} \sum_{i=1}^{N} \sum_{j>i}^{N} \left[ \sqrt{(x-x_i)^2 + (y-y_i)^2} - \sqrt{(x-x_j)^2 + (y-y_j)^2} - c \cdot \Delta t_{ij} \right]^2$$
+$$
+\operatorname*{arg\,min}_{x,y} \sum_{i=1}^{N} \sum_{j>i}^{N} \left[ \sqrt{(x-x_i)^2 + (y-y_i)^2} - \sqrt{(x-x_j)^2 + (y-y_j)^2} - c \cdot \Delta t_{ij} \right]^2
+$$
 
 Where:
-* $c$: Speed of sound ($\approx 343 m/s$).
+* $c$: Speed of sound ($\approx 343\,\mathrm{m/s}$).
 * $\Delta t_{ij}$: Time difference of arrival estimated via GCC-PHAT cross-correlation.
-
-
 
 ### D. Decentralized Ledger Integrity
 Each block's validity in the `Flying Ledger` is cryptographically secured:
-$$Hash_{block} = \text{SHA3-256}(Index \parallel Timestamp \parallel Payload_{hash} \parallel Previous_{hash})$$
+
+$$
+\mathrm{Hash}_{\mathrm{block}} = \mathrm{SHA3\text{-}256}\left(\mathrm{Index} \parallel \mathrm{Timestamp} \parallel \mathrm{Payload}_{\mathrm{hash}} \parallel \mathrm{Previous}_{\mathrm{hash}}\right)
+$$
+
 Verification is performed via Ed25519 digital signatures to ensure non-repudiation across the swarm.
+
 
 ## Update: February 17, 2026
 - Added Differential Drone Immune System (Self-Healing Flight System) in dronecontroller.cpp.
