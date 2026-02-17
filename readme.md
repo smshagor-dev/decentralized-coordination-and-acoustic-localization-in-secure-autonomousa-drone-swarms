@@ -1,4 +1,4 @@
-﻿<!--
+<!--
 #########################################################################
 #                                                                       #
 #   SECURE DRONE SWARM SYSTEM - CORE MODULE                             #
@@ -915,7 +915,7 @@ $$
 
 **Where:**
 * $\hat{B}_i \in [0,1]$: Normalized battery state of charge (0.0 to 1.0).
-* $\hat{M}_i$: **Motor Health Index**, defined as $1 - \max(\Delta \mathrm{RPM}_{\mathrm{normalized}})$. If any motor deviates $>10\%$, $\hat{M}_i$ drops significantly.
+* $\hat{M}_i$: **Motor Health Index**, defined as $1 - \max\left(\Delta \mathrm{RPM}_{\mathrm{normalized}}\right)$. If any motor deviates $>10\%$, $\hat{M}_i$ drops significantly.
 * $\hat{L}_i$: Link quality based on RSSI and packet loss.
 * **Weights:** $\omega_B = 0.4$, $\omega_M = 0.4$, $\omega_L = 0.2$ (ensuring health and power are prioritized).
 
@@ -941,7 +941,7 @@ $$
 The target coordinates $(x, y)$ are estimated by minimizing the error between measured time delays and theoretical distances using the Least Squares method:
 
 $$
-\operatorname*{arg\,min}_{x,y} \sum_{i=1}^{N} \sum_{j>i}^{N} \left[ \sqrt{(x-x_i)^2 + (y-y_i)^2} - \sqrt{(x-x_j)^2 + (y-y_j)^2} - c \cdot \Delta t_{ij} \right]^2
+\arg\min_{x,y} \sum_{i=1}^{N} \sum_{j>i}^{N} \left[ \sqrt{(x-x_i)^2 + (y-y_i)^2} - \sqrt{(x-x_j)^2 + (y-y_j)^2} - c \cdot \Delta t_{ij} \right]^2
 $$
 
 Where:
