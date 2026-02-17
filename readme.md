@@ -810,23 +810,32 @@ $$P_{success} = \prod (Health_{motor}, Energy_{margin}, Signal_{quality})$$
 - **Decision Threshold:** If $P_{success} < 0.65$, the swarm initiates a 'Land-In-Place' protocol; otherwise, it proceeds with 'Autonomous RTH'.
 
 $$
-P_{RTH} = P_{battery} \times P_{motor} \times P_{distance}
+P_{RTH} = P_{battery} \times P_{motor} \times P_{distance} \times P_{wind}
 $$
 
 Interpretation:
 - `P_battery`: energy sufficiency score
 - `P_motor`: propulsion/health score (from immune-system degradation)
 - `P_distance`: distance + link reliability score
+- `P_wind`: wind-risk factor (`0..1`), lower score for stronger adverse wind
 
 Decision policy:
 - `P_{RTH} > 0.70` -> Autonomous `Return to Home`
 - `P_{RTH} < 0.70` -> Immediate `Emergency Landing` (Land-In-Place)
 
+Wind factor example model:
+
+$$
+P_{wind} = \max\left(0,\ 1 - \frac{\|W\|}{W_{max}} \cdot 0.3\right)
+$$
+
+where `|W|` is current wind magnitude and `W_max` is maximum wind magnitude for reliable RTH.
+
 #### Worked Example (Emergency Moment)
 Equation:
 
 $$
-P_{RTH} = P_{battery} \times P_{motor} \times P_{distance}
+P_{RTH} = P_{battery} \times P_{motor} \times P_{distance} \times P_{wind}
 $$
 
 Assume the drone state at an emergency moment:
@@ -836,6 +845,8 @@ Assume the drone state at an emergency moment:
 - Motor degradation: `10%`
 - Current distance: `D_{current} = 5 km`
 - Max reliable distance: `D_{max} = 10 km`
+- Current wind magnitude: `|W| = 6 m/s`
+- Max reliable wind: `W_{max} = 12 m/s`
 
 1) Battery factor (`P_{battery}`):
 
@@ -863,13 +874,19 @@ P_{distance} = 1 - \left(\frac{D_{current}}{D_{max}}\right)\times 0.2
 = 1 - (0.5 \times 0.2) = 0.90
 $$
 
+4) Wind factor (`P_{wind}`):
+
+$$
+P_{wind} = \max\left(0,\ 1 - \frac{6}{12} \times 0.3\right) = 0.85
+$$
+
 Final result:
 
 $$
-P_{RTH} = 1.0 \times 0.90 \times 0.90 = 0.81
+P_{RTH} = 1.0 \times 0.90 \times 0.90 \times 0.85 = 0.6885
 $$
 
-Therefore, the drone has an `81%` safe RTH probability, so the system selects `Autonomous RTH` (`0.81 > 0.70`).
+Therefore, the drone has a `68.85%` safe RTH probability, so the system selects `Emergency Landing` (`0.6885 < 0.70`).
 
 ## Update: February 17, 2026
 - Added Differential Drone Immune System (Self-Healing Flight System) in dronecontroller.cpp.
