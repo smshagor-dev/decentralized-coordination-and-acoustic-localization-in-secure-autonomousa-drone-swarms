@@ -1,4 +1,4 @@
-<!--
+﻿<!--
 #########################################################################
 #                                                                       #
 #   SECURE DRONE SWARM SYSTEM - CORE MODULE                             #
@@ -914,19 +914,19 @@ S_i = \omega_B \cdot \hat{B}_i + \omega_M \cdot \hat{M}_i + \omega_L \cdot \hat{
 $$
 
 **Where:**
-* $\hat{B}_i \in [0,1]$: Normalized battery state of charge (0.0 to 1.0).
-* $\hat{M}_i$: **Motor Health Index**, defined as $1 - \max\left(\Delta \mathrm{RPM}_{\mathrm{normalized}}\right)$. If any motor deviates $>10\%$, $\hat{M}_i$ drops significantly.
-* $\hat{L}_i$: Link quality based on RSSI and packet loss.
-* **Weights:** $\omega_B = 0.4$, $\omega_M = 0.4$, $\omega_L = 0.2$ (ensuring health and power are prioritized).
+* $$\hat{B}_i \in [0,1]$$: Normalized battery state of charge (0.0 to 1.0).
+* $$\hat{M}_i$$: **Motor Health Index**, defined as $$1 - \max\left(\Delta \mathrm{RPM}_{\mathrm{normalized}}\right)$$. If any motor deviates $$>10\%$$, $$\hat{M}_i$$ drops significantly.
+* $$\hat{L}_i$$: Link quality based on RSSI and packet loss.
+* **Weights:** $$\omega_B = 0.4$$, $$\omega_M = 0.4$$, $$\omega_L = 0.2$$ (ensuring health and power are prioritized).
 
 ### B. Recursive Reliability Model for Return-to-Home (RTH)
-Before initiating an RTH sequence, the system validates the success probability $P_{\mathrm{success}}$ against a safety threshold $\Gamma$ (where $\Gamma = 0.65$).
+Before initiating an RTH sequence, the system validates the success probability $$P_{\mathrm{success}}$$ against a safety threshold $$\Gamma$$ (where $$\Gamma = 0.65$$).
 
 $$
 P_{\mathrm{success}} = P(B \cap M \cap C) = P(B) \cdot P(M) \cdot P(C)
 $$
 
-1.  **Energy Probability $P(B)$:** Calculated against the estimated energy required to reach home $E_{\mathrm{req}}$ plus a safety margin $\sigma$.
+1.  **Energy Probability $$P(B)$$:** Calculated against the estimated energy required to reach home $$E_{\mathrm{req}}$$ plus a safety margin $$\sigma$$.
     $$
     P(B) = \frac{E_{\mathrm{available}}}{E_{\mathrm{req}} \cdot (1 + \sigma)}
     $$
