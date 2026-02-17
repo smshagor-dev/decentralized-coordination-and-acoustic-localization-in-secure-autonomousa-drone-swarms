@@ -1,90 +1,256 @@
-<!--
-#########################################################################
-#                                                                       #
-#   SECURE DRONE SWARM SYSTEM - CORE MODULE                             #
-#                                                                       #
-#   Developer : Md Shahanur Islam Shagor                                #
-#   Role      : Project Architect & Lead Developer                      #
-#   Version   : 1.0.2                                                   #
-#   Status    : Production Ready                                        #
-#                                                                       #
-#   "Protecting the skies with decentralized intelligence."             #
-#                                                                       #
-#########################################################################
--->
 # Decentralized Coordination and Acoustic Localization in Secure Autonomous Drone Swarms
 
-End-to-end multi-drone swarm simulation/control platform with Python + C++ modules, event-driven orchestration, personal ML obstacle avoidance, latency-aware fallback safety, and a full-featured PyQt GUI.
+End-to-end multi-drone swarm platform combining decentralized coordination, dynamic obstacle avoidance, secure communication, acoustic source localization, latency-aware safety fallback, and a PyQt5 operator GUI.
 
-## 1. System Summary
+## 1. What This Project Implements
 
-This project provides:
-- Swarm leadership and follower coordination
-- GPS/local mission assignment and execution
-- Dynamic obstacle prediction and automatic rerouting
-- Collision-risk + collision-cone based avoidance decisions
-- C++ <-> Python latency monitoring, jitter analysis, watchdog timeout, and fallback mode
-- Encrypted command/message telemetry logging
-- GUI-driven operations with real-time visualization and control
+- Multi-drone swarm orchestration with automatic leader election
+- Event-driven leader/follower command flow
+- Personal ML + geometric fallback for dynamic obstacle avoidance
+- AES-GCM encrypted drone communication channel
+- Per-drone append-only flying ledger with Ed25519 signatures
+- Acoustic source localization using TDOA + least-squares fusion
+- C++ low-level controller with motor fault self-healing logic
+- Runtime latency monitoring with jitter and watchdog safety fallback
 
-## 2. Technology Stack
+## 2. Architecture Diagrams
 
-- Python: swarm logic, drone behavior, ML decision modules, GUI, secure communication
-- C++: low-level controller interfaces and latency monitor types
-- GUI: PyQt5 (`gui.py`)
+### 2.1 System-Level Architecture
 
-Core files:
-- `main.py`
-- `swarm_manager.py`
-- `drone.py`
-- `leader_follower_logic.py`
-- `dynamic_obstacles.py`
-- `latency_monitor.py`
-- `communication.py`
-- `ml_system.py`
-- `gui.py`
-- `dronecontroller.h`, `dronecontroller.cpp`
+```mermaid
+flowchart LR
+    GUI[PyQt5 GUI\ngui.py] --> SM[SwarmManager\nswarm_manager.py]
+    MAIN[main.py] --> SM
 
-## 3. Current Folder Structure
+    SM --> DRONES[Drone Fleet\ndrone.py]
+    SM --> EVBUS[Event Bus + Command Handler\nleader_follower_logic.py]
+    SM --> DYN[Dynamic Obstacle Stack\ndynamic_obstacles.py]
+    SM --> LAT[Latency Monitor + MLBridge\nlatency_monitor.py]
+    SM --> ACO[Acoustic Tracking\nacoustic_tracking.py]
+    SM --> LEDGER[Flying Ledger\nflying_ledger.py]
+    SM --> COMM[Secure Communication\ncommunication.py]
+
+    DRONES --> MLSYS[Personal ML\nml_system.py]
+    SM -.optional bridge.- CPP[C++ Controller\ndronecontroller.cpp/.h]
+```
+
+### 2.2 Coordination and Command System
+
+```mermaid
+flowchart TD
+    LDR[Leader Drone] --> LCH[LeaderCommandHandler]
+    LCH --> EBUS[CommunicationManager Event Bus]
+    EBUS --> CMD[LEADER_COMMAND Events]
+    CMD --> SM[SwarmManager Handlers]
+    SM --> FSM[DroneStateManager]
+    SM --> FLW[Follower Drones]
+
+    SM --> MCOMP[MISSION_COMPLETE Event]
+    MCOMP --> EBUS
+    EBUS --> RTH[RETURN_TO_HOME Broadcast]
+```
+
+### 2.3 Dynamic Obstacle Avoidance System
+
+```mermaid
+flowchart TD
+    OBS[ObstacleManager] --> TRK[ObstacleTracker\nlinear/circular/random-walk]
+    TRK --> PRED[TrajectoryEstimator]
+    PRED --> RISK[DynamicObstaclePredictor\ncollision + cone probability]
+    RISK --> AVOID[AvoidanceController\nvelocity blend + accel limit]
+    AVOID --> REPLAN[PathReplanner]
+    REPLAN --> GOTO[drone.goto(safe_target)]
+
+    LATMODE[Fallback Local Avoidance Mode] --> AVOID
+```
+
+### 2.4 Latency and Safety Fallback System
+
+```mermaid
+flowchart TD
+    BR[MLBridge] --> LM[LatencyMonitor]
+    LM --> METRICS[RTT + stage delays + jitter]
+    METRICS --> TH{RTT > threshold?}
+    TH -->|Yes| FB[fallback_local_avoidance_mode = true]
+    TH -->|No| NOM[Normal ML Avoidance]
+    BR --> WD{Watchdog timeout?}
+    WD -->|Yes| FB
+```
+
+### 2.5 Acoustic Localization System
+
+```mermaid
+flowchart TD
+    SIG[Multi-drone audio signals] --> XCORR[CrossCorrelationEngine\nGCC-PHAT + FFT corr]
+    XCORR --> TDOA[TDOAEstimator\ndelay per sensor]
+    TDOA --> FUSE[AcousticFusionEngine\nleast_squares]
+    FUSE --> SRC[Source XY + RMSE + Confidence]
+
+    LAT[Current RTT] --> GATE{RTT > acoustic_latency_limit?}
+    GATE -->|Yes| LOCAL[Local-only (first 3 sensors)]
+    GATE -->|No| GLOBAL[Use full sensor set]
+    LOCAL --> FUSE
+    GLOBAL --> FUSE
+```
+
+### 2.6 Secure Communication System
+
+```mermaid
+flowchart LR
+    TX[Message Payload] --> ENC[AES-256-GCM Encrypt\n+ IV + Tag]
+    ENC --> UDP[UDP Multicast Send]
+    UDP --> RX[Receiver Socket]
+    RX --> DEC[AES-256-GCM Decrypt]
+    DEC --> DEDUP[Sequence-based duplicate filter]
+    DEDUP --> HANDLER[Message Handler Dispatch]
+```
+
+### 2.7 Flying Ledger System
+
+```mermaid
+flowchart TD
+    EVT[Telemetry Snapshot + Event Payload] --> HASH[SHA3-256 hashes]
+    HASH --> BLK[Build Block\nindex, prev_hash, block_hash]
+    BLK --> SIGN[Ed25519 Sign]
+    SIGN --> APPEND[Append local chain]
+    APPEND --> BCAST[Broadcast block to peers]
+    BCAST --> VERIFY[Peer verify\nprev_hash + block_hash + signature]
+    VERIFY --> REPL[Replicated append]
+```
+
+### 2.8 C++ Low-Level and Immune Subsystem
+
+```mermaid
+flowchart TD
+    TEL[Telemetry Loop] --> MH[Motor Health Detection\nrolling RPM drop]
+    MH --> DEG{Drop >= 10%?}
+    DEG -->|Yes| SH[Self-healing mode]
+    SH --> THR[Thrust redistribution + LPF]
+    SH --> PID[Adaptive PID update]
+    MH --> MULTI{2+ degraded motors?}
+    MULTI -->|Yes| RTL[Emergency return mode\nAUTO_RTL]
+    TEL --> BAT[Battery drain estimation]
+```
+### 2.9 Drone-Ledger-Acoustic Integration
+
+```mermaid
+flowchart LR
+    subgraph Swarm["Drone Swarm Layer"]
+        D1["Drone-1"]
+        D2["Drone-2"]
+        D3["Drone-N"]
+    end
+
+    subgraph Ledger["Flying Ledger Layer"]
+        LB["Block Create + Sign"]
+        LC["Peer Verify + Consensus"]
+        LS["Distributed Chain Sync"]
+    end
+
+    subgraph Acoustic["Acoustic TDOA Layer"]
+        AS["Audio Sensors (per drone)"]
+        CC["GCC-PHAT Correlation"]
+        TL["TDOA Localization"]
+        EV["Acoustic Event + Confidence"]
+    end
+
+    D1 --> LB
+    D2 --> LB
+    D3 --> LB
+    LB --> LC --> LS
+    LS --> D1
+    LS --> D2
+    LS --> D3
+
+    D1 --> AS
+    D2 --> AS
+    D3 --> AS
+    AS --> CC --> TL --> EV
+    EV --> LS
+    EV --> D1
+    EV --> D2
+    EV --> D3
+```
+```mermaid
+graph TD
+    A[Ground Control Station / GUI] -->|Encrypted Commands| B(Swarm Manager)
+    B --> C{Decision Engine}
+    C -->|Telemetry Logging| D[Flying Ledger - Blockchain]
+    C -->|Acoustic Data| E[Acoustic Tracking - TDOA]
+    C -->|Obstacle Avoidance| F[ML System - YOLO/Vision]
+    
+    subgraph Drone Unit
+    F --> G[C++ Core Controller]
+    E --> G
+    G --> H[Motor Control & Sensors]
+    H -->|Feedback| I[Latency Monitor]
+    I -->|Jitter Stats| G
+    end
+    
+    D -->|Distributed Sync| J[Other Drones in Swarm]
+
+```
+
+
+
+## 3. Core Modules
+
+- `main.py`: entrypoint, logging, swarm bootstrap, GUI start
+- `swarm_manager.py`: central orchestration, event loop, mission logic
+- `drone.py`: per-drone physics/state/mode handling
+- `leader_follower_logic.py`: event bus, command handler, operational states
+- `dynamic_obstacles.py`: obstacle motion, prediction, collision-cone, avoidance blending
+- `latency_monitor.py`: RTT/jitter metrics + watchdog bridge
+- `acoustic_tracking.py`: GCC-PHAT/correlation delay estimation + TDOA localization
+- `communication.py`: AES-256-GCM encrypted communication
+- `flying_ledger.py`: SHA3-256 hashed, Ed25519-signed replicated ledger
+- `ml_system.py`: per-drone decision support for risk/path/formation
+- `dronecontroller.h`, `dronecontroller.cpp`: C++ low-level control, telemetry, self-healing
+- `gui.py`: full operator console
+
+### Current Folder Structure
 
 ```text
 secure-drone-swarm/
-+-- main.py
-+-- gui.py
-+-- swarm_manager.py
-+-- drone.py
-+-- leader_follower_logic.py
-+-- dynamic_obstacles.py
-+-- latency_monitor.py
-+-- communication.py
-+-- ml_system.py
-+-- ml_trainer.py
-+-- dronecontroller.h
-+-- dronecontroller.cpp
-+-- main_test.cpp
-+-- test_dynamic_features.py
-+-- requirements.txt
-+-- readme.md
-+-- performance_graphs/
-?   +-- auto_plot_from_csv.py
-?   +-- latency_vs_drones.py
-?   +-- runtime_latency_vs_drones_YYYYMMDD_HHMMSS.csv
-?   +-- latency_timeseries_YYYYMMDD_HHMMSS.png
-?   +-- latency_spike_timeline_YYYYMMDD_HHMMSS.png
-?   +-- latency_spike_timeline_YYYYMMDD_HHMMSS.csv
-?   +-- merged_logs_YYYYMMDD_HHMMSS.log
-+-- config/
-?   +-- swarm_config.json
-+-- assets/
-?   +-- drone.svg
-?   +-- fields.svg
-+-- datasets/
-?   +-- personal_training.csv
-?   +-- personal_training.json
-?   +-- personal_drone_1.csv
-+-- models/
-+-- logs/
-+-- build/
+-- main.py
+-- gui.py
+-- swarm_manager.py
+-- drone.py
+-- leader_follower_logic.py
+-- dynamic_obstacles.py
+-- latency_monitor.py
+-- communication.py
+-- ml_system.py
+-- ml_trainer.py
+-- dronecontroller.h
+-- dronecontroller.cpp
+-- main_test.cpp
+-- test_dynamic_features.py
+-- requirements.txt
+-- readme.md
+-- performance_graphs/
+    --csv/
+        -- runtime_latency_vs_drones_YYYYMMDD_HHMMSS.csv
+        -- latency_spike_timeline_YYYYMMDD_HHMMSS.csv
+    --img/
+        -- latency_timeseries_YYYYMMDD_HHMMSS.png
+        -- latency_spike_timeline_YYYYMMDD_HHMMSS.png
+    --logs/
+        -- merged_logs_YYYYMMDD_HHMMSS.log
+    -- auto_plot_from_csv.py
+    -- latency_vs_drones.py
+-- config/
+    -- swarm_config.json
+-- assets/
+    -- drone.svg
+    -- fields.svg
+-- datasets/
+    -- personal_training.csv
+    -- personal_training.json
+    -- personal_drone_1.csv
+-- models/
+-- logs/
+-- build/
 ```
 
 ## 4. Full GUI Feature Description
@@ -168,6 +334,10 @@ secure-drone-swarm/
   - RTT jitter
 - Drone table (always vertically scrollable):
   - ID, Role, Mode, Battery, Altitude, Status
+- Drone table is fully dynamic in GUI:
+  - defensive row updates, dynamic resizing, always-visible vertical scrollbar
+  - smooth scrolling and sortable columns
+- Latency indicators (`C++->Py`, `Py Proc`, `Py->C++`, `RTT`, `RTT Jitter`) are dynamically refreshed from runtime latency stats.
 
 ### 4.4 Logs Panel
 - System log stream
@@ -175,6 +345,7 @@ secure-drone-swarm/
 - Encrypted D2D traffic tail
 - Avoidance events with probability/cone/confidence
 - Latency warning events
+
 
 ## 5. Core Operational Logic
 
@@ -260,7 +431,7 @@ High-level swarm states:
 - Optional encrypted team broadcast on mission events
 
 ## 5.9 Differential Drone Immune System (Self-Healing Flight)
-- Implemented in `dronecontroller.cpp` as a lightweight real-time motor resilience layer.
+- Added in `dronecontroller.cpp` as a lightweight real-time motor resilience layer.
 - Continuous monitoring:
   - `motor_rpm[4]`
   - `motor_vibration[4]`
@@ -282,7 +453,6 @@ High-level swarm states:
   - `[IMMUNE] Motor 2 degraded | RPM drop: 12.4% | Compensation Active`
 - Performance target:
   - non-blocking logic with lightweight math and minimal added control-loop overhead.
-
 ## 6. Startup Behavior
 
 When running `python main.py`:
@@ -377,8 +547,240 @@ Model snapshots/training artifacts can update under `models/`.
 - Inspect RTT and RTT jitter in status panel
 - Reduce injected latency spikes
 - Review per-drone threshold adaptation and processing load
+## 13. Mathematical Model (Code-Aligned)
 
-## 13. Research Contributions
+### 13.1 Leader Election Score
+
+In `swarm_manager.py`, leader suitability is:
+
+\[
+S = 0.4B + 0.3Q + 0.2P + 0.1M
+\]
+
+- \(B\): battery level
+- \(Q\): signal strength
+- \(P\): processing capability
+- \(M\): motor health score
+
+### 13.2 Drone Kinematics (Target Following)
+
+In `drone.py`:
+
+\[
+\Delta x = x_t - x,\quad \Delta y = y_t - y,\quad \Delta z = z_t - z
+\]
+\[
+d = \sqrt{\Delta x^2 + \Delta y^2 + \Delta z^2},\quad v = \min(V_{max}, d/\Delta t)
+\]
+\[
+x_{new}=x+\frac{\Delta x}{d}v\Delta t,\quad y_{new}=y+\frac{\Delta y}{d}v\Delta t,\quad z_{new}=z+\frac{\Delta z}{d}v\Delta t
+\]
+
+### 13.3 Return-to-Home with Degraded/Emergency Caps
+
+In `drone.py`:
+
+\[
+d_h = \sqrt{(x_h-x)^2 + (y_h-y)^2}
+\]
+\[
+v_{cap} = \begin{cases}
+V_{max}, & \text{normal RTH}\\
+0.55V_{max}, & \text{degraded return}\\
+0.75V_{max}, & \text{emergency return}
+\end{cases}
+\]
+\[
+v = \min(v_{cap}, d_h/\Delta t)
+\]
+\[
+x_{new}=x+\frac{x_h-x}{d_h}v\Delta t,\quad y_{new}=y+\frac{y_h-y}{d_h}v\Delta t
+\]
+
+Descent rule:
+
+\[
+z_{new}=\max(z_h, z-r_d\Delta t),\quad r_d=0.5V_{land}\ (\text{degraded: }0.6\times 0.5V_{land})
+\]
+
+### 13.4 Wind Disturbance + Compensation (Degraded Mode)
+
+\[
+\phi_{t+1}=\phi_t+0.7\Delta t
+\]
+\[
+g_x=w_x\left(0.65+0.35\sin\phi\right),\quad g_y=w_y\left(0.65+0.35\cos(0.9\phi)\right)
+\]
+
+Compensation factor in code: \(c=0.45\), so residual factor is \(1-c=0.55\):
+
+\[
+x_{new}=x+\frac{x_h-x}{d_h}v\Delta t+0.55g_x\Delta t
+\]
+\[
+y_{new}=y+\frac{y_h-y}{d_h}v\Delta t+0.55g_y\Delta t
+\]
+
+Initial wind vector magnitude in `Drone.__init__` is approximately 1.2:
+
+\[
+(w_x,w_y)=\left(1.2\cos\phi_0,\ 1.2\sin\phi_0\right)
+\]
+
+### 13.5 Dynamic Obstacle Prediction and Collision Risk
+
+In `dynamic_obstacles.py` trajectory prediction:
+
+\[
+p_o(t)=p_o+v_ot+\frac{1}{2}a_ot^2
+\]
+
+Risk memory update:
+
+\[
+r_{k+1}=0.86r_k+0.14\cdot\min\left(1,\frac{\|v_o\|}{20}+\frac{\|a_o\|}{6}\right)
+\]
+
+Collision probability term per predicted point:
+
+\[
+\text{safe\_dist}=R_o+8+0.25\|v_d\|
+\]
+\[
+\text{proximity}=1-\frac{d}{\text{safe\_dist}},\quad
+\text{prob}=\min(1,0.7\cdot\text{proximity}+0.3\cdot r)\cdot\text{time\_factor}
+\]
+
+### 13.6 Collision-Cone Probability
+
+Relative geometry in `DynamicObstaclePredictor._collision_cone_probability`:
+
+\[
+r = p_o - p_d,\quad v_{rel}=v_o-v_d
+\]
+\[
+\theta_c = \arcsin\left(\frac{R_o}{\max(R_o+1,\|r\|)}\right)
+\]
+
+If the angle between \(v_{rel}\) and line-of-sight is below \(\theta_c\), and closest-approach time \(t_{ca}\in[0,4]\), cone risk is:
+
+\[
+P_{cone}=\min\left(1,\left(1-\frac{\theta}{\theta_c}\right)\cdot\left(1-\frac{t_{ca}}{4}\right)\right)
+\]
+(with lower-bound clamp applied in code for stability).
+
+### 13.7 Avoidance Velocity Blending with Acceleration Limit
+
+In `AvoidanceController.blend_velocity`:
+
+\[
+v_{des}=v_{goal}+v_{avoid}
+\]
+\[
+v_{blend}=v_{cur}+\alpha(v_{des}-v_{cur}),\quad \alpha\in[0,1]
+\]
+\[
+a=\frac{\|v_{blend}-v_{cur}\|}{\Delta t}
+\]
+
+If \(a>a_{max}\), scale toward \(v_{cur}\):
+
+\[
+v_{new}=v_{cur}+\frac{a_{max}}{a}(v_{blend}-v_{cur})
+\]
+
+### 13.8 Latency and Jitter Metrics
+
+From `latency_monitor.py`:
+
+\[
+T_{c2p}=t_{py\_recv}-t_{cpp\_send},\quad T_{proc}=t_{py\_send}-t_{py\_recv},\quad T_{p2c}=t_{cpp\_recv}-t_{py\_send}
+\]
+\[
+T_{rtt}=t_{cpp\_recv}-t_{cpp\_send}
+\]
+
+Windowed average (ms):
+
+\[
+\overline{T}_{rtt,ms}=1000\cdot\frac{1}{N}\sum_{i=1}^{N}T_{rtt,i}
+\]
+
+Jitter (std. dev. in ms):
+
+\[
+\sigma=\sqrt{\frac{1}{N}\sum_{i=1}^{N}(x_i-\bar{x})^2}
+\]
+
+Fallback rule:
+
+\[
+\text{fallback\_required} = (\overline{T}_{rtt,ms} > T_{th})
+\]
+
+Adaptive threshold in `swarm_manager.py`:
+
+\[
+T_{th}=\text{clip}_{[110,280]}\left(220-\min(70,3\|v\|)-\min(55,0.8(100-P))\right)
+\]
+
+### 13.9 Acoustic Localization (TDOA)
+
+From `acoustic_tracking.py` with speed of sound \(c=343\,m/s\):
+
+Delay estimation (per sensor pair):
+
+\[
+\Delta t_{ij}=\frac{\operatorname*{argmax}_{\tau}\,R_{ij}(\tau)}{f_s}
+\]
+
+TDOA residual for reference sensor \(i\):
+
+\[
+\left(\|s-x_j\| - \|s-x_i\|\right) - c\left(\Delta t_j-\Delta t_i\right)=0
+\]
+
+Solved by nonlinear least squares. Confidence from RMSE:
+
+\[
+\text{confidence}=\frac{1}{1+\text{RMSE}/6}
+\]
+
+Latency gate:
+
+\[
+\text{local\_only} = (T_{rtt,ms} > T_{acoustic\_limit})
+\]
+
+### 13.10 Flying Ledger Integrity
+
+From `flying_ledger.py`:
+
+\[
+H_{tele}=\operatorname{SHA3\_256}(\text{stable\_json}(telemetry)),\quad
+H_{evt}=\operatorname{SHA3\_256}(\text{stable\_json}(event))
+\]
+\[
+H_{blk}=\operatorname{SHA3\_256}(index\,|\,timestamp\,|\,drone\_id\,|\,H_{tele}\,|\,H_{evt}\,|\,H_{prev})
+\]
+
+Signature:
+
+\[
+\sigma=\operatorname{Ed25519\_Sign}(H_{blk})
+\]
+
+Replication accepts block only if index/prev-hash/hash/signature all verify.
+
+## 14. Output Artifacts
+
+- `logs/`: system, swarm, per-drone, communication, ML logs
+- `performance_graphs/csv/`: runtime latency CSV outputs
+- `performance_graphs/img/`: latency plots and spike timelines
+- `performance_graphs/logs/`: merged logs for plotting
+- `models/`: per-drone ML model snapshots (`.npz`)
+
+## 15. Research Contributions
 
 ### Hybrid Control Architecture
 Combining high-level Python intelligence with low-level C++ efficiency. This design keeps decision-making, ML modules, and orchestration in Python while delegating tight-loop control and timing-sensitive interfaces to C++ components.
@@ -442,9 +844,9 @@ Small comparison table showing how encryption increases latency in a simulated c
 - **Scenario B (High Risk)**: Multiple moving obstacles, ML-based avoidance active.
 - **Scenario C (Emergency)**: High latency spike triggered, drones switched to safety fallback mode.
 
-## 14. Math Spec (Easy Reference)
+## 16. Math Spec (Easy Reference)
 
-### 14.1 Return-to-Home Kinematics
+### 16.1 Return-to-Home Kinematics
 Goal:
 - move drone to home without overshoot and with stable descent.
 
@@ -484,7 +886,7 @@ Descent rates:
 - Normal: `r_d = 0.5 V_land`
 - Degraded: `r_d = 0.3 V_land`
 
-### 14.2 Wind + Compensation (Degraded Mode)
+### 16.2 Wind + Compensation (Degraded Mode)
 Goal:
 - keep realistic disturbance while preserving controllability.
 
@@ -519,7 +921,7 @@ $$
 w_x = 1.2\cos\phi_0,\quad w_y = 1.2\sin\phi_0,\quad \sqrt{w_x^2 + w_y^2}=1.2
 $$
 
-### 14.3 Battery Drain Model
+### 16.3 Battery Drain Model
 Goal:
 - estimate battery state from mode-dependent drain rate.
 
@@ -531,7 +933,7 @@ $$
 
 Where `r_mode` is selected by current flight mode (`IDLE`, `HOVER`, `FLYING`, `EMERGENCY`).
 
-### 14.4 Formation Geometry
+### 16.4 Formation Geometry
 Let leader be `p_L=(x_L,y_L,z_L)` and spacing `s`.
 
 Line:
@@ -562,7 +964,7 @@ $$
 p_i=(x_L+sr,\ y_L+sc,\ z_L)
 $$
 
-### 14.5 Latency Jitter
+### 16.5 Latency Jitter
 For latency samples `L={l_1,\dots,l_n}` (ms):
 
 $$
@@ -572,100 +974,8 @@ $$
 
 `s` is the jitter metric used by `LatencyMonitor`.
 
-## 15. Documentation & Visuals
-
-### PDFs
-- [Drone Return Physics Math Calculation Model](Docs/Drone_Return_physics_math_Calculatiion_Model.pdf)
-- [Project Proposal](Docs/Project%20Proposal.pdf)
-
-### Diagrams and Images
-![System Overview](Docs/system-overview.png)
-![Drone Sub-System](Docs/drones-sub-system.png)
-![Drone Return Physics Math Model](Docs/Drone_Return_physics_math_Calculatiion_Model.png)
-![Swarm System Infographic](Docs/Drone%20swarm%20system%20infographic%20.jpg)
-![Plan](Docs/plan.jpg)
-
-## 16. Automated Plotting (CSV-Based)
-
-Use the automated script to generate two plots from the runtime CSV:
-- **Latency Trend**: latency stability over time
-- **Battery Decay vs ML Load**: battery percentage vs `physical_ml_samples`
-
-Run:
-```bash
-python performance_graphs/auto_plot_from_csv.py performance_graphs/runtime_latency_vs_drones_YYYYMMDD_HHMMSS.csv
-```
-
-Example (latest file):
-```bash
-python performance_graphs/auto_plot_from_csv.py performance_graphs/runtime_latency_vs_drones_20260215_120956.csv
-```
-
-Outputs:
-- `performance_graphs/latency_trend_YYYYMMDD_HHMMSS.png`
-- `performance_graphs/battery_vs_ml_load_YYYYMMDD_HHMMSS.png`
 
 ## 17. Upgrade Spec: Flying Ledger + Acoustic TDOA
-
-### 17.0 Architecture Diagram (Drone-Ledger-Acoustic Integration)
-
-```mermaid
-flowchart LR
-    subgraph Swarm["Drone Swarm Layer"]
-        D1["Drone-1"]
-        D2["Drone-2"]
-        D3["Drone-N"]
-    end
-
-    subgraph Ledger["Flying Ledger Layer"]
-        LB["Block Create + Sign"]
-        LC["Peer Verify + Consensus"]
-        LS["Distributed Chain Sync"]
-    end
-
-    subgraph Acoustic["Acoustic TDOA Layer"]
-        AS["Audio Sensors (per drone)"]
-        CC["GCC-PHAT Correlation"]
-        TL["TDOA Localization"]
-        EV["Acoustic Event + Confidence"]
-    end
-
-    D1 --> LB
-    D2 --> LB
-    D3 --> LB
-    LB --> LC --> LS
-    LS --> D1
-    LS --> D2
-    LS --> D3
-
-    D1 --> AS
-    D2 --> AS
-    D3 --> AS
-    AS --> CC --> TL --> EV
-    EV --> LS
-    EV --> D1
-    EV --> D2
-    EV --> D3
-```
-```mermaid
-graph TD
-    A[Ground Control Station / GUI] -->|Encrypted Commands| B(Swarm Manager)
-    B --> C{Decision Engine}
-    C -->|Telemetry Logging| D[Flying Ledger - Blockchain]
-    C -->|Acoustic Data| E[Acoustic Tracking - TDOA]
-    C -->|Obstacle Avoidance| F[ML System - YOLO/Vision]
-    
-    subgraph Drone Unit
-    F --> G[C++ Core Controller]
-    E --> G
-    G --> H[Motor Control & Sensors]
-    H -->|Feedback| I[Latency Monitor]
-    I -->|Jitter Stats| G
-    end
-    
-    D -->|Distributed Sync| J[Other Drones in Swarm]
-
-```
 
 ### 17.1 Subsystem A: Decentralized Quantum-Resistant Flying Ledger
 
@@ -749,7 +1059,7 @@ TDOA localization math:
 - `c = 343 m/s` (speed of sound)
 - Drone positions: `p_i=(x_i,y_i)`
 - Arrival times: `t_i`
-- Pairwise delay: `?t_ij=t_j-t_i`
+- Pairwise delay: `Δt_ij=t_j-t_i`
 
 Hyperbolic constraint:
 
@@ -783,6 +1093,10 @@ Latency-aware fallback:
 - If violated:
   - switch to local-only estimation
   - log latency/fallback event in flying ledger.
+
+Subsystem 2 objective/spec:
+- distributed microphone-based acoustic source localization (TDOA)
+- camera-independent sound detection/localization for swarm response
 
 ### 17.3 GUI Additions for This Upgrade
 - Toggle: `Enable Acoustic Detection`
@@ -1012,26 +1326,3 @@ $$
 $$
 
 Verification is performed via Ed25519 digital signatures to ensure non-repudiation across the swarm.
-
-
-## Update: February 17, 2026
-- Added Differential Drone Immune System (Self-Healing Flight System) in dronecontroller.cpp.
-- Added real-time motor health logic (RPM drop detection at >=10%), thrust redistribution, adaptive PID, and emergency return handling for 2+ degraded motors.
-- Added structured immune logs, including [IMMUNE] Motor X degraded ... | Compensation Active and SWARM_ALERT behavior.
-- Added decentralized flying ledger architecture requirements:
-  - new module `flying_ledger.py`
-  - `Block` model: `index`, `timestamp`, `drone_id`, `telemetry_hash`, `event_hash`, `previous_hash`, `block_hash`, `signature`
-  - SHA3-256 hashing for telemetry/event/block payloads
-  - Ed25519 signatures with quantum-resistant-ready signing abstraction (future Dilithium-style replacement)
-  - per-drone chain flow: create -> sign -> broadcast -> peer verify -> append/reject
-  - fork/tamper rejection with `previous_hash` tail validation
-  - asynchronous, thread-safe ledger replication
-  - new swarm state: `LEDGER_SYNCING`
-  - critical-event trigger coverage: state transition, ML avoidance, collision cone high probability, latency breach, ML bridge timeout, emergency landing, mission complete, acoustic detection
-- Added Subsystem 2 objective/spec:
-  - new module `acoustic_tracking.py`
-  - distributed microphone-based acoustic source localization (TDOA)
-  - camera-independent sound detection/localization for swarm response.
-- Swarm Status drone table (ID, Role, Mode, Battery, Altitude, Status) is now fully dynamic in the GUI (defensive row updates, dynamic resizing, always-visible vertical scrollbar, smooth scrolling, and sortable columns).
-- Latency indicators (C++->Py, Py Proc, Py->C++, RTT, RTT Jitter) are dynamically refreshed from runtime latency stats.
-

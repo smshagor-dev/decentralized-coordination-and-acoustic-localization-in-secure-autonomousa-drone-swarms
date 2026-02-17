@@ -146,3 +146,36 @@
 2026-02-17 11:31:54,556 - Drone_2 - INFO - Drone 2: Role changed from follower to follower
 2026-02-17 11:34:28,710 - Drone_2 - INFO - Drone 2: Returning to home - Leader broadcast RETURN_TO_HOME
 2026-02-17 11:34:44,665 - Drone_2 - INFO - Drone 2 stopped
+2026-02-17 13:04:29,683 - Drone_2 - INFO - Drone 2: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-17 13:04:29,685 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-17 13:04:29,687 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-17 13:04:29,692 - Drone_2 - INFO - Drone 2 started
+2026-02-17 13:05:01,583 - Drone_2 - INFO - Drone 2: Armed
+2026-02-17 13:05:02,573 - Drone_2 - INFO - Drone 2: Taking off
+2026-02-17 13:05:08,208 - Drone_2 - INFO - Drone 2: Flying to {'x': 2553.9057647468726, 'y': 2622.797543233282, 'z': 60.0}
+2026-02-17 13:08:07,269 - Drone_2 - INFO - Drone 2: Returning to home - Leader broadcast RETURN_TO_HOME
+2026-02-17 13:11:06,296 - Drone_2 - INFO - Drone 2: Reached home position
+2026-02-17 13:11:06,297 - Drone_2 - INFO - Drone 2: Landing initiated
+2026-02-17 13:11:06,801 - Drone_2 - INFO - Drone 2: Landed safely
+2026-02-17 13:18:31,105 - Drone_2 - INFO - Drone 2 stopped
+2026-02-17 18:08:37,116 - Drone_2 - INFO - Drone 2: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-17 18:08:37,117 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-17 18:08:37,117 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-17 18:08:37,119 - Drone_2 - INFO - Drone 2 started
+2026-02-17 18:10:04,025 - Drone_2 - INFO - Drone 2: Armed
+2026-02-17 18:10:05,871 - Drone_2 - INFO - Drone 2: Taking off
+2026-02-17 18:10:08,373 - Drone_2 - INFO - Drone 2: Flying to {'x': 2553.9057647468726, 'y': 2622.797543233282, 'z': 60.0}
+2026-02-17 18:11:14,013 - Drone_2 - ERROR - Drone 2: Motor 0 failed!
+2026-02-17 18:11:14,014 - Drone_2 - WARNING - Drone 2: Degraded return active - Motor failure simulation: return to home with degraded control
+2026-02-17 18:11:26,344 - Drone_2 - INFO - Drone 2: Role changed from emergency to follower
+2026-02-17 18:13:12,977 - Drone_2 - INFO - Drone 2: Reached home position
+2026-02-17 18:13:13,381 - Drone_2 - INFO - Drone 2: Landed safely
+2026-02-17 18:15:40,012 - Drone_2 - INFO - Drone 2 stopped
+2026-02-17 21:20:06,941 - Drone_2 - INFO - Drone 2: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-17 21:20:06,941 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-17 21:20:06,942 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-17 21:20:06,943 - Drone_2 - INFO - Drone 2 started
+2026-02-17 21:20:20,962 - Drone_2 - INFO - Drone 2: Armed
+2026-02-17 21:20:22,485 - Drone_2 - INFO - Drone 2: Taking off
+2026-02-17 21:20:25,095 - Drone_2 - INFO - Drone 2: Flying to {'x': 2553.9057647468726, 'y': 2622.797543233282, 'z': 60.0}
+2026-02-17 21:22:04,614 - Drone_2 - INFO - Drone 2 stopped

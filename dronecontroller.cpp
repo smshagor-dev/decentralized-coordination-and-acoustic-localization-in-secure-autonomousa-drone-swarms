@@ -27,6 +27,10 @@
 #include <array>
 #include <iomanip>
 #include <numeric>
+#include <fstream>
+#include <unordered_map>
+#include <cctype>
+#include <cstdlib>
 
 namespace DroneSwarm {
 namespace {
@@ -42,6 +46,117 @@ int oppositeMotorIndex(int idx) {
 float clampNonNegative(float value) {
     return std::max(0.0f, value);
 }
+
+std::string trim(const std::string& value) {
+    size_t start = 0;
+    while (start < value.size() && std::isspace(static_cast<unsigned char>(value[start]))) {
+        start++;
+    }
+    size_t end = value.size();
+    while (end > start && std::isspace(static_cast<unsigned char>(value[end - 1]))) {
+        end--;
+    }
+    return value.substr(start, end - start);
+}
+
+std::string normalizeKey(std::string key) {
+    std::transform(key.begin(), key.end(), key.begin(), [](unsigned char c) {
+        return static_cast<char>(std::toupper(c));
+    });
+    return key;
+}
+
+bool parseBool(const std::string& raw, bool default_value) {
+    const std::string normalized = normalizeKey(trim(raw));
+    if (normalized.empty()) {
+        return default_value;
+    }
+    if (normalized == "1" || normalized == "TRUE" || normalized == "YES" || normalized == "ON") {
+        return true;
+    }
+    if (normalized == "0" || normalized == "FALSE" || normalized == "NO" || normalized == "OFF") {
+        return false;
+    }
+    return default_value;
+}
+
+int parseInt(const std::string& raw, int default_value) {
+    try {
+        return std::stoi(trim(raw));
+    } catch (...) {
+        return default_value;
+    }
+}
+
+std::unordered_map<std::string, std::string> parseDotEnvFile(const std::string& path) {
+    std::unordered_map<std::string, std::string> values;
+    std::ifstream in(path);
+    if (!in.is_open()) {
+        return values;
+    }
+
+    std::string line;
+    while (std::getline(in, line)) {
+        line = trim(line);
+        if (line.empty() || line[0] == '#') {
+            continue;
+        }
+        const size_t eq = line.find('=');
+        if (eq == std::string::npos || eq == 0) {
+            continue;
+        }
+        std::string key = trim(line.substr(0, eq));
+        std::string val = trim(line.substr(eq + 1));
+        if (val.size() >= 2) {
+            const char first = val.front();
+            const char last = val.back();
+            if ((first == '"' && last == '"') || (first == '\'' && last == '\'')) {
+                val = val.substr(1, val.size() - 2);
+            }
+        }
+        if (!key.empty()) {
+            values[normalizeKey(key)] = val;
+        }
+    }
+    return values;
+}
+
+std::string readSetting(
+    const std::unordered_map<std::string, std::string>& dotenv_values,
+    const std::string& env_key,
+    const std::string& default_value
+) {
+    const std::string key = normalizeKey(env_key);
+    const char* env_val = std::getenv(key.c_str());
+    if (env_val && *env_val) {
+        return std::string(env_val);
+    }
+    auto it = dotenv_values.find(key);
+    if (it != dotenv_values.end() && !it->second.empty()) {
+        return it->second;
+    }
+    return default_value;
+}
+
+struct SensorEnvDescriptor {
+    const char* sensor_name;
+    const char* enabled_key;
+    const char* connection_key;
+    const char* rate_key;
+    bool default_enabled;
+    const char* default_connection;
+    int default_rate_hz;
+};
+
+const std::array<SensorEnvDescriptor, 7> kSensorDescriptors = {{
+    {"motor_rpm", "SENSOR_MOTOR_RPM_ENABLED", "SENSOR_MOTOR_RPM_CONNECTION", "SENSOR_MOTOR_RPM_RATE_HZ", true, "mavlink://esc_telemetry", 50},
+    {"battery", "SENSOR_BATTERY_ENABLED", "SENSOR_BATTERY_CONNECTION", "SENSOR_BATTERY_RATE_HZ", true, "mavlink://battery_status", 10},
+    {"gps", "SENSOR_GPS_ENABLED", "SENSOR_GPS_CONNECTION", "SENSOR_GPS_RATE_HZ", true, "mavlink://gps_raw_int", 10},
+    {"imu", "SENSOR_IMU_ENABLED", "SENSOR_IMU_CONNECTION", "SENSOR_IMU_RATE_HZ", true, "mavlink://highres_imu", 100},
+    {"barometer", "SENSOR_BAROMETER_ENABLED", "SENSOR_BAROMETER_CONNECTION", "SENSOR_BAROMETER_RATE_HZ", true, "mavlink://scaled_pressure", 25},
+    {"magnetometer", "SENSOR_MAGNETOMETER_ENABLED", "SENSOR_MAGNETOMETER_CONNECTION", "SENSOR_MAGNETOMETER_RATE_HZ", true, "mavlink://raw_imu.mag", 25},
+    {"acoustic", "SENSOR_ACOUSTIC_ENABLED", "SENSOR_ACOUSTIC_CONNECTION", "SENSOR_ACOUSTIC_RATE_HZ", false, "udp://0.0.0.0:16060", 48000},
+}};
 } // namespace
 
 LatencyMonitor::LatencyMonitor(size_t window_size, double threshold_ms)
@@ -165,6 +280,8 @@ public:
     float pid_yaw_d;
     std::chrono::steady_clock::time_point last_battery_sample;
     float last_battery_remaining;
+    std::unordered_map<std::string, SensorConnectionConfig> sensor_connections;
+    std::mutex sensor_config_mutex;
     
     Impl(const std::string& conn_str, int id)
         : connection_string(conn_str), drone_id(id), connected(false),
@@ -195,6 +312,7 @@ DroneController::DroneController(const std::string& connection_string, int drone
     : pImpl(std::make_unique<Impl>(connection_string, drone_id)) {
     std::cout << "DroneController initialized for Drone " << drone_id 
               << " with connection: " << connection_string << std::endl;
+    loadSensorConnectionsFromEnv(".env");
 }
 
 // Destructor
@@ -207,6 +325,8 @@ bool DroneController::connect() {
     if (pImpl->connected) {
         return true;
     }
+
+    loadSensorConnectionsFromEnv(".env");
     
     std::cout << "Connecting to drone " << pImpl->drone_id << "..." << std::endl;
     
@@ -491,6 +611,72 @@ void DroneController::sendHeartbeat() {
 // Get last heartbeat
 uint64_t DroneController::getLastHeartbeat() const {
     return pImpl->last_heartbeat;
+}
+
+bool DroneController::loadSensorConnectionsFromEnv(const std::string& dotenv_path) {
+    const auto dotenv_values = parseDotEnvFile(dotenv_path);
+    std::unordered_map<std::string, SensorConnectionConfig> loaded;
+
+    for (const auto& descriptor : kSensorDescriptors) {
+        const std::string enabled_text = readSetting(
+            dotenv_values,
+            descriptor.enabled_key,
+            descriptor.default_enabled ? "1" : "0"
+        );
+        const std::string connection_text = readSetting(
+            dotenv_values,
+            descriptor.connection_key,
+            descriptor.default_connection
+        );
+        const std::string rate_text = readSetting(
+            dotenv_values,
+            descriptor.rate_key,
+            std::to_string(descriptor.default_rate_hz)
+        );
+
+        SensorConnectionConfig cfg;
+        cfg.sensor_name = descriptor.sensor_name;
+        cfg.enabled = parseBool(enabled_text, descriptor.default_enabled);
+        cfg.connection_uri = trim(connection_text);
+        cfg.update_rate_hz = std::max(1, parseInt(rate_text, descriptor.default_rate_hz));
+        loaded[cfg.sensor_name] = cfg;
+    }
+
+    {
+        std::lock_guard<std::mutex> lock(pImpl->sensor_config_mutex);
+        pImpl->sensor_connections = loaded;
+    }
+
+    std::cout << "[SENSOR-CONFIG] Drone " << pImpl->drone_id
+              << " loaded " << loaded.size() << " sensor configs"
+              << " from " << dotenv_path << std::endl;
+    for (const auto& it : loaded) {
+        const auto& cfg = it.second;
+        std::cout << "  - " << cfg.sensor_name
+                  << " enabled=" << (cfg.enabled ? "true" : "false")
+                  << " rate_hz=" << cfg.update_rate_hz
+                  << " conn=" << cfg.connection_uri
+                  << std::endl;
+    }
+    return !loaded.empty();
+}
+
+std::unordered_map<std::string, SensorConnectionConfig> DroneController::getSensorConnections() const {
+    std::lock_guard<std::mutex> lock(pImpl->sensor_config_mutex);
+    return pImpl->sensor_connections;
+}
+
+SensorConnectionConfig DroneController::getSensorConnection(const std::string& sensor_name) const {
+    std::lock_guard<std::mutex> lock(pImpl->sensor_config_mutex);
+    const std::string key = normalizeKey(sensor_name);
+    for (const auto& it : pImpl->sensor_connections) {
+        if (normalizeKey(it.first) == key) {
+            return it.second;
+        }
+    }
+    SensorConnectionConfig missing;
+    missing.sensor_name = sensor_name;
+    return missing;
 }
 
 // Telemetry loop

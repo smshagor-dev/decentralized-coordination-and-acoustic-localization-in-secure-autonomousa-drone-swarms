@@ -1,0 +1,473 @@
+merged_log_run_id=20260217_130429
+[swarm_manager.log] 2026-02-17 13:04:29,845 - SwarmManager - INFO - Swarm monitoring started
+[system_20260217_130429.log] 2026-02-17 13:04:29,846 - Main - INFO - Swarm created with 5 drones
+[system_20260217_130429.log] 2026-02-17 13:04:29,847 - Main - INFO - Leader elected: Drone 1
+[system_20260217_130429.log] 2026-02-17 13:04:29,847 - Main - INFO - Starting GUI...
+[ml_system.log] 2026-02-17 13:04:51,452 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=451 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:04:51,555 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=501 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:04:51,658 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=501 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:04:51,452 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=451 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:04:51,555 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=501 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:04:51,555 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=501 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:04:51,658 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=501 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:04:51,658 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=501 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:05:01,581 - Drone_1 - INFO - Drone 1: Armed
+[system_20260217_130429.log] 2026-02-17 13:05:01,583 - Drone_2 - INFO - Drone 2: Armed
+[system_20260217_130429.log] 2026-02-17 13:05:01,584 - Drone_3 - INFO - Drone 3: Armed
+[system_20260217_130429.log] 2026-02-17 13:05:01,586 - Drone_4 - INFO - Drone 4: Armed
+[system_20260217_130429.log] 2026-02-17 13:05:01,588 - Drone_5 - INFO - Drone 5: Armed
+[swarm_manager.log] 2026-02-17 13:05:02,564 - SwarmManager - INFO - Leader-follow enabled=False
+[swarm_manager.log] 2026-02-17 13:05:02,568 - SwarmManager - INFO - Leader command received: TAKEOFF by drone=1
+[system_20260217_130429.log] 2026-02-17 13:05:02,569 - Drone_1 - INFO - Drone 1: Taking off
+[system_20260217_130429.log] 2026-02-17 13:05:02,570 - DroneStateManager - INFO - Drone 1 state transition IDLE -> TAKEOFF
+[system_20260217_130429.log] 2026-02-17 13:05:02,573 - Drone_2 - INFO - Drone 2: Taking off
+[system_20260217_130429.log] 2026-02-17 13:05:02,574 - DroneStateManager - INFO - Drone 2 state transition IDLE -> TAKEOFF
+[system_20260217_130429.log] 2026-02-17 13:05:02,577 - Drone_3 - INFO - Drone 3: Taking off
+[system_20260217_130429.log] 2026-02-17 13:05:02,578 - DroneStateManager - INFO - Drone 3 state transition IDLE -> TAKEOFF
+[system_20260217_130429.log] 2026-02-17 13:05:02,582 - Drone_4 - INFO - Drone 4: Taking off
+[system_20260217_130429.log] 2026-02-17 13:05:02,583 - DroneStateManager - INFO - Drone 4 state transition IDLE -> TAKEOFF
+[system_20260217_130429.log] 2026-02-17 13:05:02,586 - Drone_5 - INFO - Drone 5: Taking off
+[system_20260217_130429.log] 2026-02-17 13:05:02,587 - DroneStateManager - INFO - Drone 5 state transition IDLE -> TAKEOFF
+[system_20260217_130429.log] 2026-02-17 13:05:04,130 - DroneStateManager - INFO - Drone 2 state transition TAKEOFF -> WAITING_FOR_COMMAND
+[system_20260217_130429.log] 2026-02-17 13:05:04,132 - DroneStateManager - INFO - Drone 3 state transition TAKEOFF -> WAITING_FOR_COMMAND
+[system_20260217_130429.log] 2026-02-17 13:05:04,135 - DroneStateManager - INFO - Drone 4 state transition TAKEOFF -> WAITING_FOR_COMMAND
+[system_20260217_130429.log] 2026-02-17 13:05:04,140 - DroneStateManager - INFO - Drone 5 state transition TAKEOFF -> WAITING_FOR_COMMAND
+[swarm_manager.log] 2026-02-17 13:05:08,203 - SwarmManager - INFO - Leader command received: MOVE_TO_TARGET by drone=1
+[system_20260217_130429.log] 2026-02-17 13:05:08,204 - Drone_1 - INFO - Drone 1: Flying to {'x': 2585.0, 'y': 2580.0, 'z': 60.0}
+[system_20260217_130429.log] 2026-02-17 13:05:08,206 - DroneStateManager - INFO - Drone 1 state transition TAKEOFF -> MOVING_TO_TARGET
+[system_20260217_130429.log] 2026-02-17 13:05:08,208 - Drone_2 - INFO - Drone 2: Flying to {'x': 2553.9057647468726, 'y': 2622.797543233282, 'z': 60.0}
+[system_20260217_130429.log] 2026-02-17 13:05:08,209 - DroneStateManager - INFO - Drone 2 state transition WAITING_FOR_COMMAND -> MOVING_TO_TARGET
+[system_20260217_130429.log] 2026-02-17 13:05:08,212 - Drone_3 - INFO - Drone 3: Flying to {'x': 2503.5942352531274, 'y': 2606.450336353161, 'z': 60.0}
+[system_20260217_130429.log] 2026-02-17 13:05:08,213 - DroneStateManager - INFO - Drone 3 state transition WAITING_FOR_COMMAND -> MOVING_TO_TARGET
+[system_20260217_130429.log] 2026-02-17 13:05:08,230 - Drone_4 - INFO - Drone 4: Flying to {'x': 2503.5942352531274, 'y': 2553.549663646839, 'z': 60.0}
+[system_20260217_130429.log] 2026-02-17 13:05:08,232 - DroneStateManager - INFO - Drone 4 state transition WAITING_FOR_COMMAND -> MOVING_TO_TARGET
+[system_20260217_130429.log] 2026-02-17 13:05:08,235 - Drone_5 - INFO - Drone 5: Flying to {'x': 2553.9057647468726, 'y': 2537.202456766718, 'z': 60.0}
+[system_20260217_130429.log] 2026-02-17 13:05:08,237 - DroneStateManager - INFO - Drone 5 state transition WAITING_FOR_COMMAND -> MOVING_TO_TARGET
+[ml_system.log] 2026-02-17 13:05:11,915 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=651 degree=2 alpha=0.0 val_mse=0.103275
+[ml_system.log] 2026-02-17 13:05:11,980 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=701 degree=2 alpha=0.0 val_mse=0.099836
+[ml_system.log] 2026-02-17 13:05:12,018 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=701 degree=2 alpha=0.0 val_mse=0.097134
+[ml_system.log] 2026-02-17 13:05:12,086 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=701 degree=2 alpha=0.0 val_mse=0.100513
+[ml_system.log] 2026-02-17 13:05:12,118 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=701 degree=2 alpha=0.0 val_mse=0.091802
+[system_20260217_130429.log] 2026-02-17 13:05:11,915 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=651 degree=2 alpha=0.0 val_mse=0.103275
+[system_20260217_130429.log] 2026-02-17 13:05:11,980 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=701 degree=2 alpha=0.0 val_mse=0.099836
+[system_20260217_130429.log] 2026-02-17 13:05:12,018 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=701 degree=2 alpha=0.0 val_mse=0.097134
+[system_20260217_130429.log] 2026-02-17 13:05:12,086 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=701 degree=2 alpha=0.0 val_mse=0.100513
+[system_20260217_130429.log] 2026-02-17 13:05:12,118 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=701 degree=2 alpha=0.0 val_mse=0.091802
+[swarm_manager.log] 2026-02-17 13:05:16,275 - SwarmManager - INFO - Dynamic obstacle avoidance drone=1 prob=0.44 cone=0.00 conf=0.67 target=(169.4, 129.8, 5.6)
+[system_20260217_130429.log] 2026-02-17 13:05:16,274 - Drone_1 - INFO - Drone 1: Flying to {'x': 169.35289681819958, 'y': 129.8098378304686, 'z': 5.553924643999855}
+[system_20260217_130429.log] 2026-02-17 13:05:16,285 - DroneStateManager - INFO - Drone 1 state transition MOVING_TO_TARGET -> AVOIDING_DYNAMIC_OBSTACLE
+[system_20260217_130429.log] 2026-02-17 13:05:17,299 - DroneStateManager - INFO - Drone 1 state transition AVOIDING_DYNAMIC_OBSTACLE -> MOVING_TO_TARGET
+[system_20260217_130429.log] 2026-02-17 13:05:22,607 - Drone_1 - INFO - Drone 1: Reached target position
+[system_20260217_130429.log] 2026-02-17 13:05:23,368 - Drone_1 - INFO - Drone 1: Flying to {'x': 2585.0, 'y': 2580.0, 'z': 60.0}
+[ml_system.log] 2026-02-17 13:05:32,316 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=901 degree=2 alpha=0.0 val_mse=0.001735
+[ml_system.log] 2026-02-17 13:05:32,339 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=851 degree=2 alpha=0.0 val_mse=0.010392
+[ml_system.log] 2026-02-17 13:05:32,372 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=901 degree=2 alpha=0.0 val_mse=0.000650
+[ml_system.log] 2026-02-17 13:05:32,423 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=901 degree=2 alpha=0.0 val_mse=0.000862
+[system_20260217_130429.log] 2026-02-17 13:05:32,316 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=901 degree=2 alpha=0.0 val_mse=0.001735
+[system_20260217_130429.log] 2026-02-17 13:05:32,339 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=851 degree=2 alpha=0.0 val_mse=0.010392
+[system_20260217_130429.log] 2026-02-17 13:05:32,372 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=901 degree=2 alpha=0.0 val_mse=0.000650
+[system_20260217_130429.log] 2026-02-17 13:05:32,423 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=901 degree=2 alpha=0.0 val_mse=0.000862
+[ml_system.log] 2026-02-17 13:05:32,502 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=901 degree=2 alpha=0.0 val_mse=0.001005
+[system_20260217_130429.log] 2026-02-17 13:05:32,502 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=901 degree=2 alpha=0.0 val_mse=0.001005
+[ml_system.log] 2026-02-17 13:05:52,880 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=1101 degree=2 alpha=1.0 val_mse=0.003165
+[ml_system.log] 2026-02-17 13:05:52,881 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=1051 degree=2 alpha=0.1 val_mse=0.001980
+[ml_system.log] 2026-02-17 13:05:52,881 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=1101 degree=2 alpha=0.0 val_mse=0.001253
+[ml_system.log] 2026-02-17 13:05:52,975 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=1101 degree=2 alpha=1.0 val_mse=0.001621
+[ml_system.log] 2026-02-17 13:05:52,978 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=1101 degree=2 alpha=1.0 val_mse=0.002084
+[system_20260217_130429.log] 2026-02-17 13:05:52,880 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=1101 degree=2 alpha=1.0 val_mse=0.003165
+[system_20260217_130429.log] 2026-02-17 13:05:52,881 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=1051 degree=2 alpha=0.1 val_mse=0.001980
+[system_20260217_130429.log] 2026-02-17 13:05:52,881 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=1101 degree=2 alpha=0.0 val_mse=0.001253
+[system_20260217_130429.log] 2026-02-17 13:05:52,975 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=1101 degree=2 alpha=1.0 val_mse=0.001621
+[system_20260217_130429.log] 2026-02-17 13:05:52,978 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=1101 degree=2 alpha=1.0 val_mse=0.002084
+[ml_system.log] 2026-02-17 13:06:13,242 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=1301 degree=2 alpha=0.0 val_mse=0.002021
+[ml_system.log] 2026-02-17 13:06:13,294 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=1251 degree=2 alpha=1.0 val_mse=0.002770
+[ml_system.log] 2026-02-17 13:06:13,295 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=1301 degree=2 alpha=1.0 val_mse=0.003683
+[ml_system.log] 2026-02-17 13:06:13,395 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=1301 degree=2 alpha=1.0 val_mse=0.002442
+[ml_system.log] 2026-02-17 13:06:13,396 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=1301 degree=2 alpha=1.0 val_mse=0.002943
+[system_20260217_130429.log] 2026-02-17 13:06:13,242 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=1301 degree=2 alpha=0.0 val_mse=0.002021
+[system_20260217_130429.log] 2026-02-17 13:06:13,294 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=1251 degree=2 alpha=1.0 val_mse=0.002770
+[system_20260217_130429.log] 2026-02-17 13:06:13,295 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=1301 degree=2 alpha=1.0 val_mse=0.003683
+[system_20260217_130429.log] 2026-02-17 13:06:13,395 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=1301 degree=2 alpha=1.0 val_mse=0.002442
+[system_20260217_130429.log] 2026-02-17 13:06:13,396 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=1301 degree=2 alpha=1.0 val_mse=0.002943
+[ml_system.log] 2026-02-17 13:06:33,939 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=1451 degree=2 alpha=0.0 val_mse=0.002700
+[ml_system.log] 2026-02-17 13:06:33,981 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=1501 degree=2 alpha=0.0 val_mse=0.002810
+[ml_system.log] 2026-02-17 13:06:33,982 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=1501 degree=2 alpha=0.0 val_mse=0.002317
+[ml_system.log] 2026-02-17 13:06:34,045 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=1501 degree=2 alpha=0.0 val_mse=0.002769
+[ml_system.log] 2026-02-17 13:06:34,076 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=1501 degree=2 alpha=0.0 val_mse=0.002587
+[system_20260217_130429.log] 2026-02-17 13:06:33,939 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=1451 degree=2 alpha=0.0 val_mse=0.002700
+[system_20260217_130429.log] 2026-02-17 13:06:33,981 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=1501 degree=2 alpha=0.0 val_mse=0.002810
+[system_20260217_130429.log] 2026-02-17 13:06:33,982 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=1501 degree=2 alpha=0.0 val_mse=0.002317
+[system_20260217_130429.log] 2026-02-17 13:06:34,045 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=1501 degree=2 alpha=0.0 val_mse=0.002769
+[system_20260217_130429.log] 2026-02-17 13:06:34,076 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=1501 degree=2 alpha=0.0 val_mse=0.002587
+[ml_system.log] 2026-02-17 13:06:54,543 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=1701 degree=2 alpha=0.0 val_mse=0.001773
+[ml_system.log] 2026-02-17 13:06:54,547 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=1651 degree=2 alpha=0.0 val_mse=0.002002
+[ml_system.log] 2026-02-17 13:06:54,547 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=1701 degree=2 alpha=0.0 val_mse=0.002074
+[ml_system.log] 2026-02-17 13:06:54,558 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=1701 degree=2 alpha=0.0 val_mse=0.002040
+[ml_system.log] 2026-02-17 13:06:54,651 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=1701 degree=2 alpha=0.0 val_mse=0.002094
+[system_20260217_130429.log] 2026-02-17 13:06:54,543 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=1701 degree=2 alpha=0.0 val_mse=0.001773
+[system_20260217_130429.log] 2026-02-17 13:06:54,547 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=1651 degree=2 alpha=0.0 val_mse=0.002002
+[system_20260217_130429.log] 2026-02-17 13:06:54,547 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=1701 degree=2 alpha=0.0 val_mse=0.002074
+[system_20260217_130429.log] 2026-02-17 13:06:54,558 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=1701 degree=2 alpha=0.0 val_mse=0.002040
+[system_20260217_130429.log] 2026-02-17 13:06:54,651 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=1701 degree=2 alpha=0.0 val_mse=0.002094
+[ml_system.log] 2026-02-17 13:07:15,101 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=1901 degree=2 alpha=0.0 val_mse=0.001612
+[ml_system.log] 2026-02-17 13:07:15,145 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=1901 degree=2 alpha=0.0 val_mse=0.001179
+[ml_system.log] 2026-02-17 13:07:15,146 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=1851 degree=2 alpha=0.0 val_mse=0.001372
+[ml_system.log] 2026-02-17 13:07:15,203 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=1901 degree=2 alpha=0.0 val_mse=0.001420
+[ml_system.log] 2026-02-17 13:07:15,294 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=1901 degree=2 alpha=0.0 val_mse=0.001513
+[system_20260217_130429.log] 2026-02-17 13:07:15,101 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=1901 degree=2 alpha=0.0 val_mse=0.001612
+[system_20260217_130429.log] 2026-02-17 13:07:15,145 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=1901 degree=2 alpha=0.0 val_mse=0.001179
+[system_20260217_130429.log] 2026-02-17 13:07:15,146 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=1851 degree=2 alpha=0.0 val_mse=0.001372
+[system_20260217_130429.log] 2026-02-17 13:07:15,203 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=1901 degree=2 alpha=0.0 val_mse=0.001420
+[system_20260217_130429.log] 2026-02-17 13:07:15,294 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=1901 degree=2 alpha=0.0 val_mse=0.001513
+[ml_system.log] 2026-02-17 13:07:35,505 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=2101 degree=2 alpha=0.0 val_mse=0.001195
+[ml_system.log] 2026-02-17 13:07:35,563 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=2051 degree=2 alpha=0.0 val_mse=0.000974
+[ml_system.log] 2026-02-17 13:07:35,641 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=2101 degree=2 alpha=0.0 val_mse=0.001034
+[ml_system.log] 2026-02-17 13:07:35,642 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=2101 degree=2 alpha=0.0 val_mse=0.000879
+[ml_system.log] 2026-02-17 13:07:35,741 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=2101 degree=2 alpha=0.0 val_mse=0.001074
+[system_20260217_130429.log] 2026-02-17 13:07:35,505 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=2101 degree=2 alpha=0.0 val_mse=0.001195
+[system_20260217_130429.log] 2026-02-17 13:07:35,563 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=2051 degree=2 alpha=0.0 val_mse=0.000974
+[system_20260217_130429.log] 2026-02-17 13:07:35,641 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=2101 degree=2 alpha=0.0 val_mse=0.001034
+[system_20260217_130429.log] 2026-02-17 13:07:35,642 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=2101 degree=2 alpha=0.0 val_mse=0.000879
+[system_20260217_130429.log] 2026-02-17 13:07:35,741 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=2101 degree=2 alpha=0.0 val_mse=0.001074
+[ml_system.log] 2026-02-17 13:07:56,110 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=2301 degree=2 alpha=0.0 val_mse=0.000898
+[system_20260217_130429.log] 2026-02-17 13:07:56,110 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=2301 degree=2 alpha=0.0 val_mse=0.000898
+[ml_system.log] 2026-02-17 13:07:56,211 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=2251 degree=2 alpha=0.0 val_mse=0.000752
+[ml_system.log] 2026-02-17 13:07:56,330 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=2301 degree=2 alpha=0.0 val_mse=0.000818
+[ml_system.log] 2026-02-17 13:07:56,332 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=2301 degree=2 alpha=0.0 val_mse=0.000731
+[ml_system.log] 2026-02-17 13:07:56,419 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=2301 degree=2 alpha=0.0 val_mse=0.000791
+[system_20260217_130429.log] 2026-02-17 13:07:56,211 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=2251 degree=2 alpha=0.0 val_mse=0.000752
+[system_20260217_130429.log] 2026-02-17 13:07:56,330 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=2301 degree=2 alpha=0.0 val_mse=0.000818
+[system_20260217_130429.log] 2026-02-17 13:07:56,332 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=2301 degree=2 alpha=0.0 val_mse=0.000731
+[system_20260217_130429.log] 2026-02-17 13:07:56,419 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=2301 degree=2 alpha=0.0 val_mse=0.000791
+[swarm_manager.log] 2026-02-17 13:08:07,259 - SwarmManager - INFO - MISSION_COMPLETE: Drone 2 reached destination (x=2553.9, y=2622.8, z=60.0)
+[swarm_manager.log] 2026-02-17 13:08:07,261 - SwarmManager - INFO - MISSION_COMPLETE received from Drone 2 target={'x': 2553.9057647468726, 'y': 2622.797543233282, 'z': 60.0} -> leader broadcasting RETURN_TO_HOME
+[swarm_manager.log] 2026-02-17 13:08:07,262 - SwarmManager - INFO - Leader command received: RETURN_TO_HOME by drone=1
+[system_20260217_130429.log] 2026-02-17 13:08:07,257 - DroneStateManager - INFO - Drone 2 state transition MOVING_TO_TARGET -> MISSION_COMPLETE
+[system_20260217_130429.log] 2026-02-17 13:08:07,263 - Drone_1 - INFO - Drone 1: Returning to home - Leader broadcast RETURN_TO_HOME
+[system_20260217_130429.log] 2026-02-17 13:08:07,264 - DroneStateManager - INFO - Drone 1 state transition MOVING_TO_TARGET -> RETURNING_HOME
+[system_20260217_130429.log] 2026-02-17 13:08:07,269 - Drone_2 - INFO - Drone 2: Returning to home - Leader broadcast RETURN_TO_HOME
+[system_20260217_130429.log] 2026-02-17 13:08:07,271 - DroneStateManager - INFO - Drone 2 state transition MISSION_COMPLETE -> RETURNING_HOME
+[system_20260217_130429.log] 2026-02-17 13:08:07,277 - Drone_3 - INFO - Drone 3: Returning to home - Leader broadcast RETURN_TO_HOME
+[system_20260217_130429.log] 2026-02-17 13:08:07,278 - DroneStateManager - INFO - Drone 3 state transition MOVING_TO_TARGET -> RETURNING_HOME
+[system_20260217_130429.log] 2026-02-17 13:08:07,279 - Drone_4 - INFO - Drone 4: Returning to home - Leader broadcast RETURN_TO_HOME
+[system_20260217_130429.log] 2026-02-17 13:08:07,280 - DroneStateManager - INFO - Drone 4 state transition MOVING_TO_TARGET -> RETURNING_HOME
+[system_20260217_130429.log] 2026-02-17 13:08:07,282 - Drone_5 - INFO - Drone 5: Returning to home - Leader broadcast RETURN_TO_HOME
+[system_20260217_130429.log] 2026-02-17 13:08:07,287 - DroneStateManager - INFO - Drone 5 state transition MOVING_TO_TARGET -> RETURNING_HOME
+[ml_system.log] 2026-02-17 13:08:16,619 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=2501 degree=2 alpha=1.0 val_mse=0.103025
+[ml_system.log] 2026-02-17 13:08:16,817 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=2451 degree=2 alpha=1.0 val_mse=0.121594
+[ml_system.log] 2026-02-17 13:08:16,827 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=2501 degree=2 alpha=1.0 val_mse=0.134090
+[ml_system.log] 2026-02-17 13:08:16,924 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=2501 degree=2 alpha=1.0 val_mse=0.089736
+[ml_system.log] 2026-02-17 13:08:16,939 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=2501 degree=2 alpha=1.0 val_mse=0.066850
+[system_20260217_130429.log] 2026-02-17 13:08:16,619 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=2501 degree=2 alpha=1.0 val_mse=0.103025
+[system_20260217_130429.log] 2026-02-17 13:08:16,817 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=2451 degree=2 alpha=1.0 val_mse=0.121594
+[system_20260217_130429.log] 2026-02-17 13:08:16,827 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=2501 degree=2 alpha=1.0 val_mse=0.134090
+[system_20260217_130429.log] 2026-02-17 13:08:16,924 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=2501 degree=2 alpha=1.0 val_mse=0.089736
+[system_20260217_130429.log] 2026-02-17 13:08:16,939 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=2501 degree=2 alpha=1.0 val_mse=0.066850
+[swarm_manager.log] 2026-02-17 13:08:28,550 - SwarmManager - INFO - Leader follow pattern set to 'line' spacing=45.0m
+[ml_system.log] 2026-02-17 13:08:37,168 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=2701 degree=2 alpha=1.0 val_mse=0.277859
+[ml_system.log] 2026-02-17 13:08:37,346 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=2651 degree=2 alpha=1.0 val_mse=0.324452
+[ml_system.log] 2026-02-17 13:08:37,371 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=2701 degree=2 alpha=1.0 val_mse=0.352916
+[ml_system.log] 2026-02-17 13:08:37,466 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=2701 degree=2 alpha=1.0 val_mse=0.166808
+[system_20260217_130429.log] 2026-02-17 13:08:37,168 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=2701 degree=2 alpha=1.0 val_mse=0.277859
+[system_20260217_130429.log] 2026-02-17 13:08:37,346 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=2651 degree=2 alpha=1.0 val_mse=0.324452
+[system_20260217_130429.log] 2026-02-17 13:08:37,371 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=2701 degree=2 alpha=1.0 val_mse=0.352916
+[system_20260217_130429.log] 2026-02-17 13:08:37,466 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=2701 degree=2 alpha=1.0 val_mse=0.228174
+[system_20260217_130429.log] 2026-02-17 13:08:37,466 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=2701 degree=2 alpha=1.0 val_mse=0.166808
+[swarm_manager.log] 2026-02-17 13:08:58,750 - SwarmManager - INFO - Leader follow pattern set to 'v' spacing=45.0m
+[ml_system.log] 2026-02-17 13:08:57,679 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=2901 degree=2 alpha=1.0 val_mse=0.400857
+[ml_system.log] 2026-02-17 13:08:57,895 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=2851 degree=2 alpha=1.0 val_mse=0.467818
+[ml_system.log] 2026-02-17 13:08:57,969 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=2901 degree=2 alpha=1.0 val_mse=0.229384
+[ml_system.log] 2026-02-17 13:08:57,978 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=2901 degree=2 alpha=1.0 val_mse=0.317473
+[system_20260217_130429.log] 2026-02-17 13:08:57,679 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=2901 degree=2 alpha=1.0 val_mse=0.400857
+[system_20260217_130429.log] 2026-02-17 13:08:57,895 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=2901 degree=2 alpha=1.0 val_mse=0.505977
+[system_20260217_130429.log] 2026-02-17 13:08:57,895 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=2851 degree=2 alpha=1.0 val_mse=0.467818
+[system_20260217_130429.log] 2026-02-17 13:08:57,969 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=2901 degree=2 alpha=1.0 val_mse=0.229384
+[system_20260217_130429.log] 2026-02-17 13:08:57,978 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=2901 degree=2 alpha=1.0 val_mse=0.317473
+[swarm_manager.log] 2026-02-17 13:09:03,920 - SwarmManager - INFO - Formation 'v' commanded: success=0, skipped=4, followers=4
+[ml_system.log] 2026-02-17 13:09:18,251 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=3101 degree=2 alpha=0.0 val_mse=0.018081
+[ml_system.log] 2026-02-17 13:09:18,313 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=3101 degree=2 alpha=0.0 val_mse=0.003695
+[ml_system.log] 2026-02-17 13:09:18,468 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=3051 degree=2 alpha=0.0 val_mse=0.010307
+[ml_system.log] 2026-02-17 13:09:18,534 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=3101 degree=2 alpha=0.0 val_mse=0.010778
+[ml_system.log] 2026-02-17 13:09:18,579 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=3101 degree=2 alpha=0.0 val_mse=0.011844
+[system_20260217_130429.log] 2026-02-17 13:09:18,251 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=3101 degree=2 alpha=0.0 val_mse=0.018081
+[system_20260217_130429.log] 2026-02-17 13:09:18,313 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=3101 degree=2 alpha=0.0 val_mse=0.003695
+[system_20260217_130429.log] 2026-02-17 13:09:18,468 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=3051 degree=2 alpha=0.0 val_mse=0.010307
+[system_20260217_130429.log] 2026-02-17 13:09:18,534 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=3101 degree=2 alpha=0.0 val_mse=0.010778
+[system_20260217_130429.log] 2026-02-17 13:09:18,579 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=3101 degree=2 alpha=0.0 val_mse=0.011844
+[ml_system.log] 2026-02-17 13:09:38,729 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=3301 degree=2 alpha=0.0 val_mse=0.018131
+[ml_system.log] 2026-02-17 13:09:38,826 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=3301 degree=2 alpha=0.0 val_mse=0.006519
+[ml_system.log] 2026-02-17 13:09:38,908 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=3251 degree=2 alpha=0.0 val_mse=0.014175
+[ml_system.log] 2026-02-17 13:09:39,007 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=3301 degree=2 alpha=0.0 val_mse=0.012732
+[ml_system.log] 2026-02-17 13:09:39,037 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=3301 degree=2 alpha=0.0 val_mse=0.016869
+[system_20260217_130429.log] 2026-02-17 13:09:38,729 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=3301 degree=2 alpha=0.0 val_mse=0.018131
+[system_20260217_130429.log] 2026-02-17 13:09:38,826 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=3301 degree=2 alpha=0.0 val_mse=0.006519
+[system_20260217_130429.log] 2026-02-17 13:09:38,908 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=3251 degree=2 alpha=0.0 val_mse=0.014175
+[system_20260217_130429.log] 2026-02-17 13:09:39,007 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=3301 degree=2 alpha=0.0 val_mse=0.012732
+[system_20260217_130429.log] 2026-02-17 13:09:39,037 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=3301 degree=2 alpha=0.0 val_mse=0.016869
+[ml_system.log] 2026-02-17 13:09:59,178 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=3501 degree=2 alpha=0.0 val_mse=0.005822
+[ml_system.log] 2026-02-17 13:09:59,315 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=3501 degree=2 alpha=0.0 val_mse=0.004951
+[ml_system.log] 2026-02-17 13:09:59,402 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=3451 degree=2 alpha=0.0 val_mse=0.006522
+[system_20260217_130429.log] 2026-02-17 13:09:59,178 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=3501 degree=2 alpha=0.0 val_mse=0.005822
+[system_20260217_130429.log] 2026-02-17 13:09:59,315 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=3501 degree=2 alpha=0.0 val_mse=0.004951
+[system_20260217_130429.log] 2026-02-17 13:09:59,402 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=3451 degree=2 alpha=0.0 val_mse=0.006522
+[ml_system.log] 2026-02-17 13:09:59,530 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=3501 degree=2 alpha=0.0 val_mse=0.003963
+[ml_system.log] 2026-02-17 13:09:59,547 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=3501 degree=2 alpha=0.0 val_mse=0.008585
+[system_20260217_130429.log] 2026-02-17 13:09:59,530 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=3501 degree=2 alpha=0.0 val_mse=0.003963
+[system_20260217_130429.log] 2026-02-17 13:09:59,547 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=3501 degree=2 alpha=0.0 val_mse=0.008585
+[ml_system.log] 2026-02-17 13:10:19,668 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=3701 degree=2 alpha=0.0 val_mse=0.000979
+[system_20260217_130429.log] 2026-02-17 13:10:19,668 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=3701 degree=2 alpha=0.0 val_mse=0.000979
+[ml_system.log] 2026-02-17 13:10:19,761 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=3701 degree=2 alpha=0.0 val_mse=0.002004
+[ml_system.log] 2026-02-17 13:10:19,861 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=3651 degree=2 alpha=0.0 val_mse=0.001738
+[ml_system.log] 2026-02-17 13:10:20,030 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=3701 degree=2 alpha=0.0 val_mse=0.000705
+[ml_system.log] 2026-02-17 13:10:20,032 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=3701 degree=2 alpha=0.0 val_mse=0.002249
+[system_20260217_130429.log] 2026-02-17 13:10:19,761 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=3701 degree=2 alpha=0.0 val_mse=0.002004
+[system_20260217_130429.log] 2026-02-17 13:10:19,861 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=3651 degree=2 alpha=0.0 val_mse=0.001738
+[system_20260217_130429.log] 2026-02-17 13:10:20,030 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=3701 degree=2 alpha=0.0 val_mse=0.000705
+[system_20260217_130429.log] 2026-02-17 13:10:20,032 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=3701 degree=2 alpha=0.0 val_mse=0.002249
+[ml_system.log] 2026-02-17 13:10:40,169 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=3901 degree=2 alpha=1.0 val_mse=0.000154
+[ml_system.log] 2026-02-17 13:10:40,282 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=3901 degree=2 alpha=0.0 val_mse=0.000585
+[ml_system.log] 2026-02-17 13:10:40,384 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=3851 degree=2 alpha=0.0 val_mse=0.000558
+[ml_system.log] 2026-02-17 13:10:40,508 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=3901 degree=2 alpha=1.0 val_mse=0.000633
+[ml_system.log] 2026-02-17 13:10:40,508 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=3901 degree=2 alpha=0.0 val_mse=0.000549
+[system_20260217_130429.log] 2026-02-17 13:10:40,169 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=3901 degree=2 alpha=1.0 val_mse=0.000154
+[system_20260217_130429.log] 2026-02-17 13:10:40,282 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=3901 degree=2 alpha=0.0 val_mse=0.000585
+[system_20260217_130429.log] 2026-02-17 13:10:40,384 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=3851 degree=2 alpha=0.0 val_mse=0.000558
+[system_20260217_130429.log] 2026-02-17 13:10:40,508 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=3901 degree=2 alpha=1.0 val_mse=0.000633
+[system_20260217_130429.log] 2026-02-17 13:10:40,508 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=3901 degree=2 alpha=0.0 val_mse=0.000549
+[ml_system.log] 2026-02-17 13:11:00,644 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=4101 degree=2 alpha=0.0 val_mse=0.000211
+[ml_system.log] 2026-02-17 13:11:00,882 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=4051 degree=2 alpha=0.0 val_mse=0.000299
+[ml_system.log] 2026-02-17 13:11:00,885 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=4101 degree=2 alpha=0.1 val_mse=0.000429
+[ml_system.log] 2026-02-17 13:11:01,017 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=4101 degree=2 alpha=1.0 val_mse=0.000218
+[ml_system.log] 2026-02-17 13:11:01,075 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=4101 degree=2 alpha=1.0 val_mse=0.000517
+[system_20260217_130429.log] 2026-02-17 13:11:00,644 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=4101 degree=2 alpha=0.0 val_mse=0.000211
+[system_20260217_130429.log] 2026-02-17 13:11:00,882 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=4051 degree=2 alpha=0.0 val_mse=0.000299
+[system_20260217_130429.log] 2026-02-17 13:11:00,885 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=4101 degree=2 alpha=0.1 val_mse=0.000429
+[system_20260217_130429.log] 2026-02-17 13:11:01,017 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=4101 degree=2 alpha=1.0 val_mse=0.000218
+[system_20260217_130429.log] 2026-02-17 13:11:01,075 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=4101 degree=2 alpha=1.0 val_mse=0.000517
+[system_20260217_130429.log] 2026-02-17 13:11:05,325 - Drone_1 - INFO - Drone 1: Reached home position
+[system_20260217_130429.log] 2026-02-17 13:11:05,326 - Drone_1 - INFO - Drone 1: Landing initiated
+[system_20260217_130429.log] 2026-02-17 13:11:05,843 - Drone_1 - INFO - Drone 1: Landed safely
+[system_20260217_130429.log] 2026-02-17 13:11:06,021 - DroneStateManager - INFO - Drone 1 state transition RETURNING_HOME -> IDLE
+[system_20260217_130429.log] 2026-02-17 13:11:06,296 - Drone_2 - INFO - Drone 2: Reached home position
+[system_20260217_130429.log] 2026-02-17 13:11:06,297 - Drone_2 - INFO - Drone 2: Landing initiated
+[system_20260217_130429.log] 2026-02-17 13:11:06,315 - Drone_4 - INFO - Drone 4: Reached home position
+[system_20260217_130429.log] 2026-02-17 13:11:06,317 - Drone_4 - INFO - Drone 4: Landing initiated
+[system_20260217_130429.log] 2026-02-17 13:11:06,332 - Drone_5 - INFO - Drone 5: Reached home position
+[system_20260217_130429.log] 2026-02-17 13:11:06,334 - Drone_5 - INFO - Drone 5: Landing initiated
+[system_20260217_130429.log] 2026-02-17 13:11:06,440 - Drone_3 - INFO - Drone 3: Reached home position
+[system_20260217_130429.log] 2026-02-17 13:11:06,442 - Drone_3 - INFO - Drone 3: Landing initiated
+[system_20260217_130429.log] 2026-02-17 13:11:06,801 - Drone_2 - INFO - Drone 2: Landed safely
+[system_20260217_130429.log] 2026-02-17 13:11:06,850 - Drone_4 - INFO - Drone 4: Landed safely
+[system_20260217_130429.log] 2026-02-17 13:11:06,857 - Drone_5 - INFO - Drone 5: Landed safely
+[system_20260217_130429.log] 2026-02-17 13:11:06,971 - Drone_3 - INFO - Drone 3: Landed safely
+[system_20260217_130429.log] 2026-02-17 13:11:07,026 - DroneStateManager - INFO - Drone 2 state transition RETURNING_HOME -> IDLE
+[system_20260217_130429.log] 2026-02-17 13:11:07,029 - DroneStateManager - INFO - Drone 3 state transition RETURNING_HOME -> IDLE
+[system_20260217_130429.log] 2026-02-17 13:11:07,031 - DroneStateManager - INFO - Drone 4 state transition RETURNING_HOME -> IDLE
+[system_20260217_130429.log] 2026-02-17 13:11:07,033 - DroneStateManager - INFO - Drone 5 state transition RETURNING_HOME -> IDLE
+[ml_system.log] 2026-02-17 13:11:21,089 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=4301 degree=2 alpha=0.0 val_mse=0.000214
+[ml_system.log] 2026-02-17 13:11:21,320 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=4301 degree=2 alpha=0.1 val_mse=0.000604
+[ml_system.log] 2026-02-17 13:11:21,323 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=4251 degree=2 alpha=0.0 val_mse=0.000169
+[ml_system.log] 2026-02-17 13:11:21,540 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=4301 degree=2 alpha=0.1 val_mse=0.000235
+[ml_system.log] 2026-02-17 13:11:21,546 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=4301 degree=2 alpha=1.0 val_mse=0.000196
+[system_20260217_130429.log] 2026-02-17 13:11:21,089 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=4301 degree=2 alpha=0.0 val_mse=0.000214
+[system_20260217_130429.log] 2026-02-17 13:11:21,320 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=4301 degree=2 alpha=0.1 val_mse=0.000604
+[system_20260217_130429.log] 2026-02-17 13:11:21,323 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=4251 degree=2 alpha=0.0 val_mse=0.000169
+[system_20260217_130429.log] 2026-02-17 13:11:21,540 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=4301 degree=2 alpha=0.1 val_mse=0.000235
+[system_20260217_130429.log] 2026-02-17 13:11:21,546 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=4301 degree=2 alpha=1.0 val_mse=0.000196
+[ml_system.log] 2026-02-17 13:11:41,566 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=4501 degree=2 alpha=0.0 val_mse=0.000159
+[ml_system.log] 2026-02-17 13:11:41,800 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=4501 degree=2 alpha=0.1 val_mse=0.000337
+[ml_system.log] 2026-02-17 13:11:41,894 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=4451 degree=2 alpha=0.0 val_mse=0.000135
+[ml_system.log] 2026-02-17 13:11:42,103 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=4501 degree=2 alpha=0.0 val_mse=0.000172
+[system_20260217_130429.log] 2026-02-17 13:11:41,566 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=4501 degree=2 alpha=0.0 val_mse=0.000159
+[system_20260217_130429.log] 2026-02-17 13:11:41,800 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=4501 degree=2 alpha=0.1 val_mse=0.000337
+[system_20260217_130429.log] 2026-02-17 13:11:41,894 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=4451 degree=2 alpha=0.0 val_mse=0.000135
+[system_20260217_130429.log] 2026-02-17 13:11:42,103 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=4501 degree=2 alpha=0.1 val_mse=0.000140
+[system_20260217_130429.log] 2026-02-17 13:11:42,103 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=4501 degree=2 alpha=0.0 val_mse=0.000172
+[ml_system.log] 2026-02-17 13:12:02,054 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=4701 degree=2 alpha=0.0 val_mse=0.000111
+[ml_system.log] 2026-02-17 13:12:02,388 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=4701 degree=2 alpha=0.0 val_mse=0.000115
+[system_20260217_130429.log] 2026-02-17 13:12:02,054 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=4701 degree=2 alpha=0.0 val_mse=0.000111
+[system_20260217_130429.log] 2026-02-17 13:12:02,388 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=4701 degree=2 alpha=0.0 val_mse=0.000115
+[ml_system.log] 2026-02-17 13:12:02,405 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=4651 degree=2 alpha=0.0 val_mse=0.000112
+[ml_system.log] 2026-02-17 13:12:02,768 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=4701 degree=2 alpha=0.0 val_mse=0.000128
+[ml_system.log] 2026-02-17 13:12:02,770 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=4701 degree=2 alpha=0.1 val_mse=0.000096
+[system_20260217_130429.log] 2026-02-17 13:12:02,405 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=4651 degree=2 alpha=0.0 val_mse=0.000112
+[system_20260217_130429.log] 2026-02-17 13:12:02,768 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=4701 degree=2 alpha=0.0 val_mse=0.000128
+[system_20260217_130429.log] 2026-02-17 13:12:02,770 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=4701 degree=2 alpha=0.1 val_mse=0.000096
+[ml_system.log] 2026-02-17 13:12:22,561 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=4901 degree=2 alpha=0.0 val_mse=0.000072
+[ml_system.log] 2026-02-17 13:12:22,873 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=4901 degree=2 alpha=0.0 val_mse=0.000084
+[ml_system.log] 2026-02-17 13:12:22,935 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=4851 degree=2 alpha=0.0 val_mse=0.000100
+[ml_system.log] 2026-02-17 13:12:23,246 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=4901 degree=2 alpha=0.01 val_mse=0.000060
+[ml_system.log] 2026-02-17 13:12:23,247 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=4901 degree=2 alpha=0.0 val_mse=0.000102
+[system_20260217_130429.log] 2026-02-17 13:12:22,561 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=4901 degree=2 alpha=0.0 val_mse=0.000072
+[system_20260217_130429.log] 2026-02-17 13:12:22,873 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=4901 degree=2 alpha=0.0 val_mse=0.000084
+[system_20260217_130429.log] 2026-02-17 13:12:22,935 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=4851 degree=2 alpha=0.0 val_mse=0.000100
+[system_20260217_130429.log] 2026-02-17 13:12:23,246 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=4901 degree=2 alpha=0.01 val_mse=0.000060
+[system_20260217_130429.log] 2026-02-17 13:12:23,247 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=4901 degree=2 alpha=0.0 val_mse=0.000102
+[ml_system.log] 2026-02-17 13:12:42,985 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=5101 degree=2 alpha=0.0 val_mse=0.000043
+[ml_system.log] 2026-02-17 13:12:43,484 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=5101 degree=2 alpha=0.0 val_mse=0.000075
+[ml_system.log] 2026-02-17 13:12:43,486 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=5051 degree=2 alpha=0.0 val_mse=0.000098
+[ml_system.log] 2026-02-17 13:12:43,745 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=5101 degree=2 alpha=0.01 val_mse=0.000030
+[ml_system.log] 2026-02-17 13:12:43,755 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=5101 degree=2 alpha=0.0 val_mse=0.000092
+[system_20260217_130429.log] 2026-02-17 13:12:42,985 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=5101 degree=2 alpha=0.0 val_mse=0.000043
+[system_20260217_130429.log] 2026-02-17 13:12:43,484 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=5101 degree=2 alpha=0.0 val_mse=0.000075
+[system_20260217_130429.log] 2026-02-17 13:12:43,486 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=5051 degree=2 alpha=0.0 val_mse=0.000098
+[system_20260217_130429.log] 2026-02-17 13:12:43,745 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=5101 degree=2 alpha=0.01 val_mse=0.000030
+[system_20260217_130429.log] 2026-02-17 13:12:43,755 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=5101 degree=2 alpha=0.0 val_mse=0.000092
+[ml_system.log] 2026-02-17 13:13:03,455 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=5301 degree=2 alpha=0.0 val_mse=0.000005
+[ml_system.log] 2026-02-17 13:13:03,889 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=5301 degree=2 alpha=0.0 val_mse=0.000023
+[ml_system.log] 2026-02-17 13:13:03,937 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=5251 degree=2 alpha=0.0 val_mse=0.000024
+[ml_system.log] 2026-02-17 13:13:04,194 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=5301 degree=2 alpha=0.1 val_mse=0.000002
+[ml_system.log] 2026-02-17 13:13:04,256 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=5301 degree=2 alpha=0.0 val_mse=0.000029
+[system_20260217_130429.log] 2026-02-17 13:13:03,455 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=5301 degree=2 alpha=0.0 val_mse=0.000005
+[system_20260217_130429.log] 2026-02-17 13:13:03,889 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=5301 degree=2 alpha=0.0 val_mse=0.000023
+[system_20260217_130429.log] 2026-02-17 13:13:03,937 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=5251 degree=2 alpha=0.0 val_mse=0.000024
+[system_20260217_130429.log] 2026-02-17 13:13:04,194 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=5301 degree=2 alpha=0.1 val_mse=0.000002
+[system_20260217_130429.log] 2026-02-17 13:13:04,256 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=5301 degree=2 alpha=0.0 val_mse=0.000029
+[ml_system.log] 2026-02-17 13:13:24,344 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=5501 degree=2 alpha=0.0 val_mse=0.000002
+[ml_system.log] 2026-02-17 13:13:24,764 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=5451 degree=2 alpha=0.0 val_mse=0.000008
+[ml_system.log] 2026-02-17 13:13:24,767 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=5501 degree=2 alpha=0.0 val_mse=0.000008
+[system_20260217_130429.log] 2026-02-17 13:13:24,344 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=5501 degree=2 alpha=0.0 val_mse=0.000002
+[system_20260217_130429.log] 2026-02-17 13:13:24,764 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=5451 degree=2 alpha=0.0 val_mse=0.000008
+[system_20260217_130429.log] 2026-02-17 13:13:24,767 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=5501 degree=2 alpha=0.0 val_mse=0.000008
+[ml_system.log] 2026-02-17 13:13:25,037 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=5501 degree=2 alpha=0.1 val_mse=0.000001
+[ml_system.log] 2026-02-17 13:13:25,186 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=5501 degree=2 alpha=0.0 val_mse=0.000010
+[system_20260217_130429.log] 2026-02-17 13:13:25,037 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=5501 degree=2 alpha=0.1 val_mse=0.000001
+[system_20260217_130429.log] 2026-02-17 13:13:25,186 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=5501 degree=2 alpha=0.0 val_mse=0.000010
+[ml_system.log] 2026-02-17 13:13:45,076 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=5701 degree=2 alpha=0.0 val_mse=0.000001
+[ml_system.log] 2026-02-17 13:13:45,500 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=5651 degree=2 alpha=0.0 val_mse=0.000004
+[ml_system.log] 2026-02-17 13:13:45,610 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=5701 degree=2 alpha=0.0 val_mse=0.000004
+[ml_system.log] 2026-02-17 13:13:45,835 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=5701 degree=2 alpha=0.1 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:13:46,038 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=5701 degree=2 alpha=0.0 val_mse=0.000005
+[system_20260217_130429.log] 2026-02-17 13:13:45,076 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=5701 degree=2 alpha=0.0 val_mse=0.000001
+[system_20260217_130429.log] 2026-02-17 13:13:45,500 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=5651 degree=2 alpha=0.0 val_mse=0.000004
+[system_20260217_130429.log] 2026-02-17 13:13:45,610 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=5701 degree=2 alpha=0.0 val_mse=0.000004
+[system_20260217_130429.log] 2026-02-17 13:13:45,835 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=5701 degree=2 alpha=0.1 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:13:46,038 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=5701 degree=2 alpha=0.0 val_mse=0.000005
+[ml_system.log] 2026-02-17 13:14:06,135 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=5901 degree=2 alpha=0.0 val_mse=0.000001
+[ml_system.log] 2026-02-17 13:14:06,633 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=5851 degree=2 alpha=0.0 val_mse=0.000003
+[ml_system.log] 2026-02-17 13:14:06,684 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=5901 degree=2 alpha=0.0 val_mse=0.000002
+[ml_system.log] 2026-02-17 13:14:06,904 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=5901 degree=2 alpha=0.1 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:14:07,002 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=5901 degree=2 alpha=0.0 val_mse=0.000003
+[system_20260217_130429.log] 2026-02-17 13:14:06,135 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=5901 degree=2 alpha=0.0 val_mse=0.000001
+[system_20260217_130429.log] 2026-02-17 13:14:06,633 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=5851 degree=2 alpha=0.0 val_mse=0.000003
+[system_20260217_130429.log] 2026-02-17 13:14:06,684 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=5901 degree=2 alpha=0.0 val_mse=0.000002
+[system_20260217_130429.log] 2026-02-17 13:14:06,904 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=5901 degree=2 alpha=0.1 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:14:07,002 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=5901 degree=2 alpha=0.0 val_mse=0.000003
+[ml_system.log] 2026-02-17 13:14:27,014 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=6101 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:14:27,014 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=6101 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:14:27,404 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=6051 degree=2 alpha=0.0 val_mse=0.000002
+[ml_system.log] 2026-02-17 13:14:27,404 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=6051 degree=2 alpha=0.0 val_mse=0.000002
+[ml_system.log] 2026-02-17 13:14:27,417 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=6101 degree=2 alpha=0.0 val_mse=0.000002
+[ml_system.log] 2026-02-17 13:14:27,585 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=6101 degree=2 alpha=0.1 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:14:27,806 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=6101 degree=2 alpha=0.0 val_mse=0.000002
+[system_20260217_130429.log] 2026-02-17 13:14:27,417 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=6101 degree=2 alpha=0.0 val_mse=0.000002
+[system_20260217_130429.log] 2026-02-17 13:14:27,585 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=6101 degree=2 alpha=0.1 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:14:27,806 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=6101 degree=2 alpha=0.0 val_mse=0.000002
+[ml_system.log] 2026-02-17 13:14:47,914 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=6301 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:14:48,425 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=6301 degree=2 alpha=0.0 val_mse=0.000001
+[ml_system.log] 2026-02-17 13:14:48,426 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=6251 degree=2 alpha=0.0 val_mse=0.000001
+[ml_system.log] 2026-02-17 13:14:48,776 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=6301 degree=2 alpha=0.0 val_mse=0.000001
+[system_20260217_130429.log] 2026-02-17 13:14:47,914 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=6301 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:14:48,425 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=6301 degree=2 alpha=0.1 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:14:48,425 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=6301 degree=2 alpha=0.0 val_mse=0.000001
+[system_20260217_130429.log] 2026-02-17 13:14:48,426 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=6251 degree=2 alpha=0.0 val_mse=0.000001
+[system_20260217_130429.log] 2026-02-17 13:14:48,776 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=6301 degree=2 alpha=0.0 val_mse=0.000001
+[ml_system.log] 2026-02-17 13:15:08,515 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=6501 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:15:09,258 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=6451 degree=2 alpha=0.0 val_mse=0.000001
+[ml_system.log] 2026-02-17 13:15:09,279 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=6501 degree=2 alpha=0.1 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:15:09,310 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=6501 degree=2 alpha=0.0 val_mse=0.000001
+[ml_system.log] 2026-02-17 13:15:09,532 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=6501 degree=2 alpha=0.0 val_mse=0.000001
+[system_20260217_130429.log] 2026-02-17 13:15:08,515 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=6501 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:15:09,258 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=6451 degree=2 alpha=0.0 val_mse=0.000001
+[system_20260217_130429.log] 2026-02-17 13:15:09,279 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=6501 degree=2 alpha=0.1 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:15:09,310 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=6501 degree=2 alpha=0.0 val_mse=0.000001
+[system_20260217_130429.log] 2026-02-17 13:15:09,532 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=6501 degree=2 alpha=0.0 val_mse=0.000001
+[ml_system.log] 2026-02-17 13:15:29,428 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=6701 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:15:29,428 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=6701 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:15:30,413 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=6701 degree=2 alpha=0.1 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:15:30,422 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=6701 degree=2 alpha=0.0 val_mse=0.000001
+[ml_system.log] 2026-02-17 13:15:30,424 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=6651 degree=2 alpha=0.0 val_mse=0.000001
+[ml_system.log] 2026-02-17 13:15:30,606 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=6701 degree=2 alpha=0.0 val_mse=0.000001
+[system_20260217_130429.log] 2026-02-17 13:15:30,413 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=6701 degree=2 alpha=0.1 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:15:30,422 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=6701 degree=2 alpha=0.0 val_mse=0.000001
+[system_20260217_130429.log] 2026-02-17 13:15:30,424 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=6651 degree=2 alpha=0.0 val_mse=0.000001
+[system_20260217_130429.log] 2026-02-17 13:15:30,606 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=6701 degree=2 alpha=0.0 val_mse=0.000001
+[ml_system.log] 2026-02-17 13:15:50,317 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=6901 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:15:51,148 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=6851 degree=2 alpha=0.0 val_mse=0.000001
+[ml_system.log] 2026-02-17 13:15:51,338 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=6901 degree=2 alpha=0.1 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:15:51,418 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=6901 degree=2 alpha=0.0 val_mse=0.000001
+[ml_system.log] 2026-02-17 13:15:51,442 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=6901 degree=2 alpha=0.0 val_mse=0.000001
+[system_20260217_130429.log] 2026-02-17 13:15:50,317 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=6901 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:15:51,148 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=6851 degree=2 alpha=0.0 val_mse=0.000001
+[system_20260217_130429.log] 2026-02-17 13:15:51,338 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=6901 degree=2 alpha=0.1 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:15:51,418 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=6901 degree=2 alpha=0.0 val_mse=0.000001
+[system_20260217_130429.log] 2026-02-17 13:15:51,442 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=6901 degree=2 alpha=0.0 val_mse=0.000001
+[ml_system.log] 2026-02-17 13:16:11,183 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=7101 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:16:11,841 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=7051 degree=2 alpha=0.0 val_mse=0.000001
+[ml_system.log] 2026-02-17 13:16:12,100 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=7101 degree=2 alpha=0.1 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:16:12,138 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=7101 degree=2 alpha=0.0 val_mse=0.000001
+[system_20260217_130429.log] 2026-02-17 13:16:11,183 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=7101 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:16:11,841 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=7051 degree=2 alpha=0.0 val_mse=0.000001
+[system_20260217_130429.log] 2026-02-17 13:16:12,100 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=7101 degree=2 alpha=0.1 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:16:12,138 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=7101 degree=2 alpha=0.0 val_mse=0.000001
+[ml_system.log] 2026-02-17 13:16:12,274 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=7101 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:16:12,274 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=7101 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:16:31,855 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=7301 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:16:31,855 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=7301 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:16:32,610 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=7251 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:16:32,885 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=7301 degree=2 alpha=0.0 val_mse=0.000001
+[ml_system.log] 2026-02-17 13:16:32,944 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=7301 degree=2 alpha=0.1 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:16:33,054 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=7301 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:16:32,610 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=7251 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:16:32,885 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=7301 degree=2 alpha=0.0 val_mse=0.000001
+[system_20260217_130429.log] 2026-02-17 13:16:32,944 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=7301 degree=2 alpha=0.1 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:16:33,054 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=7301 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:16:52,739 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=7501 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:16:53,427 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=7451 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:16:53,926 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=7501 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:16:53,930 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=7501 degree=2 alpha=0.1 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:16:54,083 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=7501 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:16:52,739 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=7501 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:16:53,427 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=7451 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:16:53,926 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=7501 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:16:53,930 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=7501 degree=2 alpha=0.1 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:16:54,083 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=7501 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:17:13,620 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=7701 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:17:14,305 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=7651 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:17:13,620 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=7701 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:17:14,305 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=7651 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:17:14,757 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=7701 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:17:14,953 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=7701 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:17:14,957 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=7701 degree=2 alpha=0.1 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:17:14,757 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=7701 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:17:14,953 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=7701 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:17:14,957 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=7701 degree=2 alpha=0.1 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:17:34,489 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=7901 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:17:34,489 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=7901 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:17:35,111 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=7851 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:17:35,624 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=7901 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:17:35,824 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=7901 degree=2 alpha=0.1 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:17:35,111 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=7851 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:17:35,624 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=7901 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:17:35,824 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=7901 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:17:35,824 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=7901 degree=2 alpha=0.1 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:17:55,254 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=8101 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:17:55,949 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=8051 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:17:56,392 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=8101 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:17:56,667 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=8101 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:17:56,672 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=8101 degree=2 alpha=0.1 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:17:55,254 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=8101 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:17:55,949 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=8051 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:17:56,392 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=8101 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:17:56,667 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=8101 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:17:56,672 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=8101 degree=2 alpha=0.1 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:18:16,205 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=8301 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:18:16,767 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=8251 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:18:16,205 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=8301 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:18:16,767 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=8251 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:18:17,514 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=8301 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:18:17,617 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=8301 degree=2 alpha=0.0 val_mse=0.000000
+[ml_system.log] 2026-02-17 13:18:17,687 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=8301 degree=2 alpha=0.1 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:18:17,514 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=8301 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:18:17,617 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=8301 degree=2 alpha=0.0 val_mse=0.000000
+[system_20260217_130429.log] 2026-02-17 13:18:17,687 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=8301 degree=2 alpha=0.1 val_mse=0.000000

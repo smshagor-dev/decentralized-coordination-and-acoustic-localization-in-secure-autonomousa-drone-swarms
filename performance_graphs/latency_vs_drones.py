@@ -61,7 +61,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--max-drones", type=int, default=20, help="Maximum number of drones.")
     parser.add_argument("--step", type=int, default=2, help="Step size for drone count increments.")
     parser.add_argument("--samples", type=int, default=120, help="Latency samples per drone count.")
-    parser.add_argument("--output", type=Path, default=Path("performance_graphs/latency_vs_drones.png"))
+    parser.add_argument("--output", type=Path, default=Path("performance_graphs/img/latency_vs_drones.png"))
     parser.add_argument("--no-show", action="store_true", help="Do not open a window to show the graph.")
     return parser.parse_args()
 

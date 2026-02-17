@@ -28,6 +28,7 @@
 #include <chrono>
 #include <deque>
 #include <mutex>
+#include <unordered_map>
 
 namespace DroneSwarm {
 
@@ -133,6 +134,13 @@ struct LatencyMetrics {
     bool fallback_required = false;
 };
 
+struct SensorConnectionConfig {
+    std::string sensor_name;
+    bool enabled = false;
+    std::string connection_uri;
+    int update_rate_hz = 0;
+};
+
 class LatencyMonitor {
 public:
     explicit LatencyMonitor(size_t window_size = 120, double threshold_ms = 220.0);
@@ -225,6 +233,11 @@ public:
     // Heartbeat
     void sendHeartbeat();
     uint64_t getLastHeartbeat() const;
+
+    // Sensor configuration
+    bool loadSensorConnectionsFromEnv(const std::string& dotenv_path = ".env");
+    std::unordered_map<std::string, SensorConnectionConfig> getSensorConnections() const;
+    SensorConnectionConfig getSensorConnection(const std::string& sensor_name) const;
     
 private:
     class Impl; // Forward declaration for PIMPL

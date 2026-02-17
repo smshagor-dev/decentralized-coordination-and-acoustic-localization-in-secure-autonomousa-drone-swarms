@@ -29,7 +29,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--out-dir",
         type=Path,
-        default=Path("performance_graphs"),
+        default=Path("performance_graphs/img"),
         help="Output directory for generated plots.",
     )
     return parser.parse_args()

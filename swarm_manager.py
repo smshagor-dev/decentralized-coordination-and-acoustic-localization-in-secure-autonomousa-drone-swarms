@@ -104,11 +104,14 @@ class SwarmManager:
         self._log_offsets: Dict[Path, int] = {}
         self._run_id = time.strftime("%Y%m%d_%H%M%S", time.localtime())
         self._runtime_dir = Path("performance_graphs")
-        self._runtime_csv_path = self._runtime_dir / f"runtime_latency_vs_drones_{self._run_id}.csv"
-        self._runtime_png_path = self._runtime_dir / f"latency_timeseries_{self._run_id}.png"
-        self._merged_log_path = self._runtime_dir / f"merged_logs_{self._run_id}.log"
-        self._spike_png_path = self._runtime_dir / f"latency_spike_timeline_{self._run_id}.png"
-        self._spike_csv_path = self._runtime_dir / f"latency_spike_timeline_{self._run_id}.csv"
+        self._runtime_csv_dir = self._runtime_dir / "csv"
+        self._runtime_logs_dir = self._runtime_dir / "logs"
+        self._runtime_img_dir = self._runtime_dir / "img"
+        self._runtime_csv_path = self._runtime_csv_dir / f"runtime_latency_vs_drones_{self._run_id}.csv"
+        self._runtime_png_path = self._runtime_img_dir / f"latency_timeseries_{self._run_id}.png"
+        self._merged_log_path = self._runtime_logs_dir / f"merged_logs_{self._run_id}.log"
+        self._spike_png_path = self._runtime_img_dir / f"latency_spike_timeline_{self._run_id}.png"
+        self._spike_csv_path = self._runtime_csv_dir / f"latency_spike_timeline_{self._run_id}.csv"
         self._latest_latency_stats: Dict[str, float] = {}
 
         # Event-driven leader/follower architecture
@@ -720,6 +723,9 @@ class SwarmManager:
 
     def _init_runtime_artifacts(self):
         self._runtime_dir.mkdir(parents=True, exist_ok=True)
+        self._runtime_csv_dir.mkdir(parents=True, exist_ok=True)
+        self._runtime_logs_dir.mkdir(parents=True, exist_ok=True)
+        self._runtime_img_dir.mkdir(parents=True, exist_ok=True)
         if not self._runtime_csv_path.exists():
             try:
                 with self._runtime_csv_path.open("w", encoding="utf-8") as f:

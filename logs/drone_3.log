@@ -148,3 +148,33 @@
 2026-02-17 11:31:54,556 - Drone_3 - INFO - Drone 3: Role changed from follower to follower
 2026-02-17 11:34:28,710 - Drone_3 - INFO - Drone 3: Returning to home - Leader broadcast RETURN_TO_HOME
 2026-02-17 11:34:44,700 - Drone_3 - INFO - Drone 3 stopped
+2026-02-17 13:04:29,733 - Drone_3 - INFO - Drone 3: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-17 13:04:29,735 - Drone_3 - INFO - Drone 3: Personal ML system initialized
+2026-02-17 13:04:29,736 - Drone_3 - INFO - Drone 3 initialized at {'x': -1400, 'y': -500, 'z': 0}
+2026-02-17 13:04:29,740 - Drone_3 - INFO - Drone 3 started
+2026-02-17 13:05:01,584 - Drone_3 - INFO - Drone 3: Armed
+2026-02-17 13:05:02,577 - Drone_3 - INFO - Drone 3: Taking off
+2026-02-17 13:05:08,212 - Drone_3 - INFO - Drone 3: Flying to {'x': 2503.5942352531274, 'y': 2606.450336353161, 'z': 60.0}
+2026-02-17 13:08:07,277 - Drone_3 - INFO - Drone 3: Returning to home - Leader broadcast RETURN_TO_HOME
+2026-02-17 13:11:06,440 - Drone_3 - INFO - Drone 3: Reached home position
+2026-02-17 13:11:06,442 - Drone_3 - INFO - Drone 3: Landing initiated
+2026-02-17 13:11:06,971 - Drone_3 - INFO - Drone 3: Landed safely
+2026-02-17 13:18:31,205 - Drone_3 - INFO - Drone 3 stopped
+2026-02-17 18:08:37,130 - Drone_3 - INFO - Drone 3: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-17 18:08:37,131 - Drone_3 - INFO - Drone 3: Personal ML system initialized
+2026-02-17 18:08:37,131 - Drone_3 - INFO - Drone 3 initialized at {'x': -1400, 'y': -500, 'z': 0}
+2026-02-17 18:08:37,133 - Drone_3 - INFO - Drone 3 started
+2026-02-17 18:10:04,027 - Drone_3 - INFO - Drone 3: Armed
+2026-02-17 18:10:05,874 - Drone_3 - INFO - Drone 3: Taking off
+2026-02-17 18:10:08,376 - Drone_3 - INFO - Drone 3: Flying to {'x': 2503.5942352531274, 'y': 2606.450336353161, 'z': 60.0}
+2026-02-17 18:11:26,346 - Drone_3 - INFO - Drone 3: Role changed from follower to follower
+2026-02-17 18:14:06,850 - Drone_3 - INFO - Drone 3: Returning to home - Leader broadcast RETURN_TO_HOME
+2026-02-17 18:15:40,112 - Drone_3 - INFO - Drone 3 stopped
+2026-02-17 21:20:06,955 - Drone_3 - INFO - Drone 3: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-17 21:20:06,955 - Drone_3 - INFO - Drone 3: Personal ML system initialized
+2026-02-17 21:20:06,955 - Drone_3 - INFO - Drone 3 initialized at {'x': -1400, 'y': -500, 'z': 0}
+2026-02-17 21:20:06,957 - Drone_3 - INFO - Drone 3 started
+2026-02-17 21:20:20,963 - Drone_3 - INFO - Drone 3: Armed
+2026-02-17 21:20:22,486 - Drone_3 - INFO - Drone 3: Taking off
+2026-02-17 21:20:25,096 - Drone_3 - INFO - Drone 3: Flying to {'x': 2503.5942352531274, 'y': 2606.450336353161, 'z': 60.0}
+2026-02-17 21:22:04,673 - Drone_3 - INFO - Drone 3 stopped
