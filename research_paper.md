@@ -3,7 +3,7 @@
 **Author:** Md Shahanur Islam Shagor  
 **Role:** Project Architect & Lead Developer  
 **Version:** 1.0.2 
-**Status:** Research Paper — Technical Report.
+**Status:** Research Paper - Technical Report.
 
 ---
 
@@ -731,10 +731,7 @@ This weighting prioritizes energy availability (40%) while equally valuing hardw
 ### 8.3 Leader Selection
 
 $$
-\text{leader}
-=
-\arg\max_{d \in \text{active\_drones}}
-S_d
+\text{leader} = \arg\max_{d \in \text{active\_drones}} S_d
 $$
 
 **Implemented in:** `drone.py` → `get_suitability_score()`, `swarm_manager.py` → `elect_leader()`
