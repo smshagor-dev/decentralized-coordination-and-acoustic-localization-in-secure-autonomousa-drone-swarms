@@ -1383,6 +1383,5 @@ $$
 Verification is performed via Ed25519 digital signatures to ensure non-repudiation across the swarm.
 
 ## 20. PDF Documents
-
-- [Drone Return Physics Math Calculation Model (PDF)](Docs/Drone_Return_physics_math_Calculatiion_Model.pdf)
 - [Project Proposal (PDF)](Docs/Project%20Proposal.pdf)
+- [Project Report (PDF)](Docs/DroneSwarm_Report.pdf)
