@@ -64,6 +64,9 @@ flowchart LR
     SM -.optional bridge.- CPP[C++ Controller\ndronecontroller.cpp/.h]
 ```
 
+![System Overview](Docs/system-overview.png)
+![System Architecture](Docs/system_architecher.png)
+
 ### 2.2 Coordination and Command System
 
 ```mermaid
@@ -79,6 +82,8 @@ flowchart TD
     MCOMP --> EBUS
     EBUS --> RTH[RETURN_TO_HOME Broadcast]
 ```
+
+![Drone Subsystem Coordination](Docs/drones-sub-system.png)
 
 ### 2.3 Dynamic Obstacle Avoidance System
 
@@ -402,6 +407,8 @@ High-level swarm states:
   - RETURN_TO_HOME
 - Followers execute commands through event bus, not uncontrolled autonomous drift
 
+![Leader Election Convergence Time](Docs/leader_election_convergence_time.png)
+
 ## 5.3 Mission X->Y and Auto Return
 - Team takeoff from X slots
 - Leader commands movement to Y slots
@@ -447,6 +454,8 @@ High-level swarm states:
   - fallback local geometric avoidance enabled
   - warning event logged and shown in GUI
 
+![Swarm Communication Latency](Docs/swarm_commonication_letency.png)
+
 ## 5.7 Emergency and Fault Handling
 - Motor failure detection (degraded return mode)
 - Personal emergency return per drone
@@ -469,6 +478,8 @@ High-level swarm states:
   - `total_thrust`
 - Failure detection:
   - motor is marked `DEGRADED` when RPM drops `>=10%` vs rolling average.
+
+![Motor Failure Survival Result](Docs/motor%20failur%20survival%20result.png)
   - self-healing mode activates automatically for single-motor degradation.
 - Physics compensation:
   - uses `T = sum(T_i)` to maintain total lift.
@@ -633,6 +644,8 @@ $$
 z_{new}=\max(z_h, z-r_d\Delta t),\quad r_d=0.5V_{land}\ (\text{degraded: }0.6\times 0.5V_{land})
 $$
 
+![Drone Return Physics Math Model](Docs/Drone_Return_physics_math_Calculatiion_Model.png)
+
 ### 13.4 Wind Disturbance + Compensation (Degraded Mode)
 
 $$
@@ -754,6 +767,9 @@ $$
 T_{th}=\text{clip}_{[110,280]}\left(220-\min(70,3\|v\|)-\min(55,0.8(100-P))\right)
 $$
 
+![Average Latency Arrival Time Interval](Docs/Average-latency-arrival-time-interval.png)
+![Runtime vs Drones](Docs/runtime%20vs%20drones.png)
+
 ### 13.9 Acoustic Localization (TDOA)
 
 From `acoustic_tracking.py` with speed of sound \(c=343\,m/s\):
@@ -782,6 +798,9 @@ $$
 \mathrm{local\_only} = \left(T_{\mathrm{rtt,ms}} > T_{\mathrm{acoustic\_limit}}\right)
 $$
 
+![Acoustic Sensor Layout](Docs/sensors-15-13326f2-1024.png)
+![Acoustic Localization Error](Docs/Acoustic_localization_error.png)
+
 ### 13.10 Flying Ledger Integrity
 
 From `flying_ledger.py`:
@@ -802,6 +821,9 @@ $$
 
 Replication accepts block only if index/prev-hash/hash/signature all verify.
 
+![Blockchain Type](Docs/Blockchain%20Type.png)
+![Blockchain Integrity](Docs/blockchain_intergrity.png)
+
 ## 14. Output Artifacts
 
 - `logs/`: system, swarm, per-drone, communication, ML logs
@@ -809,6 +831,9 @@ Replication accepts block only if index/prev-hash/hash/signature all verify.
 - `performance_graphs/img/`: latency plots and spike timelines
 - `performance_graphs/logs/`: merged logs for plotting
 - `models/`: per-drone ML model snapshots (`.npz`)
+
+![CSV Log Snapshot](Docs/csv%20log.png)
+![Result Log Snapshot](Docs/result%20log.png)
 
 ## 15. Research Contributions
 
@@ -1356,3 +1381,8 @@ $$
 $$
 
 Verification is performed via Ed25519 digital signatures to ensure non-repudiation across the swarm.
+
+## 20. PDF Documents
+
+- [Drone Return Physics Math Calculation Model (PDF)](Docs/Drone_Return_physics_math_Calculatiion_Model.pdf)
+- [Project Proposal (PDF)](Docs/Project%20Proposal.pdf)
