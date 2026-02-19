@@ -2,7 +2,7 @@
 
 **Author:** Md Shahanur Islam Shagor  
 **Role:** Project Architect & Lead Developer  
-**Version:** 1.0.2 (Production Ready)  
+**Version:** 1.0.2 
 **Status:** IEEE Research Paper — Full Technical Edition
 
 ---
@@ -76,7 +76,7 @@ The vast majority of deployed drone swarm systems rely on a single ground contro
 
 **Problem 2 — GPS Dependency and Electronic Jamming Vulnerability**
 
-The overwhelming majority of commercial and research drones navigate exclusively by GPS. GPS signals are extremely weak (-130 dBm) at the Earth's surface and are trivially jammed using commercially available RF transmitters costing less than $30. In contested environments — military operations, urban electronic warfare, mountainous terrain with multipath effects, indoor buildings, dense forest canopy, caves, and underground facilities — GPS provides unreliable or completely absent navigation data. A single jamming device can deny GPS to all drones within a multi-kilometer radius simultaneously.
+The overwhelming majority of commercial and research drones navigate exclusively by GPS. GPS signals are extremely weak (-130 dBm) at the Earth's surface and are trivially jammed using commercially available RF transmitters costing less than \$30. In contested environments — military operations, urban electronic warfare, mountainous terrain with multipath effects, indoor buildings, dense forest canopy, caves, and underground facilities — GPS provides unreliable or completely absent navigation data. A single jamming device can deny GPS to all drones within a multi-kilometer radius simultaneously.
 
 **Our Solution:** The **GCC-PHAT** acoustic **TDOA** (Time-Difference-of-Arrival) localization subsystem provides navigation capability with zero dependence on GPS, requiring only that drones carry microphones. By analyzing the time delays of sound arriving at multiple drone-mounted sensors, the system estimates the 2D position of any acoustic source with sub-3-meter accuracy.
 
@@ -553,7 +553,7 @@ Any active state ──[battery < 20% or catastrophic failure]──► EMERGENC
 Battery level evolves as a piecewise constant-rate integral:
 
 $$
-B(t + \Delta t) = \max\!\left(0,\ B(t) - r_{\text{mode}}(t) \cdot \Delta t\right)
+B(t + \Delta t) = \max\left(0,\ B(t) - r_{\text{mode}}(t) \cdot \Delta t\right)
 $$
 
 where $r_{\text{mode}}$ depends on the current flight mode:
@@ -584,7 +584,7 @@ d = \sqrt{\Delta x^2 + \Delta y^2 + \Delta z^2}
 $$
 
 $$
-v = \min\!\left(V_{\max},\ \frac{d}{\Delta t}\right)
+v = \min\left(V_{\max},\ \frac{d}{\Delta t}\right)
 $$
 
 $$
@@ -616,7 +616,7 @@ V_{\max} & \text{normal RTH} \\
 $$
 
 $$
-v = \min\!\left(v_{\text{cap}},\ \frac{d_h}{\Delta t}\right)
+v = \min\left(v_{\text{cap}},\ \frac{d_h}{\Delta t}\right)
 $$
 
 $$
@@ -630,7 +630,7 @@ $$
 The 0.55 wind compensation factor models partial cancellation of aerodynamic disturbances in degraded mode. Altitude descent:
 
 $$
-z_{\text{new}} = \max\!\left(z_h,\ z - r_d \cdot \Delta t\right), \quad r_d = \begin{cases} 0.5 \cdot V_{\text{land}} & \text{normal} \\ 0.3 \cdot V_{\text{land}} & \text{degraded} \end{cases}
+z_{\text{new}} = \max\left(z_h,\ z - r_d \cdot \Delta t\right), \quad r_d = \begin{cases} 0.5 \cdot V_{\text{land}} & \text{normal} \\ 0.3 \cdot V_{\text{land}} & \text{degraded} \end{cases}
 $$
 
 ### 7.6 Wind Disturbance Model (Degraded Mode)
@@ -656,7 +656,7 @@ $$
 The system uses a flat-Earth ENU (East-North-Up) coordinate frame with configurable origin (default: 23.8103°N, 90.4125°E — Dhaka). The flat-Earth approximation is valid for the 10 km operational radius:
 
 $$
-x_E = (\lambda - \lambda_0) \cdot R_e \cdot \cos\!\left(\phi_0 \cdot \frac{\pi}{180}\right) \cdot \frac{\pi}{180}
+x_E = (\lambda - \lambda_0) \cdot R_e \cdot \cos\left(\phi_0 \cdot \frac{\pi}{180}\right) \cdot \frac{\pi}{180}
 $$
 
 $$
@@ -731,9 +731,9 @@ This weighting prioritizes energy availability (40%) while equally valuing hardw
 ### 8.3 Leader Selection
 
 $$
-\mathrm{leader}
+\text{leader}
 =
-\arg\max_{d \in \mathrm{active\_drones}}
+\arg\max_{d \in \text{active\_drones}}
 S_d
 $$
 
@@ -779,7 +779,7 @@ The communication subsystem is designed against a Dolev-Yao adversary [31] who c
 All drones share a pre-provisioned passphrase (`SWARM_KEY`). Each drone independently derives an identical 256-bit AES key using **PBKDF2-HMAC-SHA256** (NIST SP 800-132 compliant):
 
 $$
-K = \text{PBKDF2-HMAC-SHA256}\!\left(\text{password},\ \text{salt},\ c=100{,}000,\ \text{dkLen}=32\ \text{bytes}\right)
+K = \text{PBKDF2-HMAC-SHA256}\left(\text{password},\ \text{salt},\ c=100{,}000,\ \text{dkLen}=32\ \text{bytes}\right)
 $$
 
 The 100,000 iteration count requires approximately 100 ms per derivation attempt, making offline dictionary attacks computationally infeasible for passphrases of 12+ mixed characters.
@@ -928,7 +928,7 @@ where $r = \|(x - c_x, y - c_y)\|_2$ is the orbit radius.
 **Random-walk motion** — stochastically perturbed acceleration with speed cap:
 
 $$
-a_x^{(t+1)} = \text{clip}\!\left(a_x + \delta \cdot 0.15,\ -2.5,\ 2.5\right)\ \text{m/s}^2, \quad \delta \sim \mathcal{U}(-1.2, 1.2)
+a_x^{(t+1)} = \text{clip}\left(a_x + \delta \cdot 0.15,\ -2.5,\ 2.5\right)\ \text{m/s}^2, \quad \delta \sim \mathcal{U}(-1.2, 1.2)
 $$
 
 $$
@@ -960,7 +960,7 @@ This yields up to 10 predicted positions per obstacle providing a trajectory env
 `DynamicObstaclePredictor` maintains a per-obstacle aggressiveness score $\rho_k \in [0,1]$ updated via exponential moving average with learning rate $\lambda = 0.14$:
 
 $$
-\rho_k^{(t+1)} = (1 - \lambda) \cdot \rho_k^{(t)} + \lambda \cdot \min\!\left(1,\ \frac{\|v_{\text{obs}}\|}{20} + \frac{\|a_{\text{obs}}\|}{6}\right)
+\rho_k^{(t+1)} = (1 - \lambda) \cdot \rho_k^{(t)} + \lambda \cdot \min\left(1,\ \frac{\|v_{\text{obs}}\|}{20} + \frac{\|a_{\text{obs}}\|}{6}\right)
 $$
 
 Obstacles with persistent high speed and acceleration accumulate high $\rho$ values, causing the system to treat them with greater avoidance priority.
@@ -978,7 +978,7 @@ $$
 $$
 
 $$
-P_{\text{traj},k} = \min\!\left(1,\ 0.7 \cdot \text{proximity}_k + 0.3 \cdot \rho\right) \cdot \left(1 - \frac{t_k}{H_s}\right)
+P_{\text{traj},k} = \min\left(1,\ 0.7 \cdot \text{proximity}_k + 0.3 \cdot \rho\right) \cdot \left(1 - \frac{t_k}{H_s}\right)
 $$
 
 The time discount factor $(1 - t_k/H_s)$ reduces weight of distant future predictions.
@@ -994,13 +994,13 @@ $$
 **Cone half-angle:**
 
 $$
-\theta_c = \arcsin\!\left(\frac{R_{\text{obs}}}{\max(R_{\text{obs}} + 1,\ \|r\|)}\right)
+\theta_c = \arcsin\left(\frac{R_{\text{obs}}}{\max(R_{\text{obs}} + 1,\ \|r\|)}\right)
 $$
 
 **Angle between relative velocity and line-of-sight:**
 
 $$
-\alpha = \arccos\!\left(\text{clip}\!\left(\hat{v}_{\text{rel}} \cdot \hat{r},\ -1,\ 1\right)\right)
+\alpha = \arccos\left(\text{clip}\left(\hat{v}_{\text{rel}} \cdot \hat{r},\ -1,\ 1\right)\right)
 $$
 
 **Time to closest approach:**
@@ -1012,7 +1012,7 @@ $$
 **Collision cone probability** (only when $\alpha < \theta_c$ and $t_{ca} \in [0, 4]$ s):
 
 $$
-P_{\text{cone}} = \min\!\left(1,\ \left(1 - \frac{\alpha}{\theta_c}\right) \cdot \left(1 - \frac{t_{ca}}{4.0}\right)\right)
+P_{\text{cone}} = \min\left(1,\ \left(1 - \frac{\alpha}{\theta_c}\right) \cdot \left(1 - \frac{t_{ca}}{4.0}\right)\right)
 $$
 
 **Implemented in:** `dynamic_obstacles.py` → `DynamicObstaclePredictor._collision_cone_probability()`
@@ -1135,7 +1135,7 @@ The $\varepsilon$ regularization prevents division by zero in silent frequency b
 **Step 3 — Inverse FFT gives time-domain GCC:**
 
 $$
-\text{gcc}_{ij}(\tau) = \text{IFFT}\!\left(\tilde{G}_{ij}(f)\right)
+\text{gcc}_{ij}(\tau) = \text{IFFT}\left(\tilde{G}_{ij}(f)\right)
 $$
 
 **Step 4 — Delay estimation:**
@@ -1197,7 +1197,7 @@ $$
 **NLS objective:**
 
 $$
-\hat{P}_s = \arg\min_{x_s, y_s} \sum_{j \neq \text{ref}} \rho_{\text{soft}}\!\left(f_j(x_s, y_s)\right)
+\hat{P}_s = \arg\min_{x_s, y_s} \sum_{j \neq \text{ref}} \rho_{\text{soft}}\left(f_j(x_s, y_s)\right)
 $$
 
 where $\rho_{\text{soft}}$ is the soft-L1 (Huber) loss function, providing outlier robustness.
@@ -1220,7 +1220,7 @@ $$
 The RMSE is converted to a confidence score:
 
 $$
-\text{confidence} = \text{clip}\!\left(\frac{1}{1 + \text{RMSE}/6.0},\ 0,\ 1\right)
+\text{confidence} = \text{clip}\left(\frac{1}{1 + \text{RMSE}/6.0},\ 0,\ 1\right)
 $$
 
 At RMSE = 0, confidence = 1.0. At RMSE = 6 m (twice the typical sensor error), confidence = 0.5. Localization results with confidence ≥ 0.65 (configurable) dispatch the swarm to the estimated source position.
@@ -1230,7 +1230,7 @@ At RMSE = 0, confidence = 1.0. At RMSE = 6 m (twice the typical sensor error), c
 When the IPC RTT exceeds the acoustic latency limit (280 ms default), the system switches to local-only mode using only the first 3 sensors. This prevents acoustic processing latency from compounding communication congestion:
 
 $$
-\mathrm{local\_only}
+\text{local\_only}
 =
 \left(
 T_{\mathrm{RTT,ms}}
@@ -1273,7 +1273,7 @@ The block hash covers all critical fields in a deterministic pipe-separated enco
 
 $$
 H_n =
-\mathrm{SHA3\text{-}256}\!\left(
+\mathrm{SHA3\text{-}256}\left(
 \mathtt{n}
 \parallel
 \mathtt{ts}
@@ -1317,9 +1317,9 @@ Telemetry snapshots and event payloads are separately hashed after **determinist
 $$
 H_{\mathrm{tel}}
 =
-\mathrm{SHA3\text{-}256}\!\left(
+\mathrm{SHA3\text{-}256}\left(
 \mathrm{JSON}_{\mathrm{canonical}}
-\!\left(
+\left(
 \mathrm{telemetry\_snapshot}
 \right)
 \right)
@@ -1328,9 +1328,9 @@ $$
 $$
 H_{\mathrm{evt}}
 =
-\mathrm{SHA3\text{-}256}\!\left(
+\mathrm{SHA3\text{-}256}\left(
 \mathrm{JSON}_{\mathrm{canonical}}
-\!\left(
+\left(
 \mathrm{event\_payload}
 \right)
 \right)
@@ -1425,7 +1425,7 @@ B_n.\mathrm{previous\_hash}
 \;\wedge\;
 H_n
 =
-\mathrm{SHA3\text{-}256}\!\left(
+\mathrm{SHA3\text{-}256}\left(
 \mathrm{params}_n
 \right)
 $$
@@ -1466,7 +1466,7 @@ Python sends ──t_py_send──►  Network/IPC  ──t_cpp_recv──► C+
 $$
 T_{c \to p}
 =
-\max\!\left(
+\max\left(
 0,\;
 t_{\mathrm{py\_recv}}
 -
@@ -1479,7 +1479,7 @@ $$
 $$
 T_{\mathrm{proc}}
 =
-\max\!\left(
+\max\left(
 0,\;
 t_{\mathrm{py\_send}}
 -
@@ -1492,7 +1492,7 @@ $$
 $$
 T_{p \to c}
 =
-\max\!\left(
+\max\left(
 0,\;
 t_{\mathrm{cpp\_recv}}
 -
@@ -1505,7 +1505,7 @@ $$
 $$
 T_{\mathrm{RTT}}
 =
-\max\!\left(
+\max\left(
 0,\;
 t_{\mathrm{cpp\_recv}}
 -
@@ -1745,7 +1745,7 @@ $$
 \left(
 1 -
 \frac{
-d\!\left(P_k,\; \mathrm{obs}_j\right)
+d\left(P_k,\; \mathrm{obs}_j\right)
 }{
 R_j + \mathrm{safety\_margin}
 }
@@ -2027,7 +2027,7 @@ $$
 **GCC-PHAT delay estimation:**
 
 $$
-\boxed{\hat{\tau}_{ij} = \frac{1}{f_s} \arg\max_\tau \left|\text{IFFT}\!\left(\frac{\text{FFT}(\text{sig}_i) \cdot \overline{\text{FFT}(\text{sig}_j)}}{|\text{FFT}(\text{sig}_i) \cdot \overline{\text{FFT}(\text{sig}_j)}| + \varepsilon}\right)\right|}
+\boxed{\hat{\tau}_{ij} = \frac{1}{f_s} \arg\max_\tau \left|\text{IFFT}\left(\frac{\text{FFT}(\text{sig}_i) \cdot \overline{\text{FFT}(\text{sig}_j)}}{|\text{FFT}(\text{sig}_i) \cdot \overline{\text{FFT}(\text{sig}_j)}| + \varepsilon}\right)\right|}
 $$
 
 **NLS source localization:**
@@ -2046,7 +2046,7 @@ $$
 
 $$
 \boxed{
-H_n = \mathrm{SHA3\text{-}256}\!\left(
+H_n = \mathrm{SHA3\text{-}256}\left(
 n \;\|\; t_n \;\|\;
 \mathrm{drone\_id} \;\|\;
 H_{\mathrm{tel}} \;\|\;
@@ -2066,7 +2066,7 @@ $$
 \forall n:\;
 H_{n-1} = B_n.\mathrm{prev\_hash}
 \;\wedge\;
-H_n = \mathrm{SHA3\text{-}256}\!\left(\mathrm{params}_n\right)
+H_n = \mathrm{SHA3\text{-}256}\left(\mathrm{params}_n\right)
 $$
 
 ### 18.5 Obstacle Avoidance Velocity Blending
@@ -2086,11 +2086,11 @@ $$
 ### 18.6 Collision Cone Test
 
 $$
-\boxed{P_{\text{cone}} = \min\!\left(1,\; \left(1 - \frac{\alpha}{\theta_c}\right) \cdot \left(1 - \frac{t_{ca}}{4.0}\right)\right), \quad \text{if } \alpha < \theta_c \text{ and } t_{ca} \in [0, 4]}
+\boxed{P_{\text{cone}} = \min\left(1,\; \left(1 - \frac{\alpha}{\theta_c}\right) \cdot \left(1 - \frac{t_{ca}}{4.0}\right)\right), \quad \text{if } \alpha < \theta_c \text{ and } t_{ca} \in [0, 4]}
 $$
 
 $$
-\theta_c = \arcsin\!\left(\frac{R_{\text{obs}}}{\max(R_{\text{obs}}+1, \|r\|)}\right), \quad \alpha = \arccos\!\left(\text{clip}(\hat{v}_{\text{rel}} \cdot \hat{r}, -1, 1)\right)
+\theta_c = \arcsin\left(\frac{R_{\text{obs}}}{\max(R_{\text{obs}}+1, \|r\|)}\right), \quad \alpha = \arccos\left(\text{clip}(\hat{v}_{\text{rel}} \cdot \hat{r}, -1, 1)\right)
 $$
 
 ### 18.7 Battery Discharge
@@ -2102,13 +2102,13 @@ $$
 ### 18.8 Drone Target Kinematics
 
 $$
-\boxed{x_{\text{new}} = x + \frac{\Delta x}{d} \cdot \min\!\left(V_{\max}, \frac{d}{\Delta t}\right) \cdot \Delta t}
+\boxed{x_{\text{new}} = x + \frac{\Delta x}{d} \cdot \min\left(V_{\max}, \frac{d}{\Delta t}\right) \cdot \Delta t}
 $$
 
 ### 18.9 Adaptive Latency Threshold
 
 $$
-\boxed{T_{\text{th}} = \text{clip}_{[80, 500]}\!\left(1.25 \cdot \mu_{\text{RTT}} + 2.5 \cdot \sigma_{\text{RTT}}\right) \quad \text{(ms)}}
+\boxed{T_{\text{th}} = \text{clip}_{[80, 500]}\left(1.25 \cdot \mu_{\text{RTT}} + 2.5 \cdot \sigma_{\text{RTT}}\right) \quad \text{(ms)}}
 $$
 
 ### 18.10 Trajectory Prediction (Second-Order)
@@ -2126,7 +2126,7 @@ $$
 ### 18.12 Aggressiveness Score Update
 
 $$
-\boxed{\rho_k^{(t+1)} = 0.86 \cdot \rho_k^{(t)} + 0.14 \cdot \min\!\left(1,\; \frac{\|v_{\text{obs}}\|}{20} + \frac{\|a_{\text{obs}}\|}{6}\right)}
+\boxed{\rho_k^{(t+1)} = 0.86 \cdot \rho_k^{(t)} + 0.14 \cdot \min\left(1,\; \frac{\|v_{\text{obs}}\|}{20} + \frac{\|a_{\text{obs}}\|}{6}\right)}
 $$
 
 ### 18.13 Motor Fault Detection
@@ -2200,7 +2200,7 @@ $$
 **Wind factor $P(W)$:**
 
 $$
-P(W) = \max\!\left(0,\; 1 - \frac{\|W\|}{W_{\max}} \cdot 0.3\right)
+P(W) = \max\left(0,\; 1 - \frac{\|W\|}{W_{\max}} \cdot 0.3\right)
 $$
 
 ### 19.2 Decision Policy
@@ -2776,3 +2776,5 @@ The framework is available at version 1.0.2 with full source code, comprehensive
 *End of Document — Decentralized Coordination and Acoustic Localization in Secure Autonomous Drone Swarms v1.0.0*
 
 *Author: Md Shahanur Islam Shagor | Version: 1.0.2 | Status: Production Ready*
+
+
