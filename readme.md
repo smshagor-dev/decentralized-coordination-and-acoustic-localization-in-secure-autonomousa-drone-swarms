@@ -63,7 +63,7 @@ flowchart LR
     DRONES --> MLSYS[Personal ML\nml_system.py]
     SM -.optional bridge.- CPP[C++ Controller\ndronecontroller.cpp/.h]
 ```
-
+![System-Level Architecture](Docs/System-Architecture.png)
 ![System Overview](Docs/system-overview.png)
 ![System Architecture](Docs/system_architecher.png)
 
@@ -82,7 +82,7 @@ flowchart TD
     MCOMP --> EBUS
     EBUS --> RTH[RETURN_TO_HOME Broadcast]
 ```
-
+![Coordination and Command System](Docs/communication_flowchart.png)
 ![Drone Subsystem Coordination](Docs/drones-sub-system.png)
 
 ### 2.3 Dynamic Obstacle Avoidance System
@@ -98,6 +98,7 @@ flowchart TD
 
     LATMODE[Fallback Local Avoidance Mode] --> AVOID
 ```
+![Dynamic Obstacle Avoidance System](Docs/Dynamic-Obstacle-Avoidance-System.png)
 
 ### 2.4 Latency and Safety Fallback System
 
@@ -111,6 +112,7 @@ flowchart TD
     BR --> WD{Watchdog timeout?}
     WD -->|Yes| FB
 ```
+![Latency and Safety Fallback System](Docs/Latency-and-Safety-Fallback-System.png)
 
 ### 2.5 Acoustic Localization System
 
@@ -127,6 +129,7 @@ flowchart TD
     LOCAL --> FUSE
     GLOBAL --> FUSE
 ```
+![Acoustic Localization System](Docs/Acoustic-Localization-System.png)
 
 ### 2.6 Secure Communication System
 
@@ -139,6 +142,8 @@ flowchart LR
     DEC --> DEDUP[Sequence-based duplicate filter]
     DEDUP --> HANDLER[Message Handler Dispatch]
 ```
+
+![Secure Communication System](Docs/Secure-Communication-System.png)
 
 ### 2.7 Flying Ledger System
 
@@ -153,6 +158,8 @@ flowchart TD
     VERIFY --> REPL[Replicated append]
 ```
 
+![Flying Ledger System](Docs/Flying-Ledger-System.png)
+
 ### 2.8 C++ Low-Level and Immune Subsystem
 
 ```mermaid
@@ -166,6 +173,7 @@ flowchart TD
     MULTI -->|Yes| RTL[Emergency return mode\nAUTO_RTL]
     TEL --> BAT[Battery drain estimation]
 ```
+
 ### 2.9 Drone-Ledger-Acoustic Integration
 
 ```mermaid
