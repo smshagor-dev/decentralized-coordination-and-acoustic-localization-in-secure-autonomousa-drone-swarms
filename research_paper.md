@@ -1,13 +1,13 @@
-# Decentralized Coordination and Acoustic Localization in Secure Autonomous Drone Swarms v1.0.0
+# Decentralized Coordination and Acoustic Localization in Secure Autonomous Drone Swarms v1.0.2
 
 **Author:** Md Shahanur Islam Shagor  
 **Role:** Project Architect & Lead Developer  
 **Version:** 1.0.2 
-**Status:** IEEE Research Paper — Full Technical Edition
+**Status:** Research Paper — Technical Report.
 
 ---
 
-> *"Protecting the skies with decentralized intelligence."*
+> *"Secure Decentralized Drone Swarm Management System with ML-Driven Obstacle Avoidance, Acoustic Source Localization, and Blockchain-Based Flight Ledger."*
 
 ---
 
@@ -1230,13 +1230,7 @@ At RMSE = 0, confidence = 1.0. At RMSE = 6 m (twice the typical sensor error), c
 When the IPC RTT exceeds the acoustic latency limit (280 ms default), the system switches to local-only mode using only the first 3 sensors. This prevents acoustic processing latency from compounding communication congestion:
 
 $$
-\text{local\_only}
-=
-\left(
-T_{\mathrm{RTT,ms}}
->
-T_{\mathrm{acoustic\_limit}}
-\right)
+\text{local\_only} = \left(T_{\mathrm{RTT,ms}} > T_{\mathrm{acoustic\_limit}}\right)
 $$
 
 ---
@@ -1315,25 +1309,11 @@ The SHA3-256 hash function operates with rate $r = 1088$ bits, capacity $c = 512
 Telemetry snapshots and event payloads are separately hashed after **deterministic canonical JSON serialization** (`sort_keys=True, separators=(',', ':')`) to ensure dictionary key ordering differences do not produce different hashes for identical logical content:
 
 $$
-H_{\mathrm{tel}}
-=
-\mathrm{SHA3\text{-}256}\left(
-\mathrm{JSON}_{\mathrm{canonical}}
-\left(
-\mathrm{telemetry\_snapshot}
-\right)
-\right)
+H_{\mathrm{tel}} = \mathrm{SHA3\text{-}256}\left(\mathrm{JSON}_{\mathrm{canonical}}\left(\mathrm{telemetry\_snapshot}\right)\right)
 $$
 
 $$
-H_{\mathrm{evt}}
-=
-\mathrm{SHA3\text{-}256}\left(
-\mathrm{JSON}_{\mathrm{canonical}}
-\left(
-\mathrm{event\_payload}
-\right)
-\right)
+H_{\mathrm{evt}} = \mathrm{SHA3\text{-}256}\left(\mathrm{JSON}_{\mathrm{canonical}}\left(\mathrm{event\_payload}\right)\right)
 $$
 
 
@@ -1416,18 +1396,7 @@ $$
 `integrity_ok()` scans the entire chain, verifying the hash linkage at every block:
 
 $$
-\mathrm{integrity\_ok}
-\;\iff\;
-\forall n \geq 1:\;
-H_{n-1}
-=
-B_n.\mathrm{previous\_hash}
-\;\wedge\;
-H_n
-=
-\mathrm{SHA3\text{-}256}\left(
-\mathrm{params}_n
-\right)
+\mathrm{integrity\_ok} \iff \forall n \geq 1:\; \left(H_{n-1} = B_n.\mathrm{previous\_hash}\right) \wedge \left(H_n = \mathrm{SHA3\text{-}256}\left(\mathrm{params}_n\right)\right)
 $$
 
 Any single tampered block breaks the hash chain from that point forward, making the tampering immediately detectable by all peers.
@@ -1464,55 +1433,19 @@ Python sends ──t_py_send──►  Network/IPC  ──t_cpp_recv──► C+
 
 **Four derived measurements:**
 $$
-T_{c \to p}
-=
-\max\left(
-0,\;
-t_{\mathrm{py\_recv}}
--
-t_{\mathrm{cpp\_send}}
-\right)
-\quad
-\text{(C++ to Python transit)}
+T_{c \to p} = \max\left(0,\; t_{\mathrm{py\_recv}} - t_{\mathrm{cpp\_send}}\right) \quad \text{(C++ to Python transit)}
 $$
 
 $$
-T_{\mathrm{proc}}
-=
-\max\left(
-0,\;
-t_{\mathrm{py\_send}}
--
-t_{\mathrm{py\_recv}}
-\right)
-\quad
-\text{(Python processing time)}
+T_{\mathrm{proc}} = \max\left(0,\; t_{\mathrm{py\_send}} - t_{\mathrm{py\_recv}}\right) \quad \text{(Python processing time)}
 $$
 
 $$
-T_{p \to c}
-=
-\max\left(
-0,\;
-t_{\mathrm{cpp\_recv}}
--
-t_{\mathrm{py\_send}}
-\right)
-\quad
-\text{(Python to C++ transit)}
+T_{p \to c} = \max\left(0,\; t_{\mathrm{cpp\_recv}} - t_{\mathrm{py\_send}}\right) \quad \text{(Python to C++ transit)}
 $$
 
 $$
-T_{\mathrm{RTT}}
-=
-\max\left(
-0,\;
-t_{\mathrm{cpp\_recv}}
--
-t_{\mathrm{cpp\_send}}
-\right)
-\quad
-\text{(Total round-trip time)}
+T_{\mathrm{RTT}} = \max\left(0,\; t_{\mathrm{cpp\_recv}} - t_{\mathrm{cpp\_send}}\right) \quad \text{(Total round-trip time)}
 $$
 
 
@@ -1537,13 +1470,7 @@ $$
 **Fallback rule:**
 
 $$
-\mathrm{fallback\_required}
-=
-\left(
-\bar{T}_{\mathrm{RTT,ms}}
->
-T_{\mathrm{threshold}}
-\right)
+\mathrm{fallback\_required} = \left(\bar{T}_{\mathrm{RTT,ms}} > T_{\mathrm{threshold}}\right)
 $$
 
 where $T_{\text{threshold}} = 220.0$ ms by default.
@@ -1576,17 +1503,7 @@ The spike injection model allocates 20% of total spike latency to each network d
 ### 13.4 Watchdog Timer
 
 $$
-\mathrm{watchdog\_timeout}
-=
-\left(
-t_{\mathrm{now}}
--
-t_{\mathrm{last\_response}}
->
-T_{\mathrm{watchdog}}
-\right),
-\quad
-T_{\mathrm{watchdog}} = 1.8\,\mathrm{s}
+\mathrm{watchdog\_timeout} = \left(t_{\mathrm{now}} - t_{\mathrm{last\_response}} > T_{\mathrm{watchdog}}\right), \quad T_{\mathrm{watchdog}} = 1.8\,\mathrm{s}
 $$
 
 If the bridge fails to respond for 1.8 seconds (approximately 18 missed monitor ticks), the watchdog fires and activates fallback mode independently of the RTT threshold.
@@ -1739,17 +1656,7 @@ class Obstacle:
 Samples the drone's future trajectory at 0.5-second intervals over a 3-second horizon. For each future position, checks the minimum distance to all registered obstacles. Maps minimum distance to collision risk ∈ [0, 1]:
 
 $$
-\mathrm{risk}
-=
-\max_k \max_j
-\left(
-1 -
-\frac{
-d\left(P_k,\; \mathrm{obs}_j\right)
-}{
-R_j + \mathrm{safety\_margin}
-}
-\right)_+
+\mathrm{risk} = \max_k \max_j \left(1 - \frac{d\left(P_k,\; \mathrm{obs}_j\right)}{R_j + \mathrm{safety\_margin}}\right)_+
 $$
 
 ### 15.4 Path Collision Check
@@ -2776,5 +2683,4 @@ The framework is available at version 1.0.2 with full source code, comprehensive
 *End of Document — Decentralized Coordination and Acoustic Localization in Secure Autonomous Drone Swarms v1.0.0*
 
 *Author: Md Shahanur Islam Shagor | Version: 1.0.2 | Status: Production Ready*
-
 
