@@ -169,34 +169,34 @@ Self-healing under motor failure for quadrotors was analyzed by Mueller and D'An
 The system is organized in six functional layers with strict dependency hierarchy:
 
 ```
-┌─────────────────────────────────────────────────────────┐
+┌──────────────────────────────────────────────────────────┐
 │  LAYER 6: GUI / Operator Console (gui.py, PyQt5)         │
-├─────────────────────────────────────────────────────────┤
+├──────────────────────────────────────────────────────────┤
 │  LAYER 5: Security Layer                                 │
 │    ├── Flying Ledger (flying_ledger.py)                  │
 │    └── Secure Communication (communication.py)           │
-├─────────────────────────────────────────────────────────┤
+├──────────────────────────────────────────────────────────┤
 │  LAYER 4: Swarm Coordination Layer                       │
 │    ├── SwarmManager (swarm_manager.py)                   │
 │    ├── Leader-Follower Logic (leader_follower_logic.py)  │
 │    └── Formation Control (ml_system.py)                  │
-├─────────────────────────────────────────────────────────┤
+├──────────────────────────────────────────────────────────┤
 │  LAYER 3: Sensing and Intelligence Layer                 │
 │    ├── Acoustic Tracking (acoustic_tracking.py)          │
 │    ├── Dynamic Obstacle Avoidance (dynamic_obstacles.py) │
 │    └── Personal ML (ml_system.py)                        │
-├─────────────────────────────────────────────────────────┤
+├──────────────────────────────────────────────────────────┤
 │  LAYER 2: Drone Core Layer (drone.py)                    │
 │    ├── Flight State Machine                              │
 │    ├── Battery Model                                     │
 │    ├── GPS Transformation                                │
 │    └── Latency Monitor (latency_monitor.py)              │
-├─────────────────────────────────────────────────────────┤
+├──────────────────────────────────────────────────────────┤
 │  LAYER 1: Hardware Abstraction Layer                     │
 │    ├── C++ DroneController (dronecontroller.h/.cpp)      │
 │    ├── MAVLink / PX4 Interface                           │
 │    └── Motor Health Monitor                              │
-└─────────────────────────────────────────────────────────┘
+└──────────────────────────────────────────────────────────┘
 ```
 
 ### 3.2 System-Level Data Flow
@@ -205,9 +205,9 @@ The system is organized in six functional layers with strict dependency hierarch
 GUI (PyQt5)
     │  operator commands
     ▼
-SwarmManager ──────────────────────────────────────────────────┐
+SwarmManager ───────────────────────────────────────────────────┐
     │                                                           │
-    ├── elect_leader() ◄── suitability_score() × N drones      │
+    ├── elect_leader() ◄── suitability_score() × N drones       │
     │                                                           │
     ├── _monitor_loop() [100ms tick]                            │
     │       ├── _monitor_heartbeats()                           │
@@ -220,7 +220,7 @@ SwarmManager ──────────────────────�
     │                                                           │
     ├── AcousticTrackingSystem                                  │
     │       ├── CrossCorrelationEngine (GCC-PHAT)               │
-    │       ├── TDOAEstimator                                    │
+    │       ├── TDOAEstimator                                   │
     │       └── AcousticFusionEngine (NLS)                      │
     │                                                           │
     ├── FlyingLedger × N drones                                 │
@@ -234,14 +234,14 @@ SwarmManager ──────────────────────�
             └── RTT / Jitter / Watchdog                         │
                                                                 │
 Drone Fleet (drone.py × N)                                      │
-    ├── Flight State Machine                                     │
+    ├── Flight State Machine                                    │
     ├── Battery Model                                           │
     ├── goto() / takeoff() / land() / RTH()                     │
     ├── Personal ML Trainer (ml_system.py)                      │
     └── MAVSDK Bridge (real drone mode)                         │
             │                                                   │
             ▼                                                   │
-    C++ DroneController ◄──────────────────────────────────────┘
+    C++ DroneController ◄───────────────────────────────────────┘
             ├── MAVLink telemetry
             ├── Motor Health Monitoring
             ├── Thrust Redistribution
@@ -645,7 +645,7 @@ $$
 g_x = w_x \cdot (0.65 + 0.35 \sin\phi), \quad g_y = w_y \cdot (0.65 + 0.35 \cos(0.9\phi))
 $$
 
-Initial wind vector initialized per drone at offset angle $\phi_0 = 1.37 \times \text{drone\_id}$ rad:
+Initial wind vector initialized per drone at offset angle $\phi_0 = 1.37 \times \mathrm{drone\_id}$ rad:
 
 $$
 (w_x, w_y) = \left(1.2\cos\phi_0,\ 1.2\sin\phi_0\right), \quad \|(w_x, w_y)\| = 1.2 \text{ m/s}
@@ -731,7 +731,10 @@ This weighting prioritizes energy availability (40%) while equally valuing hardw
 ### 8.3 Leader Selection
 
 $$
-\text{leader} = \arg\max_{d \in \text{active\_drones}} S_d
+\mathrm{leader}
+=
+\arg\max_{d \in \mathrm{active\_drones}}
+S_d
 $$
 
 **Implemented in:** `drone.py` → `get_suitability_score()`, `swarm_manager.py` → `elect_leader()`
@@ -822,7 +825,14 @@ The GCM authentication tag is a 128-bit MAC that covers both the ciphertext and 
 Because AES-GCM with random IV does not prevent replay of valid frames, application-layer replay prevention is implemented:
 
 $$
-\text{Accept}(\text{msg}) \iff \text{seq}(\text{msg}) > \text{last\_seq}[\text{sender\_id}(\text{msg})]
+\mathrm{Accept}(\mathrm{msg})
+\;\iff\;
+\mathrm{seq}(\mathrm{msg})
+>
+\mathrm{last\_seq}
+\left[
+\mathrm{sender\_id}(\mathrm{msg})
+\right]
 $$
 
 Sequence numbers are monotonically increasing per sender and reset only on drone reboot. Messages with sequence numbers ≤ the last accepted number are silently discarded.
@@ -1220,7 +1230,13 @@ At RMSE = 0, confidence = 1.0. At RMSE = 6 m (twice the typical sensor error), c
 When the IPC RTT exceeds the acoustic latency limit (280 ms default), the system switches to local-only mode using only the first 3 sensors. This prevents acoustic processing latency from compounding communication congestion:
 
 $$
-\text{local\_only} = \left(T_{\text{RTT,ms}} > T_{\text{acoustic\_limit}}\right)
+\mathrm{local\_only}
+=
+\left(
+T_{\mathrm{RTT,ms}}
+>
+T_{\mathrm{acoustic\_limit}}
+\right)
 $$
 
 ---
@@ -1256,7 +1272,20 @@ class Block:
 The block hash covers all critical fields in a deterministic pipe-separated encoding:
 
 $$
-H_n = \text{SHA3-256}\!\left(\texttt{n} \mid\mid \texttt{ts} \mid\mid \texttt{drone\_id} \mid\mid H_{\text{tel}} \mid\mid H_{\text{evt}} \mid\mid H_{n-1}\right)
+H_n =
+\mathrm{SHA3\text{-}256}\!\left(
+\mathtt{n}
+\parallel
+\mathtt{ts}
+\parallel
+\mathtt{drone\_id}
+\parallel
+H_{\mathrm{tel}}
+\parallel
+H_{\mathrm{evt}}
+\parallel
+H_{n-1}
+\right)
 $$
 
 **Implemented in:** `flying_ledger.py` → `FlyingLedger.compute_block_hash()`
@@ -1286,12 +1315,27 @@ The SHA3-256 hash function operates with rate $r = 1088$ bits, capacity $c = 512
 Telemetry snapshots and event payloads are separately hashed after **deterministic canonical JSON serialization** (`sort_keys=True, separators=(',', ':')`) to ensure dictionary key ordering differences do not produce different hashes for identical logical content:
 
 $$
-H_{\text{tel}} = \text{SHA3-256}\!\left(\text{JSON}_{\text{canonical}}(\text{telemetry\_snapshot})\right)
+H_{\mathrm{tel}}
+=
+\mathrm{SHA3\text{-}256}\!\left(
+\mathrm{JSON}_{\mathrm{canonical}}
+\!\left(
+\mathrm{telemetry\_snapshot}
+\right)
+\right)
 $$
 
 $$
-H_{\text{evt}} = \text{SHA3-256}\!\left(\text{JSON}_{\text{canonical}}(\text{event\_payload})\right)
+H_{\mathrm{evt}}
+=
+\mathrm{SHA3\text{-}256}\!\left(
+\mathrm{JSON}_{\mathrm{canonical}}
+\!\left(
+\mathrm{event\_payload}
+\right)
+\right)
 $$
+
 
 **Implemented in:** `flying_ledger.py` → `_stable_serialize()`, `_sha3_hex()`
 
@@ -1372,7 +1416,18 @@ $$
 `integrity_ok()` scans the entire chain, verifying the hash linkage at every block:
 
 $$
-\text{integrity\_ok} \iff \forall n \geq 1: H_{n-1} = B_n.\text{previous\_hash} \;\wedge\; H_n = \text{SHA3-256}(\text{params}_n)
+\mathrm{integrity\_ok}
+\;\iff\;
+\forall n \geq 1:\;
+H_{n-1}
+=
+B_n.\mathrm{previous\_hash}
+\;\wedge\;
+H_n
+=
+\mathrm{SHA3\text{-}256}\!\left(
+\mathrm{params}_n
+\right)
 $$
 
 Any single tampered block breaks the hash chain from that point forward, making the tampering immediately detectable by all peers.
@@ -1408,22 +1463,58 @@ Python sends ──t_py_send──►  Network/IPC  ──t_cpp_recv──► C+
 ```
 
 **Four derived measurements:**
+$$
+T_{c \to p}
+=
+\max\!\left(
+0,\;
+t_{\mathrm{py\_recv}}
+-
+t_{\mathrm{cpp\_send}}
+\right)
+\quad
+\text{(C++ to Python transit)}
+$$
 
 $$
-T_{c \to p} = \max(0,\ t_{\text{py\_recv}} - t_{\text{cpp\_send}}) \quad \text{(C++ to Python transit)}
+T_{\mathrm{proc}}
+=
+\max\!\left(
+0,\;
+t_{\mathrm{py\_send}}
+-
+t_{\mathrm{py\_recv}}
+\right)
+\quad
+\text{(Python processing time)}
 $$
 
 $$
-T_{\text{proc}} = \max(0,\ t_{\text{py\_send}} - t_{\text{py\_recv}}) \quad \text{(Python processing time)}
+T_{p \to c}
+=
+\max\!\left(
+0,\;
+t_{\mathrm{cpp\_recv}}
+-
+t_{\mathrm{py\_send}}
+\right)
+\quad
+\text{(Python to C++ transit)}
 $$
 
 $$
-T_{p \to c} = \max(0,\ t_{\text{cpp\_recv}} - t_{\text{py\_send}}) \quad \text{(Python to C++ transit)}
+T_{\mathrm{RTT}}
+=
+\max\!\left(
+0,\;
+t_{\mathrm{cpp\_recv}}
+-
+t_{\mathrm{cpp\_send}}
+\right)
+\quad
+\text{(Total round-trip time)}
 $$
 
-$$
-T_{\text{RTT}} = \max(0,\ t_{\text{cpp\_recv}} - t_{\text{cpp\_send}}) \quad \text{(total round-trip time)}
-$$
 
 Note: $T_{\text{RTT}} = T_{c \to p} + T_{\text{proc}} + T_{p \to c}$ in the absence of clock drift.
 
@@ -1446,7 +1537,13 @@ $$
 **Fallback rule:**
 
 $$
-\text{fallback\_required} = \left(\bar{T}_{\text{RTT,ms}} > T_{\text{threshold}}\right)
+\mathrm{fallback\_required}
+=
+\left(
+\bar{T}_{\mathrm{RTT,ms}}
+>
+T_{\mathrm{threshold}}
+\right)
 $$
 
 where $T_{\text{threshold}} = 220.0$ ms by default.
@@ -1479,7 +1576,17 @@ The spike injection model allocates 20% of total spike latency to each network d
 ### 13.4 Watchdog Timer
 
 $$
-\text{watchdog\_timeout} = \left(t_{\text{now}} - t_{\text{last\_response}} > T_{\text{watchdog}}\right), \quad T_{\text{watchdog}} = 1.8\ \text{s}
+\mathrm{watchdog\_timeout}
+=
+\left(
+t_{\mathrm{now}}
+-
+t_{\mathrm{last\_response}}
+>
+T_{\mathrm{watchdog}}
+\right),
+\quad
+T_{\mathrm{watchdog}} = 1.8\,\mathrm{s}
 $$
 
 If the bridge fails to respond for 1.8 seconds (approximately 18 missed monitor ticks), the watchdog fires and activates fallback mode independently of the RTT threshold.
@@ -1632,7 +1739,17 @@ class Obstacle:
 Samples the drone's future trajectory at 0.5-second intervals over a 3-second horizon. For each future position, checks the minimum distance to all registered obstacles. Maps minimum distance to collision risk ∈ [0, 1]:
 
 $$
-\text{risk} = \max_k \max_j \left(1 - \frac{d(P_k, \text{obs}_j)}{R_j + \text{safety\_margin}}\right)_+
+\mathrm{risk}
+=
+\max_k \max_j
+\left(
+1 -
+\frac{
+d\!\left(P_k,\; \mathrm{obs}_j\right)
+}{
+R_j + \mathrm{safety\_margin}
+}
+\right)_+
 $$
 
 ### 15.4 Path Collision Check
@@ -1765,7 +1882,12 @@ A motor showing ≥10% RPM deviation from the rolling average target is classifi
 When $N_{\text{fail}}$ motors are declared non-operational, thrust is redistributed among $N_{\text{op}} = 4 - N_{\text{fail}}$ healthy motors:
 
 $$
-T_k^{\text{adj}} = T_{\text{nominal}} \cdot \frac{N_{\text{total}}}{N_{\text{op}}}, \quad \forall k \in \text{operational\_motors}
+T_k^{\mathrm{adj}} =
+T_{\mathrm{nominal}}
+\cdot
+\frac{N_{\mathrm{total}}}{N_{\mathrm{op}}},
+\quad
+\forall k \in \mathrm{operational\_motors}
 $$
 
 **Single-motor failure protocol** (following Mueller and D'Andrea [30]):
@@ -1923,7 +2045,15 @@ $$
 ### 18.4 Flying Ledger Blockchain (SHA3-256 + Ed25519)
 
 $$
-\boxed{H_n = \text{SHA3-256}\!\left(n \;\|\; t_n \;\|\; \text{drone\_id} \;\|\; H_{\text{tel}} \;\|\; H_{\text{evt}} \;\|\; H_{n-1}\right)}
+\boxed{
+H_n = \mathrm{SHA3\text{-}256}\!\left(
+n \;\|\; t_n \;\|\;
+\mathrm{drone\_id} \;\|\;
+H_{\mathrm{tel}} \;\|\;
+H_{\mathrm{evt}} \;\|\;
+H_{n-1}
+\right)
+}
 $$
 
 $$
@@ -1931,7 +2061,12 @@ $$
 $$
 
 $$
-\text{integrity\_ok} \iff \forall n: H_{n-1} = B_n.\text{prev\_hash} \;\wedge\; H_n = \text{SHA3-256}(\text{params}_n)
+\mathrm{integrity\_ok}
+\;\iff\;
+\forall n:\;
+H_{n-1} = B_n.\mathrm{prev\_hash}
+\;\wedge\;
+H_n = \mathrm{SHA3\text{-}256}\!\left(\mathrm{params}_n\right)
 $$
 
 ### 18.5 Obstacle Avoidance Velocity Blending
@@ -2045,7 +2180,7 @@ $$
 **Battery factor $P(B)$:**
 
 $$
-P(B) = \min\!\left(1.0,\; \frac{B_{\text{current}}}{B_{\text{required}} + B_{\text{safety\_margin}}}\right)
+P(B)=\min\left(1,\frac{B_{\mathrm{current}}}{B_{\mathrm{required}}+B_{\mathrm{safety\_margin}}}\right)
 $$
 
 **Motor integrity factor $P(M)$** (from C++ Immune System):
