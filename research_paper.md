@@ -2,7 +2,7 @@
 
 **Author:** Md Shahanur Islam Shagor  
 **Role:** Project Architect & Lead Developer  
-**Version:** 1.0.2 
+**Version:** 1.0.2
 **Status:** Research Paper - Technical Report.
 
 ---
@@ -731,7 +731,7 @@ This weighting prioritizes energy availability (40%) while equally valuing hardw
 ### 8.3 Leader Selection
 
 $$
-\text{leader} = \arg\max_{d \in \text{active\_drones}} S_d
+\text{leader} = \arg\max_{d \in \mathcal{D}_{\mathrm{active}}} S_d
 $$
 
 **Implemented in:** `drone.py` → `get_suitability_score()`, `swarm_manager.py` → `elect_leader()`
@@ -1227,7 +1227,7 @@ At RMSE = 0, confidence = 1.0. At RMSE = 6 m (twice the typical sensor error), c
 When the IPC RTT exceeds the acoustic latency limit (280 ms default), the system switches to local-only mode using only the first 3 sensors. This prevents acoustic processing latency from compounding communication congestion:
 
 $$
-\text{local\_only} = \left(T_{\mathrm{RTT,ms}} > T_{\mathrm{acoustic\_limit}}\right)
+\mathrm{localOnly} = \left(T_{\mathrm{RTT,ms}} > T_{\mathrm{acousticLimit}}\right)
 $$
 
 ---
