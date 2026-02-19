@@ -20485,3 +20485,8 @@
 2026-02-18 17:43:18,904 - Drone_5 - WARNING - Drone 5: Critical battery 17.9%
 2026-02-18 17:43:19,005 - Drone_5 - WARNING - Drone 5: Critical battery 17.9%
 2026-02-18 17:43:19,107 - Drone_5 - INFO - Drone 5 stopped
+2026-02-19 14:59:09,296 - Drone_5 - INFO - Drone 5: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-19 14:59:09,297 - Drone_5 - INFO - Drone 5: Personal ML system initialized
+2026-02-19 14:59:09,297 - Drone_5 - INFO - Drone 5 initialized at {'x': -900, 'y': 1600, 'z': 0}
+2026-02-19 14:59:09,298 - Drone_5 - INFO - Drone 5 started
+2026-02-19 14:59:24,676 - Drone_5 - INFO - Drone 5 stopped

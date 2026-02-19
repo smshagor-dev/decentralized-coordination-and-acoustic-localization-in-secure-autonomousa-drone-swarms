@@ -173,6 +173,7 @@ flowchart TD
     MULTI -->|Yes| RTL[Emergency return mode\nAUTO_RTL]
     TEL --> BAT[Battery drain estimation]
 ```
+![C++ Low-Level and Immune Subsystem](Docs/Low-Level-and-Immune-Subsystem.png)
 
 ### 2.9 Drone-Ledger-Acoustic Integration
 
@@ -214,6 +215,11 @@ flowchart LR
     EV --> D2
     EV --> D3
 ```
+
+![Drone-Ledger-Acoustic Integration](Docs/Drone-swrame-leader.png)
+
+### Drone Swrame Architecture
+
 ```mermaid
 graph TD
     A[Ground Control Station / GUI] -->|Encrypted Commands| B(Swarm Manager)
@@ -234,7 +240,7 @@ graph TD
 
 ```
 
-
+![Drone Swrame Architecture](Docs/Drone-Swrame-Architecture.png)
 
 ## 3. Core Modules
 

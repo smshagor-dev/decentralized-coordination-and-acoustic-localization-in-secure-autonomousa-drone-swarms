@@ -1701,3 +1701,15 @@
 2026-02-18 12:26:31,852 - SwarmManager - INFO - Leader-follow enabled=False
 2026-02-18 12:26:31,853 - SwarmManager - INFO - Leader command received: TAKEOFF by drone=1
 2026-02-18 17:43:19,108 - SwarmManager - INFO - Swarm monitoring stopped
+2026-02-19 14:59:09,211 - SwarmManager - INFO - Swarm Manager initialized
+2026-02-19 14:59:09,256 - SwarmManager - INFO - Drone 1 added to swarm
+2026-02-19 14:59:09,257 - SwarmManager - INFO - Starting leader election...
+2026-02-19 14:59:09,257 - SwarmManager - INFO -   Drone 1: suitability score = 100.00
+2026-02-19 14:59:09,257 - SwarmManager - INFO - Drone 1 elected as new LEADER (score: 100.00)
+2026-02-19 14:59:09,268 - SwarmManager - INFO - Drone 2 added to swarm
+2026-02-19 14:59:09,278 - SwarmManager - INFO - Drone 3 added to swarm
+2026-02-19 14:59:09,288 - SwarmManager - INFO - Drone 4 added to swarm
+2026-02-19 14:59:09,299 - SwarmManager - INFO - Drone 5 added to swarm
+2026-02-19 14:59:09,303 - SwarmManager - INFO - Auto obstacle field initialized with 22 dynamic obstacles (center=-60.0, -20.0, radius=2600.0)
+2026-02-19 14:59:09,309 - SwarmManager - INFO - Swarm monitoring started
+2026-02-19 14:59:24,677 - SwarmManager - INFO - Swarm monitoring stopped

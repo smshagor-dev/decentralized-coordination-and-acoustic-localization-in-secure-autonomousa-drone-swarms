@@ -21332,3 +21332,9 @@
 2026-02-18 17:43:18,600 - Drone_1 - WARNING - Drone 1: Critical battery 17.9%
 2026-02-18 17:43:18,701 - Drone_1 - WARNING - Drone 1: Critical battery 17.9%
 2026-02-18 17:43:18,802 - Drone_1 - INFO - Drone 1 stopped
+2026-02-19 14:59:09,227 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-19 14:59:09,228 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-19 14:59:09,228 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-19 14:59:09,255 - Drone_1 - INFO - Drone 1 started
+2026-02-19 14:59:09,257 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-19 14:59:24,374 - Drone_1 - INFO - Drone 1 stopped

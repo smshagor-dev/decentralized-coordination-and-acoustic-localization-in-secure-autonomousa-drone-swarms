@@ -1,0 +1,68 @@
+2026-02-19 14:59:09,210 - Main - INFO - Starting Drone Swarm Management System
+2026-02-19 14:59:09,212 - MLDecisionSupport_Drone1 - INFO - ML Decision Support initialized
+2026-02-19 14:59:09,227 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=250 degree=2 alpha=0.0 val_mse=0.000155
+2026-02-19 14:59:09,227 - Drone_1 - INFO - Drone 1: bootstrap personal trainer loaded 250 rows from datasets/personal_drone_1.csv
+2026-02-19 14:59:09,228 - Drone_1 - INFO - Drone 1: Personal ML system initialized
+2026-02-19 14:59:09,228 - Drone_1 - INFO - Drone 1 initialized at {'x': 0, 'y': 0, 'z': 0}
+2026-02-19 14:59:09,255 - Drone_1 - INFO - Drone 1 started
+2026-02-19 14:59:09,257 - Drone_1 - INFO - Drone 1: Role changed from follower to leader
+2026-02-19 14:59:09,258 - MLDecisionSupport_Drone2 - INFO - ML Decision Support initialized
+2026-02-19 14:59:09,258 - PhysicalMLTrainer_Drone1 - INFO - Physical ML model trained drone=1 samples=251 degree=2 alpha=0.0 val_mse=0.000157
+2026-02-19 14:59:09,265 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=300 degree=2 alpha=0.1 val_mse=0.000128
+2026-02-19 14:59:09,265 - Drone_2 - INFO - Drone 2: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-19 14:59:09,266 - Drone_2 - INFO - Drone 2: Personal ML system initialized
+2026-02-19 14:59:09,266 - Drone_2 - INFO - Drone 2 initialized at {'x': 1200, 'y': 300, 'z': 0}
+2026-02-19 14:59:09,268 - Drone_2 - INFO - Drone 2 started
+2026-02-19 14:59:09,269 - MLDecisionSupport_Drone3 - INFO - ML Decision Support initialized
+2026-02-19 14:59:09,270 - PhysicalMLTrainer_Drone2 - INFO - Physical ML model trained drone=2 samples=301 degree=2 alpha=0.1 val_mse=0.000128
+2026-02-19 14:59:09,276 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=300 degree=2 alpha=0.1 val_mse=0.000128
+2026-02-19 14:59:09,276 - Drone_3 - INFO - Drone 3: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-19 14:59:09,276 - Drone_3 - INFO - Drone 3: Personal ML system initialized
+2026-02-19 14:59:09,276 - Drone_3 - INFO - Drone 3 initialized at {'x': -1400, 'y': -500, 'z': 0}
+2026-02-19 14:59:09,277 - Drone_3 - INFO - Drone 3 started
+2026-02-19 14:59:09,279 - MLDecisionSupport_Drone4 - INFO - ML Decision Support initialized
+2026-02-19 14:59:09,280 - PhysicalMLTrainer_Drone3 - INFO - Physical ML model trained drone=3 samples=301 degree=2 alpha=0.1 val_mse=0.000128
+2026-02-19 14:59:09,286 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=300 degree=2 alpha=0.1 val_mse=0.000128
+2026-02-19 14:59:09,286 - Drone_4 - INFO - Drone 4: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-19 14:59:09,287 - Drone_4 - INFO - Drone 4: Personal ML system initialized
+2026-02-19 14:59:09,287 - Drone_4 - INFO - Drone 4 initialized at {'x': 800, 'y': -1500, 'z': 0}
+2026-02-19 14:59:09,288 - Drone_4 - INFO - Drone 4 started
+2026-02-19 14:59:09,290 - MLDecisionSupport_Drone5 - INFO - ML Decision Support initialized
+2026-02-19 14:59:09,290 - PhysicalMLTrainer_Drone4 - INFO - Physical ML model trained drone=4 samples=301 degree=2 alpha=0.1 val_mse=0.000128
+2026-02-19 14:59:09,296 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=300 degree=2 alpha=0.1 val_mse=0.000128
+2026-02-19 14:59:09,296 - Drone_5 - INFO - Drone 5: bootstrap personal trainer loaded 300 rows from datasets/personal_training.csv
+2026-02-19 14:59:09,297 - Drone_5 - INFO - Drone 5: Personal ML system initialized
+2026-02-19 14:59:09,297 - Drone_5 - INFO - Drone 5 initialized at {'x': -900, 'y': 1600, 'z': 0}
+2026-02-19 14:59:09,298 - Drone_5 - INFO - Drone 5 started
+2026-02-19 14:59:09,300 - ObstacleManager - INFO - Dynamic obstacle added id=1 type=linear start=(298.4, -267.3) vel=(4.8, -1.5)
+2026-02-19 14:59:09,300 - ObstacleManager - INFO - Dynamic obstacle added id=2 type=random_walk start=(347.9, 3.7) vel=(-1.8, -6.4)
+2026-02-19 14:59:09,300 - ObstacleManager - INFO - Dynamic obstacle added id=3 type=circular start=(432.7, 625.9) vel=(2.0, -5.7)
+2026-02-19 14:59:09,301 - ObstacleManager - INFO - Dynamic obstacle added id=4 type=circular start=(-2028.8, -1535.6) vel=(-3.9, -8.7)
+2026-02-19 14:59:09,301 - ObstacleManager - INFO - Dynamic obstacle added id=5 type=circular start=(963.0, -1316.8) vel=(-10.9, 0.1)
+2026-02-19 14:59:09,301 - ObstacleManager - INFO - Dynamic obstacle added id=6 type=random_walk start=(444.7, 813.6) vel=(-0.1, -5.2)
+2026-02-19 14:59:09,301 - ObstacleManager - INFO - Dynamic obstacle added id=7 type=linear start=(1365.6, 320.0) vel=(5.3, 9.6)
+2026-02-19 14:59:09,301 - ObstacleManager - INFO - Dynamic obstacle added id=8 type=circular start=(746.7, 999.8) vel=(5.0, -5.1)
+2026-02-19 14:59:09,301 - ObstacleManager - INFO - Dynamic obstacle added id=9 type=random_walk start=(1334.6, 1427.9) vel=(3.5, -5.2)
+2026-02-19 14:59:09,302 - ObstacleManager - INFO - Dynamic obstacle added id=10 type=circular start=(-565.7, 1267.7) vel=(-3.6, 6.5)
+2026-02-19 14:59:09,302 - ObstacleManager - INFO - Dynamic obstacle added id=11 type=linear start=(498.6, -308.3) vel=(-6.8, 0.5)
+2026-02-19 14:59:09,302 - ObstacleManager - INFO - Dynamic obstacle added id=12 type=linear start=(131.5, -114.5) vel=(-3.7, 8.4)
+2026-02-19 14:59:09,302 - ObstacleManager - INFO - Dynamic obstacle added id=13 type=linear start=(-463.1, -2382.0) vel=(1.2, 3.7)
+2026-02-19 14:59:09,302 - ObstacleManager - INFO - Dynamic obstacle added id=14 type=linear start=(-206.1, -1967.7) vel=(-4.5, 9.5)
+2026-02-19 14:59:09,302 - ObstacleManager - INFO - Dynamic obstacle added id=15 type=random_walk start=(-1420.4, 191.6) vel=(0.7, -3.4)
+2026-02-19 14:59:09,303 - ObstacleManager - INFO - Dynamic obstacle added id=16 type=circular start=(145.6, 1678.0) vel=(-2.5, -0.7)
+2026-02-19 14:59:09,303 - PhysicalMLTrainer_Drone5 - INFO - Physical ML model trained drone=5 samples=301 degree=2 alpha=0.1 val_mse=0.000128
+2026-02-19 14:59:09,303 - ObstacleManager - INFO - Dynamic obstacle added id=17 type=random_walk start=(-538.7, -25.7) vel=(-2.2, -8.2)
+2026-02-19 14:59:09,303 - ObstacleManager - INFO - Dynamic obstacle added id=18 type=linear start=(-729.1, -2054.4) vel=(4.7, 1.8)
+2026-02-19 14:59:09,303 - ObstacleManager - INFO - Dynamic obstacle added id=19 type=linear start=(-98.2, -263.9) vel=(1.5, -3.8)
+2026-02-19 14:59:09,303 - ObstacleManager - INFO - Dynamic obstacle added id=20 type=circular start=(1988.4, 351.6) vel=(-2.5, 9.1)
+2026-02-19 14:59:09,303 - ObstacleManager - INFO - Dynamic obstacle added id=21 type=random_walk start=(-834.8, 1649.2) vel=(2.3, 1.8)
+2026-02-19 14:59:09,303 - ObstacleManager - INFO - Dynamic obstacle added id=22 type=linear start=(64.1, -655.6) vel=(-8.4, 6.9)
+2026-02-19 14:59:09,309 - Main - INFO - Swarm created with 5 drones
+2026-02-19 14:59:09,309 - Main - INFO - Leader elected: Drone 1
+2026-02-19 14:59:09,309 - Main - INFO - Starting GUI...
+2026-02-19 14:59:24,374 - Drone_1 - INFO - Drone 1 stopped
+2026-02-19 14:59:24,475 - Drone_2 - INFO - Drone 2 stopped
+2026-02-19 14:59:24,566 - Drone_3 - INFO - Drone 3 stopped
+2026-02-19 14:59:24,574 - Drone_4 - INFO - Drone 4 stopped
+2026-02-19 14:59:24,676 - Drone_5 - INFO - Drone 5 stopped
+2026-02-19 14:59:24,678 - Main - INFO - System shutdown complete
