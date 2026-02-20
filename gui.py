@@ -1271,33 +1271,42 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(central_widget)
         main_layout = QHBoxLayout(central_widget)
         main_layout.setContentsMargins(12, 12, 12, 12)
-        main_layout.setSpacing(10)
+        panel_gap = 10
+        main_layout.setSpacing(panel_gap)
         
         # Left panel - latency monitor + status + logs
         left_container = QWidget()
+        left_container.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
         left_panel = QVBoxLayout(left_container)
         left_panel.setContentsMargins(0, 0, 0, 0)
-        left_panel.setSpacing(10)
+        left_panel.setSpacing(panel_gap)
+
+        left_content = QWidget()
+        left_content_layout = QVBoxLayout(left_content)
+        left_content_layout.setContentsMargins(0, 0, 0, 0)
+        left_content_layout.setSpacing(panel_gap)
 
         latency_group = self._create_latency_panel()
-        left_panel.addWidget(latency_group, 2)
+        left_content_layout.addWidget(latency_group)
 
         metrics_group = self._create_metrics_panel()
-        left_panel.addWidget(metrics_group, 2)
+        left_content_layout.addWidget(metrics_group)
 
         status_group = self._create_status_panel()
-        status_scroll = QScrollArea()
-        status_scroll.setWidgetResizable(True)
-        status_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        status_scroll.setWidget(status_group)
-        left_panel.addWidget(status_scroll, 3)
+        left_content_layout.addWidget(status_group)
 
         ml_group = self._create_physical_ml_panel()
-        ml_scroll = QScrollArea()
-        ml_scroll.setWidgetResizable(True)
-        ml_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        ml_scroll.setWidget(ml_group)
-        left_panel.addWidget(ml_scroll, 2)
+        left_content_layout.addWidget(ml_group)
+
+        personal_ml_group = self._create_personal_ml_panel()
+        left_content_layout.addWidget(personal_ml_group)
+        left_content_layout.addStretch(1)
+
+        left_scroll = QScrollArea()
+        left_scroll.setWidgetResizable(True)
+        left_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        left_scroll.setWidget(left_content)
+        left_panel.addWidget(left_scroll, 1)
 
         # Center panel - swarm visualization
         viz_group = QGroupBox("Swarm Visualization")
@@ -1312,29 +1321,33 @@ class MainWindow(QMainWindow):
         viz_layout.addWidget(self.viz_tabs, 5)
 
         # Bottom area inside center visualization:
-        # left -> logs, right -> prediction summary table.
+        # left column -> swarm status table + system logs, right -> prediction summary table.
         viz_bottom_row = QHBoxLayout()
-        viz_bottom_row.setSpacing(8)
-        log_group = self._create_log_panel()
+        viz_bottom_row.setSpacing(panel_gap)
+        center_left_col = QVBoxLayout()
+        center_left_col.setSpacing(panel_gap)
+        swarm_status_table_group = self._create_swarm_status_table_panel()
+        log_group_center = self._create_log_panel()
         prediction_group = self._create_prediction_panel()
-        viz_bottom_row.addWidget(log_group, 3)
+        center_left_col.addWidget(swarm_status_table_group, 3)
+        center_left_col.addWidget(log_group_center, 2)
+        viz_bottom_row.addLayout(center_left_col, 3)
         viz_bottom_row.addWidget(prediction_group, 2)
         viz_layout.addLayout(viz_bottom_row, 2)
         viz_group.setLayout(viz_layout)
 
         # Right panel - controls only (scrollable)
         right_container = QWidget()
-        right_container.setMinimumWidth(380)
+        right_container.setMinimumWidth(320)
+        right_container.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
         right_panel = QVBoxLayout(right_container)
         right_panel.setContentsMargins(0, 0, 0, 0)
-        right_panel.setSpacing(10)
+        right_panel.setSpacing(panel_gap)
         control_group = self._create_control_panel()
         control_scroll = QScrollArea()
         control_scroll.setWidgetResizable(True)
         control_scroll.setWidget(control_group)
         control_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        control_scroll.setMinimumHeight(420)
-        control_scroll.setMaximumHeight(16777215)
         right_panel.addWidget(control_scroll, 1)
 
         main_layout.addWidget(left_container, 2)
@@ -2034,7 +2047,16 @@ class MainWindow(QMainWindow):
             self.ledger_value_labels[key] = value
         layout.addLayout(ledger_grid)
         
-        # Drone table
+        group.setLayout(layout)
+        return group
+
+    def _create_swarm_status_table_panel(self):
+        """Create standalone swarm status table panel (center-bottom)."""
+        group = QGroupBox("Swarm Status Table")
+        layout = QVBoxLayout()
+        layout.setContentsMargins(6, 8, 6, 6)
+        layout.setSpacing(4)
+
         self.drone_table = QTableWidget()
         self.drone_table.setColumnCount(6)
         self.drone_table.setHorizontalHeaderLabels([
@@ -2058,7 +2080,7 @@ class MainWindow(QMainWindow):
         self.drone_table.verticalScrollBar().setSingleStep(20)
         self.drone_table.setAlternatingRowColors(True)
         self.drone_table.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        self.drone_table.setMinimumHeight(120)
+        self.drone_table.setMinimumHeight(180)
         self.drone_table.setMaximumHeight(16777215)
         self.drone_table.setSortingEnabled(True)
         self.drone_table.itemSelectionChanged.connect(self._on_drone_selection_changed)
@@ -2068,7 +2090,80 @@ class MainWindow(QMainWindow):
         return group
 
     def _create_physical_ml_panel(self):
-        """Create dedicated Physical ML Trainer container."""
+        """Create dedicated blockchain status container."""
+        group = QGroupBox("Blockchain Sync")
+        layout = QVBoxLayout()
+        layout.setContentsMargins(6, 8, 6, 6)
+        layout.setSpacing(4)
+
+        hash_tables_row = QHBoxLayout()
+        hash_tables_row.setSpacing(6)
+
+        self.sha2_table = QTableWidget()
+        self.sha2_table.setColumnCount(2)
+        self.sha2_table.setRowCount(1)
+        self.sha2_table.setHorizontalHeaderLabels(["SHA2 Sync", "Status"])
+        self.sha2_table.verticalHeader().setVisible(False)
+        self.sha2_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
+        self.sha2_table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeToContents)
+        self.sha2_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.sha2_table.setSelectionMode(QAbstractItemView.NoSelection)
+        self.sha2_table.setFocusPolicy(Qt.NoFocus)
+        self.sha2_table.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.sha2_table.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.sha2_table.setMinimumHeight(59)
+        self.sha2_table.setMaximumHeight(59)
+        self.sha2_table.setItem(0, 0, QTableWidgetItem("Blockchain SHA2"))
+        self.sha2_table.setItem(0, 1, QTableWidgetItem("\u26AA"))
+
+        self.sha3_table = QTableWidget()
+        self.sha3_table.setColumnCount(2)
+        self.sha3_table.setRowCount(1)
+        self.sha3_table.setHorizontalHeaderLabels(["SHA3 Sync", "Status"])
+        self.sha3_table.verticalHeader().setVisible(False)
+        self.sha3_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
+        self.sha3_table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeToContents)
+        self.sha3_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.sha3_table.setSelectionMode(QAbstractItemView.NoSelection)
+        self.sha3_table.setFocusPolicy(Qt.NoFocus)
+        self.sha3_table.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.sha3_table.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.sha3_table.setMinimumHeight(62)
+        self.sha3_table.setMaximumHeight(62)
+        self.sha3_table.setItem(0, 0, QTableWidgetItem("Blockchain SHA3"))
+        self.sha3_table.setItem(0, 1, QTableWidgetItem("\u26AA"))
+
+        hash_tables_row.addWidget(self.sha2_table, 1)
+        hash_tables_row.addWidget(self.sha3_table, 1)
+        layout.addLayout(hash_tables_row)
+
+        group.setLayout(layout)
+        return group
+    
+    def _create_log_panel(self):
+        """Create log panel"""
+        group = QGroupBox("System Logs")
+        layout = QVBoxLayout()
+        layout.setContentsMargins(6, 8, 6, 6)
+        layout.setSpacing(4)
+        
+        self.log_text = QTextEdit()
+        self.log_text.setReadOnly(True)
+        self.log_text.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.log_text.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.log_text.setMinimumHeight(120)
+        layout.addWidget(self.log_text)
+        
+        clear_btn = QPushButton("Clear Logs")
+        clear_btn.clicked.connect(lambda: self.log_text.clear())
+        clear_btn.setMinimumHeight(30)
+        layout.addWidget(clear_btn)
+        
+        group.setLayout(layout)
+        return group
+
+    def _create_personal_ml_panel(self):
+        """Create dedicated Physical ML trainer table under blockchain."""
         group = QGroupBox("Physical ML Trainer")
         layout = QVBoxLayout()
         layout.setContentsMargins(6, 8, 6, 6)
@@ -2090,70 +2185,9 @@ class MainWindow(QMainWindow):
         self.physical_ml_table.setFocusPolicy(Qt.NoFocus)
         self.physical_ml_table.setAlternatingRowColors(True)
         self.physical_ml_table.setMinimumHeight(120)
-        self.physical_ml_table.setMaximumHeight(240)
+        self.physical_ml_table.setMaximumHeight(220)
         layout.addWidget(self.physical_ml_table)
 
-        group.setLayout(layout)
-        return group
-    
-    def _create_log_panel(self):
-        """Create log panel"""
-        group = QGroupBox("System Logs")
-        layout = QVBoxLayout()
-        layout.setContentsMargins(6, 8, 6, 6)
-        layout.setSpacing(4)
-        
-        self.log_text = QTextEdit()
-        self.log_text.setReadOnly(True)
-        self.log_text.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.log_text.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        self.log_text.setMinimumHeight(120)
-        layout.addWidget(self.log_text)
-
-        hash_tables_row = QHBoxLayout()
-        hash_tables_row.setSpacing(6)
-
-        self.sha2_table = QTableWidget()
-        self.sha2_table.setColumnCount(2)
-        self.sha2_table.setRowCount(1)
-        self.sha2_table.setHorizontalHeaderLabels(["SHA2 Sync", "Status"])
-        self.sha2_table.verticalHeader().setVisible(False)
-        self.sha2_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
-        self.sha2_table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeToContents)
-        self.sha2_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.sha2_table.setSelectionMode(QAbstractItemView.NoSelection)
-        self.sha2_table.setFocusPolicy(Qt.NoFocus)
-        self.sha2_table.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.sha2_table.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.sha2_table.setMinimumHeight(62)
-        self.sha2_table.setItem(0, 0, QTableWidgetItem("Blockchain SHA2"))
-        self.sha2_table.setItem(0, 1, QTableWidgetItem("âšª"))
-
-        self.sha3_table = QTableWidget()
-        self.sha3_table.setColumnCount(2)
-        self.sha3_table.setRowCount(1)
-        self.sha3_table.setHorizontalHeaderLabels(["SHA3 Sync", "Status"])
-        self.sha3_table.verticalHeader().setVisible(False)
-        self.sha3_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
-        self.sha3_table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeToContents)
-        self.sha3_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.sha3_table.setSelectionMode(QAbstractItemView.NoSelection)
-        self.sha3_table.setFocusPolicy(Qt.NoFocus)
-        self.sha3_table.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.sha3_table.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.sha3_table.setMinimumHeight(62)
-        self.sha3_table.setItem(0, 0, QTableWidgetItem("Blockchain SHA3"))
-        self.sha3_table.setItem(0, 1, QTableWidgetItem("âšª"))
-
-        hash_tables_row.addWidget(self.sha2_table, 1)
-        hash_tables_row.addWidget(self.sha3_table, 1)
-        layout.addLayout(hash_tables_row)
-        
-        clear_btn = QPushButton("Clear Logs")
-        clear_btn.clicked.connect(lambda: self.log_text.clear())
-        clear_btn.setMinimumHeight(30)
-        layout.addWidget(clear_btn)
-        
         group.setLayout(layout)
         return group
     
