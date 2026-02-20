@@ -4,3 +4,12 @@
 # Python cache
 __pycache__/
 *.pyc
+
+# Runtime outputs
+logs/
+performance_graph/csv/
+performance_graph/img/
+performance_graph/log/
+performance_graphs/csv/
+performance_graphs/img/
+performance_graphs/log/

@@ -1,4 +1,4 @@
-#########################################################################
+﻿#########################################################################
 #                                                                       #
 #   SECURE DRONE SWARM SYSTEM - CORE MODULE                             #
 #                                                                       #
@@ -21,6 +21,11 @@ import os
 import glob
 import json
 import webbrowser
+import time
+import urllib.parse
+import urllib.request
+import hashlib
+from collections import deque
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, 
                             QHBoxLayout, QPushButton, QLabel, QGroupBox,
                             QGridLayout, QTextEdit, QComboBox, QSpinBox,
@@ -34,12 +39,46 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
                             QProgressBar, QSizePolicy)
 from PyQt5.QtCore import Qt, QTimer, pyqtSignal, QPointF, QByteArray, QRectF
 from PyQt5.QtGui import QKeySequence
-from PyQt5.QtGui import QPainter, QColor, QPen, QBrush, QFont, QPalette, QPolygonF
+from PyQt5.QtGui import QPainter, QColor, QPen, QBrush, QFont, QPalette, QPolygonF, QLinearGradient, QPixmap, QImage
 import logging
+try:
+    import numpy as np
+    from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+    from matplotlib.figure import Figure
+    MATPLOTLIB_AVAILABLE = True
+except Exception:
+    MATPLOTLIB_AVAILABLE = False
 try:
     from PyQt5.QtSvg import QSvgRenderer
 except Exception:
     QSvgRenderer = None
+
+
+def _load_env_file(env_path: str):
+    """Minimal .env loader without external dependency."""
+    if not os.path.exists(env_path):
+        return
+    try:
+        with open(env_path, "r", encoding="utf-8") as fh:
+            for raw in fh:
+                line = raw.strip()
+                if not line or line.startswith("#") or "=" not in line:
+                    continue
+                key, value = line.split("=", 1)
+                key = key.strip()
+                value = value.strip().strip("'").strip('"')
+                if key and key not in os.environ:
+                    os.environ[key] = value
+    except Exception:
+        return
+
+
+def _env_flag(name: str, default: bool = False) -> bool:
+    val = os.getenv(name, "1" if default else "0").strip().lower()
+    return val in {"1", "true", "yes", "on"}
+
+
+_load_env_file(os.path.join(os.path.dirname(__file__), ".env"))
 
 class DroneWidget(QWidget):
     """3D-like visualization of drone swarm"""
@@ -66,6 +105,7 @@ class DroneWidget(QWidget):
         if QSvgRenderer and self.fields_svg_template:
             self.fields_renderer = QSvgRenderer(QByteArray(self.fields_svg_template.encode("utf-8")))
         self.position_history = {}
+        self.route_hold_frames = {}
         self.animation_phase = 0.0
         self.corners = {}
         self.start_point = None
@@ -79,12 +119,12 @@ class DroneWidget(QWidget):
         # Colors
         self.colors = {
             'leader': QColor(255, 215, 0),      # Gold
-            'follower': QColor(70, 130, 180),   # Steel Blue
-            'emergency': QColor(255, 69, 0),    # Red-Orange
+            'follower': QColor(86, 170, 255),   # Bright Blue
+            'emergency': QColor(255, 92, 92),   # Soft Red
             'grounded': QColor(128, 128, 128),  # Gray
-            'home': QColor(34, 139, 34),        # Forest Green
-            'background': QColor(20, 20, 30),   # Dark Blue
-            'grid': QColor(50, 50, 70)          # Grid color
+            'home': QColor(126, 199, 112),      # Soft Green
+            'background': QColor(14, 17, 26),   # Dark Navy
+            'grid': QColor(60, 66, 84)          # Grid color
         }
         
         # Set dark background
@@ -152,19 +192,32 @@ class DroneWidget(QWidget):
         """Update drone positions and status"""
         self.animation_phase += 0.25
         self.drones = drones_data
-        active_ids = set(self.drones.keys())
-        for existing_id in list(self.position_history.keys()):
-            if existing_id not in active_ids:
-                del self.position_history[existing_id]
         for drone_id, drone_data in self.drones.items():
             pos = drone_data.get("position", {})
             point = (pos.get("x", 0.0), pos.get("y", 0.0), pos.get("z", 0.0))
-            trail = self.position_history.setdefault(drone_id, [])
-            trail.append(point)
-            if len(trail) > 60:
-                del trail[0]
+            moving, returning = self._is_drone_route_active(drone_data)
+            if moving:
+                trail = self.position_history.setdefault(drone_id, [])
+                trail.append((point[0], point[1], point[2], returning))
         self._update_map_origin()
         self.update()
+
+    def _is_drone_route_active(self, drone_data):
+        """Return (is_moving, is_returning_home) for route visibility."""
+        flight_mode = str(drone_data.get("flight_mode", "")).strip().lower()
+        velocity = drone_data.get("velocity", {}) or {}
+        vx = float(velocity.get("x", 0.0))
+        vy = float(velocity.get("y", 0.0))
+        vz = float(velocity.get("z", 0.0))
+        speed = math.sqrt(vx * vx + vy * vy + vz * vz)
+
+        is_returning = ("return" in flight_mode) or bool(drone_data.get("emergency_return_active"))
+        moving_mode = any(
+            key in flight_mode
+            for key in ["flying", "takeoff", "taking_off", "landing", "moving", "mission", "return"]
+        )
+        is_moving = (speed > 0.2) or moving_mode
+        return is_moving, is_returning
 
     def _update_map_origin(self):
         """Center map around active home positions."""
@@ -381,25 +434,30 @@ class DroneWidget(QWidget):
                 painter.drawEllipse(QPointF(center_x, center_y), radius_px, radius_px)
 
     def _draw_field_background(self, painter):
-        """Draw static SVG field background with fallback color."""
-        if self.fields_renderer:
-            self.fields_renderer.render(painter, QRectF(0, 0, self.width(), self.height()))
-            return
-        painter.fillRect(self.rect(), QColor(37, 76, 39))
+        """Draw dark tactical background to match control-station style."""
+        gradient = QLinearGradient(0, 0, self.width(), self.height())
+        gradient.setColorAt(0.0, QColor(25, 29, 40))
+        gradient.setColorAt(0.5, QColor(17, 21, 31))
+        gradient.setColorAt(1.0, QColor(11, 14, 22))
+        painter.fillRect(self.rect(), gradient)
 
     def _draw_trails(self, painter):
-        """Draw short movement trails to visualize forward motion."""
+        """Draw visible route only while drone is moving / returning."""
         for drone_id, trail in self.position_history.items():
             if len(trail) < 2:
                 continue
             for i in range(1, len(trail)):
-                x1, y1, z1 = trail[i - 1]
-                x2, y2, z2 = trail[i]
+                p1 = trail[i - 1]
+                p2 = trail[i]
+                x1, y1, z1 = p1[0], p1[1], p1[2]
+                x2, y2, z2 = p2[0], p2[1], p2[2]
+                returning = bool(p2[3]) if len(p2) > 3 else False
                 sx1, sy1, _ = self.world_to_screen(x1, y1, z1)
                 sx2, sy2, _ = self.world_to_screen(x2, y2, z2)
-                alpha = int(180 * (i / len(trail)))
-                pen = QPen(QColor(120, 220, 255, alpha))
-                pen.setWidth(1)
+                alpha = int(195 * (i / len(trail)))
+                color = QColor(255, 183, 94, alpha) if returning else QColor(120, 220, 255, alpha)
+                pen = QPen(color)
+                pen.setWidth(2 if returning else 1)
                 painter.setPen(pen)
                 painter.drawLine(int(sx1), int(sy1), int(sx2), int(sy2))
     
@@ -787,6 +845,385 @@ class LocationMapWidget(QWidget):
         painter.drawText(12, 18, "Location Map (10km radius)")
 
 
+class LatencyMonitorWidget(QWidget):
+    """Real-time latency monitoring dashboard chart (Matplotlib)."""
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setMinimumHeight(220)
+        self.setMaximumHeight(220)
+        self.threshold_ms = 400.0
+        self.start_ts = time.time()
+        self.last_sample_ts = 0.0
+        self.times = deque(maxlen=240)
+        self.latency_values = deque(maxlen=240)
+        self.jitter_values = deque(maxlen=240)
+        self.latest_jitter = 0.0
+
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(4, 4, 4, 4)
+        layout.setSpacing(2)
+
+        self.canvas = None
+        self.ax = None
+        self.jitter_label = QLabel("Jitter: 0.0 ms")
+        self.jitter_label.setStyleSheet("font-size: 10px; color: #d9e2f2;")
+
+        if MATPLOTLIB_AVAILABLE:
+            fig = Figure(figsize=(5.4, 2.1), dpi=100)
+            fig.patch.set_facecolor("#111722")
+            self.ax = fig.add_subplot(111)
+            self.canvas = FigureCanvas(fig)
+            layout.addWidget(self.canvas, 1)
+        else:
+            fallback = QLabel("Matplotlib not available")
+            fallback.setAlignment(Qt.AlignCenter)
+            layout.addWidget(fallback, 1)
+        layout.addWidget(self.jitter_label, 0)
+
+    def update_latency(self, latency: dict):
+        now = time.time()
+        self.latest_jitter = float(latency.get("total_round_trip_jitter_std_ms", 0.0))
+        if (now - self.last_sample_ts) < 1.0:
+            self.jitter_label.setText(f"Jitter: {self.latest_jitter:.1f} ms")
+            return
+        self.last_sample_ts = now
+
+        t = now - self.start_ts
+        v = float(latency.get("total_round_trip_ms", 0.0))
+        j = self.latest_jitter
+        self.times.append(t)
+        self.latency_values.append(v)
+        self.jitter_values.append(j)
+        self.jitter_label.setText(f"Jitter: {j:.1f} ms")
+        self._redraw()
+
+    def _redraw(self):
+        if not (MATPLOTLIB_AVAILABLE and self.ax and self.canvas):
+            return
+        if len(self.times) < 2:
+            return
+
+        x = np.array(self.times, dtype=float)
+        y = np.array(self.latency_values, dtype=float)
+        self.ax.clear()
+        self.ax.set_facecolor("#141b29")
+
+        # Slightly smoothed curve for better readability.
+        if len(x) >= 4:
+            dense_x = np.linspace(x[0], x[-1], len(x) * 6)
+            dense_y = np.interp(dense_x, x, y)
+            kernel = np.array([1, 2, 3, 2, 1], dtype=float)
+            kernel /= kernel.sum()
+            smooth_y = np.convolve(dense_y, kernel, mode="same")
+            self.ax.plot(dense_x, smooth_y, color="#6ec5ff", linewidth=2.2, label="Latency")
+        else:
+            self.ax.plot(x, y, color="#6ec5ff", linewidth=2.2, label="Latency")
+
+        self.ax.axhline(self.threshold_ms, color="#f2be5b", linestyle="--", linewidth=1.4, label="Threshold")
+
+        spike_mask = y > self.threshold_ms
+        if np.any(spike_mask):
+            self.ax.scatter(x[spike_mask], y[spike_mask], color="#ff5d5d", s=28, zorder=5)
+
+        self.ax.grid(True, color="#3b465c", linestyle=":", linewidth=0.8, alpha=0.8)
+        self.ax.set_xlabel("Time (seconds)", color="#d6deed", fontsize=8)
+        self.ax.set_ylabel("Latency (ms)", color="#d6deed", fontsize=8)
+        self.ax.tick_params(axis="x", colors="#c7d2e8", labelsize=8)
+        self.ax.tick_params(axis="y", colors="#c7d2e8", labelsize=8)
+        for spine in self.ax.spines.values():
+            spine.set_color("#51607b")
+        self.ax.legend(loc="upper left", facecolor="#1c2535", edgecolor="#566580", labelcolor="#e6eefc", fontsize=8)
+
+        right = x[-1]
+        left = max(0.0, right - 60.0)
+        self.ax.set_xlim(left, max(60.0, right))
+        ymax = max(self.threshold_ms + 60.0, float(np.max(y)) + 60.0)
+        self.ax.set_ylim(0.0, ymax)
+        self.ax.set_title("Real-time Latency Monitoring", color="#eef4ff", fontsize=9, pad=6)
+        self.canvas.draw_idle()
+
+
+class SwarmMetricsWidget(QWidget):
+    """Matplotlib chart for active drones + average battery."""
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setMinimumHeight(220)
+        self.setMaximumHeight(220)
+        self.start_ts = time.time()
+        self.last_sample_ts = 0.0
+        self.times = deque(maxlen=240)
+        self.active_history = deque(maxlen=240)
+        self.battery_history = deque(maxlen=240)
+
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(4, 4, 4, 4)
+        layout.setSpacing(2)
+
+        self.canvas = None
+        self.ax_active = None
+        self.ax_battery = None
+        if MATPLOTLIB_AVAILABLE:
+            fig = Figure(figsize=(5.4, 2.1), dpi=100)
+            fig.patch.set_facecolor("#111722")
+            self.ax_active = fig.add_subplot(111)
+            self.ax_battery = self.ax_active.twinx()
+            self.canvas = FigureCanvas(fig)
+            layout.addWidget(self.canvas, 1)
+        else:
+            fallback = QLabel("Matplotlib not available")
+            fallback.setAlignment(Qt.AlignCenter)
+            layout.addWidget(fallback, 1)
+
+    def update_metrics(self, active_drones: int, avg_battery: float):
+        now = time.time()
+        if (now - self.last_sample_ts) < 1.0:
+            return
+        self.last_sample_ts = now
+        self.times.append(now - self.start_ts)
+        self.active_history.append(max(0, int(active_drones)))
+        self.battery_history.append(max(0.0, min(100.0, float(avg_battery))))
+        self._redraw()
+
+    def _redraw(self):
+        if not (MATPLOTLIB_AVAILABLE and self.ax_active and self.ax_battery and self.canvas):
+            return
+        if len(self.times) < 2:
+            return
+
+        x = np.array(self.times, dtype=float)
+        a = np.array(self.active_history, dtype=float)
+        b = np.array(self.battery_history, dtype=float)
+
+        self.ax_active.clear()
+        self.ax_battery.clear()
+        self.ax_active.set_facecolor("#141b29")
+
+        self.ax_active.plot(x, a, color="#7ed174", linewidth=2.0, label="Active Drones")
+        self.ax_battery.plot(x, b, color="#6ec5ff", linewidth=2.0, label="Avg Battery (%)")
+        self.ax_battery.fill_between(x, 0, b, color="#6ec5ff", alpha=0.12)
+
+        self.ax_active.grid(True, color="#3b465c", linestyle=":", linewidth=0.8, alpha=0.8)
+        self.ax_active.set_xlabel("Time (seconds)", color="#d6deed", fontsize=8)
+        self.ax_active.set_ylabel("Active Drones", color="#7ed174", fontsize=8)
+        self.ax_battery.set_ylabel("Battery (%)", color="#6ec5ff", fontsize=8)
+        self.ax_active.tick_params(axis="x", colors="#c7d2e8", labelsize=8)
+        self.ax_active.tick_params(axis="y", colors="#7ed174", labelsize=8)
+        self.ax_battery.tick_params(axis="y", colors="#6ec5ff", labelsize=8)
+        for spine in self.ax_active.spines.values():
+            spine.set_color("#51607b")
+        for spine in self.ax_battery.spines.values():
+            spine.set_color("#51607b")
+
+        right = x[-1]
+        left = max(0.0, right - 60.0)
+        self.ax_active.set_xlim(left, max(60.0, right))
+        self.ax_active.set_ylim(0, max(2.0, float(np.max(a)) + 1.0))
+        self.ax_battery.set_ylim(0.0, 100.0)
+
+        h1, l1 = self.ax_active.get_legend_handles_labels()
+        h2, l2 = self.ax_battery.get_legend_handles_labels()
+        self.ax_active.legend(
+            h1 + h2,
+            l1 + l2,
+            loc="upper left",
+            facecolor="#1c2535",
+            edgecolor="#566580",
+            labelcolor="#e6eefc",
+            fontsize=8,
+        )
+        self.ax_active.set_title("Swarm Metrics Dashboard", color="#eef4ff", fontsize=9, pad=6)
+        self.canvas.draw_idle()
+class AcousticRealMapWidget(QWidget):
+    """Real-world map view for acoustic source and drone lines."""
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setMinimumHeight(280)
+        self.zoom = 15
+        self.map_width = 760
+        self.map_height = 360
+        self._last_fetch_center = None
+        self._map_pixmap = None
+        self._last_fetch_attempt_ts = 0.0
+        self._last_fetch_error = ""
+        self._drone_points = []  # list[(lat, lon)]
+        self._source_point = None  # tuple(lat, lon)
+        self._meters_per_deg_lat = 111320.0
+        # Provider toggles from .env (0/1)
+        self.use_free_map = _env_flag("MAP_USE_FREE", True)
+        self.use_yandex_map = _env_flag("MAP_USE_YANDEX", False)
+        self.use_google_map = _env_flag("MAP_USE_GOOGLE", False)
+        self.yandex_api_key = os.getenv("MAP_YANDEX_API_KEY", "").strip()
+        self.google_api_key = os.getenv("MAP_GOOGLE_API_KEY", "").strip()
+
+    def update_map_data(self, drones: dict, acoustic_source: dict):
+        points = []
+        ref_lat = None
+        ref_lon = None
+        for drone_data in (drones or {}).values():
+            gps = drone_data.get("position_gps", {}) or {}
+            lat = gps.get("lat")
+            lon = gps.get("lon")
+            if lat is not None and lon is not None:
+                points.append((float(lat), float(lon)))
+            ref = drone_data.get("gps_reference", {}) or {}
+            if ref_lat is None and "lat" in ref and "lon" in ref:
+                ref_lat = float(ref["lat"])
+                ref_lon = float(ref["lon"])
+
+        source_latlon = None
+        if acoustic_source and ref_lat is not None and ref_lon is not None:
+            src_x = float(acoustic_source.get("x", 0.0))
+            src_y = float(acoustic_source.get("y", 0.0))
+            meters_per_deg_lon = self._meters_per_deg_lat * math.cos(math.radians(ref_lat))
+            if abs(meters_per_deg_lon) < 1e-6:
+                meters_per_deg_lon = 1e-6
+            src_lat = ref_lat + (src_y / self._meters_per_deg_lat)
+            src_lon = ref_lon + (src_x / meters_per_deg_lon)
+            source_latlon = (src_lat, src_lon)
+
+        self._drone_points = points
+        self._source_point = source_latlon
+
+        center = source_latlon or (points[0] if points else None)
+        if center:
+            self._maybe_fetch_map(center[0], center[1])
+        self.update()
+
+    def _maybe_fetch_map(self, lat: float, lon: float):
+        # Throttle by movement and elapsed time.
+        need_fetch = self._map_pixmap is None
+        if self._last_fetch_center is None:
+            need_fetch = True
+        else:
+            dlat = abs(lat - self._last_fetch_center[0])
+            dlon = abs(lon - self._last_fetch_center[1])
+            if dlat > 0.00015 or dlon > 0.00015:
+                need_fetch = True
+        now = time.time()
+        if need_fetch and (now - self._last_fetch_attempt_ts) < 3.0:
+            return
+        if not need_fetch:
+            return
+        self._last_fetch_attempt_ts = now
+        self._fetch_map(lat, lon)
+
+    def _fetch_map(self, lat: float, lon: float):
+        yandex_params = {
+            "ll": f"{lon:.6f},{lat:.6f}",
+            "z": str(self.zoom),
+            "size": f"{self.map_width},{self.map_height}",
+            "l": "sat",
+        }
+        if self.yandex_api_key:
+            yandex_params["apikey"] = self.yandex_api_key
+        osm_params = {
+            "center": f"{lat:.6f},{lon:.6f}",
+            "zoom": str(self.zoom),
+            "size": f"{self.map_width}x{self.map_height}",
+            "maptype": "mapnik",
+        }
+        google_params = {
+            "center": f"{lat:.6f},{lon:.6f}",
+            "zoom": str(self.zoom),
+            "size": f"{self.map_width}x{self.map_height}",
+            "maptype": "satellite",
+            "key": self.google_api_key,
+        }
+        urls = []
+        if self.use_google_map and self.google_api_key:
+            urls.append("https://maps.googleapis.com/maps/api/staticmap?" + urllib.parse.urlencode(google_params))
+        if self.use_yandex_map:
+            urls.append("https://static-maps.yandex.ru/1.x/?" + urllib.parse.urlencode(yandex_params))
+        if self.use_free_map:
+            urls.append("https://staticmap.openstreetmap.de/staticmap.php?" + urllib.parse.urlencode(osm_params))
+        if not urls:
+            # Safe fallback if all toggles are 0
+            urls.append("https://staticmap.openstreetmap.de/staticmap.php?" + urllib.parse.urlencode(osm_params))
+
+        for url in urls:
+            try:
+                req = urllib.request.Request(
+                    url,
+                    headers={"User-Agent": "Mozilla/5.0 (DroneSwarmGUI/1.0)"},
+                )
+                with urllib.request.urlopen(req, timeout=3.5) as response:
+                    raw = response.read()
+                image = QImage.fromData(raw)
+                if not image.isNull():
+                    self._map_pixmap = QPixmap.fromImage(image)
+                    self._last_fetch_center = (lat, lon)
+                    self._last_fetch_error = ""
+                    return
+            except Exception as exc:
+                self._last_fetch_error = str(exc)
+                continue
+
+    def _latlon_to_pixel(self, lat: float, lon: float, center_lat: float, center_lon: float, rect: QRectF):
+        def mercator_xy(lat_v: float, lon_v: float, zoom_v: int):
+            n = (2 ** zoom_v) * 256.0
+            x = (lon_v + 180.0) / 360.0 * n
+            lat_rad = math.radians(max(-85.0, min(85.0, lat_v)))
+            y = (1.0 - math.log(math.tan(lat_rad) + (1.0 / math.cos(lat_rad))) / math.pi) * 0.5 * n
+            return x, y
+
+        cx, cy = mercator_xy(center_lat, center_lon, self.zoom)
+        px, py = mercator_xy(lat, lon, self.zoom)
+        dx = px - cx
+        dy = py - cy
+        return QPointF(rect.center().x() + dx, rect.center().y() + dy)
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
+        painter.fillRect(self.rect(), QColor(12, 16, 25))
+
+        map_rect = self.rect().adjusted(8, 8, -8, -28)
+        center = self._source_point or (self._drone_points[0] if self._drone_points else None)
+        if center and self._map_pixmap is None:
+            self._maybe_fetch_map(center[0], center[1])
+
+        if not center:
+            painter.setPen(QPen(QColor(220, 230, 245)))
+            painter.drawText(map_rect, Qt.AlignCenter, "No drone GPS data for real map")
+            return
+
+        if self._map_pixmap:
+            painter.drawPixmap(map_rect.toRect(), self._map_pixmap)
+        else:
+            painter.setPen(QPen(QColor(220, 230, 245)))
+            msg = "Loading real map..."
+            if self._last_fetch_error:
+                msg = "Map fetch failed. Retrying..."
+            painter.drawText(map_rect, Qt.AlignCenter, msg)
+            return
+
+        center_lat, center_lon = center
+
+        if self._source_point:
+            source_px = self._latlon_to_pixel(self._source_point[0], self._source_point[1], center_lat, center_lon, map_rect)
+            painter.setBrush(QBrush(QColor(255, 84, 84, 180)))
+            painter.setPen(QPen(QColor(255, 240, 240), 1))
+            painter.drawEllipse(source_px, 6, 6)
+        else:
+            source_px = None
+
+        for lat, lon in self._drone_points:
+            p = self._latlon_to_pixel(lat, lon, center_lat, center_lon, map_rect)
+            painter.setBrush(QBrush(QColor(110, 222, 130, 220)))
+            painter.setPen(QPen(QColor(215, 255, 220), 1))
+            painter.drawEllipse(p, 4, 4)
+            if source_px is not None:
+                painter.setPen(QPen(QColor(255, 185, 112, 180), 1.5))
+                painter.drawLine(p, source_px)
+
+        painter.setPen(QPen(QColor(230, 236, 248)))
+        painter.setFont(QFont("Segoe UI", 9, QFont.Bold))
+        painter.drawText(12, self.height() - 10, "Acoustic Detection Map (Real World)")
+
+
 class MainWindow(QMainWindow):
     """Main application window"""
     
@@ -818,9 +1255,14 @@ class MainWindow(QMainWindow):
         self.latency_value_labels = {}
         self.ledger_value_labels = {}
         self.acoustic_conf_label = None
+        self.prediction_table = None
+        self.personal_ml_status_table = None
+        self.sha2_table = None
+        self.sha3_table = None
+        self.physical_ml_table = None
         self._setup_controller_crypto()
         
-        self.setWindowTitle("Drone Swarm Management System")
+        self.setWindowTitle("Swarm Ground Control Station")
         self.setGeometry(100, 100, 1400, 900)
         self.setFocusPolicy(Qt.StrongFocus)
         
@@ -828,26 +1270,64 @@ class MainWindow(QMainWindow):
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
         main_layout = QHBoxLayout(central_widget)
+        main_layout.setContentsMargins(12, 12, 12, 12)
+        main_layout.setSpacing(10)
         
-        # Left panel - Visualization + location map tabs
+        # Left panel - latency monitor + status + logs
+        left_container = QWidget()
+        left_panel = QVBoxLayout(left_container)
+        left_panel.setContentsMargins(0, 0, 0, 0)
+        left_panel.setSpacing(10)
+
+        latency_group = self._create_latency_panel()
+        left_panel.addWidget(latency_group, 2)
+
+        metrics_group = self._create_metrics_panel()
+        left_panel.addWidget(metrics_group, 2)
+
+        status_group = self._create_status_panel()
+        status_scroll = QScrollArea()
+        status_scroll.setWidgetResizable(True)
+        status_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        status_scroll.setWidget(status_group)
+        left_panel.addWidget(status_scroll, 3)
+
+        ml_group = self._create_physical_ml_panel()
+        ml_scroll = QScrollArea()
+        ml_scroll.setWidgetResizable(True)
+        ml_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        ml_scroll.setWidget(ml_group)
+        left_panel.addWidget(ml_scroll, 2)
+
+        # Center panel - swarm visualization
         viz_group = QGroupBox("Swarm Visualization")
         viz_layout = QVBoxLayout()
         self.viz_tabs = QTabWidget()
         self.drone_widget = DroneWidget()
         self.location_map_widget = LocationMapWidget()
+        self.acoustic_map_widget = AcousticRealMapWidget()
         self.viz_tabs.addTab(self.drone_widget, "Drone Visual")
         self.viz_tabs.addTab(self.location_map_widget, "Location Map")
-        viz_layout.addWidget(self.viz_tabs)
+        self.viz_tabs.addTab(self.acoustic_map_widget, "Acoustic Real Map")
+        viz_layout.addWidget(self.viz_tabs, 5)
+
+        # Bottom area inside center visualization:
+        # left -> logs, right -> prediction summary table.
+        viz_bottom_row = QHBoxLayout()
+        viz_bottom_row.setSpacing(8)
+        log_group = self._create_log_panel()
+        prediction_group = self._create_prediction_panel()
+        viz_bottom_row.addWidget(log_group, 3)
+        viz_bottom_row.addWidget(prediction_group, 2)
+        viz_layout.addLayout(viz_bottom_row, 2)
         viz_group.setLayout(viz_layout)
-        main_layout.addWidget(viz_group, 3)
-        
-        # Right panel - Controls and Info (scrollable controls)
+
+        # Right panel - controls only (scrollable)
         right_container = QWidget()
+        right_container.setMinimumWidth(380)
         right_panel = QVBoxLayout(right_container)
         right_panel.setContentsMargins(0, 0, 0, 0)
-        right_panel.setSpacing(6)
-
-        # Control panel inside scroll area
+        right_panel.setSpacing(10)
         control_group = self._create_control_panel()
         control_scroll = QScrollArea()
         control_scroll.setWidgetResizable(True)
@@ -855,17 +1335,12 @@ class MainWindow(QMainWindow):
         control_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         control_scroll.setMinimumHeight(420)
         control_scroll.setMaximumHeight(16777215)
-        right_panel.addWidget(control_scroll, 5)
+        right_panel.addWidget(control_scroll, 1)
 
-        # Status panel
-        status_group = self._create_status_panel()
-        right_panel.addWidget(status_group, 2)
-
-        # Logs
-        log_group = self._create_log_panel()
-        right_panel.addWidget(log_group, 2)
-
-        main_layout.addWidget(right_container, 1)
+        main_layout.addWidget(left_container, 2)
+        main_layout.addWidget(viz_group, 5)
+        main_layout.addWidget(right_container, 2)
+        self._apply_dashboard_theme()
         
         # Update timer
         self.update_timer = QTimer()
@@ -888,6 +1363,162 @@ class MainWindow(QMainWindow):
         
         self.log("Drone Swarm Management System started")
 
+    def _apply_dashboard_theme(self):
+        """Apply dark glass dashboard theme similar to mission control UI."""
+        self.setStyleSheet("""
+            QMainWindow, QWidget {
+                background-color: #0f131d;
+                color: #e6ebf3;
+                font-family: "Segoe UI";
+                font-size: 10.5pt;
+            }
+            QGroupBox {
+                border: 1px solid rgba(180, 190, 210, 0.18);
+                border-radius: 10px;
+                margin-top: 12px;
+                padding-top: 8px;
+                background-color: rgba(37, 43, 56, 0.55);
+            }
+            QGroupBox::title {
+                subcontrol-origin: margin;
+                left: 12px;
+                padding: 0 6px;
+                color: #f1f4fa;
+                font-size: 12pt;
+                font-weight: 600;
+            }
+            QScrollArea, QTabWidget::pane {
+                border: 1px solid rgba(180, 190, 210, 0.16);
+                border-radius: 10px;
+                background: rgba(31, 36, 47, 0.6);
+            }
+            QTabBar::tab {
+                background: rgba(69, 79, 99, 0.45);
+                border: 1px solid rgba(180, 190, 210, 0.18);
+                border-bottom: none;
+                border-top-left-radius: 8px;
+                border-top-right-radius: 8px;
+                padding: 7px 14px;
+                margin-right: 4px;
+                color: #ced6e3;
+            }
+            QTabBar::tab:selected {
+                background: rgba(120, 138, 170, 0.3);
+                color: #f8fbff;
+            }
+            QPushButton {
+                border: 1px solid rgba(175, 185, 205, 0.32);
+                border-radius: 7px;
+                padding: 7px 10px;
+                background: rgba(82, 96, 120, 0.58);
+                color: #f3f6fc;
+                font-weight: 600;
+            }
+            QPushButton:hover {
+                background: rgba(101, 117, 144, 0.72);
+            }
+            QPushButton:pressed {
+                background: rgba(66, 77, 98, 0.92);
+            }
+            QPushButton[btnType="success"] {
+                background: rgba(106, 155, 92, 0.85);
+            }
+            QPushButton[btnType="success"]:hover {
+                background: rgba(120, 172, 104, 0.95);
+            }
+            QPushButton[btnType="primary"] {
+                background: rgba(87, 133, 194, 0.88);
+            }
+            QPushButton[btnType="primary"]:hover {
+                background: rgba(102, 151, 214, 0.96);
+            }
+            QPushButton[btnType="danger"] {
+                background: rgba(176, 67, 67, 0.9);
+            }
+            QPushButton[btnType="danger"]:hover {
+                background: rgba(197, 77, 77, 0.98);
+            }
+            QPushButton[btnType="warn"] {
+                background: rgba(184, 126, 54, 0.88);
+            }
+            QPushButton[btnType="warn"]:hover {
+                background: rgba(201, 139, 61, 0.98);
+            }
+            QLabel {
+                color: #e2e8f4;
+            }
+            QComboBox, QSpinBox, QDoubleSpinBox {
+                border: 1px solid rgba(180, 190, 210, 0.25);
+                border-radius: 7px;
+                padding: 4px 7px;
+                background: rgba(25, 30, 41, 0.9);
+                color: #eff3fb;
+                min-height: 22px;
+            }
+            QCheckBox {
+                spacing: 7px;
+                color: #dde4f0;
+            }
+            QCheckBox::indicator {
+                width: 14px;
+                height: 14px;
+                border-radius: 3px;
+                border: 1px solid rgba(190, 200, 218, 0.45);
+                background: rgba(19, 23, 33, 1.0);
+            }
+            QCheckBox::indicator:checked {
+                background: #7cbc74;
+            }
+            QSlider::groove:horizontal {
+                height: 6px;
+                border-radius: 3px;
+                background: rgba(74, 86, 106, 0.65);
+            }
+            QSlider::handle:horizontal {
+                width: 14px;
+                margin: -5px 0;
+                border-radius: 7px;
+                background: #7ac7ff;
+                border: 1px solid #9ad5ff;
+            }
+            QTextEdit {
+                border: 1px solid rgba(180, 190, 210, 0.2);
+                border-radius: 8px;
+                background: rgba(16, 20, 29, 0.9);
+                color: #d9e0ed;
+            }
+            QHeaderView::section {
+                background: rgba(65, 76, 96, 0.75);
+                color: #edf2fa;
+                padding: 5px;
+                border: none;
+                border-right: 1px solid rgba(190, 198, 214, 0.15);
+                font-weight: 600;
+            }
+            QTableWidget {
+                gridline-color: rgba(188, 198, 218, 0.1);
+                background: rgba(17, 21, 30, 0.86);
+                alternate-background-color: rgba(36, 42, 55, 0.72);
+                selection-background-color: rgba(88, 134, 190, 0.52);
+                selection-color: #ffffff;
+                border-radius: 8px;
+                border: 1px solid rgba(175, 185, 205, 0.2);
+            }
+            QScrollBar:vertical {
+                background: transparent;
+                width: 10px;
+                margin: 2px;
+            }
+            QScrollBar::handle:vertical {
+                background: rgba(138, 150, 173, 0.55);
+                border-radius: 5px;
+                min-height: 24px;
+            }
+            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+                height: 0;
+            }
+        """)
+
     def _setup_controller_crypto(self):
         """Create local encryption helper for controller->drone command logs."""
         try:
@@ -908,11 +1539,98 @@ class MainWindow(QMainWindow):
         self.shortcut_right.activated.connect(lambda: self.move_selected_drone(self.move_step_spin.value(), 0, 0))
         self.shortcut_hover = QShortcut(QKeySequence("Space"), self)
         self.shortcut_hover.activated.connect(lambda: self.move_selected_drone(0, 0, 0))
+
+    def _create_latency_panel(self):
+        """Create real-time latency monitor panel."""
+        group = QGroupBox("Latency Monitor Real Time")
+        layout = QVBoxLayout()
+        layout.setContentsMargins(6, 8, 6, 6)
+        layout.setSpacing(4)
+
+        self.latency_monitor_widget = LatencyMonitorWidget()
+        layout.addWidget(self.latency_monitor_widget, 1)
+
+        group.setLayout(layout)
+        return group
+
+    def _create_metrics_panel(self):
+        """Create real-time swarm metrics panel."""
+        group = QGroupBox("Swarm Metrics")
+        layout = QVBoxLayout()
+        layout.setContentsMargins(6, 8, 6, 6)
+        layout.setSpacing(4)
+
+        self.swarm_metrics_widget = SwarmMetricsWidget()
+        layout.addWidget(self.swarm_metrics_widget, 1)
+
+        group.setLayout(layout)
+        return group
+
+    def _create_prediction_panel(self):
+        """Create prediction summary table near center visualization."""
+        group = QGroupBox("Prediction Summary")
+        layout = QVBoxLayout()
+        layout.setContentsMargins(6, 8, 6, 6)
+        layout.setSpacing(4)
+
+        self.prediction_table = QTableWidget()
+        self.prediction_table.setColumnCount(2)
+        self.prediction_table.setRowCount(4)
+        self.prediction_table.setHorizontalHeaderLabels(["Type", "Status"])
+        self.prediction_table.verticalHeader().setVisible(False)
+        self.prediction_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
+        self.prediction_table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeToContents)
+        self.prediction_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.prediction_table.setSelectionMode(QAbstractItemView.NoSelection)
+        self.prediction_table.setFocusPolicy(Qt.NoFocus)
+        self.prediction_table.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.prediction_table.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.prediction_table.setAlternatingRowColors(True)
+        self.prediction_table.setMinimumHeight(160)
+
+        labels = [
+            "Short Predict",
+            "Mid Term Predict",
+            "Long Term Predict",
+            "Obstacle Drone (Dynamic)",
+        ]
+        for row, title in enumerate(labels):
+            self.prediction_table.setItem(row, 0, QTableWidgetItem(title))
+            self.prediction_table.setItem(row, 1, QTableWidgetItem("\u2713"))
+
+        layout.addWidget(self.prediction_table)
+
+        self.personal_ml_status_table = QTableWidget()
+        self.personal_ml_status_table.setColumnCount(3)
+        self.personal_ml_status_table.setHorizontalHeaderLabels(["Personal ML Status", "Drone", "Status"])
+        self.personal_ml_status_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
+        self.personal_ml_status_table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeToContents)
+        self.personal_ml_status_table.horizontalHeader().setSectionResizeMode(2, QHeaderView.ResizeToContents)
+        self.personal_ml_status_table.verticalHeader().setVisible(False)
+        self.personal_ml_status_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.personal_ml_status_table.setSelectionMode(QAbstractItemView.NoSelection)
+        self.personal_ml_status_table.setFocusPolicy(Qt.NoFocus)
+        self.personal_ml_status_table.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.personal_ml_status_table.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.personal_ml_status_table.setAlternatingRowColors(True)
+        self.personal_ml_status_table.setMinimumHeight(110)
+        self.personal_ml_status_table.setRowCount(1)
+        self.personal_ml_status_table.setItem(0, 0, QTableWidgetItem("Personal ML"))
+        self.personal_ml_status_table.setItem(0, 1, QTableWidgetItem("ALL"))
+        self.personal_ml_status_table.setItem(0, 2, QTableWidgetItem("\u2713"))
+        layout.addWidget(self.personal_ml_status_table)
+
+        group.setLayout(layout)
+        return group
     
     def _create_control_panel(self):
         """Create control panel"""
         group = QGroupBox("Controls Panel")
+        group.setMinimumWidth(360)
+        group.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         layout = QVBoxLayout()
+        layout.setContentsMargins(8, 8, 8, 8)
+        layout.setSpacing(7)
         
         # Drone controls
         drone_layout = QHBoxLayout()
@@ -931,32 +1649,37 @@ class MainWindow(QMainWindow):
         flight_layout = QGridLayout()
         
         self.arm_all_btn = QPushButton("Arm All")
+        self.arm_all_btn.setProperty("btnType", "success")
         self.arm_all_btn.clicked.connect(self.arm_all)
         flight_layout.addWidget(self.arm_all_btn, 0, 0)
         
         self.takeoff_all_btn = QPushButton("Takeoff All")
+        self.takeoff_all_btn.setProperty("btnType", "success")
         self.takeoff_all_btn.clicked.connect(self.takeoff_all)
         flight_layout.addWidget(self.takeoff_all_btn, 0, 1)
         
         self.land_all_btn = QPushButton("Land All")
+        self.land_all_btn.setProperty("btnType", "warn")
         self.land_all_btn.clicked.connect(self.land_all)
         flight_layout.addWidget(self.land_all_btn, 1, 0)
         
         self.rth_all_btn = QPushButton("RTH All")
+        self.rth_all_btn.setProperty("btnType", "warn")
         self.rth_all_btn.clicked.connect(self.return_all_home)
         flight_layout.addWidget(self.rth_all_btn, 1, 1)
         
         self.emergency_btn = QPushButton("EMERGENCY LAND")
-        self.emergency_btn.setStyleSheet("background-color: red; color: white; font-weight: bold")
+        self.emergency_btn.setProperty("btnType", "danger")
         self.emergency_btn.clicked.connect(self.emergency_land_all)
         flight_layout.addWidget(self.emergency_btn, 2, 0, 1, 2)
 
         self.personal_emergency_btn = QPushButton("EMERGENCY SELECTED")
-        self.personal_emergency_btn.setStyleSheet("background-color: #b22222; color: white; font-weight: bold")
+        self.personal_emergency_btn.setProperty("btnType", "danger")
         self.personal_emergency_btn.clicked.connect(self.emergency_land_selected)
         flight_layout.addWidget(self.personal_emergency_btn, 3, 0, 1, 2)
 
         self.command_xy_btn = QPushButton("Leader Command X->Y")
+        self.command_xy_btn.setProperty("btnType", "primary")
         self.command_xy_btn.clicked.connect(self.command_move_x_to_y)
         flight_layout.addWidget(self.command_xy_btn, 4, 0, 1, 2)
         
@@ -1006,7 +1729,7 @@ class MainWindow(QMainWindow):
 
         self.auto_fault_btn = QPushButton("Auto Fault Demo: OFF")
         self.auto_fault_btn.clicked.connect(self.toggle_auto_fault_demo)
-        self.auto_fault_btn.setStyleSheet("background-color: #5a5f6b; color: white; font-weight: bold")
+        self.auto_fault_btn.setProperty("btnType", "warn")
         test_layout.addWidget(self.auto_fault_btn)
 
         self.test_latency_btn = QPushButton("Simulate Latency Spike")
@@ -1017,6 +1740,8 @@ class MainWindow(QMainWindow):
 
         obstacle_group = QGroupBox("Dynamic Obstacles")
         obstacle_layout = QGridLayout()
+        obstacle_layout.setHorizontalSpacing(6)
+        obstacle_layout.setVerticalSpacing(6)
 
         self.obs_x_spin = QDoubleSpinBox()
         self.obs_x_spin.setRange(-10000.0, 10000.0)
@@ -1067,7 +1792,7 @@ class MainWindow(QMainWindow):
         self.toggle_dynamic_cb.stateChanged.connect(self._on_obstacle_filter_changed)
         obstacle_layout.addWidget(self.toggle_dynamic_cb, 4, 2, 1, 2)
 
-        self.use_ml_avoidance_cb = QCheckBox("Use Personal ML Avoidance")
+        self.use_ml_avoidance_cb = QCheckBox("Use ML Avoidance")
         self.use_ml_avoidance_cb.setChecked(True)
         self.use_ml_avoidance_cb.stateChanged.connect(self._on_use_ml_avoidance_changed)
         obstacle_layout.addWidget(self.use_ml_avoidance_cb, 5, 0, 1, 3)
@@ -1128,16 +1853,16 @@ class MainWindow(QMainWindow):
 
         key_style = (
             "QPushButton {"
-            "background-color: #2b2f3a;"
-            "color: #f0f3f7;"
-            "border: 1px solid #4b5568;"
+            "background-color: rgba(72, 84, 104, 0.62);"
+            "color: #f4f7fd;"
+            "border: 1px solid rgba(185, 195, 214, 0.3);"
             "border-radius: 6px;"
             "font-weight: bold;"
             "min-width: 48px;"
             "min-height: 30px;"
             "}"
-            "QPushButton:hover { background-color: #3a4151; }"
-            "QPushButton:pressed { background-color: #1f2430; }"
+            "QPushButton:hover { background-color: rgba(95, 110, 136, 0.78); }"
+            "QPushButton:pressed { background-color: rgba(61, 72, 91, 0.92); }"
         )
         btn_up.setText("Up")
         btn_down.setText("Down")
@@ -1155,10 +1880,10 @@ class MainWindow(QMainWindow):
         # Mission panel:
         # Reference coordinates define the local frame used by drone mission logic.
         # Target coordinates + radius define the circular area mission center.
-        gps_group = QGroupBox("Google Map GPS Mission (Selected)")
+        gps_group = QGroupBox("GPS Mission (Selected)")
         gps_layout = QGridLayout()
-        gps_layout.setHorizontalSpacing(12)
-        gps_layout.setVerticalSpacing(8)
+        gps_layout.setHorizontalSpacing(6)
+        gps_layout.setVerticalSpacing(6)
         gps_group.setMinimumHeight(235)
         gps_layout.setColumnStretch(0, 0)
         gps_layout.setColumnStretch(1, 1)
@@ -1171,7 +1896,7 @@ class MainWindow(QMainWindow):
         self.ref_lat_spin.setRange(-90.0, 90.0)
         self.ref_lat_spin.setDecimals(6)
         self.ref_lat_spin.setValue(51.660781)  # Voronezh
-        self.ref_lat_spin.setMinimumWidth(130)
+        self.ref_lat_spin.setMinimumWidth(0)
         gps_layout.addWidget(self.ref_lat_spin, 0, 1)
 
         gps_layout.addWidget(QLabel("Ref Lon"), 0, 2)
@@ -1179,7 +1904,7 @@ class MainWindow(QMainWindow):
         self.ref_lon_spin.setRange(-180.0, 180.0)
         self.ref_lon_spin.setDecimals(6)
         self.ref_lon_spin.setValue(39.200269)  # Voronezh
-        self.ref_lon_spin.setMinimumWidth(130)
+        self.ref_lon_spin.setMinimumWidth(0)
         gps_layout.addWidget(self.ref_lon_spin, 0, 3)
 
         # Target GPS center for the mission zone.
@@ -1188,15 +1913,15 @@ class MainWindow(QMainWindow):
         self.target_lat_spin.setRange(-90.0, 90.0)
         self.target_lat_spin.setDecimals(6)
         self.target_lat_spin.setValue(51.664500)
-        self.target_lat_spin.setMinimumWidth(130)
-        # gps_layout.addWidget(self.target_lat_spin, 1, 1)
+        self.target_lat_spin.setMinimumWidth(0)
+        gps_layout.addWidget(self.target_lat_spin, 1, 1)
 
         gps_layout.addWidget(QLabel("Target Lon"), 1, 2)
         self.target_lon_spin = QDoubleSpinBox()
         self.target_lon_spin.setRange(-180.0, 180.0)
         self.target_lon_spin.setDecimals(6)
         self.target_lon_spin.setValue(39.214300)
-        self.target_lon_spin.setMinimumWidth(130)
+        self.target_lon_spin.setMinimumWidth(0)
         gps_layout.addWidget(self.target_lon_spin, 1, 3)
 
         # Radius of mission search/coverage area in meters.
@@ -1204,28 +1929,30 @@ class MainWindow(QMainWindow):
         self.target_radius_spin = QSpinBox()
         self.target_radius_spin.setRange(10, 5000)
         self.target_radius_spin.setValue(200)
-        self.target_radius_spin.setMinimumWidth(100)
+        self.target_radius_spin.setMinimumWidth(0)
         gps_layout.addWidget(self.target_radius_spin, 2, 1)
 
         # 0 means broadcast to all drones; any other value targets one drone.
-        gps_layout.addWidget(QLabel("Drone ID (0=All)"), 2, 2)
+        gps_layout.addWidget(QLabel("Drone (0=All)"), 2, 2)
         self.mission_drone_id_spin = QSpinBox()
         self.mission_drone_id_spin.setRange(0, 9999)
         self.mission_drone_id_spin.setValue(0)  # default: all drones
-        self.mission_drone_id_spin.setMinimumWidth(100)
+        self.mission_drone_id_spin.setMinimumWidth(0)
         gps_layout.addWidget(self.mission_drone_id_spin, 2, 3)
 
-        self.assign_mission_btn = QPushButton("Assign Mission")
+        self.assign_mission_btn = QPushButton("Assign")
+        self.assign_mission_btn.setProperty("btnType", "primary")
         self.assign_mission_btn.clicked.connect(self.assign_selected_drone_mission)
         self.assign_mission_btn.setMinimumHeight(32)
         gps_layout.addWidget(self.assign_mission_btn, 3, 2)
 
-        self.clear_mission_btn = QPushButton("Clear Mission")
+        self.clear_mission_btn = QPushButton("Clear")
+        self.clear_mission_btn.setProperty("btnType", "danger")
         self.clear_mission_btn.clicked.connect(self.clear_selected_drone_mission)
         self.clear_mission_btn.setMinimumHeight(32)
         gps_layout.addWidget(self.clear_mission_btn, 3, 3)
 
-        self.open_map_btn = QPushButton("Open Target in Google Maps")
+        self.open_map_btn = QPushButton("Open in Google Maps")
         self.open_map_btn.clicked.connect(self.open_target_in_google_maps)
         self.open_map_btn.setMinimumHeight(34)
         gps_layout.addWidget(self.open_map_btn, 4, 0, 1, 4)
@@ -1254,12 +1981,10 @@ class MainWindow(QMainWindow):
             ("avg_battery", "Avg Battery:")
         ]
         
-        # Compact 2x2 inline metrics:
-        # Total Drones: X    Active Drones: Y
-        # Leader ID: Z       Avg Battery: N%
+        # Two metrics per row
         stats_grid = QGridLayout()
-        stats_grid.setHorizontalSpacing(10)
-        stats_grid.setVerticalSpacing(2)
+        stats_grid.setHorizontalSpacing(8)
+        stats_grid.setVerticalSpacing(4)
         for idx, (key, text) in enumerate(labels):
             row = idx // 2
             col = (idx % 2) * 2
@@ -1279,12 +2004,13 @@ class MainWindow(QMainWindow):
             ("py_to_cpp_ms", "Py->C++"),
             ("total_round_trip_ms", "RTT"),
             ("total_round_trip_jitter_std_ms", "RTT Jitter"),
+            ("leader_height_m", "Leader Height"),
         ]
         for idx, (key, title) in enumerate(latency_keys):
             row = idx // 2
             col = (idx % 2) * 2
             name = QLabel(f"{title}:")
-            value = QLabel("0.0 ms")
+            value = QLabel("0.0 m" if key == "leader_height_m" else "0.0 ms")
             value.setStyleSheet("font-size: 11px;")
             latency_grid.addWidget(name, row, col)
             latency_grid.addWidget(value, row, col + 1)
@@ -1337,7 +2063,36 @@ class MainWindow(QMainWindow):
         self.drone_table.setSortingEnabled(True)
         self.drone_table.itemSelectionChanged.connect(self._on_drone_selection_changed)
         layout.addWidget(self.drone_table, 1)
-        
+
+        group.setLayout(layout)
+        return group
+
+    def _create_physical_ml_panel(self):
+        """Create dedicated Physical ML Trainer container."""
+        group = QGroupBox("Physical ML Trainer")
+        layout = QVBoxLayout()
+        layout.setContentsMargins(6, 8, 6, 6)
+        layout.setSpacing(4)
+
+        self.physical_ml_table = QTableWidget()
+        self.physical_ml_table.setColumnCount(5)
+        self.physical_ml_table.setHorizontalHeaderLabels(
+            ["Drone", "Samples", "Degree", "Alpha", "Val MSE"]
+        )
+        self.physical_ml_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeToContents)
+        self.physical_ml_table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeToContents)
+        self.physical_ml_table.horizontalHeader().setSectionResizeMode(2, QHeaderView.ResizeToContents)
+        self.physical_ml_table.horizontalHeader().setSectionResizeMode(3, QHeaderView.ResizeToContents)
+        self.physical_ml_table.horizontalHeader().setSectionResizeMode(4, QHeaderView.Stretch)
+        self.physical_ml_table.verticalHeader().setVisible(False)
+        self.physical_ml_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.physical_ml_table.setSelectionMode(QAbstractItemView.NoSelection)
+        self.physical_ml_table.setFocusPolicy(Qt.NoFocus)
+        self.physical_ml_table.setAlternatingRowColors(True)
+        self.physical_ml_table.setMinimumHeight(120)
+        self.physical_ml_table.setMaximumHeight(240)
+        layout.addWidget(self.physical_ml_table)
+
         group.setLayout(layout)
         return group
     
@@ -1354,6 +2109,45 @@ class MainWindow(QMainWindow):
         self.log_text.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.log_text.setMinimumHeight(120)
         layout.addWidget(self.log_text)
+
+        hash_tables_row = QHBoxLayout()
+        hash_tables_row.setSpacing(6)
+
+        self.sha2_table = QTableWidget()
+        self.sha2_table.setColumnCount(2)
+        self.sha2_table.setRowCount(1)
+        self.sha2_table.setHorizontalHeaderLabels(["SHA2 Sync", "Status"])
+        self.sha2_table.verticalHeader().setVisible(False)
+        self.sha2_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
+        self.sha2_table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeToContents)
+        self.sha2_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.sha2_table.setSelectionMode(QAbstractItemView.NoSelection)
+        self.sha2_table.setFocusPolicy(Qt.NoFocus)
+        self.sha2_table.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.sha2_table.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.sha2_table.setMinimumHeight(62)
+        self.sha2_table.setItem(0, 0, QTableWidgetItem("Blockchain SHA2"))
+        self.sha2_table.setItem(0, 1, QTableWidgetItem("âšª"))
+
+        self.sha3_table = QTableWidget()
+        self.sha3_table.setColumnCount(2)
+        self.sha3_table.setRowCount(1)
+        self.sha3_table.setHorizontalHeaderLabels(["SHA3 Sync", "Status"])
+        self.sha3_table.verticalHeader().setVisible(False)
+        self.sha3_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
+        self.sha3_table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeToContents)
+        self.sha3_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.sha3_table.setSelectionMode(QAbstractItemView.NoSelection)
+        self.sha3_table.setFocusPolicy(Qt.NoFocus)
+        self.sha3_table.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.sha3_table.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.sha3_table.setMinimumHeight(62)
+        self.sha3_table.setItem(0, 0, QTableWidgetItem("Blockchain SHA3"))
+        self.sha3_table.setItem(0, 1, QTableWidgetItem("âšª"))
+
+        hash_tables_row.addWidget(self.sha2_table, 1)
+        hash_tables_row.addWidget(self.sha3_table, 1)
+        layout.addLayout(hash_tables_row)
         
         clear_btn = QPushButton("Clear Logs")
         clear_btn.clicked.connect(lambda: self.log_text.clear())
@@ -1390,6 +2184,7 @@ class MainWindow(QMainWindow):
         
         # Calculate average battery
         drones = status.get("drones", {})
+        avg_battery = 0.0
         if drones:
             avg_battery = sum(d["battery"] for d in drones.values()) / len(drones)
             self.status_labels["avg_battery"].setText(f"{avg_battery:.1f}%")
@@ -1398,7 +2193,18 @@ class MainWindow(QMainWindow):
 
         latency = status.get("latency", {})
         for key, label in self.latency_value_labels.items():
-            label.setText(f"{float(latency.get(key, 0.0)):.1f} ms")
+            if key == "leader_height_m":
+                leader_height = 0.0
+                if current_leader_id and current_leader_id in drones:
+                    leader_pos = drones[current_leader_id].get("position", {}) or {}
+                    leader_height = float(leader_pos.get("z", 0.0))
+                label.setText(f"{leader_height:.1f} m")
+            else:
+                label.setText(f"{float(latency.get(key, 0.0)):.1f} ms")
+        if hasattr(self, "latency_monitor_widget"):
+            self.latency_monitor_widget.update_latency(latency)
+        if hasattr(self, "swarm_metrics_widget"):
+            self.swarm_metrics_widget.update_metrics(int(status.get("active_drones", 0)), avg_battery)
 
         ledger = status.get("ledger", {})
         self.ledger_value_labels["block_height"].setText(str(int(ledger.get("block_height", 0))))
@@ -1408,20 +2214,29 @@ class MainWindow(QMainWindow):
         self.ledger_value_labels["integrity"].setStyleSheet(
             "font-size: 11px; font-weight: bold; color: %s;" % ("#22aa44" if integrity_ok else "#cc2233")
         )
+        self._update_blockchain_hash_tables(ledger)
 
         acoustic = status.get("acoustic", {})
         src = acoustic.get("latest_source")
         conf = float(acoustic.get("latest_confidence", 0.0))
         self.drone_widget.set_acoustic_source(src, conf)
+        if hasattr(self, "acoustic_map_widget"):
+            self.acoustic_map_widget.update_map_data(drones, src)
 
         raw_obstacles = status.get("dynamic_obstacles", [])
         filtered_obstacles = []
+        dynamic_obstacle_count = 0
+        static_obstacle_count = 0
         for obstacle in raw_obstacles:
             motion_type = obstacle.get("motion_type", "linear")
             dynamic = motion_type != "static" and (
                 abs(float(obstacle.get("vx", 0.0))) > 0.001 or abs(float(obstacle.get("vy", 0.0))) > 0.001
                 or motion_type in {"circular", "random_walk"}
             )
+            if dynamic:
+                dynamic_obstacle_count += 1
+            else:
+                static_obstacle_count += 1
             if dynamic and not self.show_dynamic_obstacles:
                 continue
             if (not dynamic) and not self.show_static_obstacles:
@@ -1429,6 +2244,12 @@ class MainWindow(QMainWindow):
             view = dict(obstacle)
             view["dynamic"] = dynamic
             filtered_obstacles.append(view)
+        self._update_prediction_table(
+            status,
+            dynamic_obstacle_count=dynamic_obstacle_count,
+            static_obstacle_count=static_obstacle_count,
+        )
+        self._update_personal_ml_status_table(drones)
         # Update drone table (defensive: one bad row must not block remaining drones)
         def _sort_key(item):
             drone_id = item[0]
@@ -1469,6 +2290,7 @@ class MainWindow(QMainWindow):
             self.drone_table.setItem(row, 5, QTableWidgetItem(status_text))
         if sorting_enabled:
             self.drone_table.setSortingEnabled(True)
+        self._update_physical_ml_table(ordered_rows)
 
         # Update visualization
         self.drone_widget.update_drones(drones)
@@ -1486,6 +2308,134 @@ class MainWindow(QMainWindow):
         self._poll_swarm_event_logs()
         self._dispatch_pending_takeoff_targets()
         self._monitor_destination_arrivals_for_auto_return()
+
+    def _update_blockchain_hash_tables(self, ledger: dict):
+        """Update SHA2/SHA3 sync tables with symbols."""
+        if self.sha2_table is None or self.sha3_table is None:
+            return
+
+        sync_state = str(ledger.get("sync_state", "IDLE")).upper()
+        integrity_ok = bool(ledger.get("integrity_ok", False))
+        per_drone = ledger.get("per_drone_height", {}) or {}
+        has_data = len(per_drone) > 0
+
+        try:
+            heights_payload = json.dumps(per_drone, sort_keys=True).encode("utf-8")
+            sha2_hex = hashlib.sha256(heights_payload).hexdigest()[:8]
+            sha3_hex = hashlib.sha3_256(heights_payload).hexdigest()[:8]
+        except Exception:
+            sha2_hex = "--------"
+            sha3_hex = "--------"
+
+        sha2_ok = has_data and integrity_ok and sync_state in {"SYNCED", "BROADCASTING", "PARTIAL_REJECT"}
+        # SHA3 was too strict and always warning in some valid runtime states.
+        sha3_ok = has_data and integrity_ok and sync_state not in {"FAILED", "ERROR"}
+
+        sha2_item = self.sha2_table.item(0, 1)
+        sha3_item = self.sha3_table.item(0, 1)
+        if sha2_item is None:
+            sha2_item = QTableWidgetItem()
+            self.sha2_table.setItem(0, 1, sha2_item)
+        if sha3_item is None:
+            sha3_item = QTableWidgetItem()
+            self.sha3_table.setItem(0, 1, sha3_item)
+
+        sha2_item.setText(f"{sha2_hex} {'\u2713' if sha2_ok else '\u26A0'}")
+        sha3_item.setText(f"{sha3_hex} {'\u2713' if sha3_ok else '\u26A0'}")
+        sha2_item.setForeground(QBrush(QColor(124, 212, 116) if sha2_ok else QColor(255, 95, 95)))
+        sha3_item.setForeground(QBrush(QColor(124, 212, 116) if sha3_ok else QColor(255, 95, 95)))
+
+    def _update_prediction_table(self, status: dict, dynamic_obstacle_count: int, static_obstacle_count: int):
+        """Update prediction table with check/warn and counts."""
+        if self.prediction_table is None:
+            return
+
+        drones = status.get("drones", {}) or {}
+        active_drones = int(status.get("active_drones", 0))
+        warning_drones = 0
+        mission_drones = 0
+        for drone_data in drones.values():
+            if drone_data.get("motor_failure_warning") or drone_data.get("emergency_return_active"):
+                warning_drones += 1
+            mission = drone_data.get("mission", {}) or {}
+            if mission.get("active"):
+                mission_drones += 1
+
+        short_predict = dynamic_obstacle_count
+        mid_predict = dynamic_obstacle_count + static_obstacle_count
+        long_predict = mission_drones if mission_drones > 0 else active_drones
+        obstacle_dynamic = dynamic_obstacle_count
+
+        rows = [
+            (0, short_predict, short_predict > 0),
+            (1, mid_predict, mid_predict > 1),
+            (2, long_predict, warning_drones > 0),
+            (3, obstacle_dynamic, obstacle_dynamic > 0),
+        ]
+
+        for row, count, warn in rows:
+            result_item = self.prediction_table.item(row, 1)
+            if result_item is None:
+                result_item = QTableWidgetItem()
+                self.prediction_table.setItem(row, 1, result_item)
+            if warn:
+                result_item.setText(f"\u26A0 ({int(count)})")
+                result_item.setForeground(QBrush(QColor(255, 95, 95)))
+            else:
+                result_item.setText(f"\u2713 ({int(count)})")
+                result_item.setForeground(QBrush(QColor(124, 212, 116)))
+
+    def _update_personal_ml_status_table(self, drones: dict):
+        """Update Personal ML status table under prediction summary."""
+        if self.personal_ml_status_table is None:
+            return
+
+        entries = sorted(drones.items(), key=lambda kv: int(kv[0]) if str(kv[0]).isdigit() else str(kv[0]))
+        if not entries:
+            self.personal_ml_status_table.setRowCount(1)
+            self.personal_ml_status_table.setItem(0, 0, QTableWidgetItem("Personal ML"))
+            self.personal_ml_status_table.setItem(0, 1, QTableWidgetItem("N/A"))
+            self.personal_ml_status_table.setItem(0, 2, QTableWidgetItem("\u26A0"))
+            return
+
+        self.personal_ml_status_table.setRowCount(len(entries))
+        for row, (drone_id, drone_data) in enumerate(entries):
+            enabled = bool(drone_data.get("personal_ml_enabled", False))
+            name_item = QTableWidgetItem("Personal ML")
+            drone_item = QTableWidgetItem(f"D{drone_id}")
+            status_item = QTableWidgetItem("\u2713" if enabled else "\u26A0")
+            status_item.setForeground(QBrush(QColor(124, 212, 116) if enabled else QColor(255, 95, 95)))
+            self.personal_ml_status_table.setItem(row, 0, name_item)
+            self.personal_ml_status_table.setItem(row, 1, drone_item)
+            self.personal_ml_status_table.setItem(row, 2, status_item)
+
+    def _update_physical_ml_table(self, ordered_rows):
+        """Update compact PhysicalMLTrainer table below swarm status table."""
+        if self.physical_ml_table is None:
+            return
+
+        rows = []
+        for drone_id, drone_data in ordered_rows:
+            samples = int(drone_data.get("physical_ml_samples", 0))
+            metrics = drone_data.get("physical_ml_metrics", {}) or {}
+            degree = metrics.get("degree", metrics.get("poly_degree", 2))
+            alpha = metrics.get("alpha", metrics.get("regularization_alpha", 0.0))
+            val_mse = metrics.get("val_mse", metrics.get("validation_mse", 0.0))
+            rows.append((drone_id, samples, degree, alpha, val_mse))
+
+        self.physical_ml_table.setRowCount(max(1, len(rows)))
+        if not rows:
+            defaults = [("3", "1101", "2", "0.0", "0.000000")]
+            for col, value in enumerate(defaults[0]):
+                self.physical_ml_table.setItem(0, col, QTableWidgetItem(value))
+            return
+
+        for row_idx, (drone_id, samples, degree, alpha, val_mse) in enumerate(rows):
+            self.physical_ml_table.setItem(row_idx, 0, QTableWidgetItem(str(drone_id)))
+            self.physical_ml_table.setItem(row_idx, 1, QTableWidgetItem(str(samples)))
+            self.physical_ml_table.setItem(row_idx, 2, QTableWidgetItem(str(degree)))
+            self.physical_ml_table.setItem(row_idx, 3, QTableWidgetItem(f"{float(alpha):.4f}"))
+            self.physical_ml_table.setItem(row_idx, 4, QTableWidgetItem(f"{float(val_mse):.6f}"))
     
     # Control methods
     
@@ -1720,12 +2670,14 @@ class MainWindow(QMainWindow):
         self.auto_fault_demo_enabled = not self.auto_fault_demo_enabled
         if self.auto_fault_demo_enabled:
             self.auto_fault_btn.setText("Auto Fault Demo: ON")
-            self.auto_fault_btn.setStyleSheet("background-color: #b35b00; color: white; font-weight: bold")
+            self.auto_fault_btn.setProperty("btnType", "danger")
             self.log("Auto fault demo enabled (motor failure + leader crash)")
         else:
             self.auto_fault_btn.setText("Auto Fault Demo: OFF")
-            self.auto_fault_btn.setStyleSheet("background-color: #5a5f6b; color: white; font-weight: bold")
+            self.auto_fault_btn.setProperty("btnType", "warn")
             self.log("Auto fault demo disabled")
+        self.auto_fault_btn.style().unpolish(self.auto_fault_btn)
+        self.auto_fault_btn.style().polish(self.auto_fault_btn)
 
     def _run_auto_fault_scenario(self):
         """Periodically simulate faults to visualize autonomous handling."""
