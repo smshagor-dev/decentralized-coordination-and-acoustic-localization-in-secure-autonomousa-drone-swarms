@@ -103,17 +103,33 @@ IV. LEADER ELECTION — MCSS PROTOCOL
 
 The Multi-Criteria Suitability Scoring (MCSS) protocol assigns each candidate drone a scalar suitability score , computed as a weighted aggregation of normalized hardware and communication health metrics:
 
-where denotes the normalized battery state-of-charge; represents the Motor Health Index defined as
+$$
+S_i = w_b B_i + w_m M_i + w_l L_i
+$$
 
-and  corresponds to the link quality score derived from Received Signal Strength Indicator (RSSI) stability and packet-loss statistics.
+where $B_i$ denotes the normalized battery state-of-charge; $M_i$ represents the Motor Health Index defined as
 
-The weighting coefficients  satisfy the convexity constraint
+$$
+M_i = 1 - d_i
+$$
 
-with default configuration values , , and .
+and $L_i$ corresponds to the link quality score derived from Received Signal Strength Indicator (RSSI) stability and packet-loss statistics.
+
+The weighting coefficients $w_b,w_m,w_l$ satisfy the convexity constraint
+
+$$
+w_b + w_m + w_l = 1, \qquad w_b,w_m,w_l \ge 0
+$$
+
+with default configuration values $w_b=0.45$, $w_m=0.35$, and $w_l=0.20$.
 
 Leader selection is determined by
 
-where  denotes the elected leader. A re-election procedure is automatically triggered when the incumbent leader fails to transmit two consecutive heartbeat signals, ensuring dynamic reconfiguration under node failure conditions.
+$$
+L^* = \arg\max_i S_i
+$$
+
+where $L^*$ denotes the elected leader. A re-election procedure is automatically triggered when the incumbent leader fails to transmit two consecutive heartbeat signals, ensuring dynamic reconfiguration under node failure conditions.
 
 Fig. 2. MCSS-based decentralized leader election process.
 
@@ -124,6 +140,10 @@ Fig. 2. MCSS-based decentralized leader election process.
 
 The MCSS-based leader election mechanism is designed to preserve consensus integrity in the presence of Byzantine behavior affecting up to
 
+$$
+f \le \left\lfloor\frac{N-1}{3}\right\rfloor
+$$
+
 Fig. 3. Fault tolerance bound of the MCSS protocol under Byzantine behavior
 
 ![Fig. 3](<Docs/research_img/fig. 3.png>)
@@ -131,7 +151,7 @@ Fig. 3. Fault tolerance bound of the MCSS protocol under Byzantine behavior
 
 nodes, consistent with classical distributed fault-tolerance bounds [4], [5]. Under this constraint, the swarm maintains a valid leader selection outcome despite arbitrary or malicious behavior by faulty participants.
 
-For the minimum operational configuration , the system tolerates one Byzantine node. In the default demonstration configuration , one faulty node can be accommodated while preserving coordinated swarm operation.
+For the minimum operational configuration $N=4$, the system tolerates one Byzantine node. In the default demonstration configuration $N=5$, one faulty node can be accommodated while preserving coordinated swarm operation.
 
 Leader re-election latency is bounded by two consecutive heartbeat intervals plus inter-node score propagation delay. In experimental simulation, this results in an observed upper bound of approximately 1.2 seconds for leadership restoration following failure detection. This bounded recovery time contributes to maintaining distributed coordination under transient node compromise or crash faults.
 
@@ -158,9 +178,17 @@ V. SECURE COMMUNICATION — AES-256-GCM MESH
 
 A monotonically increasing sequence number is included as Additional Authenticated Data (AAD) to mitigate replay attacks. All inter-drone control and telemetry messages are protected using AES-256 in Galois/Counter Mode (GCM), an authenticated encryption scheme that provides both confidentiality and integrity guarantees [14], [15]. The symmetric swarm key is derived from a shared passphrase through PBKDF2-HMAC-SHA256 with 100,000 iterations to increase resistance against brute-force attacks. The key derivation process is defined as
 
+$$
+K = \mathrm{PBKDF2\mbox{-}HMAC\mbox{-}SHA256}(P,\,salt,\,100000,\,32)
+$$
+
 where the output length is 32 bytes (256 bits).
 
 Each encrypted packet follows the structure
+
+$$
+\text{packet} = (seq,\, IV,\, C,\, tag)
+$$
 
 where a per-message Initialization Vector (IV) is generated using a cryptographically secure random source. The authentication tag produced by GCM ensures that any unauthorized modification of ciphertext or associated data is detected during decryption. By combining strong key derivation with authenticated encryption, the communication layer enhances resistance against replay, tampering, and interception attempts within the swarm network.
 
@@ -174,6 +202,10 @@ Fig. 5. AES-256-GCM encrypted packet format with PBKDF2-derived swarm key and au
 To mitigate replay attacks in the decentralized swarm network, each transmitted message includes a monotonically increasing sequence number assigned by the originating drone. The sequence number is incorporated as authenticated data within the AES-256-GCM encryption process, ensuring that it is integrity-protected and cannot be modified without detection.
 
 Each receiving drone maintains a per-sender sequence counter representing the highest validated sequence value previously accepted from that peer. Upon message reception, the receiver verifies that the incoming sequence number satisfies
+
+$$
+seq_{in} > seq_{last}(sender)
+$$
 
 Only messages meeting this strict ordering constraint are processed; all others are discarded without acknowledgment. This mechanism provides deterministic replay protection without reliance on synchronized clocks, thereby avoiding time-drift vulnerabilities common in timestamp-based schemes [4]. By combining sequence validation with authenticated encryption, the communication layer strengthens resistance against packet duplication and delayed retransmission attacks within the swarm mesh.
 
@@ -201,16 +233,28 @@ VI. DYNAMIC OBSTACLE AVOIDANCE
 
 The DynamicObstaclePredictor estimates potential collision risk using a geometric collision-cone formulation as described in [25], [26]. Consider a drone located at position with velocity , and an obstacle located at position with velocity . The relative position and velocity vectors are defined as
 
+$$
+\mathbf{r}=\mathbf{p}_o-\mathbf{p}_d, \qquad \mathbf{v}_{rel}=\mathbf{v}_o-\mathbf{v}_d
+$$
+
 The half-angle of the collision cone is computed as
+
+$$
+\theta_c = \sin^{-1}\!\left(\frac{R_{eff}}{\|\mathbf{r}\|}\right), \qquad \|\mathbf{r}\|>R_{eff}
+$$
 
 Fig. 8. Geometric collision-cone formulation showing relative position vector , relative velocity , obstacle radius , and half-angle . A collision condition occurs when lies within the cone defined by .
 
 ![Fig. 8](<Docs/research_img/fig. 8.png>)
 
 
-where denotes the effective obstacle radius including a predefined safety buffer.
+where $R_{eff}$ denotes the effective obstacle radius including a predefined safety buffer.
 
-Let  be the normalized relative position vector. A potential collision condition is detected when the angular separation between and satisfies
+Let $\hat{\mathbf{r}}=\mathbf{r}/\|\mathbf{r}\|$ be the normalized relative position vector. A potential collision condition is detected when the angular separation between $\mathbf{v}_{rel}$ and $-\hat{\mathbf{r}}$ satisfies
+
+$$
+\angle(\mathbf{v}_{rel},-\hat{\mathbf{r}}) \le \theta_c
+$$
 
 indicating that the relative velocity vector lies within the collision cone. In such cases, a corrective velocity adjustment is required to prevent intersection trajectories.
 
@@ -219,6 +263,10 @@ To reduce unnecessary avoidance maneuvers for distant objects, a time-to-closest
 6.2 Trajectory Prediction and Kinematic Model
 
 The TrajectoryEstimator predicts short-horizon obstacle motion using a second-order kinematic formulation. For an obstacle with initial position , velocity components , and acceleration components , the predicted position at future time is given by
+
+$$
+\mathbf{p}(t+\Delta t)=\mathbf{p}(t)+\mathbf{v}(t)\Delta t+\tfrac{1}{2}\mathbf{a}(t)\Delta t^2
+$$
 
 Fig. 9. Short-horizon trajectory prediction using second-order kinematics. The Linear model assumes constant velocity, the Circular model follows constant angular velocity about a fixed center, and the Random-Walk model introduces bounded stochastic acceleration within defined limits.
 
@@ -230,13 +278,13 @@ This formulation enables continuous estimation of obstacle trajectories within a
 Three motion models are supported:
 
 Linear Model (Constant Velocity):
-Assumes , resulting in uniform motion along a fixed direction.
+Assumes $\mathbf{a}=\mathbf{0}$, resulting in uniform motion along a fixed direction.
 
 Circular Model (Constant Angular Velocity):
 Models obstacle motion along a circular path with constant angular velocity around a fixed center, enabling prediction of curved trajectories.
 
 Random-Walk Model (Bounded Stochastic Acceleration):
-Introduces bounded stochastic perturbations to acceleration within , subject to a maximum speed constraint of 18 m/s, allowing realistic modeling of unpredictable motion.
+Introduces bounded stochastic perturbations to acceleration within $\|\mathbf{a}\|\le a_{max}$, subject to a maximum speed constraint of 18 m/s, allowing realistic modeling of unpredictable motion.
 
 Predictions are sampled at 0.3-second intervals over a 3-second forward horizon, resulting in a discretized trajectory set used for collision-cone evaluation and avoidance planning.
 
@@ -244,13 +292,29 @@ Predictions are sampled at 0.3-second intervals over a 3-second forward horizon,
 
 Raw avoidance velocity vectors generated by the prediction engine are combined with the mission-level goal velocity through a smooth steering formulation. The desired velocity is defined as
 
+$$
+\mathbf{v}_{des}=\mathbf{v}_{goal}+\lambda\,\mathbf{v}_{avoid}
+$$
+
 To ensure gradual transition from the current motion state, a blending operation is applied:
+
+$$
+\mathbf{v}_{cmd}=(1-\alpha)\mathbf{v}_{curr}+\alpha\mathbf{v}_{des}
+$$
 
 where is a smoothing coefficient controlling steering aggressiveness.
 
 To maintain physical feasibility, the resulting acceleration demand is evaluated as
 
-If , the velocity increment is proportionally scaled such that
+$$
+\mathbf{a}_{req}=\frac{\mathbf{v}_{cmd}-\mathbf{v}_{curr}}{\Delta t}
+$$
+
+If $\|\mathbf{a}_{req}\|>a_{max}$, the velocity increment is proportionally scaled such that
+
+$$
+\mathbf{v}_{cmd}\leftarrow \mathbf{v}_{curr}+\frac{a_{max}\Delta t}{\|\mathbf{v}_{cmd}-\mathbf{v}_{curr}\|}(\mathbf{v}_{cmd}-\mathbf{v}_{curr})
+$$
 
 while preserving the direction of motion.
 
@@ -265,12 +329,16 @@ Finally, the PathReplanner converts the bounded output velocity into a lookahead
 
 To incorporate behavioral consistency into collision assessment, the DynamicObstaclePredictor maintains a per-obstacle risk memory score updated using exponential smoothing. The update rule is defined as
 
+$$
+r_t=0.86\,r_{t-1}+0.14\cdot\min\!\left(1,\frac{v_t}{20}+\frac{a_t}{6}\right)
+$$
+
 Fig. 11. Exponential risk memory update showing gradual accumulation of aggressiveness score over time using weighted smoothing (0.86 previous memory, 0.14 new observation). Persistently erratic obstacle behavior results in elevated long-term risk weighting.
 
 ![Fig. 11](<Docs/research_img/fig. 11.png>)
 
 
-where and denote the instantaneous obstacle speed (m/s) and acceleration magnitude (m/s), respectively. The normalization constants (20 and 6) scale dynamic motion parameters into the unit interval, and the minimum operator ensures boundedness within .
+where $v_t$ and $a_t$ denote the instantaneous obstacle speed (m/s) and acceleration magnitude (m/s), respectively. The normalization constants (20 and 6) scale dynamic motion parameters into the unit interval, and the minimum operator ensures boundedness within $[0,1]$.
 
 The exponential weighting introduces temporal memory, allowing obstacles that exhibit consistently high-speed or erratic acceleration patterns to accumulate elevated risk scores over time. This learned aggressiveness factor is incorporated as a multiplicative weight in the final collision probability estimate, increasing avoidance sensitivity for previously unstable obstacles while preserving the underlying geometric collision-cone prediction framework.
 
@@ -280,16 +348,24 @@ VII. ACOUSTIC SOURCE LOCALIZATION — GCC-PHAT TDOA ENGINE
 
 The CrossCorrelationEngine estimates inter-drone acoustic propagation delay using the Generalized Cross-Correlation with Phase Transform (GCC-PHAT) method [21]. Consider two microphone signals and with Fourier transforms and , respectively. The GCC-PHAT cross-spectrum is defined as
 
+$$
+G_{12}(f)=\frac{X_1(f)X_2^*(f)}{|X_1(f)X_2^*(f)|+\epsilon}
+$$
+
 Fig. 12. Time Difference of Arrival (TDOA) geometry showing two drone-mounted microphones and an acoustic source. The propagation delay defines a hyperbolic locus of possible source locations used in GCC-PHAT localization.
 
 ![Fig. 12](<Docs/research_img/fig. 12.png>)
 
 
-where denotes the complex conjugate of , and is a small regularization constant introduced to prevent numerical instability.
+where $X_2^*(f)$ denotes the complex conjugate of $X_2(f)$, and $\epsilon$ is a small regularization constant introduced to prevent numerical instability.
 
 The phase-only normalization (division by magnitude) whitens the spectrum and reduces sensitivity to signal amplitude variations and reverberation effects, resulting in a sharper correlation peak in the time domain. The estimated time delay is obtained as
 
-where denotes the inverse Fourier transform.
+$$
+\hat{\tau}=\arg\max_\tau\;\mathcal{F}^{-1}\{G_{12}(f)\}(\tau)
+$$
+
+where $\mathcal{F}^{-1}\{\cdot\}$ denotes the inverse Fourier transform.
 
 To improve robustness, a secondary direct cross-correlation estimate is computed in parallel. The final delay estimate is selected based on the higher peak magnitude between the GCC-PHAT and direct correlation outputs, providing resilience against low signal-to-noise or multipath conditions.
 
@@ -297,9 +373,17 @@ To improve robustness, a secondary direct cross-correlation estimate is computed
 
 Each estimated time delay between sensor pair corresponds to a difference in propagation path length given by
 
-where denotes the speed of sound at sea level (at approximately 20°C).
+$$
+\Delta d_{ij}=c\,\tau_{ij}
+$$
 
-Let represent the unknown source position and denote the known sensor coordinates. The time-delay constraint yields the hyperbolic equation
+where $c$ denotes the speed of sound at sea level (at approximately 20 C).
+
+Let $\mathbf{x}$ represent the unknown source position and $\mathbf{s}_i$ denote the known sensor coordinates. The time-delay constraint yields the hyperbolic equation
+
+$$
+\|\mathbf{x}-\mathbf{s}_i\|-\|\mathbf{x}-\mathbf{s}_j\|=c\,\tau_{ij}
+$$
 
 which defines a branch of a hyperbola in two-dimensional space.
 
@@ -312,13 +396,21 @@ With three or more non-collinear sensors, multiple independent hyperbolic constr
 
 7.3 Non-Linear Least Squares Fusion
 
-The AcousticFusionEngine estimates the source position by solving the overdetermined system of TDOA-derived hyperbolic constraints using a nonlinear least-squares formulation. Let the unknown source position be , and let denote the known sensor coordinates. The optimization problem is defined as
+The AcousticFusionEngine estimates the source position by solving the overdetermined system of TDOA-derived hyperbolic constraints using a nonlinear least-squares formulation. Let the unknown source position be $\mathbf{x}$, and let $\mathbf{s}_i$ denote the known sensor coordinates. The optimization problem is defined as
 
-where represents the estimated time delay between sensor pair , and is the speed of sound.
+$$
+\mathbf{x}^*=\arg\min_{\mathbf{x}}\sum_{(i,j)}\left(\|\mathbf{x}-\mathbf{s}_i\|-\|\mathbf{x}-\mathbf{s}_j\|-c\,\tau_{ij}\right)^2
+$$
+
+where $\tau_{ij}$ represents the estimated time delay between sensor pair $(i,j)$, and $c$ is the speed of sound.
 
 The problem is solved using SciPy’s Trust-Region Reflective (TRF) least-squares solver with a soft-L1 loss function to reduce sensitivity to outlier delay estimates. To mitigate convergence to local minima, multiple initialization points are evaluated, including drone positions offset by ±10 m and the centroid of all sensor coordinates. The solution yielding the minimum Root Mean Square Error (RMSE) residual is selected.
 
 The localization confidence metric is defined as
+
+$$
+C_{loc}=\frac{1}{1+\mathrm{RMSE}}
+$$
 
 where RMSE denotes the residual error of the optimized solution. Only localization results exceeding a confidence threshold of 0.35 are disseminated to the swarm as validated acoustic detection events.
 
@@ -352,23 +444,27 @@ UNIX timestamp
 
 Drone identifier
 
-SHA3-256 hash of the telemetry snapshot ()
+SHA3-256 hash of the telemetry snapshot ($h_{tele,i}$)
 
-SHA3-256 hash of the event payload ()
+SHA3-256 hash of the event payload ($h_{evt,i}$)
 
-Previous block hash ()
+Previous block hash ($H_{i-1}$)
 
-Current block hash ()
+Current block hash ($H_i$)
 
 Ed25519 digital signature
 
 The block hash is computed as
 
-where denotes byte-wise concatenation.
+$$
+H_i = \mathrm{SHA3\mbox{-}256}(idx_i \Vert ts_i \Vert id_i \Vert h_{tele,i} \Vert h_{evt,i} \Vert H_{i-1})
+$$
+
+where $\Vert$ denotes byte-wise concatenation.
 
 The use of SHA3-256 [16] provides cryptographic hashing based on the Keccak sponge construction, offering structural diversity relative to SHA-2 family algorithms. Unlike Merkle–Damgård–based constructions, the sponge design avoids certain structural vulnerabilities such as classical length-extension properties.
 
-The resulting block hash is digitally signed using Ed25519 to ensure authenticity and non-repudiation. Any modification to block contents alters , thereby invalidating both the cryptographic chain and the associated signature.
+The resulting block hash is digitally signed using Ed25519 to ensure authenticity and non-repudiation. Any modification to block contents alters $H_i$, thereby invalidating both the cryptographic chain and the associated signature.
 
 Fig. 16. Structure of the Flying Ledger block showing SHA3-256 hash computation, linkage via previous block hash, and Ed25519 digital signature for authenticity and tamper detection
 
@@ -392,13 +488,17 @@ Fig. 17. Ed25519 signing and verification pipeline for block authentication in t
 
 8.3 Tamper Detection and Chain Verification
 
-Chain integrity verification is performed by sequentially traversing all blocks from the genesis block to the current tip of the ledger. For each block , two validation conditions are evaluated:
+Chain integrity verification is performed by sequentially traversing all blocks from the genesis block to the current tip of the ledger. For each block $i$, two validation conditions are evaluated:
 
-The stored field must match the recomputed hash of the preceding block.
+The stored `previous_hash` field must match the recomputed hash of the preceding block.
 
 The stored must equal the freshly computed hash obtained by re-evaluating the block’s constituent fields according to Appendix A.3.
 
-Formally, for every block index :
+Formally, for every block index $i>0$:
+
+$$
+prev\_hash_i = H_{i-1}, \qquad H_i = \mathrm{SHA3\mbox{-}256}(payload_i)
+$$
 
 Fig. 18. Hash-chain integrity verification illustrating tamper propagation from Block to subsequent blocks.
 
@@ -434,9 +534,13 @@ IX. C++ DIFFERENTIAL IMMUNE SYSTEM
 
 9.1 Motor Degradation Detection
 
-The C++–based DroneController executes a continuous telemetry monitoring loop synchronized with the hardware update rate. For each motor , the relative RPM deviation is computed as
+The C++–based DroneController executes a continuous telemetry monitoring loop synchronized with the hardware update rate. For each motor $j$, the relative RPM deviation is computed as
 
-where a deviation threshold of 10% is used as the primary degradation indicator.
+$$
+d_j = \frac{|rpm_j-rpm_j^{ref}|}{rpm_j^{ref}}
+$$
+
+where a deviation threshold of 10% is used as the primary degradation indicator, i.e., degraded if $d_j \ge 0.10$.
 
 Fig. 20. Motor degradation detection using RPM deviation threshold (≥10%), auxiliary vibration and temperature monitoring, and rolling-window filtering for persistent fault classification.
 
@@ -449,15 +553,23 @@ To avoid false-positive detections caused by transient load variations or short-
 
 9.2 Adaptive Thrust Redistribution
 
-Upon detection of motor degradation, thrust compensation is applied across the remaining healthy motors to preserve attitude stability. Let denote the nominal thrust of motor . The compensated thrust command is defined as
+Upon detection of motor degradation, thrust compensation is applied across the remaining healthy motors to preserve attitude stability. Let $T_k$ denote the nominal thrust of motor $k$. The compensated thrust command is defined as
 
-where represents the redistribution increment assigned to healthy motors , the set of operational actuators.
+$$
+T_k' = T_k + \Delta T_k, \qquad k\in\mathcal{H}
+$$
+
+where $\Delta T_k$ represents the redistribution increment assigned to healthy motors $k \in \mathcal{H}$, the set of operational actuators.
 
 The compensation allocation follows a geometry-aware distribution strategy: the rotor diametrically opposite the degraded motor receives the largest thrust increment, while adjacent lateral rotors receive proportionally smaller increments to maintain torque balance and yaw stability.
 
 To prevent oscillatory behavior or abrupt torque transients, all compensation terms are passed through a first-order low-pass filter (LPF):
 
-where is the smoothing coefficient.
+$$
+\Delta T_k^{(t)} = \beta\,\Delta T_k^{(t-1)} + (1-\beta)\,\Delta T_{k,raw}^{(t)}
+$$
+
+where $\beta$ is the smoothing coefficient.
 
 Fig. 21. Geometry-aware thrust redistribution and low-pass filtered compensation for single-motor degradation, with automatic RTL activation under multi-motor failure.
 
@@ -474,7 +586,11 @@ When a motor is classified as degraded, the proportional gain associated with th
 
 Formally, for a degraded condition:
 
-where and are empirically tuned scaling coefficients.
+$$
+K_p' = \eta_p K_p, \quad K_d' = \eta_d K_d, \quad 0<\eta_p<1<\eta_d
+$$
+
+where $\eta_p$ and $\eta_d$ are empirically tuned scaling coefficients.
 
 This adaptive retuning reduces overshoot and oscillation during thrust redistribution and allows the drone to maintain controlled flight during degradation transitions without requiring operator intervention.
 
@@ -489,13 +605,19 @@ X. LATENCY MONITORING AND SAFETY FALLBACK
 
 The LatencyMonitor maintains a rolling window of 120 LatencySample records to continuously assess cross-language execution delay between C++ and Python modules. Each sample stores four timestamps:
 
-The total round-trip time (RTT) for sample is computed as
+The total round-trip time (RTT) for sample $k$ is computed as
 
-Over a rolling window , latency jitter is quantified as the standard deviation:
+$$
+RTT_k = t_{k}^{(back)} - t_{k}^{(send)}
+$$
 
-where
+Over a rolling window $W$, latency jitter is quantified as the standard deviation:
 
-and .
+$$
+\sigma_{RTT}=\sqrt{\frac{1}{|W|}\sum_{k\in W}(RTT_k-\bar{RTT})^2}, \qquad \bar{RTT}=\frac{1}{|W|}\sum_{k\in W}RTT_k
+$$
+
+where $\bar{RTT}$ is the rolling-window mean RTT and $|W|$ is the number of samples in the active window.
 
 Both instantaneous RTT and computed jitter metrics are propagated to the swarm state monitoring interface and used for safety-decision logic under degraded processing conditions.
 
@@ -506,7 +628,11 @@ Fig. 23. Rolling-window RTT measurement and jitter computation between C++ and P
 
 10.2 Automatic Fallback Activation
 
-When the mean round-trip time (RTT) computed over the rolling window exceeds a predefined threshold (default ms), the system activates a degraded-operation state by setting
+When the mean round-trip time (RTT) computed over the rolling window exceeds a predefined threshold (default $220$ ms), the system activates a degraded-operation state by setting
+
+$$
+\bar{RTT}>RTT_{th} \Rightarrow fallback\_required=\texttt{True}
+$$
 
 Fig. 24. Latency-triggered fallback mechanism where excessive mean RTT activates local geometric collision-cone avoidance, bypassing Python ML inference to maintain bounded real-time control under degraded conditions.
 
@@ -644,6 +770,10 @@ XII. MACHINE LEARNING DECISION SUPPORT
 
 Each drone maintains an independent MLDecisionSupport model that provides localized risk estimation and avoidance guidance. The model is formulated as a polynomial regression–based classifier trained on mappings of the form
 
+$$
+\phi(\mathbf{x}) \mapsto (\hat{r},\hat{\mathbf{u}}_{avoid})
+$$
+
 Training data are derived from the drone’s own historical flight records, enabling individualized behavioral adaptation.
 
 A second-degree polynomial feature expansion is employed to capture non-linear interactions between spatial proximity, relative velocity, and obstacle characteristics while maintaining computational efficiency. Compared to deep neural network architectures, this approach offers deterministic inference time, reduced memory footprint, and lower onboard processing requirements properties advantageous for embedded aerial platforms.
@@ -655,6 +785,10 @@ The PhysicalMLTrainer module supports supervised training from CSV or JSON datas
 The MLNavigationModule integrates machine learning–based risk estimation into the trajectory planning pipeline through a gated decision mechanism. For each planning cycle, the trained MLDecisionSupport model produces a predicted collision risk score along with a recommended avoidance vector.
 
 A maneuver override is triggered when either of the following conditions holds:
+
+$$
+\hat{r}\ge r_{th} \quad \text{or} \quad P_{cone}\ge P_{th}
+$$
 
 In such cases, the drone is redirected toward a temporary waypoint computed along the suggested avoidance vector. This waypoint serves as an intermediate corrective target before resuming the nominal mission trajectory.
 
@@ -672,9 +806,13 @@ XIV. EXPERIMENTAL RESULTS AND VALIDATION
 
 14.1 Acoustic Localization Accuracy
 
-The acoustic localization pipeline was evaluated using the test suite test_acoustic_tdoa_accuracy(). A known impulse source was positioned at m within a planar environment instrumented with four spatially separated sensors located at
+The acoustic localization pipeline was evaluated using the test suite test_acoustic_tdoa_accuracy(). A known impulse source was positioned at $(25,18)$ m within a planar environment instrumented with four spatially separated sensors located at $(0,0)$, $(40,0)$, $(0,40)$, and $(40,40)$ m.
 
 The audio sampling rate was set to 48 kHz. Localization accuracy was assessed using the Euclidean position error metric:
+
+$$
+e_{pos}=\|\hat{\mathbf{x}}-\mathbf{x}_{gt}\|_2
+$$
 
 Across repeated trials, the solver produced localization errors below 3.0 m.
 
@@ -730,6 +868,10 @@ Fig. 29. Avoidance-enabled trajectory deviation and mission resumption under obs
 The latency supervision subsystem was evaluated using targeted stress and statistical consistency tests.
 
 In the test_high_latency_spike() scenario, a synthetic round-trip time (RTT) event of 520 ms was injected into the monitoring pipeline. The system correctly computed
+
+$$
+\bar{RTT}=520\,\text{ms} > RTT_{th}=220\,\text{ms}
+$$
 
 thereby triggering the degraded-operation condition. The internal state flag fallback_required was set to True, confirming proper activation of the local avoidance fallback mechanism described in Section X.
 
