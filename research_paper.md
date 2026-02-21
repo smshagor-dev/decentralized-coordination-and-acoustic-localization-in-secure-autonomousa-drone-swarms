@@ -78,6 +78,9 @@ The proposed system is implemented as a layered and modular architecture with cl
 
 Fig. 1 illustrates the layered architectural framework of the proposed system. It demonstrates the high-level coordination handled by the Python-based SwarmManager, the decentralized security layer (Flying Ledger), and the low-level real-time execution core implemented in C++. The diagram highlights the bidirectional data flow between the operator interface and the autonomous agents, emphasizing the modular separation of the ML inference engine and the acoustic TDOA localization module.
 
+![Fig. 1](<Docs/research_img/fig. 1.png>)
+
+
 Technology Stack: The software stack is divided across two primary execution domains. Python 3.11+ manages swarm-level logic, drone behavioral modeling, acoustic processing, distributed ledger operations, machine learning inference, obstacle modeling, and graphical user interface rendering. C++17 is employed for time-critical flight control operations, MAVLink communication, and latency supervision. Inter-process communication between Python and C++ modules is implemented via shared-memory IPC with timestamp-annotated packets, enabling round-trip timing analysis through the LatencyMonitor subsystem. Encrypted inter-drone communication utilizes AES-256-GCM implemented through the Python cryptography library to ensure confidentiality and integrity of transmitted telemetry and control commands.
 
 To support reproducibility and further academic research, the entire software stack, including the ML inference engine and the Flying Ledger protocol, has been open-sourced on GitHub [Link].
@@ -114,11 +117,17 @@ where  denotes the elected leader. A re-election procedure is automatically trig
 
 Fig. 2. MCSS-based decentralized leader election process.
 
+![Fig. 2](<Docs/research_img/fig. 2.png>)
+
+
 4.2 Byzantine Fault Tolerance Properties
 
 The MCSS-based leader election mechanism is designed to preserve consensus integrity in the presence of Byzantine behavior affecting up to
 
 Fig. 3. Fault tolerance bound of the MCSS protocol under Byzantine behavior
+
+![Fig. 3](<Docs/research_img/fig. 3.png>)
+
 
 nodes, consistent with classical distributed fault-tolerance bounds [4], [5]. Under this constraint, the swarm maintains a valid leader selection outcome despite arbitrary or malicious behavior by faulty participants.
 
@@ -140,6 +149,9 @@ All role transitions including leader promotion, follower reassignment, or relay
 
 Fig. 4. Operational role model of the decentralized swarm showing Leader command dissemination, Follower responsive control, and Relay-based communication bridging, with role transitions recorded on the distributed ledger.
 
+![Fig. 4](<Docs/research_img/fig. 4.png>)
+
+
 V. SECURE COMMUNICATION — AES-256-GCM MESH
 
 5.1 Encrypted Transport Layer
@@ -154,6 +166,9 @@ where a per-message Initialization Vector (IV) is generated using a cryptographi
 
 Fig. 5. AES-256-GCM encrypted packet format with PBKDF2-derived swarm key and authenticated encryption tag.
 
+![Fig. 5](<Docs/research_img/fig. 5.png>)
+
+
 5.2 Replay Attack Prevention
 
 To mitigate replay attacks in the decentralized swarm network, each transmitted message includes a monotonically increasing sequence number assigned by the originating drone. The sequence number is incorporated as authenticated data within the AES-256-GCM encryption process, ensuring that it is integrity-protected and cannot be modified without detection.
@@ -163,6 +178,9 @@ Each receiving drone maintains a per-sender sequence counter representing the hi
 Only messages meeting this strict ordering constraint are processed; all others are discarded without acknowledgment. This mechanism provides deterministic replay protection without reliance on synchronized clocks, thereby avoiding time-drift vulnerabilities common in timestamp-based schemes [4]. By combining sequence validation with authenticated encryption, the communication layer strengthens resistance against packet duplication and delayed retransmission attacks within the swarm mesh.
 
 Fig. 6. Replay protection mechanism using per-sender monotonic sequence numbers with strict ordering validation at the receiver.
+
+![Fig. 6](<Docs/research_img/fig. 6.png>)
+
 
 5.3 Wireless Transport Layer (IP-Independent Communication)
 
@@ -174,6 +192,9 @@ Since the transport layer does not guarantee delivery, higher-level protocol mec
 
 Fig. 7. Infrastructure-independent wireless broadcast architecture enabling peer-to-peer encrypted communication among swarm nodes.
 
+![Fig. 7](<Docs/research_img/fig. 7.png>)
+
+
 VI. DYNAMIC OBSTACLE AVOIDANCE
 
 6.1 Collision Cone Probability
@@ -183,6 +204,9 @@ The DynamicObstaclePredictor estimates potential collision risk using a geometri
 The half-angle of the collision cone is computed as
 
 Fig. 8. Geometric collision-cone formulation showing relative position vector , relative velocity , obstacle radius , and half-angle . A collision condition occurs when lies within the cone defined by .
+
+![Fig. 8](<Docs/research_img/fig. 8.png>)
+
 
 where denotes the effective obstacle radius including a predefined safety buffer.
 
@@ -197,6 +221,9 @@ To reduce unnecessary avoidance maneuvers for distant objects, a time-to-closest
 The TrajectoryEstimator predicts short-horizon obstacle motion using a second-order kinematic formulation. For an obstacle with initial position , velocity components , and acceleration components , the predicted position at future time is given by
 
 Fig. 9. Short-horizon trajectory prediction using second-order kinematics. The Linear model assumes constant velocity, the Circular model follows constant angular velocity about a fixed center, and the Random-Walk model introduces bounded stochastic acceleration within defined limits.
+
+![Fig. 9](<Docs/research_img/fig. 9.png>)
+
 
 This formulation enables continuous estimation of obstacle trajectories within a bounded prediction horizon.
 
@@ -229,6 +256,9 @@ while preserving the direction of motion.
 
 Fig. 10. Velocity blending mechanism showing current velocity , goal velocity , avoidance vector , and the smoothed output controlled by interpolation factor . Acceleration magnitude is subsequently constrained to .
 
+![Fig. 10](<Docs/research_img/fig. 10.png>)
+
+
 Finally, the PathReplanner converts the bounded output velocity into a lookahead reference position computed over a 1.2-second horizon, generating a dynamically updated target waypoint for the low-level controller.
 
 6.4 Learned Aggressiveness Scoring
@@ -236,6 +266,9 @@ Finally, the PathReplanner converts the bounded output velocity into a lookahead
 To incorporate behavioral consistency into collision assessment, the DynamicObstaclePredictor maintains a per-obstacle risk memory score updated using exponential smoothing. The update rule is defined as
 
 Fig. 11. Exponential risk memory update showing gradual accumulation of aggressiveness score over time using weighted smoothing (0.86 previous memory, 0.14 new observation). Persistently erratic obstacle behavior results in elevated long-term risk weighting.
+
+![Fig. 11](<Docs/research_img/fig. 11.png>)
+
 
 where and denote the instantaneous obstacle speed (m/s) and acceleration magnitude (m/s), respectively. The normalization constants (20 and 6) scale dynamic motion parameters into the unit interval, and the minimum operator ensures boundedness within .
 
@@ -248,6 +281,9 @@ VII. ACOUSTIC SOURCE LOCALIZATION — GCC-PHAT TDOA ENGINE
 The CrossCorrelationEngine estimates inter-drone acoustic propagation delay using the Generalized Cross-Correlation with Phase Transform (GCC-PHAT) method [21]. Consider two microphone signals and with Fourier transforms and , respectively. The GCC-PHAT cross-spectrum is defined as
 
 Fig. 12. Time Difference of Arrival (TDOA) geometry showing two drone-mounted microphones and an acoustic source. The propagation delay defines a hyperbolic locus of possible source locations used in GCC-PHAT localization.
+
+![Fig. 12](<Docs/research_img/fig. 12.png>)
+
 
 where denotes the complex conjugate of , and is a small regularization constant introduced to prevent numerical instability.
 
@@ -269,6 +305,9 @@ which defines a branch of a hyperbola in two-dimensional space.
 
 Fig. 13. Decentralized drone swarm architecture showing secure RF communication, obstacle prediction, acoustic localization, path replanning, and ledger-based role management.
 
+![Fig. 13](<Docs/research_img/fig. 13.png>)
+
+
 With three or more non-collinear sensors, multiple independent hyperbolic constraints can be constructed. The intersection of these constraints provides an estimate of the source location. In practice, due to measurement noise and finite sampling resolution, the source position is obtained via least-squares minimization over the set of hyperbolic equations.
 
 7.3 Non-Linear Least Squares Fusion
@@ -285,6 +324,9 @@ where RMSE denotes the residual error of the optimized solution. Only localizati
 
 Fig. 14. AcousticFusionEngine nonlinear TDOA-based localization framework using TRF least-squares optimization with soft-L1 loss, multi-initialization strategy, RMSE-based solution selection, and confidence-threshold validation for swarm-level acoustic event dissemination.
 
+![Fig. 14](<Docs/research_img/fig. 14.png>)
+
+
 7.4 High-Latency Fallback
 
 To preserve real-time responsiveness, the AcousticFusionEngine incorporates a latency-aware fallback strategy. When the measured bidirectional C++↔Python round-trip time (RTT) exceeds a predefined threshold (default: 280 ms), the localization process reduces computational complexity by restricting optimization to the three nearest sensor signals instead of the full sensor set.
@@ -294,6 +336,9 @@ This adaptive reduction decreases the dimensionality of the overdetermined syste
 By integrating latency monitoring with sensor subset selection, the system balances estimation accuracy against real-time operational constraints in degraded communication scenarios.
 
 Fig. 15. Latency-aware fallback mechanism in the AcousticFusionEngine, where excessive C++↔Python RTT (>280 ms) triggers sensor subset reduction to the three nearest microphones, lowering optimization complexity to preserve real-time localization under degraded network conditions.
+
+![Fig. 15](<Docs/research_img/fig. 15.png>)
+
 
 VIII. THE FLYING LEDGER — BLOCKCHAIN FLIGHT AUDIT
 
@@ -327,6 +372,9 @@ The resulting block hash is digitally signed using Ed25519 to ensure authenticit
 
 Fig. 16. Structure of the Flying Ledger block showing SHA3-256 hash computation, linkage via previous block hash, and Ed25519 digital signature for authenticity and tamper detection
 
+![Fig. 16](<Docs/research_img/fig. 16.png>)
+
+
 8.2 Ed25519 Digital Signatures
 
 Each block in the Flying Ledger is digitally signed by its originating drone using Ed25519 [17], an elliptic-curve digital signature scheme based on Curve25519. Ed25519 was selected due to its performance efficiency, compact signature representation, and deterministic signing procedure.
@@ -339,6 +387,9 @@ For implementation flexibility, each signature is stored as a Base64-encoded str
 
 Fig. 17. Ed25519 signing and verification pipeline for block authentication in the Flying Ledger.
 
+![Fig. 17](<Docs/research_img/fig. 17.png>)
+
+
 8.3 Tamper Detection and Chain Verification
 
 Chain integrity verification is performed by sequentially traversing all blocks from the genesis block to the current tip of the ledger. For each block , two validation conditions are evaluated:
@@ -350,6 +401,9 @@ The stored must equal the freshly computed hash obtained by re-evaluating the bl
 Formally, for every block index :
 
 Fig. 18. Hash-chain integrity verification illustrating tamper propagation from Block to subsequent blocks.
+
+![Fig. 18](<Docs/research_img/fig. 18.png>)
+
 
 Any alteration to block contents modifies the resulting cryptographic hash with overwhelming probability under standard hash function security assumptions. Consequently, a modification in block invalidates its stored hash and propagates inconsistency to all subsequent blocks, enabling both detection and localization of ledger tampering during verification.
 
@@ -369,6 +423,9 @@ Valid Ed25519 signature verification against the sender’s registered public ke
 
 Fig. 19. Asynchronous block dissemination and peer-side verification workflow ensuring hash integrity, signature validity, and Byzantine-resistant ledger replication.
 
+![Fig. 19](<Docs/research_img/fig. 19.png>)
+
+
 Blocks failing any validation condition are rejected and not appended to the local chain.
 
 Because block acceptance requires a valid digital signature corresponding to the legitimate drone’s private key, unauthorized block injection attempts are rejected under standard cryptographic assumptions. This mechanism strengthens resistance against Byzantine-style injection attacks in which adversarial nodes attempt to introduce fabricated ledger entries.
@@ -382,6 +439,9 @@ The C++–based DroneController executes a continuous telemetry monitoring loop 
 where a deviation threshold of 10% is used as the primary degradation indicator.
 
 Fig. 20. Motor degradation detection using RPM deviation threshold (≥10%), auxiliary vibration and temperature monitoring, and rolling-window filtering for persistent fault classification.
+
+![Fig. 20](<Docs/research_img/fig. 20.png>)
+
 
 In addition to RPM deviation, vibration magnitude and motor temperature are monitored as secondary health metrics. These auxiliary signals provide corroborative evidence of mechanical wear or imbalance.
 
@@ -401,6 +461,9 @@ where is the smoothing coefficient.
 
 Fig. 21. Geometry-aware thrust redistribution and low-pass filtered compensation for single-motor degradation, with automatic RTL activation under multi-motor failure.
 
+![Fig. 21](<Docs/research_img/fig. 21.png>)
+
+
 If two or more motors are classified as degraded simultaneously, the controller transitions to AUTO_RTL (automatic return-to-launch) mode. Under standard quadcopter dynamics, sustained stable hovering with fewer than three fully functional rotors cannot be reliably maintained; therefore, emergency mission termination is initiated as a safety measure.
 
 9.3 Adaptive PID Retuning
@@ -416,6 +479,9 @@ where and are empirically tuned scaling coefficients.
 This adaptive retuning reduces overshoot and oscillation during thrust redistribution and allows the drone to maintain controlled flight during degradation transitions without requiring operator intervention.
 
 Fig. 22. Adaptive PID gain scheduling under motor degradation, reducing proportional gain and increasing derivative gain to improve damping, suppress oscillations, and maintain stable flight during thrust asymmetry.
+
+![Fig. 22](<Docs/research_img/fig. 22.png>)
+
 
 X. LATENCY MONITORING AND SAFETY FALLBACK
 
@@ -435,11 +501,17 @@ Both instantaneous RTT and computed jitter metrics are propagated to the swarm s
 
 Fig. 23. Rolling-window RTT measurement and jitter computation between C++ and Python modules, providing real-time latency metrics for safety monitoring and fallback decision logic.
 
+![Fig. 23](<Docs/research_img/fig. 23.png>)
+
+
 10.2 Automatic Fallback Activation
 
 When the mean round-trip time (RTT) computed over the rolling window exceeds a predefined threshold (default ms), the system activates a degraded-operation state by setting
 
 Fig. 24. Latency-triggered fallback mechanism where excessive mean RTT activates local geometric collision-cone avoidance, bypassing Python ML inference to maintain bounded real-time control under degraded conditions.
+
+![Fig. 24](<Docs/research_img/fig. 24.png>)
+
 
 In this mode, obstacle avoidance decisions are executed entirely within the local drone process, bypassing the Python-based machine learning inference pipeline. Instead, avoidance is computed using the deterministic geometric collision-cone predictor described in Section VI.
 
@@ -450,6 +522,9 @@ This architectural shift removes cross-language communication latency from the c
 The MLBridge subsystem incorporates a hardware-level watchdog mechanism to supervise responsiveness of the Python processing layer. If no valid response is received within a timeout interval of 1.5 seconds, the watchdog condition is triggered.
 
 Fig. 25. Hardware-level watchdog supervising the MLBridge Python layer; a 1.5 s timeout triggers emergency Return-to-Home (RTL) for drones in motion, ensuring fail-safe recovery under software stalls or crashes.
+
+![Fig. 25](<Docs/research_img/fig. 25.png>)
+
 
 Upon timeout detection, the swarm controller issues an emergency Return-to-Home (RTL) command to all drones currently in the MOVING_TO_TARGET operational state. This safety transition overrides pending trajectory commands and shifts the system into a predefined recovery mode.
 
@@ -479,6 +554,9 @@ $$
 The threshold value of 0.70 represents an empirically selected minimum acceptable probability of safe return under operational testing conditions.
 
 Fig. 26. Probabilistic decision framework for autonomous RTH versus controlled landing based on composite reliability estimation.
+
+![Fig. 26](<Docs/research_img/fig. 26.png>)
+
 
 11.2 Individual Factor Computation
 
@@ -602,6 +680,9 @@ Across repeated trials, the solver produced localization errors below 3.0 m.
 
 Fig. 27. Estimated versus true source position demonstrating sub-3 m localization accuracy under moderate noise conditions.
 
+![Fig. 27](<Docs/research_img/fig. 27.png>)
+
+
 To evaluate robustness under noise, additive Gaussian noise with standard deviation (normalized amplitude scale) was applied independently to each audio sample. Under these conditions, the computed acoustic confidence metric (Eq. 11) remained above the operational threshold of 0.35, and localization events were successfully registered.
 
 These results demonstrate that the combined GCC-PHAT delay estimation and TRF-based nonlinear least-squares fusion pipeline maintains stable localization performance under moderate sensor noise conditions.
@@ -617,6 +698,9 @@ Tamper resistance was evaluated using the test_block_validation_rejection() rout
 These results demonstrate correct operation of asynchronous replication, signature validation, and hash-chain integrity enforcement under both normal and adversarial conditions.
 
 Fig. 28. Multi-node ledger consensus and rejection of tampered blocks via hash-chain and signature verification.
+
+![Fig. 28](<Docs/research_img/fig. 28.png>)
+
 
 14.3 Obstacle Avoidance Validation
 
@@ -638,6 +722,9 @@ These results indicate correct integration of collision detection, velocity blen
 
 Fig. 29. Avoidance-enabled trajectory deviation and mission resumption under obstacle encounter.
 
+![Fig. 29](<Docs/research_img/fig. 29.png>)
+
+
 14.4 Latency Monitoring
 
 The latency supervision subsystem was evaluated using targeted stress and statistical consistency tests.
@@ -651,6 +738,9 @@ In the test_latency_jitter_std_tracking() routine, three RTT samples with varyin
 These results demonstrate correct threshold detection, fallback activation logic, and statistical tracking of latency variability under both spike and normal fluctuation conditions.
 
 Fig. 30. Round-trip time (RTT) monitoring over time with threshold-based fallback activation. A synthetic 520 ms latency spike exceeds the 220 ms threshold, triggering degraded-operation mode. RTT subsequently returns below threshold, demonstrating correct detection and recovery behavior.
+
+![Fig. 30](<Docs/research_img/fig. 30.png>)
+
 
 XV. GROUND CONTROL STATION — GUI CONSOLE
 
@@ -673,6 +763,9 @@ Mission Control Interface: Provides structured operator commands including takeo
 This integrated console unifies telemetry monitoring, latency supervision, cryptographic ledger verification, acoustic detection, obstacle prediction, and mission command functionality within a single operator interface. By maintaining a clear separation between visualization and autonomous control processes, the system ensures situational transparency without direct interference in distributed decision-making.
 
 Fig. 31. Ground Control Station (GCS) interface showing real-time swarm visualization, latency monitoring, blockchain synchronization status, ML training metrics, and mission control panel. The multi-threaded architecture enables simultaneous telemetry rendering and operator command execution without blocking swarm control logic.
+
+![Fig. 31](<Docs/research_img/fig. 31.png>)
+
 
 XVI. LIMITATIONS AND FUTURE WORK
 
@@ -838,7 +931,36 @@ System Configuration Parameters
 
 B.1 Default Operational Constants
 
+| Parameter | Symbol | Default Value | Unit | Notes |
+|---|---|---:|---|---|
+| Heartbeat interval | $T_{hb}$ | 0.5 | s | Leader liveness monitoring |
+| Score propagation delay (typical) | $T_{prop}$ | 0.2 | s | Inter-node score broadcast latency |
+| Max leader re-election latency (observed) | $T_{re-elect}$ | 1.2 | s | Derived from $2T_{hb}+T_{prop}$ |
+| Replay validation rule | $seq_{in}$ | $> seq_{last}$ | - | Strict monotonic acceptance |
+| TCA rejection horizon | $TCA_{max}$ | 4.0 | s | Ignore non-imminent collision events |
+| Obstacle prediction timestep | $\Delta t$ | 0.3 | s | Discrete rollout interval |
+| Obstacle prediction horizon | $T_{pred}$ | 3.0 | s | Forward planning window |
+| Path lookahead horizon | $T_{look}$ | 1.2 | s | Low-level reference generation |
+| RTT fallback threshold (control) | $RTT_{th}$ | 220 | ms | Activates local geometric fallback |
+| RTT fallback threshold (acoustic) | $RTT_{th}^{ac}$ | 280 | ms | Uses nearest 3 sensors only |
+| Watchdog timeout | $T_{wd}$ | 1.5 | s | Triggers emergency RTL for moving drones |
+| Motor degradation threshold | $d_m$ | 0.10 | fraction | 10% RPM deviation criterion |
+| RTH decision threshold | $P_{RTH}$ | 0.70 | probability | RTH if $P_{RTH}\ge0.70$ |
+| RTH energy safety margin | $E_{margin}$ | 0.05 | fraction | 5% reserve margin |
+| Max wind reference | $w_{max}$ | 12 | m/s | Wind reliability normalization |
+| Max mission radius | $D_{max}$ | 10 | km | Distance reliability normalization |
+
 B.2 Cryptographic Parameters
+
+| Item | Algorithm / Setting | Value |
+|---|---|---|
+| Symmetric encryption | AES-256-GCM | 256-bit key |
+| Key derivation | PBKDF2-HMAC-SHA256 | 100,000 iterations |
+| Derived key length | KDF output | 32 bytes |
+| Packet AAD | Replay sequence number | Monotonic per sender |
+| Block hash | SHA3-256 | 256-bit digest |
+| Digital signature | Ed25519 | 64-byte signature |
+| Signature encoding | Base64 with algorithm prefix | Example: `Ed25519:<base64>` |
 
 APPENDIX C
 
@@ -846,55 +968,63 @@ Experimental Test Environment
 
 C.1 Simulation Platform
 
-Python 3.11
-
-C++17
-
-SciPy TRF solver
-
-Sampling rate: 48 kHz (acoustic tests)
-
-Quadrotor kinematic model
+| Component | Version / Spec | Purpose |
+|---|---|---|
+| Python runtime | 3.11+ | Swarm logic, GUI, ML, acoustic, ledger |
+| C++ toolchain | C++17 | Real-time control and HAL layer |
+| Nonlinear optimizer | SciPy TRF (soft-L1) | TDOA least-squares localization |
+| Acoustic sampling | 48 kHz | GCC-PHAT delay estimation |
+| Vehicle model | Quadrotor kinematic model | Simulation dynamics |
 
 C.2 Hardware Assumptions
 
-4-rotor quadcopter geometry
-
-Nominal hover thrust = 2.45 N per motor
-
-Max wind threshold = 12 m/s
-
-Max reliable mission radius = 10 km
+| Item | Assumption |
+|---|---|
+| Rotor layout | 4-rotor quadcopter geometry |
+| Nominal hover thrust | 2.45 N per motor |
+| Maximum wind threshold | 12 m/s |
+| Maximum reliable mission radius | 10 km |
 
 APPENDIX D
 
 Software Architecture File Map
 
+| File / Module | Role |
+|---|---|
+| `main.py` | Application entrypoint and mode bootstrap |
+| `gui.py` | Ground control station UI, visualization, command panels |
+| `swarm_manager.py` | Core swarm orchestration, coordination, mission state |
+| `drone.py` | Per-drone state, behavior, local autonomy logic |
+| `flying_ledger.py` | Distributed tamper-evident flight ledger |
+| `communication_manager.py` | Inter-drone event bus and message routing |
+| `acoustic_tracking.py` | Acoustic signal processing and source estimation |
+| `dynamic_obstacle.py` | Obstacle prediction, collision-cone risk, replanning |
+| `ml_decision_support.py` | Per-drone ML model training/inference support |
+| `latency_monitor.py` | RTT/jitter monitoring and fallback trigger logic |
+
 APPENDIX E
 
 Safety and Threat Model Assumptions
 
-Adversary may inject, replay, or drop packets
-
-Adversary may spoof GPS
-
-At most ⌊(N−1)/3⌋ Byzantine nodes
-
-Acoustic noise modeled as Gaussian
-
-Wind modeled as bounded constant disturbance
+| Threat / Assumption | Model |
+|---|---|
+| Packet manipulation | Adversary may inject, replay, or drop packets |
+| GNSS integrity | Adversary may spoof or jam GPS signals |
+| Byzantine participation | Up to $\lfloor(N-1)/3\rfloor$ arbitrary faulty nodes |
+| Acoustic channel noise | Additive Gaussian noise model |
+| Wind disturbance | Bounded quasi-constant disturbance |
+| Trust anchors | Drone public keys are pre-registered for signature verification |
 
 APPENDIX F
 
 Limitations of Formal Model
 
-Acoustic localization currently 2D
-
-Network partition split-brain not formally solved
-
-ML model assumes stationary distribution
-
-Energy model assumes independent factors
+| Limitation | Impact |
+|---|---|
+| Acoustic localization currently 2D | No altitude (Z) estimation in current TDOA solve |
+| Split-brain network partitions not fully resolved | Concurrent independent leader elections remain possible |
+| ML model assumes stationary data distribution | Domain shift can reduce risk prediction fidelity |
+| RTH reliability factors treated as independent | Ignores cross-coupled environmental and actuator dependencies |
 
 XIX. REFERENCES
 
