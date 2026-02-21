@@ -26,6 +26,61 @@ This project implements a high-security autonomous swarm framework designed for 
 - **Acoustic Intelligence:** Sound-based source tracking using Time Difference of Arrival (TDOA) and Least-Squares fusion.
 - **Safety Fallback:** Low-latency C++ controller with motor fault self-healing and RTT jitter monitoring.
 
+## Latest GUI/Control Updates (2026-02-21)
+
+- **Unified multi-source drone selection**
+  - Drone can be selected from center visualization and swarm status table.
+  - Multi-selection support added; selected drones are shared across controls.
+
+- **Selected-drone command behavior**
+  - `EMERGENCY SELECTED` applies to all selected drones.
+  - Manual directional controls (`Up/Down/Left/Right/Hover`) now work on selected drones consistently.
+
+- **Hover/Move toggle**
+  - Center manual button supports `Hover <-> Move` behavior.
+  - Hover pauses selected drone target movement; Move resumes previous paused target.
+
+- **Leader vs single-drone click control**
+  - Left click on map: sets leader `Y` destination.
+  - Right click on map (with exactly one selected drone): sends single-drone command to clicked `Y`.
+  - Single-drone commanded IDs can be excluded from global leader command broadcast.
+
+- **Per-drone Y command workflow**
+  - Added `Command` button for selected drones.
+  - Supports assigning different Y targets per selected drone.
+  - Assigned Y points remain visible together in visualization (`Y1`, `Y2`, `Y3`, ...), with `X->Y` route guides.
+
+- **Startup runtime mode popup**
+  - GUI now asks mode before opening:
+    - `Real Mode (load from .env)`
+    - `Real Test Visualization`
+  - In Real Mode, swarm can be loaded from `REAL_DRONE_CONNECTIONS`; test-scenario controls are hidden.
+
+- **Add/Remove drone popup redesign**
+  - Styled dialogs with mode-aware flow:
+    - Visualization add/remove (no `.env` update).
+    - Real connection add/remove (updates `.env`).
+  - Popup button colors and hover/pressed states added.
+
+- **Swarm status table improvements**
+  - Short mode/status naming (`RTH`, `HOV`, `FLY`, etc.).
+  - `ID` format updated to `Drone N`.
+  - Added separate `Motor Sensor` column and battery+sensor health display.
+  - Table selection parser updated for `Drone N` IDs.
+
+- **Acoustic Real Map reliability fix**
+  - Added robust map fetch fallback using OSM tile stitching when static-map endpoints fail.
+  - Fixed paint crash (`QRect.toRect()` issue).
+
+- **Obstacle avoidance + destination continuity fix**
+  - Personal ML/dynamic avoidance now preserves original final destination while using temporary safe detours.
+  - Avoidance no longer permanently replaces the intended mission/manual goal.
+
+- **Runtime GPS reference update**
+  - Default real-mode `.env` GPS reference updated to Voronezh, Russia:
+    - `REAL_GPS_REF_LAT=51.660781`
+    - `REAL_GPS_REF_LON=39.200269`
+
 ## Technology Stack
 - **Python:** Swarm logic, Drone behavior, ML modules, and PyQt5 GUI.
 - **C++:** Low-level controller interfaces and real-time latency monitoring.

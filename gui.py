@@ -36,8 +36,9 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
                             QScrollArea,
                             QHeaderView,
                             QShortcut,
-                            QProgressBar, QSizePolicy)
-from PyQt5.QtCore import Qt, QTimer, pyqtSignal, QPointF, QByteArray, QRectF
+                            QProgressBar, QSizePolicy, QInputDialog, QMessageBox,
+                            QDialog, QFormLayout, QLineEdit, QDialogButtonBox, QRadioButton)
+from PyQt5.QtCore import Qt, QTimer, pyqtSignal, QPointF, QByteArray, QRectF, QItemSelectionModel, QSignalBlocker
 from PyQt5.QtGui import QKeySequence
 from PyQt5.QtGui import QPainter, QColor, QPen, QBrush, QFont, QPalette, QPolygonF, QLinearGradient, QPixmap, QImage
 import logging
@@ -82,6 +83,9 @@ _load_env_file(os.path.join(os.path.dirname(__file__), ".env"))
 
 class DroneWidget(QWidget):
     """3D-like visualization of drone swarm"""
+    drone_selection_changed = pyqtSignal(int, bool)
+    y_destination_selected = pyqtSignal(float, float, float)
+    single_drone_destination_selected = pyqtSignal(float, float, float)
     
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -115,6 +119,7 @@ class DroneWidget(QWidget):
         self.minimum_gap_m = 40.0
         self.acoustic_source = None
         self.acoustic_confidence = 0.0
+        self.selected_drone_ids = set()
         
         # Colors
         self.colors = {
@@ -290,6 +295,15 @@ class DroneWidget(QWidget):
         depth_scale = max(0.5, 1.0 - (z * 0.003))
         
         return screen_x, screen_y, depth_scale
+
+    def screen_to_world(self, sx: float, sy: float):
+        """Convert screen coordinates to world x,y on map plane."""
+        center_x = self.width() / 2.0
+        center_y = self.height() / 2.0
+        scale = max(1e-6, self._pixels_per_meter())
+        world_x = ((sx - center_x - self.offset_x) / scale) + self.origin_x
+        world_y = (-(sy - center_y - self.offset_y) / scale) + self.origin_y
+        return world_x, world_y
     
     def paintEvent(self, event):
         """Render the drone swarm"""
@@ -418,9 +432,24 @@ class DroneWidget(QWidget):
         if self.destination_slots:
             painter.setPen(QPen(QColor(255, 200, 80, 140), 1, Qt.DashLine))
             painter.setBrush(QBrush(QColor(255, 200, 80, 40)))
-            for point in self.destination_slots.values():
+            painter.setFont(QFont("Arial", 8, QFont.Bold))
+            ordered_slots = sorted(
+                self.destination_slots.items(),
+                key=lambda item: str(item[0])
+            )
+            for idx, (drone_id, point) in enumerate(ordered_slots, start=1):
                 sx, sy, _ = self.world_to_screen(point.x, point.y, point.z)
                 painter.drawEllipse(QPointF(sx, sy), 6, 6)
+                painter.setPen(QPen(QColor(255, 235, 170), 1))
+                painter.drawText(int(sx + 7), int(sy - 7), f"Y{idx}")
+
+                # Per-drone route guide from X slot to Y slot for quick visual tracing.
+                start_point = self.start_slots.get(drone_id)
+                if start_point is not None:
+                    x0, y0, _ = self.world_to_screen(start_point.x, start_point.y, start_point.z)
+                    painter.setPen(QPen(QColor(255, 220, 140, 110), 1, Qt.DotLine))
+                    painter.drawLine(int(x0), int(y0), int(sx), int(sy))
+                painter.setPen(QPen(QColor(255, 200, 80, 140), 1, Qt.DashLine))
 
             if self.destination_point:
                 center_x, center_y, _ = self.world_to_screen(
@@ -625,6 +654,12 @@ class DroneWidget(QWidget):
         # Drone size varies with altitude (depth effect)
         base_size = 42 if role == "leader" else 34
         size = max(20, base_size * depth)
+        is_selected = drone_id in self.selected_drone_ids
+
+        if is_selected:
+            painter.setPen(QPen(QColor(255, 255, 255), 2))
+            painter.setBrush(Qt.NoBrush)
+            painter.drawEllipse(QPointF(sx, sy), size * 0.95, size * 0.95)
 
         self._draw_drone_svg(painter, sx, sy, size, color)
         self._draw_motion_direction(painter, sx, sy, size, vx, vy, color)
@@ -756,28 +791,84 @@ class DroneWidget(QWidget):
         self.update()
 
     def mousePressEvent(self, event):
-        """Handle mouse press for panning"""
+        """Handle mouse press for panning and drone selection."""
         if event.button() == Qt.LeftButton:
+            clicked_id = self._pick_drone_at_screen(event.pos().x(), event.pos().y())
+            if clicked_id is not None:
+                additive = bool(event.modifiers() & Qt.ControlModifier)
+                self.drone_selection_changed.emit(int(clicked_id), additive)
+                return
             self.last_mouse_pos = event.pos()
+            self.left_press_pos = event.pos()
+            self.left_dragged = False
+            return
+        if event.button() == Qt.RightButton:
+            clicked_id = self._pick_drone_at_screen(event.pos().x(), event.pos().y())
+            if clicked_id is None:
+                wx, wy = self.screen_to_world(float(event.pos().x()), float(event.pos().y()))
+                self.single_drone_destination_selected.emit(float(wx), float(wy), 0.0)
+            return
 
     def mouseMoveEvent(self, event):
         """Handle mouse drag for panning"""
         if event.buttons() & Qt.LeftButton and hasattr(self, 'last_mouse_pos'):
             delta = event.pos() - self.last_mouse_pos
+            if abs(delta.x()) > 1 or abs(delta.y()) > 1:
+                self.left_dragged = True
             self.offset_x += delta.x()
             self.offset_y += delta.y()
             self.last_mouse_pos = event.pos()
             self.update()
 
+    def mouseReleaseEvent(self, event):
+        """Left click on empty space sets Y destination; drag keeps panning only."""
+        if event.button() == Qt.LeftButton:
+            if hasattr(self, "last_mouse_pos"):
+                del self.last_mouse_pos
+            if hasattr(self, "left_press_pos"):
+                clicked_id = self._pick_drone_at_screen(event.pos().x(), event.pos().y())
+                if clicked_id is None and not bool(getattr(self, "left_dragged", False)):
+                    wx, wy = self.screen_to_world(float(event.pos().x()), float(event.pos().y()))
+                    self.y_destination_selected.emit(float(wx), float(wy), 0.0)
+                del self.left_press_pos
+            self.left_dragged = False
+        super().mouseReleaseEvent(event)
+
+    def set_selected_drones(self, drone_ids):
+        """Update selected drone IDs for highlight."""
+        self.selected_drone_ids = set(drone_ids or [])
+        self.update()
+
+    def _pick_drone_at_screen(self, sx: float, sy: float):
+        """Pick nearest drone by click position."""
+        nearest_id = None
+        nearest_dist = float("inf")
+        for drone_id, drone_data in self.drones.items():
+            pos = drone_data.get("position", {})
+            x = float(pos.get("x", 0.0))
+            y = float(pos.get("y", 0.0))
+            z = float(pos.get("z", 0.0))
+            dsx, dsy, depth = self.world_to_screen(x, y, z)
+            role = drone_data.get("role", "follower")
+            base_size = 42 if role == "leader" else 34
+            size = max(20.0, base_size * depth)
+            hit_radius = max(14.0, size * 0.7)
+            dist = math.hypot(float(dsx) - sx, float(dsy) - sy)
+            if dist <= hit_radius and dist < nearest_dist:
+                nearest_dist = dist
+                nearest_id = drone_id
+        return nearest_id
+
 
 class LocationMapWidget(QWidget):
     """Top-down location map for drone positions."""
+    drone_selection_changed = pyqtSignal(int, bool)
 
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setMinimumSize(800, 600)
         self.drones = {}
-        self.selected_drone_id = None
+        self.selected_drone_ids = set()
         self.map_radius_m = 10000.0
 
     def update_drones(self, drones_data):
@@ -785,7 +876,14 @@ class LocationMapWidget(QWidget):
         self.update()
 
     def set_selected_drone(self, drone_id):
-        self.selected_drone_id = drone_id
+        if drone_id is None:
+            self.selected_drone_ids = set()
+        else:
+            self.selected_drone_ids = {int(drone_id)}
+        self.update()
+
+    def set_selected_drones(self, drone_ids):
+        self.selected_drone_ids = set(drone_ids or [])
         self.update()
 
     def _to_screen(self, x, y, center_x, center_y, ppm):
@@ -824,7 +922,7 @@ class LocationMapWidget(QWidget):
             y = pos.get("y", 0.0)
             sx, sy = self._to_screen(x, y, cx, cy, ppm)
 
-            is_selected = drone_id == self.selected_drone_id
+            is_selected = drone_id in self.selected_drone_ids
             role = drone_data.get("role", "follower")
             color = QColor(255, 215, 0) if role == "leader" else QColor(80, 180, 255)
             if drone_data.get("flight_mode") == "emergency_landing":
@@ -843,6 +941,37 @@ class LocationMapWidget(QWidget):
         painter.setPen(QPen(QColor(225, 225, 225)))
         painter.setFont(QFont("Arial", 9))
         painter.drawText(12, 18, "Location Map (10km radius)")
+
+    def mousePressEvent(self, event):
+        """Select drone from map via click."""
+        if event.button() != Qt.LeftButton:
+            return super().mousePressEvent(event)
+        clicked_id = self._pick_drone_at_screen(event.pos().x(), event.pos().y())
+        if clicked_id is None:
+            return
+        additive = bool(event.modifiers() & Qt.ControlModifier)
+        self.drone_selection_changed.emit(int(clicked_id), additive)
+
+    def _pick_drone_at_screen(self, sx: float, sy: float):
+        if not self.drones:
+            return None
+        homes = [d.get("home_position", {}) for d in self.drones.values()]
+        cx = sum(h.get("x", 0.0) for h in homes) / max(1, len(homes))
+        cy = sum(h.get("y", 0.0) for h in homes) / max(1, len(homes))
+        ppm = (min(self.width(), self.height()) * 0.42) / self.map_radius_m
+
+        nearest_id = None
+        nearest_dist = float("inf")
+        for drone_id, drone_data in self.drones.items():
+            pos = drone_data.get("position", {})
+            x = float(pos.get("x", 0.0))
+            y = float(pos.get("y", 0.0))
+            dsx, dsy = self._to_screen(x, y, cx, cy, ppm)
+            dist = math.hypot(float(dsx) - sx, float(dsy) - sy)
+            if dist <= 11.0 and dist < nearest_dist:
+                nearest_dist = dist
+                nearest_id = drone_id
+        return nearest_id
 
 
 class LatencyMonitorWidget(QWidget):
@@ -1142,6 +1271,7 @@ class AcousticRealMapWidget(QWidget):
         if not urls:
             # Safe fallback if all toggles are 0
             urls.append("https://staticmap.openstreetmap.de/staticmap.php?" + urllib.parse.urlencode(osm_params))
+            urls.append("http://staticmap.openstreetmap.de/staticmap.php?" + urllib.parse.urlencode(osm_params))
 
         for url in urls:
             try:
@@ -1161,16 +1291,70 @@ class AcousticRealMapWidget(QWidget):
                 self._last_fetch_error = str(exc)
                 continue
 
-    def _latlon_to_pixel(self, lat: float, lon: float, center_lat: float, center_lon: float, rect: QRectF):
-        def mercator_xy(lat_v: float, lon_v: float, zoom_v: int):
-            n = (2 ** zoom_v) * 256.0
-            x = (lon_v + 180.0) / 360.0 * n
-            lat_rad = math.radians(max(-85.0, min(85.0, lat_v)))
-            y = (1.0 - math.log(math.tan(lat_rad) + (1.0 / math.cos(lat_rad))) / math.pi) * 0.5 * n
-            return x, y
+        # Fallback: stitch standard OSM tiles directly.
+        stitched = self._fetch_map_from_osm_tiles(lat, lon)
+        if stitched is not None:
+            self._map_pixmap = stitched
+            self._last_fetch_center = (lat, lon)
+            self._last_fetch_error = ""
 
-        cx, cy = mercator_xy(center_lat, center_lon, self.zoom)
-        px, py = mercator_xy(lat, lon, self.zoom)
+    def _mercator_xy(self, lat_v: float, lon_v: float, zoom_v: int):
+        n = (2 ** zoom_v) * 256.0
+        x = (lon_v + 180.0) / 360.0 * n
+        lat_rad = math.radians(max(-85.0, min(85.0, lat_v)))
+        y = (1.0 - math.log(math.tan(lat_rad) + (1.0 / math.cos(lat_rad))) / math.pi) * 0.5 * n
+        return x, y
+
+    def _fetch_map_from_osm_tiles(self, lat: float, lon: float):
+        tile_size = 256
+        zoom_v = int(self.zoom)
+        world_tiles = 2 ** zoom_v
+        center_x, center_y = self._mercator_xy(lat, lon, zoom_v)
+        left = center_x - (self.map_width / 2.0)
+        top = center_y - (self.map_height / 2.0)
+
+        start_tx = int(math.floor(left / tile_size))
+        end_tx = int(math.floor((left + self.map_width) / tile_size))
+        start_ty = int(math.floor(top / tile_size))
+        end_ty = int(math.floor((top + self.map_height) / tile_size))
+
+        canvas = QImage(self.map_width, self.map_height, QImage.Format_RGB32)
+        canvas.fill(QColor(28, 34, 46))
+        painter = QPainter(canvas)
+        painted = 0
+        try:
+            for tx in range(start_tx, end_tx + 1):
+                for ty in range(start_ty, end_ty + 1):
+                    if ty < 0 or ty >= world_tiles:
+                        continue
+                    wrapped_tx = tx % world_tiles
+                    tile_url = f"https://tile.openstreetmap.org/{zoom_v}/{wrapped_tx}/{ty}.png"
+                    try:
+                        req = urllib.request.Request(
+                            tile_url,
+                            headers={"User-Agent": "Mozilla/5.0 (DroneSwarmGUI/1.0)"},
+                        )
+                        with urllib.request.urlopen(req, timeout=3.5) as response:
+                            raw = response.read()
+                        tile_img = QImage.fromData(raw)
+                        if tile_img.isNull():
+                            continue
+                        px = int((tx * tile_size) - left)
+                        py = int((ty * tile_size) - top)
+                        painter.drawImage(px, py, tile_img)
+                        painted += 1
+                    except Exception:
+                        continue
+        finally:
+            painter.end()
+
+        if painted <= 0:
+            return None
+        return QPixmap.fromImage(canvas)
+
+    def _latlon_to_pixel(self, lat: float, lon: float, center_lat: float, center_lon: float, rect: QRectF):
+        cx, cy = self._mercator_xy(center_lat, center_lon, self.zoom)
+        px, py = self._mercator_xy(lat, lon, self.zoom)
         dx = px - cx
         dy = py - cy
         return QPointF(rect.center().x() + dx, rect.center().y() + dy)
@@ -1191,7 +1375,7 @@ class AcousticRealMapWidget(QWidget):
             return
 
         if self._map_pixmap:
-            painter.drawPixmap(map_rect.toRect(), self._map_pixmap)
+            painter.drawPixmap(map_rect, self._map_pixmap)
         else:
             painter.setPen(QPen(QColor(220, 230, 245)))
             msg = "Loading real map..."
@@ -1224,14 +1408,366 @@ class AcousticRealMapWidget(QWidget):
         painter.drawText(12, self.height() - 10, "Acoustic Detection Map (Real World)")
 
 
+class AddDroneDialog(QDialog):
+    """Styled add-drone popup with mode-aware fields."""
+
+    def __init__(self, default_id: int, default_connection: str, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Add Drone")
+        self.setModal(True)
+        self.setMinimumWidth(430)
+
+        root = QVBoxLayout(self)
+        root.setContentsMargins(14, 12, 14, 12)
+        root.setSpacing(10)
+
+        title = QLabel("Drone Setup")
+        title.setStyleSheet("font-size: 13pt; font-weight: 700; color: #10243d;")
+        root.addWidget(title)
+
+        mode_row = QHBoxLayout()
+        self.visual_radio = QRadioButton("Visualization")
+        self.real_radio = QRadioButton("Real Connection")
+        self.visual_radio.setChecked(True)
+        mode_row.addWidget(self.visual_radio)
+        mode_row.addWidget(self.real_radio)
+        mode_row.addStretch(1)
+        root.addLayout(mode_row)
+
+        form = QFormLayout()
+        form.setLabelAlignment(Qt.AlignLeft)
+        form.setFormAlignment(Qt.AlignLeft | Qt.AlignTop)
+        form.setHorizontalSpacing(12)
+        form.setVerticalSpacing(8)
+
+        self.drone_id_spin = QSpinBox()
+        self.drone_id_spin.setRange(1, 9999)
+        self.drone_id_spin.setValue(int(default_id))
+        form.addRow("Drone ID", self.drone_id_spin)
+
+        self.connection_input = QLineEdit(default_connection)
+        self.connection_input.setPlaceholderText("udpin://:14540")
+        form.addRow("Connection", self.connection_input)
+
+        self.help_label = QLabel("Visualization mode will not update .env")
+        self.help_label.setStyleSheet("color: #4d6787; font-size: 9pt;")
+        form.addRow("Note", self.help_label)
+        root.addLayout(form)
+
+        buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        buttons.accepted.connect(self.accept)
+        buttons.rejected.connect(self.reject)
+        ok_btn = buttons.button(QDialogButtonBox.Ok)
+        cancel_btn = buttons.button(QDialogButtonBox.Cancel)
+        if ok_btn is not None:
+            ok_btn.setObjectName("okBtn")
+        if cancel_btn is not None:
+            cancel_btn.setObjectName("cancelBtn")
+        root.addWidget(buttons)
+
+        self.visual_radio.toggled.connect(self._refresh_mode)
+        self.real_radio.toggled.connect(self._refresh_mode)
+        self._refresh_mode()
+
+        self.setStyleSheet("""
+            QDialog { background: #f7f9fc; color: #10243d; }
+            QLineEdit, QSpinBox {
+                background: #ffffff;
+                border: 1px solid #b8c7da;
+                border-radius: 6px;
+                padding: 4px 6px;
+                color: #10243d;
+            }
+            QRadioButton { spacing: 6px; }
+            QDialogButtonBox QPushButton {
+                min-width: 82px;
+                padding: 6px 10px;
+                border-radius: 6px;
+                border: 1px solid #8aa2c2;
+                background: #e8eef7;
+                color: #10243d;
+            }
+            QPushButton#okBtn {
+                background: #2f7ee6;
+                color: #ffffff;
+                border: 1px solid #2a6fc9;
+            }
+            QPushButton#okBtn:hover { background: #3e8cf0; }
+            QPushButton#okBtn:pressed { background: #2567bf; }
+            QPushButton#cancelBtn {
+                background: #f0f3f8;
+                color: #24354d;
+                border: 1px solid #b8c7da;
+            }
+            QPushButton#cancelBtn:hover { background: #e5ebf3; }
+            QPushButton#cancelBtn:pressed { background: #d5deea; }
+        """)
+
+    def _refresh_mode(self):
+        real_mode = self.real_radio.isChecked()
+        self.connection_input.setVisible(real_mode)
+        self.help_label.setText(
+            "Real mode will update REAL_DRONE_CONNECTIONS in .env"
+            if real_mode else
+            "Visualization mode will not update .env"
+        )
+
+    def payload(self):
+        return {
+            "mode": "real" if self.real_radio.isChecked() else "visual",
+            "drone_id": int(self.drone_id_spin.value()),
+            "connection": self.connection_input.text().strip(),
+        }
+
+
+class RemoveDroneDialog(QDialog):
+    """Styled remove-drone popup with mode-aware behavior."""
+
+    def __init__(self, default_id: int, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Remove Drone")
+        self.setModal(True)
+        self.setMinimumWidth(430)
+
+        root = QVBoxLayout(self)
+        root.setContentsMargins(14, 12, 14, 12)
+        root.setSpacing(10)
+
+        title = QLabel("Remove Drone")
+        title.setStyleSheet("font-size: 13pt; font-weight: 700; color: #10243d;")
+        root.addWidget(title)
+
+        mode_row = QHBoxLayout()
+        self.visual_radio = QRadioButton("Visualization")
+        self.real_radio = QRadioButton("Real Connection")
+        self.visual_radio.setChecked(True)
+        mode_row.addWidget(self.visual_radio)
+        mode_row.addWidget(self.real_radio)
+        mode_row.addStretch(1)
+        root.addLayout(mode_row)
+
+        form = QFormLayout()
+        form.setLabelAlignment(Qt.AlignLeft)
+        form.setFormAlignment(Qt.AlignLeft | Qt.AlignTop)
+        form.setHorizontalSpacing(12)
+        form.setVerticalSpacing(8)
+
+        self.drone_id_spin = QSpinBox()
+        self.drone_id_spin.setRange(1, 9999)
+        self.drone_id_spin.setValue(int(default_id))
+        form.addRow("Drone ID", self.drone_id_spin)
+
+        self.help_label = QLabel("Visualization mode removes only from current swarm")
+        self.help_label.setStyleSheet("color: #4d6787; font-size: 9pt;")
+        form.addRow("Note", self.help_label)
+        root.addLayout(form)
+
+        buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        buttons.accepted.connect(self.accept)
+        buttons.rejected.connect(self.reject)
+        ok_btn = buttons.button(QDialogButtonBox.Ok)
+        cancel_btn = buttons.button(QDialogButtonBox.Cancel)
+        if ok_btn is not None:
+            ok_btn.setObjectName("okBtn")
+        if cancel_btn is not None:
+            cancel_btn.setObjectName("cancelBtn")
+        root.addWidget(buttons)
+
+        self.visual_radio.toggled.connect(self._refresh_mode)
+        self.real_radio.toggled.connect(self._refresh_mode)
+        self._refresh_mode()
+
+        self.setStyleSheet("""
+            QDialog { background: #f7f9fc; color: #10243d; }
+            QSpinBox {
+                background: #ffffff;
+                border: 1px solid #b8c7da;
+                border-radius: 6px;
+                padding: 4px 6px;
+                color: #10243d;
+            }
+            QRadioButton { spacing: 6px; }
+            QDialogButtonBox QPushButton {
+                min-width: 82px;
+                padding: 6px 10px;
+                border-radius: 6px;
+                border: 1px solid #8aa2c2;
+                background: #e8eef7;
+                color: #10243d;
+            }
+            QPushButton#okBtn {
+                background: #d9534f;
+                color: #ffffff;
+                border: 1px solid #c3433f;
+            }
+            QPushButton#okBtn:hover { background: #e3615d; }
+            QPushButton#okBtn:pressed { background: #b93f3b; }
+            QPushButton#cancelBtn {
+                background: #f0f3f8;
+                color: #24354d;
+                border: 1px solid #b8c7da;
+            }
+            QPushButton#cancelBtn:hover { background: #e5ebf3; }
+            QPushButton#cancelBtn:pressed { background: #d5deea; }
+        """)
+
+    def _refresh_mode(self):
+        self.help_label.setText(
+            "Real mode removes from swarm and updates .env REAL_DRONE_CONNECTIONS"
+            if self.real_radio.isChecked() else
+            "Visualization mode removes only from current swarm"
+        )
+
+    def payload(self):
+        return {
+            "mode": "real" if self.real_radio.isChecked() else "visual",
+            "drone_id": int(self.drone_id_spin.value()),
+        }
+
+
+class RuntimeModeDialog(QDialog):
+    """Startup mode picker before opening the main GUI."""
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Select Runtime Mode")
+        self.setModal(True)
+        self.setMinimumWidth(420)
+        self._selected_mode = "real_test"
+
+        root = QVBoxLayout(self)
+        root.setContentsMargins(14, 12, 14, 12)
+        root.setSpacing(10)
+
+        title = QLabel("Choose Startup Mode")
+        title.setStyleSheet("font-size: 13pt; font-weight: 700; color: #10243d;")
+        root.addWidget(title)
+
+        self.real_radio = QRadioButton("Real Mode (load from .env)")
+        self.test_radio = QRadioButton("Real Test Visualization (current behavior)")
+        self.test_radio.setChecked(True)
+        root.addWidget(self.real_radio)
+        root.addWidget(self.test_radio)
+
+        self.note = QLabel(
+            "Real mode uses REAL_DRONE_CONNECTIONS and hides test scenario controls."
+        )
+        self.note.setStyleSheet("color: #4d6787; font-size: 9pt;")
+        root.addWidget(self.note)
+
+        buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        buttons.accepted.connect(self._accept_mode)
+        buttons.rejected.connect(self.reject)
+        ok_btn = buttons.button(QDialogButtonBox.Ok)
+        cancel_btn = buttons.button(QDialogButtonBox.Cancel)
+        if ok_btn is not None:
+            ok_btn.setObjectName("okBtn")
+        if cancel_btn is not None:
+            cancel_btn.setObjectName("cancelBtn")
+        root.addWidget(buttons)
+
+        self.setStyleSheet("""
+            QDialog { background: #f7f9fc; color: #10243d; }
+            QRadioButton { spacing: 6px; }
+            QDialogButtonBox QPushButton {
+                min-width: 90px;
+                padding: 6px 10px;
+                border-radius: 6px;
+                border: 1px solid #8aa2c2;
+                background: #e8eef7;
+                color: #10243d;
+            }
+            QPushButton#okBtn {
+                background: #2f7ee6;
+                color: #ffffff;
+                border: 1px solid #2a6fc9;
+            }
+            QPushButton#okBtn:hover { background: #3e8cf0; }
+            QPushButton#okBtn:pressed { background: #2567bf; }
+            QPushButton#cancelBtn {
+                background: #f0f3f8;
+                color: #24354d;
+                border: 1px solid #b8c7da;
+            }
+            QPushButton#cancelBtn:hover { background: #e5ebf3; }
+            QPushButton#cancelBtn:pressed { background: #d5deea; }
+        """)
+
+    def _accept_mode(self):
+        self._selected_mode = "real" if self.real_radio.isChecked() else "real_test"
+        self.accept()
+
+    def selected_mode(self) -> str:
+        return self._selected_mode
+
+
+def _parse_env_real_connections():
+    raw = os.getenv("REAL_DRONE_CONNECTIONS", "").strip()
+    mapping = {}
+    for part in raw.split(","):
+        token = part.strip()
+        if "=" not in token:
+            continue
+        left, conn = token.split("=", 1)
+        try:
+            drone_id = int(left.strip())
+        except Exception:
+            continue
+        conn = conn.strip()
+        if drone_id > 0 and conn:
+            mapping[drone_id] = conn
+    return mapping
+
+
+def _configure_swarm_for_real_mode(swarm_manager):
+    """Rebuild swarm to match REAL_DRONE_CONNECTIONS from environment."""
+    connections = _parse_env_real_connections()
+    if not connections:
+        return False, "REAL_DRONE_CONNECTIONS নেই/খালি. .env এ real connection দিন।"
+
+    from drone import Drone, Position
+    gps_ref = None
+    lat = os.getenv("REAL_GPS_REF_LAT")
+    lon = os.getenv("REAL_GPS_REF_LON")
+    if lat is not None and lon is not None:
+        try:
+            gps_ref = (float(lat), float(lon))
+        except Exception:
+            gps_ref = None
+
+    existing_ids = list(swarm_manager.drones.keys())
+    for drone_id in existing_ids:
+        try:
+            swarm_manager.remove_drone(int(drone_id))
+        except Exception:
+            try:
+                swarm_manager.remove_drone(drone_id)
+            except Exception:
+                continue
+
+    for drone_id in sorted(connections.keys()):
+        conn = connections[drone_id]
+        drone = Drone(drone_id, Position(0.0, 0.0, 0.0), real_drone_connection=conn)
+        if gps_ref is not None:
+            drone.set_gps_reference(gps_ref[0], gps_ref[1])
+        swarm_manager.add_drone(drone)
+
+    os.environ["REAL_DRONE_ENABLED"] = "1"
+    return True, f"Real mode loaded {len(connections)} drone(s) from .env"
+
+
 class MainWindow(QMainWindow):
     """Main application window"""
     
-    def __init__(self, swarm_manager):
+    def __init__(self, swarm_manager, runtime_mode: str = "real_test"):
         super().__init__()
         self.swarm_manager = swarm_manager
+        self.runtime_mode = str(runtime_mode or "real_test").strip().lower()
+        self.real_mode_active = self.runtime_mode == "real"
         self.ml_system = None
         self.selected_drone_id = None
+        self.selected_drone_ids = set()
+        self._selection_sync_in_progress = False
         self.comm_log_offsets = {}
         self.controller_crypto = None
         self.pending_takeoff_targets = {}
@@ -1248,6 +1784,12 @@ class MainWindow(QMainWindow):
         self.auto_fault_phase = 0
         self.last_auto_motor_fail_drone_id = None
         self.last_auto_leader_crash_drone_id = None
+        self.paused_manual_targets = {}
+        self.paused_leader_follow_enabled = False
+        self.per_drone_y_assign_active = False
+        self.per_drone_y_assign_queue = []
+        self.per_drone_y_targets = {}
+        self.leader_command_excluded_ids = set()
         self._leader_initialized = False
         self._last_leader_id = None
         self.show_static_obstacles = True
@@ -1299,6 +1841,7 @@ class MainWindow(QMainWindow):
         left_content_layout.addWidget(ml_group)
 
         personal_ml_group = self._create_personal_ml_panel()
+        personal_ml_group.setMinimumWidth(max(0, personal_ml_group.minimumWidth() - 20))
         left_content_layout.addWidget(personal_ml_group)
         left_content_layout.addStretch(1)
 
@@ -1315,6 +1858,10 @@ class MainWindow(QMainWindow):
         self.drone_widget = DroneWidget()
         self.location_map_widget = LocationMapWidget()
         self.acoustic_map_widget = AcousticRealMapWidget()
+        self.drone_widget.drone_selection_changed.connect(self._on_visual_drone_selection_requested)
+        self.drone_widget.y_destination_selected.connect(self._on_destination_selected_from_visual)
+        self.drone_widget.single_drone_destination_selected.connect(self._on_single_destination_selected_from_visual)
+        self.location_map_widget.drone_selection_changed.connect(self._on_visual_drone_selection_requested)
         self.viz_tabs.addTab(self.drone_widget, "Drone Visual")
         self.viz_tabs.addTab(self.location_map_widget, "Location Map")
         self.viz_tabs.addTab(self.acoustic_map_widget, "Acoustic Real Map")
@@ -1329,10 +1876,14 @@ class MainWindow(QMainWindow):
         swarm_status_table_group = self._create_swarm_status_table_panel()
         log_group_center = self._create_log_panel()
         prediction_group = self._create_prediction_panel()
+        swarm_status_table_group.setMinimumWidth(swarm_status_table_group.minimumWidth() + 20)
+        log_group_center.setMinimumWidth(log_group_center.minimumWidth() + 20)
+        prediction_group.setMinimumWidth(max(0, prediction_group.minimumWidth() - 20))
+        prediction_group.setMaximumWidth(420)
         center_left_col.addWidget(swarm_status_table_group, 3)
         center_left_col.addWidget(log_group_center, 2)
-        viz_bottom_row.addLayout(center_left_col, 3)
-        viz_bottom_row.addWidget(prediction_group, 2)
+        viz_bottom_row.addLayout(center_left_col, 4)
+        viz_bottom_row.addWidget(prediction_group, 1)
         viz_layout.addLayout(viz_bottom_row, 2)
         viz_group.setLayout(viz_layout)
 
@@ -1613,12 +2164,15 @@ class MainWindow(QMainWindow):
 
         layout.addWidget(self.prediction_table)
 
+        personal_ml_title = QLabel("Personal ML Status")
+        personal_ml_title.setStyleSheet("font-weight: 600; font-size: 10.5pt; color: #e6ebf3;")
+        layout.addWidget(personal_ml_title)
+
         self.personal_ml_status_table = QTableWidget()
-        self.personal_ml_status_table.setColumnCount(3)
-        self.personal_ml_status_table.setHorizontalHeaderLabels(["Personal ML Status", "Drone", "Status"])
+        self.personal_ml_status_table.setColumnCount(2)
+        self.personal_ml_status_table.setHorizontalHeaderLabels(["Drone", "Status"])
         self.personal_ml_status_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
         self.personal_ml_status_table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeToContents)
-        self.personal_ml_status_table.horizontalHeader().setSectionResizeMode(2, QHeaderView.ResizeToContents)
         self.personal_ml_status_table.verticalHeader().setVisible(False)
         self.personal_ml_status_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.personal_ml_status_table.setSelectionMode(QAbstractItemView.NoSelection)
@@ -1628,9 +2182,8 @@ class MainWindow(QMainWindow):
         self.personal_ml_status_table.setAlternatingRowColors(True)
         self.personal_ml_status_table.setMinimumHeight(110)
         self.personal_ml_status_table.setRowCount(1)
-        self.personal_ml_status_table.setItem(0, 0, QTableWidgetItem("Personal ML"))
-        self.personal_ml_status_table.setItem(0, 1, QTableWidgetItem("ALL"))
-        self.personal_ml_status_table.setItem(0, 2, QTableWidgetItem("\u2713"))
+        self.personal_ml_status_table.setItem(0, 0, QTableWidgetItem("Drone 1"))
+        self.personal_ml_status_table.setItem(0, 1, QTableWidgetItem("\u2713"))
         layout.addWidget(self.personal_ml_status_table)
 
         group.setLayout(layout)
@@ -1684,17 +2237,22 @@ class MainWindow(QMainWindow):
         self.emergency_btn = QPushButton("EMERGENCY LAND")
         self.emergency_btn.setProperty("btnType", "danger")
         self.emergency_btn.clicked.connect(self.emergency_land_all)
-        flight_layout.addWidget(self.emergency_btn, 2, 0, 1, 2)
+        flight_layout.addWidget(self.emergency_btn, 2, 0)
 
         self.personal_emergency_btn = QPushButton("EMERGENCY SELECTED")
         self.personal_emergency_btn.setProperty("btnType", "danger")
         self.personal_emergency_btn.clicked.connect(self.emergency_land_selected)
-        flight_layout.addWidget(self.personal_emergency_btn, 3, 0, 1, 2)
+        flight_layout.addWidget(self.personal_emergency_btn, 2, 1)
 
-        self.command_xy_btn = QPushButton("Leader Command X->Y")
+        self.command_xy_btn = QPushButton("Leader Command")
         self.command_xy_btn.setProperty("btnType", "primary")
         self.command_xy_btn.clicked.connect(self.command_move_x_to_y)
-        flight_layout.addWidget(self.command_xy_btn, 4, 0, 1, 2)
+        flight_layout.addWidget(self.command_xy_btn, 3, 0)
+
+        self.command_selected_y_btn = QPushButton("Command")
+        self.command_selected_y_btn.setProperty("btnType", "primary")
+        self.command_selected_y_btn.clicked.connect(self.start_selected_y_assignment)
+        flight_layout.addWidget(self.command_selected_y_btn, 3, 1)
         
         layout.addLayout(flight_layout)
         
@@ -1729,27 +2287,31 @@ class MainWindow(QMainWindow):
         layout.addLayout(follow_layout)
         
         # Test scenarios
-        test_layout = QVBoxLayout()
-        test_layout.addWidget(QLabel("Test Scenarios:"))
-        
-        self.test_motor_btn = QPushButton("Simulate Motor Failure")
-        self.test_motor_btn.clicked.connect(self.simulate_motor_failure)
-        test_layout.addWidget(self.test_motor_btn)
-        
-        self.test_leader_btn = QPushButton("Crash Leader")
-        self.test_leader_btn.clicked.connect(self.test_leader_failure)
-        test_layout.addWidget(self.test_leader_btn)
+        if not self.real_mode_active:
+            test_layout = QGridLayout()
+            test_layout.addWidget(QLabel("Test Scenarios:"), 0, 0, 1, 2)
+            
+            self.test_motor_btn = QPushButton("Motor Fail")
+            self.test_motor_btn.clicked.connect(self.simulate_motor_failure)
+            test_layout.addWidget(self.test_motor_btn, 1, 0)
+            
+            self.test_leader_btn = QPushButton("Leader Crash")
+            self.test_leader_btn.clicked.connect(self.test_leader_failure)
+            test_layout.addWidget(self.test_leader_btn, 1, 1)
 
-        self.auto_fault_btn = QPushButton("Auto Fault Demo: OFF")
-        self.auto_fault_btn.clicked.connect(self.toggle_auto_fault_demo)
-        self.auto_fault_btn.setProperty("btnType", "warn")
-        test_layout.addWidget(self.auto_fault_btn)
+            self.auto_fault_btn = QPushButton("Auto Demo: OFF")
+            self.auto_fault_btn.clicked.connect(self.toggle_auto_fault_demo)
+            self.auto_fault_btn.setProperty("btnType", "warn")
+            test_layout.addWidget(self.auto_fault_btn, 2, 0)
 
-        self.test_latency_btn = QPushButton("Simulate Latency Spike")
-        self.test_latency_btn.clicked.connect(self.simulate_latency_spike)
-        test_layout.addWidget(self.test_latency_btn)
-        
-        layout.addLayout(test_layout)
+            self.test_latency_btn = QPushButton("Latency Spike")
+            self.test_latency_btn.clicked.connect(self.simulate_latency_spike)
+            test_layout.addWidget(self.test_latency_btn, 2, 1)
+            layout.addLayout(test_layout)
+        else:
+            real_note = QLabel("Real Mode: test scenario controls hidden")
+            real_note.setStyleSheet("font-size: 10px; color: #9eb2cf;")
+            layout.addWidget(real_note)
 
         obstacle_group = QGroupBox("Dynamic Obstacles")
         obstacle_layout = QGridLayout()
@@ -1852,9 +2414,9 @@ class MainWindow(QMainWindow):
         btn_left.clicked.connect(lambda: self.move_selected_drone(-self.move_step_spin.value(), 0, 0))
         move_layout.addWidget(btn_left, 2, 0)
 
-        btn_hover = QPushButton("Hover")
-        btn_hover.clicked.connect(lambda: self.move_selected_drone(0, 0, 0))
-        move_layout.addWidget(btn_hover, 2, 1)
+        self.btn_hover_move = QPushButton("Hover")
+        self.btn_hover_move.clicked.connect(self.toggle_hover_move_selected)
+        move_layout.addWidget(self.btn_hover_move, 2, 1)
 
         btn_right = QPushButton("Right")
         btn_right.clicked.connect(lambda: self.move_selected_drone(self.move_step_spin.value(), 0, 0))
@@ -1881,9 +2443,9 @@ class MainWindow(QMainWindow):
         btn_down.setText("Down")
         btn_left.setText("Left")
         btn_right.setText("Right")
-        for key_btn in [btn_up, btn_down, btn_left, btn_right, btn_hover]:
+        for key_btn in [btn_up, btn_down, btn_left, btn_right, self.btn_hover_move]:
             key_btn.setStyleSheet(key_style)
-        btn_hover.setStyleSheet(
+        self.btn_hover_move.setStyleSheet(
             key_style + "QPushButton { border-radius: 15px; min-width: 56px; min-height: 30px; }"
         )
 
@@ -2058,24 +2620,29 @@ class MainWindow(QMainWindow):
         layout.setSpacing(4)
 
         self.drone_table = QTableWidget()
-        self.drone_table.setColumnCount(6)
+        self.drone_table.setColumnCount(7)
         self.drone_table.setHorizontalHeaderLabels([
-            "ID", "Role", "Mode", "Battery", "Altitude", "Status"
+            "ID", "Role", "Mode", "Motor Sensor", "Battery", "Altitude", "Status"
         ])
-        self.drone_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeToContents)
-        self.drone_table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeToContents)
-        self.drone_table.horizontalHeader().setSectionResizeMode(2, QHeaderView.ResizeToContents)
-        self.drone_table.horizontalHeader().setSectionResizeMode(3, QHeaderView.ResizeToContents)
-        self.drone_table.horizontalHeader().setSectionResizeMode(4, QHeaderView.ResizeToContents)
-        self.drone_table.horizontalHeader().setSectionResizeMode(5, QHeaderView.Stretch)
+        header = self.drone_table.horizontalHeader()
+        header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(1, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(3, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(4, QHeaderView.Interactive)
+        header.setSectionResizeMode(5, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(6, QHeaderView.Stretch)
+        self.drone_table.setColumnWidth(4, 185)
+        self.drone_table.horizontalHeader().setStretchLastSection(True)
         self.drone_table.verticalHeader().setSectionResizeMode(QHeaderView.Fixed)
         self.drone_table.verticalHeader().setDefaultSectionSize(24)
-        self.drone_table.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.drone_table.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
         self.drone_table.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.drone_table.setVerticalScrollMode(QAbstractItemView.ScrollPerPixel)
         self.drone_table.setSelectionBehavior(QAbstractItemView.SelectRows)
-        self.drone_table.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.drone_table.setSelectionMode(QAbstractItemView.MultiSelection)
         self.drone_table.setFocusPolicy(Qt.StrongFocus)
+        self.drone_table.setWordWrap(False)
         self.drone_table.setAutoScroll(True)
         self.drone_table.verticalScrollBar().setSingleStep(20)
         self.drone_table.setAlternatingRowColors(True)
@@ -2088,6 +2655,58 @@ class MainWindow(QMainWindow):
 
         group.setLayout(layout)
         return group
+
+    def _short_mode_name(self, mode_text: str) -> str:
+        mode = str(mode_text or "").strip().lower()
+        mapping = {
+            "idle": "IDLE",
+            "takeoff": "TKOF",
+            "flying": "FLY",
+            "hover": "HOV",
+            "returning_home": "RTH",
+            "landing": "LAND",
+            "emergency_landing": "EMG",
+            "crashed": "CRSH",
+        }
+        return mapping.get(mode, mode.upper()[:8] if mode else "UNK")
+
+    def _short_state_name(self, state_text: str) -> str:
+        state = str(state_text or "").strip().upper()
+        mapping = {
+            "IDLE": "IDLE",
+            "TAKEOFF": "TKOF",
+            "MOVING_TO_TARGET": "MOVE",
+            "WAITING_FOR_COMMAND": "WAIT",
+            "RETURNING_HOME": "RTH",
+            "GPS_ML_ACTIVE": "GPS",
+            "ACOUSTIC_TRACKING": "ACST",
+            "AVOIDING_DYNAMIC_OBSTACLE": "AVD",
+            "MISSION_COMPLETE": "DONE",
+        }
+        return mapping.get(state, state[:8] if state else "UNK")
+
+    def _battery_sensor_text(self, drone_data: dict, battery: float) -> str:
+        motors = drone_data.get("motors", []) or []
+        total = len(motors)
+        if total > 0:
+            ok = sum(1 for m in motors if bool((m or {}).get("operational", False)))
+            sensor_pct = int(round((ok / total) * 100.0))
+        else:
+            # Fallback when motor telemetry is not available.
+            sensor_pct = 100
+        symbol = "✓" if sensor_pct >= 90 else ("⚠" if sensor_pct >= 60 else "✗")
+        return f"{battery:.1f}% | S{symbol}{sensor_pct}%"
+
+    def _motor_sensor_badge(self, drone_data: dict) -> str:
+        motors = drone_data.get("motors", []) or []
+        total = len(motors)
+        if total > 0:
+            ok = sum(1 for m in motors if bool((m or {}).get("operational", False)))
+            sensor_pct = int(round((ok / total) * 100.0))
+        else:
+            sensor_pct = 100
+        symbol = "✓" if sensor_pct >= 90 else ("⚠" if sensor_pct >= 60 else "✗")
+        return f"M{symbol}{sensor_pct}%"
 
     def _create_physical_ml_panel(self):
         """Create dedicated blockchain status container."""
@@ -2149,7 +2768,9 @@ class MainWindow(QMainWindow):
         
         self.log_text = QTextEdit()
         self.log_text.setReadOnly(True)
-        self.log_text.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.log_text.setFont(QFont("Consolas", 9))
+        self.log_text.setLineWrapMode(QTextEdit.NoWrap)
+        self.log_text.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
         self.log_text.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.log_text.setMinimumHeight(120)
         layout.addWidget(self.log_text)
@@ -2218,6 +2839,7 @@ class MainWindow(QMainWindow):
         
         # Calculate average battery
         drones = status.get("drones", {})
+        self.selected_drone_id = min(self.selected_drone_ids) if self.selected_drone_ids else None
         avg_battery = 0.0
         if drones:
             avg_battery = sum(d["battery"] for d in drones.values()) / len(drones)
@@ -2294,36 +2916,49 @@ class MainWindow(QMainWindow):
 
         ordered_rows = sorted(drones.items(), key=_sort_key)
         sorting_enabled = self.drone_table.isSortingEnabled()
-        if sorting_enabled:
-            self.drone_table.setSortingEnabled(False)
-        self.drone_table.clearContents()
-        self.drone_table.setRowCount(len(ordered_rows))
-        for row, (drone_id, drone_data) in enumerate(ordered_rows):
-            role = str(drone_data.get("role", "unknown"))
-            flight_mode = str(drone_data.get("flight_mode", "unknown"))
-            battery = float(drone_data.get("battery", 0.0))
-            pos = drone_data.get("position", {}) or {}
-            altitude = float(pos.get("z", 0.0))
-            is_active = bool(drone_data.get("is_active", False))
+        blocker = QSignalBlocker(self.drone_table)
+        try:
+            if sorting_enabled:
+                self.drone_table.setSortingEnabled(False)
+            self.drone_table.clearContents()
+            self.drone_table.setRowCount(len(ordered_rows))
+            for row, (drone_id, drone_data) in enumerate(ordered_rows):
+                role = str(drone_data.get("role", "unknown"))
+                flight_mode = str(drone_data.get("flight_mode", "unknown"))
+                flight_mode_short = self._short_mode_name(flight_mode)
+                motor_badge = self._motor_sensor_badge(drone_data)
+                battery = float(drone_data.get("battery", 0.0))
+                pos = drone_data.get("position", {}) or {}
+                altitude = float(pos.get("z", 0.0))
+                is_active = bool(drone_data.get("is_active", False))
+                battery_sensor = self._battery_sensor_text(drone_data, battery)
 
-            self.drone_table.setItem(row, 0, QTableWidgetItem(str(drone_id)))
-            self.drone_table.setItem(row, 1, QTableWidgetItem(role))
-            self.drone_table.setItem(row, 2, QTableWidgetItem(flight_mode))
-            self.drone_table.setItem(row, 3, QTableWidgetItem(f"{battery:.1f}%"))
-            self.drone_table.setItem(row, 4, QTableWidgetItem(f"{altitude:.1f}m"))
+                self.drone_table.setItem(row, 0, QTableWidgetItem(f"Drone {drone_id}"))
+                self.drone_table.setItem(row, 1, QTableWidgetItem(role))
+                self.drone_table.setItem(row, 2, QTableWidgetItem(flight_mode_short))
+                self.drone_table.setItem(row, 3, QTableWidgetItem(motor_badge))
+                self.drone_table.setItem(row, 4, QTableWidgetItem(battery_sensor))
+                self.drone_table.setItem(row, 5, QTableWidgetItem(f"{altitude:.1f}m"))
 
-            swarm_state = str(drone_data.get("swarm_state", "IDLE"))
-            status_text = swarm_state if is_active else "Inactive"
-            mission = drone_data.get("mission", {}) or {}
-            if mission.get("active"):
-                status_text = f"{swarm_state} | Mission: {mission.get('status', 'active')}"
-            if drone_data.get("motor_failure_warning"):
-                status_text = "Warning: Motor fail -> Return X"
-            if drone_data.get("emergency_return_active"):
-                status_text = "Emergency Return to X"
-            self.drone_table.setItem(row, 5, QTableWidgetItem(status_text))
-        if sorting_enabled:
-            self.drone_table.setSortingEnabled(True)
+                swarm_state = str(drone_data.get("swarm_state", "IDLE"))
+                state_short = self._short_state_name(swarm_state)
+                status_text = state_short if is_active else "INACT"
+                mission = drone_data.get("mission", {}) or {}
+                if mission.get("active"):
+                    mission_state = str(mission.get("status", "active")).strip().upper()[:6]
+                    status_text = f"{state_short} | M:{mission_state}"
+                if drone_data.get("motor_failure_warning"):
+                    status_text = "WARN | MFAIL"
+                if drone_data.get("emergency_return_active") or flight_mode == "emergency_landing":
+                    status_text = "RTH | EMG"
+                if not status_text.strip():
+                    status_text = "IDLE"
+                self.drone_table.setItem(row, 6, QTableWidgetItem(status_text))
+            if sorting_enabled:
+                self.drone_table.setSortingEnabled(True)
+            self._sync_table_selection_from_state()
+        finally:
+            del blocker
         self._update_physical_ml_table(ordered_rows)
 
         # Update visualization
@@ -2338,7 +2973,8 @@ class MainWindow(QMainWindow):
         )
         self.drone_widget.set_obstacles(filtered_obstacles)
         self.location_map_widget.update_drones(drones)
-        self.location_map_widget.set_selected_drone(self.selected_drone_id)
+        self.drone_widget.set_selected_drones(self.selected_drone_ids)
+        self.location_map_widget.set_selected_drones(self.selected_drone_ids)
         self._poll_swarm_event_logs()
         self._dispatch_pending_takeoff_targets()
         self._monitor_destination_arrivals_for_auto_return()
@@ -2427,21 +3063,18 @@ class MainWindow(QMainWindow):
         entries = sorted(drones.items(), key=lambda kv: int(kv[0]) if str(kv[0]).isdigit() else str(kv[0]))
         if not entries:
             self.personal_ml_status_table.setRowCount(1)
-            self.personal_ml_status_table.setItem(0, 0, QTableWidgetItem("Personal ML"))
-            self.personal_ml_status_table.setItem(0, 1, QTableWidgetItem("N/A"))
-            self.personal_ml_status_table.setItem(0, 2, QTableWidgetItem("\u26A0"))
+            self.personal_ml_status_table.setItem(0, 0, QTableWidgetItem("N/A"))
+            self.personal_ml_status_table.setItem(0, 1, QTableWidgetItem("\u26A0"))
             return
 
         self.personal_ml_status_table.setRowCount(len(entries))
         for row, (drone_id, drone_data) in enumerate(entries):
             enabled = bool(drone_data.get("personal_ml_enabled", False))
-            name_item = QTableWidgetItem("Personal ML")
-            drone_item = QTableWidgetItem(f"D{drone_id}")
+            drone_item = QTableWidgetItem(f"Drone {drone_id}")
             status_item = QTableWidgetItem("\u2713" if enabled else "\u26A0")
             status_item.setForeground(QBrush(QColor(124, 212, 116) if enabled else QColor(255, 95, 95)))
-            self.personal_ml_status_table.setItem(row, 0, name_item)
-            self.personal_ml_status_table.setItem(row, 1, drone_item)
-            self.personal_ml_status_table.setItem(row, 2, status_item)
+            self.personal_ml_status_table.setItem(row, 0, drone_item)
+            self.personal_ml_status_table.setItem(row, 1, status_item)
 
     def _update_physical_ml_table(self, ordered_rows):
         """Update compact PhysicalMLTrainer table below swarm status table."""
@@ -2472,26 +3105,171 @@ class MainWindow(QMainWindow):
             self.physical_ml_table.setItem(row_idx, 4, QTableWidgetItem(f"{float(val_mse):.6f}"))
     
     # Control methods
+
+    def _env_file_path(self) -> str:
+        return os.path.join(os.path.dirname(__file__), ".env")
+
+    def _read_env_map(self):
+        env_map = {}
+        path = self._env_file_path()
+        if not os.path.exists(path):
+            return env_map
+        try:
+            with open(path, "r", encoding="utf-8") as fh:
+                for raw in fh:
+                    line = raw.strip()
+                    if not line or line.startswith("#") or "=" not in line:
+                        continue
+                    key, value = line.split("=", 1)
+                    env_map[key.strip()] = value.strip()
+        except Exception:
+            return env_map
+        return env_map
+
+    def _update_env_key(self, key: str, value: str):
+        path = self._env_file_path()
+        lines = []
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as fh:
+                lines = fh.readlines()
+        updated = False
+        new_lines = []
+        for raw in lines:
+            stripped = raw.strip()
+            if stripped.startswith("#") or "=" not in stripped:
+                new_lines.append(raw)
+                continue
+            cur_key = stripped.split("=", 1)[0].strip()
+            if cur_key == key:
+                new_lines.append(f"{key}={value}\n")
+                updated = True
+            else:
+                new_lines.append(raw)
+        if not updated:
+            if new_lines and not new_lines[-1].endswith("\n"):
+                new_lines[-1] += "\n"
+            new_lines.append(f"{key}={value}\n")
+        with open(path, "w", encoding="utf-8") as fh:
+            fh.writelines(new_lines)
+        os.environ[key] = value
+
+    def _parse_real_connections(self, raw: str):
+        parsed = {}
+        for piece in (raw or "").split(","):
+            item = piece.strip()
+            if not item or "=" not in item:
+                continue
+            left, conn = item.split("=", 1)
+            try:
+                drone_id = int(left.strip())
+            except Exception:
+                continue
+            conn = conn.strip()
+            if drone_id > 0 and conn:
+                parsed[drone_id] = conn
+        return parsed
+
+    def _format_real_connections(self, mapping: dict) -> str:
+        items = []
+        for drone_id in sorted(mapping.keys()):
+            conn = str(mapping[drone_id]).strip()
+            if conn:
+                items.append(f"{int(drone_id)}={conn}")
+        return ",".join(items)
     
     def add_drone(self):
-        """Add new drone to swarm"""
+        """Add drone in Visualization mode or Real Connection mode."""
         from drone import Drone, Position
         import random
-        
-        drone_id = len(self.swarm_manager.drones) + 1
-        home_x = random.uniform(-3000, 3000)
-        home_y = random.uniform(-3000, 3000)
-        
-        drone = Drone(drone_id, Position(home_x, home_y, 0))
-        self.swarm_manager.add_drone(drone)
-        self.log(f"Added Drone {drone_id}")
+
+        used_ids = self._available_swarm_drone_ids()
+        next_id = 1
+        while next_id in used_ids:
+            next_id += 1
+
+        env_map = self._read_env_map()
+        current_raw = env_map.get("REAL_DRONE_CONNECTIONS", os.getenv("REAL_DRONE_CONNECTIONS", ""))
+        current_map = self._parse_real_connections(current_raw)
+        default_conn = f"{next_id}=udpin://:{14539 + next_id}"
+        if current_map and next_id in current_map:
+            default_conn = f"{next_id}={current_map[next_id]}"
+
+        dialog = AddDroneDialog(next_id, default_conn.split("=", 1)[1], parent=self)
+        if dialog.exec_() != QDialog.Accepted:
+            return
+        payload = dialog.payload()
+        drone_id = int(payload["drone_id"])
+        mode = str(payload["mode"]).strip().lower()
+
+        if mode == "visual":
+            if self._get_drone_by_id(drone_id) is not None:
+                QMessageBox.warning(self, "Already Exists", f"Drone {drone_id} already exists in swarm.")
+                return
+            home_x = random.uniform(-3000, 3000)
+            home_y = random.uniform(-3000, 3000)
+            drone = Drone(drone_id, Position(home_x, home_y, 0.0))
+            if not self.swarm_manager.add_drone(drone):
+                QMessageBox.warning(self, "Add Failed", f"Could not add visualization drone D{drone_id}.")
+                return
+            self.log(f"[VIS] Added D{drone_id} at x={home_x:.1f}, y={home_y:.1f} (no .env update)")
+            return
+
+        conn = str(payload.get("connection", "")).strip()
+        if drone_id <= 0 or not conn:
+            QMessageBox.warning(self, "Invalid Input", "Drone ID must be > 0 and connection cannot be empty.")
+            return
+        if self._get_drone_by_id(drone_id) is not None:
+            QMessageBox.warning(self, "Already Exists", f"Drone {drone_id} already exists in swarm.")
+            return
+
+        drone = Drone(drone_id, Position(0.0, 0.0, 0.0), real_drone_connection=conn)
+        if not self.swarm_manager.add_drone(drone):
+            QMessageBox.warning(self, "Add Failed", f"Could not add real drone D{drone_id}.")
+            return
+
+        current_map[drone_id] = conn
+        merged = self._format_real_connections(current_map)
+        self._update_env_key("REAL_DRONE_CONNECTIONS", merged)
+        self._update_env_key("REAL_DRONE_ENABLED", "1")
+        self.log(f"[REAL TEST] Added D{drone_id} ({conn}) and updated .env")
     
     def remove_drone(self):
-        """Remove drone from swarm"""
-        if self.swarm_manager.drones:
-            drone_id = max(self.swarm_manager.drones.keys())
+        """Remove drone in Visualization mode or Real Connection mode."""
+        if not self.swarm_manager.drones:
+            QMessageBox.information(self, "No Drones", "No drones available to remove.")
+            return
+        available_ids = sorted(self._available_swarm_drone_ids())
+        if not available_ids:
+            QMessageBox.information(self, "No Drones", "No valid drone IDs available to remove.")
+            return
+        dialog = RemoveDroneDialog(default_id=available_ids[-1], parent=self)
+        if dialog.exec_() != QDialog.Accepted:
+            return
+        payload = dialog.payload()
+        mode = str(payload["mode"]).strip().lower()
+        drone_id = int(payload["drone_id"])
+
+        if self._get_drone_by_id(drone_id) is not None:
             self.swarm_manager.remove_drone(drone_id)
-            self.log(f"Removed Drone {drone_id}")
+        else:
+            QMessageBox.warning(self, "Not Found", f"Drone {drone_id} is not in current swarm.")
+            return
+
+        if mode == "visual":
+            self.log(f"[VIS] Removed D{drone_id} (no .env update)")
+            return
+
+        env_map = self._read_env_map()
+        current_raw = env_map.get("REAL_DRONE_CONNECTIONS", os.getenv("REAL_DRONE_CONNECTIONS", ""))
+        current_map = self._parse_real_connections(current_raw)
+        removed_conn = current_map.pop(drone_id, None)
+        self._update_env_key("REAL_DRONE_CONNECTIONS", self._format_real_connections(current_map))
+        if not current_map:
+            self._update_env_key("REAL_DRONE_ENABLED", "0")
+        if removed_conn:
+            self.log(f"[REAL TEST] Removed D{drone_id} ({removed_conn}) and updated .env")
+        else:
+            self.log(f"[REAL TEST] Removed D{drone_id} from swarm and updated .env")
 
     def add_moving_obstacle(self):
         """Create a dynamic obstacle with selected start, velocity and motion model."""
@@ -2591,7 +3369,13 @@ class MainWindow(QMainWindow):
     def command_move_x_to_y(self):
         """Explicit leader movement command from X positions to planned Y slots."""
         mission = self._plan_takeoff_route()
-        targets = mission.get("slots", {})
+        targets = dict(mission.get("slots", {}))
+        if self.leader_command_excluded_ids:
+            targets = {
+                drone_id: target
+                for drone_id, target in targets.items()
+                if int(drone_id) not in self.leader_command_excluded_ids
+            }
         if not targets:
             self.log("No drones available for X->Y command")
             return
@@ -2643,27 +3427,29 @@ class MainWindow(QMainWindow):
         self.log("EMERGENCY RETURN activated: drones returning to X")
 
     def emergency_land_selected(self):
-        """Emergency return selected drone to X and land."""
-        current_row = self.drone_table.currentRow()
-        if current_row < 0:
-            self.log("Select a drone in the status table first")
+        """Emergency return selected drones to X and land."""
+        selected_ids = sorted(self.selected_drone_ids)
+        if not selected_ids:
+            self.log("Select drone(s) from Swarm Visualization or Status Table first")
             return
-        drone_item = self.drone_table.item(current_row, 0)
-        if not drone_item:
-            self.log("Invalid drone selection")
-            return
-        drone_id = int(drone_item.text())
-        success = self.swarm_manager.emergency_land_drone(
-            drone_id,
-            "Personal emergency button pressed"
-        )
-        if success:
-            self._log_controller_to_drone_encrypted(
-                drone_id, "emergency_land", {"reason": "Personal emergency button pressed"}
+        success_ids = []
+        failed_ids = []
+        for drone_id in selected_ids:
+            success = self.swarm_manager.emergency_land_drone(
+                drone_id,
+                "Personal emergency button pressed"
             )
-            self.log(f"Personal emergency return triggered for Drone {drone_id}")
-        else:
-            self.log(f"Could not trigger personal emergency for Drone {drone_id}")
+            if success:
+                success_ids.append(drone_id)
+                self._log_controller_to_drone_encrypted(
+                    drone_id, "emergency_land", {"reason": "Personal emergency button pressed"}
+                )
+            else:
+                failed_ids.append(drone_id)
+        if success_ids:
+            self.log(f"Personal emergency return triggered for drones {success_ids}")
+        if failed_ids:
+            self.log(f"Could not trigger personal emergency for drones {failed_ids}")
     
     def apply_formation(self):
         """Apply selected formation"""
@@ -2703,11 +3489,11 @@ class MainWindow(QMainWindow):
         """Toggle automatic fault simulation in GUI."""
         self.auto_fault_demo_enabled = not self.auto_fault_demo_enabled
         if self.auto_fault_demo_enabled:
-            self.auto_fault_btn.setText("Auto Fault Demo: ON")
+            self.auto_fault_btn.setText("Auto Demo: ON")
             self.auto_fault_btn.setProperty("btnType", "danger")
             self.log("Auto fault demo enabled (motor failure + leader crash)")
         else:
-            self.auto_fault_btn.setText("Auto Fault Demo: OFF")
+            self.auto_fault_btn.setText("Auto Demo: OFF")
             self.auto_fault_btn.setProperty("btnType", "warn")
             self.log("Auto fault demo disabled")
         self.auto_fault_btn.style().unpolish(self.auto_fault_btn)
@@ -2719,8 +3505,8 @@ class MainWindow(QMainWindow):
             return
         if not self.swarm_manager.drones:
             return
-        if self._is_real_drone_mode_active():
-            # Never inject synthetic failures when connected to real drones.
+        if self.real_mode_active and self._is_real_drone_mode_active():
+            # Never inject synthetic failures in real mode with real drones.
             return
 
         if self.auto_fault_phase % 2 == 0:
@@ -2814,7 +3600,14 @@ class MainWindow(QMainWindow):
             "D": type(homes[0])(start_x - half, start_y - half, 0.0),
         }
         start = type(homes[0])(start_x, start_y, 0.0)
-        destination = type(homes[0])(corners["B"].x, corners["B"].y, mission_alt)
+        if self.operation_destination is not None:
+            destination = type(homes[0])(
+                float(self.operation_destination.x),
+                float(self.operation_destination.y),
+                mission_alt
+            )
+        else:
+            destination = type(homes[0])(corners["B"].x, corners["B"].y, mission_alt)
 
         drone_ids = sorted(drones.keys())
         total = len(drone_ids)
@@ -2847,6 +3640,135 @@ class MainWindow(QMainWindow):
             "slots": slots,
             "start_slots": start_slots
         }
+
+    def _on_destination_selected_from_visual(self, x: float, y: float, _z: float):
+        """Set Y destination dynamically from visualization click."""
+        from drone import Position
+        mission_alt = 60.0
+        if self.per_drone_y_assign_active:
+            if not self.per_drone_y_assign_queue:
+                self.per_drone_y_assign_active = False
+                return
+            drone_id = int(self.per_drone_y_assign_queue.pop(0))
+            target = Position(float(x), float(y), mission_alt)
+            self.per_drone_y_targets[drone_id] = target
+            self.operation_slots[drone_id] = target
+            self.log(
+                f"Assigned Y for D{drone_id} -> ({float(x):.1f}, {float(y):.1f}, {mission_alt:.1f})"
+            )
+            if self.per_drone_y_assign_queue:
+                next_id = int(self.per_drone_y_assign_queue[0])
+                self.log(f"Click next Y point for D{next_id}")
+            else:
+                self.per_drone_y_assign_active = False
+                self.command_selected_y_targets()
+            return
+        self.operation_destination = Position(float(x), float(y), mission_alt)
+        self.log(
+            f"Y destination updated from visualization -> ({float(x):.1f}, {float(y):.1f}, {mission_alt:.1f})"
+        )
+
+    def _on_single_destination_selected_from_visual(self, x: float, y: float, _z: float):
+        """Right-click command for a single selected drone to its own Y target."""
+        selected_ids = sorted(self.selected_drone_ids)
+        if len(selected_ids) != 1:
+            self.log("Right click single command needs exactly 1 selected drone")
+            return
+        drone_id = int(selected_ids[0])
+        drone = self._get_drone_by_id(drone_id)
+        if drone is None:
+            self.log(f"Selected drone D{drone_id} not found")
+            return
+
+        from drone import Position
+        mission_alt = max(1.0, float(drone.current_position.z))
+        target = Position(float(x), float(y), mission_alt)
+
+        self.leader_command_excluded_ids.add(drone_id)
+        gps_mode = bool(drone.area_mission.active)
+        self.swarm_manager.leader_move_to_target(
+            {drone_id: target},
+            gps_mode_map={drone_id: gps_mode},
+            track_mission=False,
+        )
+        self._log_controller_to_drone_encrypted(
+            drone_id,
+            "leader_move_to_target_single",
+            {"x": target.x, "y": target.y, "z": target.z, "gps_mode": gps_mode},
+        )
+
+        start = Position(
+            float(drone.current_position.x),
+            float(drone.current_position.y),
+            0.0,
+        )
+        self.operation_start = start
+        self.operation_destination = Position(float(x), float(y), mission_alt)
+        if not isinstance(self.operation_start_slots, dict):
+            self.operation_start_slots = {}
+        if not isinstance(self.operation_slots, dict):
+            self.operation_slots = {}
+        self.operation_start_slots[drone_id] = start
+        self.operation_slots[drone_id] = target
+        self.log(
+            f"Single command D{drone_id}: X({start.x:.1f},{start.y:.1f}) -> Y({target.x:.1f},{target.y:.1f}) [right click]"
+        )
+
+    def start_selected_y_assignment(self):
+        """Start per-drone Y assignment mode for selected drones."""
+        selected_ids = sorted(self.selected_drone_ids)
+        if not selected_ids:
+            self.log("Select drone(s) first for per-drone Y assignment")
+            return
+        self.per_drone_y_assign_queue = list(selected_ids)
+        self.per_drone_y_targets = {}
+        self.per_drone_y_assign_active = True
+        self.log(
+            f"Per-drone Y assignment started for {selected_ids}. Click map for D{selected_ids[0]}"
+        )
+
+    def command_selected_y_targets(self):
+        """Command selected drones to their individually assigned Y targets."""
+        targets = dict(self.per_drone_y_targets)
+        if not targets:
+            self.log("No per-drone Y targets assigned")
+            return
+        if len(targets) == 1:
+            only_id = int(next(iter(targets.keys())))
+            self.leader_command_excluded_ids.add(only_id)
+            self.log(f"D{only_id} set to independent command mode (excluded from Leader Command)")
+        elif len(targets) > 1:
+            for drone_id in targets.keys():
+                self.leader_command_excluded_ids.discard(int(drone_id))
+        gps_mode_map = {}
+        for drone_id in targets.keys():
+            drone = self._get_drone_by_id(drone_id)
+            if drone is None:
+                continue
+            gps_mode_map[drone_id] = bool(drone.area_mission.active)
+        self.swarm_manager.leader_move_to_target(targets, gps_mode_map=gps_mode_map)
+        for drone_id, target in targets.items():
+            self._log_controller_to_drone_encrypted(
+                drone_id,
+                "leader_move_to_target",
+                {"x": target.x, "y": target.y, "z": target.z, "gps_mode": gps_mode_map.get(drone_id, False)},
+            )
+            drone = self._get_drone_by_id(drone_id)
+            if drone is not None:
+                from drone import Position
+                self.operation_start_slots[drone_id] = Position(
+                    float(drone.current_position.x),
+                    float(drone.current_position.y),
+                    0.0,
+                )
+        avg_x = sum(t.x for t in targets.values()) / len(targets)
+        avg_y = sum(t.y for t in targets.values()) / len(targets)
+        from drone import Position
+        self.operation_destination = Position(avg_x, avg_y, 60.0)
+        if not isinstance(self.operation_slots, dict):
+            self.operation_slots = {}
+        self.operation_slots.update(dict(targets))
+        self.log(f"Leader command sent for per-drone Y targets: {sorted(targets.keys())}")
 
     def _dispatch_pending_takeoff_targets(self):
         """After takeoff reaches controllable mode, send each drone to its Y-slot."""
@@ -2976,21 +3898,123 @@ class MainWindow(QMainWindow):
             self.log(f"Leader Drone {leader_id} crashed - testing leader election")
 
     def _on_drone_selection_changed(self):
-        """Track selected drone from table and update location map highlight."""
-        current_row = self.drone_table.currentRow()
-        if current_row < 0:
-            self.selected_drone_id = None
+        """Track selected drones from table and sync with visualizations."""
+        if self._selection_sync_in_progress:
+            return
+        ids = set()
+        for index in self.drone_table.selectionModel().selectedRows():
+            item = self.drone_table.item(index.row(), 0)
+            if item is None:
+                continue
+            drone_id = self._parse_drone_id_from_cell(item)
+            if drone_id is None:
+                continue
+            ids.add(drone_id)
+        self._set_selected_drones(ids, source="table")
+
+    def _on_visual_drone_selection_requested(self, drone_id: int, additive: bool):
+        """Handle click-selection from center visual map(s)."""
+        updated = set(self.selected_drone_ids)
+        drone_id = int(drone_id)
+        if additive:
+            if drone_id in updated:
+                updated.remove(drone_id)
+            else:
+                updated.add(drone_id)
         else:
-            item = self.drone_table.item(current_row, 0)
-            self.selected_drone_id = int(item.text()) if item else None
-        self.location_map_widget.set_selected_drone(self.selected_drone_id)
+            updated = {drone_id}
+        self._set_selected_drones(updated, source="visual")
+
+    def _set_selected_drones(self, ids, source: str):
+        """Update canonical selected drone set and synchronize UI."""
+        available_ids = self._available_swarm_drone_ids()
+        valid = set()
+        for drone_id in (ids or set()):
+            try:
+                parsed = int(drone_id)
+            except Exception:
+                continue
+            if parsed in available_ids:
+                valid.add(parsed)
+        self.selected_drone_ids = valid
+        self.selected_drone_id = min(valid) if valid else None
+
+        self.drone_widget.set_selected_drones(self.selected_drone_ids)
+        self.location_map_widget.set_selected_drones(self.selected_drone_ids)
+
+        if source != "table":
+            self._sync_table_selection_from_state()
         self._sync_selected_drone_mission_inputs()
 
-    def get_selected_drone(self):
-        """Return currently selected drone object, or None."""
-        if self.selected_drone_id is None:
+    def _parse_drone_id_from_cell(self, item):
+        """Parse drone ID from table cell text like '1' or 'Drone 1'."""
+        if item is None:
             return None
-        return self.swarm_manager.drones.get(self.selected_drone_id)
+        text = str(item.text() or "").strip()
+        if not text:
+            return None
+        if text.lower().startswith("drone"):
+            parts = text.split()
+            if parts:
+                try:
+                    return int(parts[-1])
+                except Exception:
+                    return None
+        try:
+            return int(text)
+        except Exception:
+            return None
+
+    def _sync_table_selection_from_state(self):
+        """Apply selected_drone_ids to table rows."""
+        if not hasattr(self, "drone_table"):
+            return
+        self._selection_sync_in_progress = True
+        try:
+            self.drone_table.clearSelection()
+            model = self.drone_table.selectionModel()
+            for row in range(self.drone_table.rowCount()):
+                item = self.drone_table.item(row, 0)
+                if item is None:
+                    continue
+                drone_id = self._parse_drone_id_from_cell(item)
+                if drone_id is None:
+                    continue
+                if drone_id in self.selected_drone_ids:
+                    index = self.drone_table.model().index(row, 0)
+                    model.select(index, QItemSelectionModel.Rows | QItemSelectionModel.Select)
+        finally:
+            self._selection_sync_in_progress = False
+
+    def get_selected_drone(self):
+        """Return one selected drone object, or None."""
+        if not self.selected_drone_ids:
+            return None
+        return self._get_drone_by_id(min(self.selected_drone_ids))
+
+    def get_selected_drones(self):
+        """Return selected drone objects."""
+        drones = []
+        for drone_id in sorted(self.selected_drone_ids):
+            drone = self._get_drone_by_id(drone_id)
+            if drone is not None:
+                drones.append(drone)
+        return drones
+
+    def _available_swarm_drone_ids(self):
+        ids = set()
+        for drone_id in self.swarm_manager.drones.keys():
+            try:
+                ids.add(int(drone_id))
+            except Exception:
+                continue
+        return ids
+
+    def _get_drone_by_id(self, drone_id: int):
+        drone = self.swarm_manager.drones.get(drone_id)
+        if drone is not None:
+            return drone
+        return self.swarm_manager.drones.get(str(drone_id))
 
     def get_control_drone(self):
         """Selected drone gets priority; otherwise default to leader."""
@@ -3002,40 +4026,140 @@ class MainWindow(QMainWindow):
             return leader
         return None
 
-    def move_selected_drone(self, dx: float, dy: float, dz: float):
-        """Move via explicit Leader command so followers never move autonomously."""
-        drone = self.get_control_drone()
-        if drone is None:
+    def _get_manual_target_drones(self):
+        """Selected drones or fallback leader for manual controls."""
+        selected_drones = self.get_selected_drones()
+        if selected_drones:
+            return selected_drones
+        fallback = self.get_control_drone()
+        if fallback is None:
+            return []
+        return [fallback]
+
+    def _clear_manual_override_sources(self, drone_ids):
+        """Stop background mission handlers from re-targeting manually controlled drones."""
+        if hasattr(self.swarm_manager, "clear_mission_targets_for_drones"):
+            self.swarm_manager.clear_mission_targets_for_drones(drone_ids)
+        for drone_id in list(drone_ids or []):
+            self.pending_takeoff_targets.pop(drone_id, None)
+            self.active_destination_targets.pop(drone_id, None)
+
+    def toggle_hover_move_selected(self):
+        """Toggle center button between Hover(hold) and Move(resume previous target)."""
+        target_drones = self._get_manual_target_drones()
+        if not target_drones:
             self.log("No controllable drone found (select one or set leader)")
             return
+
         from drone import Position, FlightMode
-        current = drone.current_position
+        current_text = self.btn_hover_move.text().strip().lower() if hasattr(self, "btn_hover_move") else "hover"
+        drone_ids = [drone.drone_id for drone in target_drones]
+
+        if current_text == "hover":
+            self.paused_leader_follow_enabled = bool(
+                getattr(self.swarm_manager, "leader_follow_enabled", False)
+            )
+            self.swarm_manager.set_leader_follow_enabled(False)
+            self._clear_manual_override_sources(drone_ids)
+            hold_ids = []
+            for drone in target_drones:
+                target = drone.target_position
+                if target is not None:
+                    self.paused_manual_targets[drone.drone_id] = Position(target.x, target.y, target.z)
+                drone.target_position = None
+                if drone.flight_mode == FlightMode.FLYING:
+                    drone.flight_mode = FlightMode.HOVER
+                self._log_controller_to_drone_encrypted(drone.drone_id, "hover", {})
+                hold_ids.append(drone.drone_id)
+            self.log(f"Drone hold position -> {hold_ids}")
+            self.btn_hover_move.setText("Move")
+            return
+
+        target_map = {}
+        missing_ids = []
+        for drone in target_drones:
+            paused = self.paused_manual_targets.get(drone.drone_id)
+            if paused is None:
+                missing_ids.append(drone.drone_id)
+                continue
+            target_map[drone.drone_id] = Position(paused.x, paused.y, paused.z)
+        if not target_map:
+            if self.paused_leader_follow_enabled:
+                self.swarm_manager.set_leader_follow_enabled(True)
+                self.log("Leader-follow auto movement resumed")
+                self.paused_leader_follow_enabled = False
+            else:
+                self.log("No paused target to resume for selected drones")
+            self.btn_hover_move.setText("Hover")
+            return
+
+        self.swarm_manager.set_leader_follow_enabled(bool(self.paused_leader_follow_enabled))
+        self._clear_manual_override_sources(target_map.keys())
+        self.swarm_manager.leader_move_to_target(target_map, track_mission=False)
+        for drone_id, target in target_map.items():
+            self._log_controller_to_drone_encrypted(
+                drone_id,
+                "leader_move_to_target",
+                {"x": target.x, "y": target.y, "z": target.z},
+            )
+            self.paused_manual_targets.pop(drone_id, None)
+        self.paused_leader_follow_enabled = False
+        self.log(f"Resumed movement for drones {sorted(target_map.keys())}")
+        if missing_ids:
+            self.log(f"No paused target for drones {sorted(missing_ids)}")
+        self.btn_hover_move.setText("Hover")
+
+    def move_selected_drone(self, dx: float, dy: float, dz: float):
+        """Move selected drone(s) via explicit Leader command."""
+        target_drones = self._get_manual_target_drones()
+        if not target_drones:
+            self.log("No controllable drone found (select one or set leader)")
+            return
+
+        # Manual directional control should not be overridden by continuous leader-follow.
+        self.swarm_manager.set_leader_follow_enabled(False)
+        drone_ids = [drone.drone_id for drone in target_drones]
+        self._clear_manual_override_sources(drone_ids)
+
+        from drone import Position, FlightMode
         if dx == 0 and dy == 0 and dz == 0:
-            drone.target_position = None
-            if drone.flight_mode == FlightMode.FLYING:
-                drone.flight_mode = FlightMode.HOVER
-            self._log_controller_to_drone_encrypted(drone.drone_id, "hover", {})
-            self.log(f"Drone {drone.drone_id} hold position")
+            hold_ids = []
+            for drone in target_drones:
+                drone.target_position = None
+                if drone.flight_mode == FlightMode.FLYING:
+                    drone.flight_mode = FlightMode.HOVER
+                self._log_controller_to_drone_encrypted(drone.drone_id, "hover", {})
+                hold_ids.append(drone.drone_id)
+            self.log(f"Drone hold position -> {hold_ids}")
             return
 
-        if drone.flight_mode in [FlightMode.EMERGENCY_LANDING, FlightMode.CRASHED]:
-            self.log(f"Move rejected for D{drone.drone_id} (emergency/crashed state)")
+        target_map = {}
+        blocked_ids = []
+        for drone in target_drones:
+            if drone.flight_mode in [FlightMode.EMERGENCY_LANDING, FlightMode.CRASHED]:
+                blocked_ids.append(drone.drone_id)
+                continue
+            current = drone.current_position
+            target_map[drone.drone_id] = Position(
+                current.x + dx,
+                current.y + dy,
+                max(0.0, current.z + dz)
+            )
+        if not target_map:
+            self.log("Move rejected for selected drones (emergency/crashed state)")
             return
 
-        target = Position(
-            current.x + dx,
-            current.y + dy,
-            max(0.0, current.z + dz)
-        )
-        self.swarm_manager.leader_move_to_target({drone.drone_id: target})
-        self._log_controller_to_drone_encrypted(
-            drone.drone_id,
-            "leader_move_to_target",
-            {"x": target.x, "y": target.y, "z": target.z},
-        )
-        self.log(
-            f"Leader command MOVE D{drone.drone_id} -> x:{target.x:.1f} y:{target.y:.1f} z:{target.z:.1f}"
-        )
+        self.swarm_manager.leader_move_to_target(target_map, track_mission=False)
+        for drone_id, target in target_map.items():
+            self._log_controller_to_drone_encrypted(
+                drone_id,
+                "leader_move_to_target",
+                {"x": target.x, "y": target.y, "z": target.z},
+            )
+        moved_ids = sorted(target_map.keys())
+        self.log(f"Leader command MOVE drones {moved_ids} by dx={dx:.1f} dy={dy:.1f} dz={dz:.1f}")
+        if blocked_ids:
+            self.log(f"Move blocked (emergency/crashed) for drones {sorted(blocked_ids)}")
 
     def keyPressEvent(self, event):
         """Keyboard control for selected drone movement."""
@@ -3269,8 +4393,24 @@ def start_gui(swarm_manager):
     """Start the GUI application"""
     app = QApplication(sys.argv)
     app.setStyle('Fusion')  # Modern style
-    
-    window = MainWindow(swarm_manager)
+
+    mode_dialog = RuntimeModeDialog()
+    if mode_dialog.exec_() != QDialog.Accepted:
+        return 0
+    selected_mode = mode_dialog.selected_mode()
+    if selected_mode == "real":
+        ok, msg = _configure_swarm_for_real_mode(swarm_manager)
+        if not ok:
+            QMessageBox.warning(None, "Real Mode Setup", msg)
+            selected_mode = "real_test"
+        else:
+            QMessageBox.information(None, "Real Mode Setup", msg)
+
+    window = MainWindow(swarm_manager, runtime_mode=selected_mode)
+    if selected_mode == "real":
+        window.log("Runtime mode: REAL (loaded from .env)")
+    else:
+        window.log("Runtime mode: REAL TEST VISUALIZATION")
     window.show()
     
     return app.exec_()

@@ -219,6 +219,7 @@ class LeaderCommandHandler:
         self,
         targets: Dict[int, Position],
         gps_mode_map: Optional[Dict[int, bool]] = None,
+        track_mission: bool = True,
     ):
         leader = self.swarm.get_leader()
         if leader is None:
@@ -227,6 +228,7 @@ class LeaderCommandHandler:
         payload = {
             "targets": {str(k): {"x": v.x, "y": v.y, "z": v.z} for k, v in targets.items()},
             "gps_mode_map": gps_mode_map or {},
+            "track_mission": bool(track_mission),
         }
         event = CommandEvent(
             command="MOVE_TO_TARGET",

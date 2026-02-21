@@ -75,6 +75,9 @@ class SwarmManager:
         self._mission_targets: Dict[int, Position] = {}
         self._mission_active = False
         self._mission_arrival_threshold_m = 6.0
+        # Final goals for non-mission/manual commands, so avoidance can detour
+        # without losing the original destination.
+        self._manual_goal_targets: Dict[int, Position] = {}
         self._event_notifications: "queue.Queue[dict]" = queue.Queue()
         self._avoidance_active_ids = set()
         self._drone_state_cache: Dict[int, DroneOperationalState] = {}
@@ -483,9 +486,11 @@ class SwarmManager:
             raw_targets = payload.get("targets", {}) or {}
             if not raw_targets:
                 return
+            track_mission = bool(payload.get("track_mission", True))
 
-            self._mission_targets.clear()
-            self._mission_active = True
+            if track_mission:
+                self._mission_targets.clear()
+                self._mission_active = True
             for drone_id_text, raw in raw_targets.items():
                 try:
                     drone_id = int(drone_id_text)
@@ -500,7 +505,11 @@ class SwarmManager:
                     float(raw.get("z", max(1.0, drone.current_position.z))),
                 )
                 if self._command_move_for_drone(drone, target, payload):
-                    self._mission_targets[drone_id] = target
+                    if track_mission:
+                        self._manual_goal_targets.pop(drone_id, None)
+                        self._mission_targets[drone_id] = target
+                    else:
+                        self._manual_goal_targets[drone_id] = target
 
     def _execute_leader_return_home(self):
         """Leader broadcasted return home; GPS+ML active drones ignore this by requirement."""
@@ -528,6 +537,7 @@ class SwarmManager:
 
             self._mission_active = False
             self._mission_targets.clear()
+            self._manual_goal_targets.clear()
 
     def _command_move_for_drone(self, drone: Drone, target: Position, payload: dict) -> bool:
         """Route movement through GPS+ML module if active, else default swarm goto."""
@@ -908,13 +918,24 @@ class SwarmManager:
         with self._lock:
             for drone in self.drones.values():
                 current_state = self.drone_state_manager.get_state(drone.drone_id)
+                if (
+                    drone.flight_mode == FlightMode.EMERGENCY_LANDING
+                    or drone.emergency_return_active
+                    or drone.emergency_status.active
+                ):
+                    # Emergency drones should be treated as non-active in control UI.
+                    self._manual_goal_targets.pop(drone.drone_id, None)
+                    self.drone_state_manager.set_state(drone.drone_id, DroneOperationalState.IDLE)
+                    continue
                 if drone.flight_mode == FlightMode.IDLE:
+                    self._manual_goal_targets.pop(drone.drone_id, None)
                     self.drone_state_manager.set_state(drone.drone_id, DroneOperationalState.IDLE)
                     continue
                 if drone.flight_mode == FlightMode.TAKEOFF:
                     self.drone_state_manager.set_state(drone.drone_id, DroneOperationalState.TAKEOFF)
                     continue
                 if drone.flight_mode == FlightMode.RETURNING_HOME:
+                    self._manual_goal_targets.pop(drone.drone_id, None)
                     self.drone_state_manager.set_state(drone.drone_id, DroneOperationalState.RETURNING_HOME)
                     continue
                 if drone.drone_id in self._avoidance_active_ids:
@@ -1212,7 +1233,11 @@ class SwarmManager:
             if not self._prepare_drone_for_goto(drone):
                 continue
 
-            target = self._mission_targets.get(drone.drone_id) or drone.target_position
+            target = (
+                self._mission_targets.get(drone.drone_id)
+                or self._manual_goal_targets.get(drone.drone_id)
+                or drone.target_position
+            )
             if target is None:
                 continue
 
@@ -1275,12 +1300,16 @@ class SwarmManager:
             )
             if not should_avoid:
                 goal = self._mission_targets.get(drone.drone_id)
+                if goal is None:
+                    goal = self._manual_goal_targets.get(drone.drone_id)
                 if (
                     goal is not None
                     and drone.flight_mode == FlightMode.HOVER
                     and drone.current_position.distance_to(goal) > 6.0
                 ):
                     drone.goto(Position(goal.x, goal.y, goal.z))
+                elif goal is not None and drone.current_position.distance_to(goal) <= 6.0:
+                    self._manual_goal_targets.pop(drone.drone_id, None)
                 continue
 
             v_new = self.avoidance_controller.blend_velocity(
@@ -1601,8 +1630,12 @@ class SwarmManager:
         ]
     
     def get_active_drones(self) -> List[Drone]:
-        """Get all active drones"""
-        return [drone for drone in self.drones.values() if drone.is_active]
+        """Get movement-active drones (excludes idle/RTH/emergency/crashed)."""
+        movement_modes = {FlightMode.TAKEOFF, FlightMode.FLYING, FlightMode.HOVER}
+        return [
+            drone for drone in self.drones.values()
+            if drone.is_active and drone.flight_mode in movement_modes
+        ]
     
     def get_swarm_status(self) -> dict:
         """Get complete swarm status"""
@@ -1783,9 +1816,14 @@ class SwarmManager:
         self,
         targets: Dict[int, Position],
         gps_mode_map: Optional[Dict[int, bool]] = None,
+        track_mission: bool = True,
     ):
         """Public API: explicit leader command for movement."""
-        self.leader_command_handler.issue_move_to_target(targets, gps_mode_map=gps_mode_map)
+        self.leader_command_handler.issue_move_to_target(
+            targets,
+            gps_mode_map=gps_mode_map,
+            track_mission=track_mission,
+        )
 
     def leader_move_all_to_single_target(
         self,
@@ -1795,6 +1833,18 @@ class SwarmManager:
         """Helper: move all active drones to the same target Y."""
         targets = {drone_id: Position(target.x, target.y, target.z) for drone_id in self.drones.keys()}
         self.leader_move_to_target(targets, gps_mode_map=gps_mode_map)
+
+    def clear_mission_targets_for_drones(self, drone_ids):
+        """Remove mission-tracked targets for specific drones."""
+        with self._lock:
+            for drone_id in (drone_ids or []):
+                try:
+                    parsed = int(drone_id)
+                except Exception:
+                    continue
+                self._mission_targets.pop(parsed, None)
+            if not self._mission_targets:
+                self._mission_active = False
 
     def assign_area_mission_to_drone(
         self,
