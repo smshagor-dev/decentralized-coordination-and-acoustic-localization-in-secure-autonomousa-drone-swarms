@@ -1449,6 +1449,7 @@ Verification is performed via Ed25519 digital signatures to ensure non-repudiati
 ## 20. PDF Documents and Photos
 - [Project Proposal (PDF)](Docs/Project%20Proposal.pdf)
 - [Project Report (PDF)](Docs/DroneSwarm_Report.pdf)
+- [Research Paper (PDF)](Docs/Research-paper.pdf)
 
 ![System-Level Architecture](Docs/System-Architecture.png)
 ![System Overview](Docs/system-overview.png)
