@@ -138,6 +138,10 @@ class SwarmManager:
         self._latest_acoustic_source: Optional[Dict[str, float]] = None
         self._latest_acoustic_confidence = 0.0
         self._latest_acoustic_local_only = False
+        self.wind_enabled = True
+        self.wind_speed_mps = 2.5
+        self.wind_direction_deg = 35.0
+        self.wind_gust_factor = 0.35
         
         # Logging
         self.logger = logging.getLogger("SwarmManager")
@@ -324,6 +328,33 @@ class SwarmManager:
 
     def set_acoustic_confidence_threshold(self, threshold: float):
         self.acoustic_confidence_threshold = max(0.0, min(1.0, float(threshold)))
+
+    def set_wind_conditions(
+        self,
+        speed_mps: float,
+        direction_deg: float,
+        gust_factor: float = 0.35,
+        enabled: bool = True,
+    ):
+        """Apply a global wind profile to all drones in the simulator."""
+        self.wind_enabled = bool(enabled)
+        self.wind_speed_mps = max(0.0, min(30.0, float(speed_mps)))
+        self.wind_direction_deg = float(direction_deg) % 360.0
+        self.wind_gust_factor = max(0.0, min(0.95, float(gust_factor)))
+        for drone in self.drones.values():
+            drone.set_wind_conditions(
+                speed_mps=self.wind_speed_mps,
+                direction_deg=self.wind_direction_deg,
+                gust_factor=self.wind_gust_factor,
+                enabled=self.wind_enabled,
+            )
+        self.logger.info(
+            "Global wind updated: enabled=%s speed=%.2f dir=%.1f gust=%.2f",
+            self.wind_enabled,
+            self.wind_speed_mps,
+            self.wind_direction_deg,
+            self.wind_gust_factor,
+        )
 
     def move_formation_to(self, source_position: dict):
         targets: Dict[int, Position] = {}
@@ -573,6 +604,12 @@ class SwarmManager:
             }
             self.drone_state_manager.init_drone(drone.drone_id)
             self._init_drone_ledger(drone.drone_id)
+            drone.set_wind_conditions(
+                speed_mps=self.wind_speed_mps,
+                direction_deg=self.wind_direction_deg,
+                gust_factor=self.wind_gust_factor,
+                enabled=self.wind_enabled,
+            )
             
             # Start drone systems
             drone.start()
@@ -1672,6 +1709,12 @@ class SwarmManager:
                 "latest_source": self._latest_acoustic_source,
                 "latest_confidence": float(self._latest_acoustic_confidence),
                 "local_only_mode": bool(self._latest_acoustic_local_only),
+            },
+            "wind": {
+                "enabled": bool(self.wind_enabled),
+                "speed_mps": float(self.wind_speed_mps),
+                "direction_deg": float(self.wind_direction_deg),
+                "gust_factor": float(self.wind_gust_factor),
             },
         }
     

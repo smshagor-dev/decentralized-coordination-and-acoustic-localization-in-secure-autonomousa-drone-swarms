@@ -194,11 +194,16 @@ class Drone:
         self.degraded_return_active = False
         self.emergency_return_active = False
         self._wind_phase = float(self.drone_id) * 1.37
-        self.wind_vector = Position(
-            1.2 * math.cos(self._wind_phase),
-            1.2 * math.sin(self._wind_phase),
-            0.0
-        )
+        self.wind_enabled = True
+        self.wind_speed_mps = 1.2
+        self.wind_direction_deg = (self._wind_phase * 57.2957795) % 360.0
+        self.wind_gust_factor = 0.35
+        self.wind_compensation_hover = 0.84
+        self.wind_compensation_flying = 0.62
+        self.wind_compensation_rth = 0.90
+        self.wind_vector = Position(0.0, 0.0, 0.0)
+        self.current_wind_vector = Position(0.0, 0.0, 0.0)
+        self._rebuild_wind_vector()
         
         # GPS reference + per-drone mission
         self.gps_ref_lat = 23.8103
@@ -271,6 +276,71 @@ class Drone:
     def _horizontal_distance(self, a: Position, b: Position) -> float:
         """2D horizontal distance between two positions."""
         return math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2)
+
+    def _rebuild_wind_vector(self):
+        """Recompute base wind vector from configured speed + direction."""
+        speed = max(0.0, float(self.wind_speed_mps))
+        direction_deg = float(self.wind_direction_deg) % 360.0
+        direction_rad = math.radians(direction_deg)
+        self.wind_vector = Position(
+            speed * math.cos(direction_rad),
+            speed * math.sin(direction_rad),
+            0.0
+        )
+        self.current_wind_vector = Position(self.wind_vector.x, self.wind_vector.y, 0.0)
+
+    def set_wind_conditions(
+        self,
+        speed_mps: float,
+        direction_deg: float,
+        gust_factor: float = 0.35,
+        enabled: bool = True,
+    ):
+        """Configure local wind effect for simulator physics."""
+        self.wind_enabled = bool(enabled)
+        self.wind_speed_mps = max(0.0, min(30.0, float(speed_mps)))
+        self.wind_direction_deg = float(direction_deg) % 360.0
+        self.wind_gust_factor = max(0.0, min(0.95, float(gust_factor)))
+        self._rebuild_wind_vector()
+        self.logger.info(
+            "Drone %s wind updated: enabled=%s speed=%.2f dir=%.1f gust=%.2f",
+            self.drone_id,
+            self.wind_enabled,
+            self.wind_speed_mps,
+            self.wind_direction_deg,
+            self.wind_gust_factor,
+        )
+
+    def _sample_wind(self, delta_time: float) -> Position:
+        """Generate smooth wind with gusting and slight directional wobble."""
+        if not self.wind_enabled or self.wind_speed_mps <= 0.01:
+            self.current_wind_vector = Position(0.0, 0.0, 0.0)
+            return self.current_wind_vector
+
+        dt = max(0.0, float(delta_time))
+        self._wind_phase += dt * 0.65
+        gust_scale = 1.0 + self.wind_gust_factor * math.sin(self._wind_phase * 1.3 + self.drone_id * 0.11)
+        cross_scale = 0.28 * self.wind_gust_factor * math.cos(self._wind_phase * 0.7 + self.drone_id * 0.19)
+
+        base_x = self.wind_vector.x
+        base_y = self.wind_vector.y
+        wind_x = base_x * gust_scale - base_y * cross_scale
+        wind_y = base_y * gust_scale + base_x * cross_scale
+        self.current_wind_vector = Position(wind_x, wind_y, 0.0)
+        return self.current_wind_vector
+
+    def _apply_wind_drift(self, delta_time: float, compensation: float):
+        """Apply wind drift to X/Y with controller compensation [0..1]."""
+        if self.use_real_drone and self.mavlink_connected:
+            return
+        wind = self._sample_wind(delta_time)
+        compensation = max(0.0, min(1.0, float(compensation)))
+        drift_scale = 1.0 - compensation
+        if drift_scale <= 0.0:
+            return
+        dt = max(0.0, float(delta_time))
+        self.current_position.x += wind.x * drift_scale * dt
+        self.current_position.y += wind.y * drift_scale * dt
 
     def set_gps_reference(self, ref_lat: float, ref_lon: float):
         """Set local-world origin in GPS coordinates for this drone."""
@@ -774,42 +844,41 @@ class Drone:
         Keep the drone moving smoothly in hover mode (realistic loiter pattern).
         This improves visibility of forward/back/left/right movement in the GUI.
         """
-        if not self.auto_motion_enabled:
-            return
-        if not self.is_armed:
-            return
-        if self.target_position is not None:
-            return
-        if self.area_mission.active:
-            return
         if self.flight_mode in [FlightMode.EMERGENCY_LANDING, FlightMode.CRASHED]:
             return
 
-        self._auto_motion_time += max(0.0, delta_time)
-        omega = max(0.05, self.auto_motion_speed / max(1.0, self.auto_motion_radius))
-        phase = self._auto_motion_phase + self._auto_motion_time * omega
+        if (
+            self.auto_motion_enabled
+            and self.is_armed
+            and self.target_position is None
+            and not self.area_mission.active
+        ):
+            self._auto_motion_time += max(0.0, delta_time)
+            omega = max(0.05, self.auto_motion_speed / max(1.0, self.auto_motion_radius))
+            phase = self._auto_motion_phase + self._auto_motion_time * omega
 
-        # Elliptical loiter around home so X/Y motion is easy to understand.
-        desired_x = self.home_position.x + self.auto_motion_radius * math.cos(phase)
-        desired_y = self.home_position.y + (self.auto_motion_radius * 0.65) * math.sin(phase)
-        desired_z = max(1.0, self.current_position.z)
+            # Elliptical loiter around home so X/Y motion is easy to understand.
+            desired_x = self.home_position.x + self.auto_motion_radius * math.cos(phase)
+            desired_y = self.home_position.y + (self.auto_motion_radius * 0.65) * math.sin(phase)
+            desired_z = max(1.0, self.current_position.z)
 
-        dx = desired_x - self.current_position.x
-        dy = desired_y - self.current_position.y
-        dz = desired_z - self.current_position.z
-        distance = math.sqrt(dx * dx + dy * dy + dz * dz)
-        if distance < 0.001:
-            return
+            dx = desired_x - self.current_position.x
+            dy = desired_y - self.current_position.y
+            dz = desired_z - self.current_position.z
+            distance = math.sqrt(dx * dx + dy * dy + dz * dz)
+            if distance >= 0.001:
+                step = min(distance, self.auto_motion_speed * delta_time)
+                self.current_position.x += (dx / distance) * step
+                self.current_position.y += (dy / distance) * step
+                self.current_position.z += (dz / distance) * step
 
-        step = min(distance, self.auto_motion_speed * delta_time)
-        self.current_position.x += (dx / distance) * step
-        self.current_position.y += (dy / distance) * step
-        self.current_position.z += (dz / distance) * step
+        self._apply_wind_drift(delta_time, self.wind_compensation_hover)
     
     def _handle_takeoff(self, delta_time: float):
         """Handle takeoff procedure"""
         if self.current_position.z < self.TAKEOFF_ALTITUDE:
             self.current_position.z += self.LANDING_SPEED * 2 * delta_time
+            self._apply_wind_drift(delta_time, self.wind_compensation_hover)
         else:
             self.flight_mode = FlightMode.HOVER
             self.logger.info(f"Drone {self.drone_id}: Takeoff complete at {self.current_position.z:.1f}m")
@@ -842,6 +911,7 @@ class Drone:
             self.current_position.x += (dx / distance) * speed * delta_time
             self.current_position.y += (dy / distance) * speed * delta_time
             self.current_position.z += (dz / distance) * speed * delta_time
+            self._apply_wind_drift(delta_time, self.wind_compensation_flying)
     
     def _handle_return_to_home(self, delta_time: float):
         """Handle return to home procedure"""
@@ -871,14 +941,12 @@ class Drone:
                 self.current_position.x += (dx / horizontal_distance) * speed * delta_time
                 self.current_position.y += (dy / horizontal_distance) * speed * delta_time
 
-                # Degraded control under wind with partial compensation (3-motor fallback feel).
-                if self.degraded_return_active:
-                    self._wind_phase += delta_time * 0.7
-                    gust_x = self.wind_vector.x * (0.65 + 0.35 * math.sin(self._wind_phase))
-                    gust_y = self.wind_vector.y * (0.65 + 0.35 * math.cos(self._wind_phase * 0.9))
-                    compensation = 0.45
-                    self.current_position.x += gust_x * (1.0 - compensation) * delta_time
-                    self.current_position.y += gust_y * (1.0 - compensation) * delta_time
+            wind_compensation = self.wind_compensation_rth
+            if self.degraded_return_active:
+                wind_compensation = 0.45
+            elif self.emergency_return_active:
+                wind_compensation = max(0.55, self.wind_compensation_rth - 0.22)
+            self._apply_wind_drift(delta_time, wind_compensation)
             
             # Descend gradually
             if abs(self.current_position.z - self.home_position.z) > 0.5:
@@ -889,6 +957,10 @@ class Drone:
                     self.home_position.z,
                     self.current_position.z - descend_rate * delta_time
                 )
+
+            if self._horizontal_distance(self.current_position, self.home_position) < 0.35:
+                self.current_position.x = self.home_position.x
+                self.current_position.y = self.home_position.y
     
     def _handle_landing(self, delta_time: float):
         """Handle landing procedure"""
@@ -1131,7 +1203,13 @@ class Drone:
             "failed_motor_count": self.failed_motor_count,
             "degraded_return_active": self.degraded_return_active,
             "emergency_return_active": self.emergency_return_active,
-            "wind_vector": self.wind_vector.to_dict(),
+            "wind_vector": self.current_wind_vector.to_dict(),
+            "wind_profile": {
+                "enabled": self.wind_enabled,
+                "speed_mps": round(self.wind_speed_mps, 3),
+                "direction_deg": round(self.wind_direction_deg, 2),
+                "gust_factor": round(self.wind_gust_factor, 3),
+            },
             "emergency": {
                 "active": self.emergency_status.active,
                 "reason": self.emergency_status.reason,

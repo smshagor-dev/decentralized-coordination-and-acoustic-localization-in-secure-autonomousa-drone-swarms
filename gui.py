@@ -120,6 +120,11 @@ class DroneWidget(QWidget):
         self.acoustic_source = None
         self.acoustic_confidence = 0.0
         self.selected_drone_ids = set()
+        self.global_wind_vector = {"x": 0.0, "y": 0.0}
+        self.global_wind_speed_mps = 0.0
+        self.global_wind_direction_deg = 0.0
+        self.global_wind_enabled = False
+        self.show_wind_field = True
         
         # Colors
         self.colors = {
@@ -197,6 +202,7 @@ class DroneWidget(QWidget):
         """Update drone positions and status"""
         self.animation_phase += 0.25
         self.drones = drones_data
+        wind_samples = []
         for drone_id, drone_data in self.drones.items():
             pos = drone_data.get("position", {})
             point = (pos.get("x", 0.0), pos.get("y", 0.0), pos.get("z", 0.0))
@@ -204,6 +210,25 @@ class DroneWidget(QWidget):
             if moving:
                 trail = self.position_history.setdefault(drone_id, [])
                 trail.append((point[0], point[1], point[2], returning))
+            wind = drone_data.get("wind_vector", {}) or {}
+            try:
+                wind_samples.append((float(wind.get("x", 0.0)), float(wind.get("y", 0.0))))
+            except Exception:
+                pass
+            profile = drone_data.get("wind_profile", {}) or {}
+            if profile:
+                self.global_wind_enabled = bool(profile.get("enabled", True))
+        if wind_samples:
+            wx = sum(v[0] for v in wind_samples) / len(wind_samples)
+            wy = sum(v[1] for v in wind_samples) / len(wind_samples)
+            self.global_wind_vector = {"x": wx, "y": wy}
+            self.global_wind_speed_mps = math.sqrt(wx * wx + wy * wy)
+            self.global_wind_direction_deg = (math.degrees(math.atan2(wy, wx)) + 360.0) % 360.0
+        else:
+            self.global_wind_vector = {"x": 0.0, "y": 0.0}
+            self.global_wind_speed_mps = 0.0
+            self.global_wind_direction_deg = 0.0
+            self.global_wind_enabled = False
         self._update_map_origin()
         self.update()
 
@@ -315,6 +340,8 @@ class DroneWidget(QWidget):
         
         # Draw grid
         self._draw_grid(painter)
+        self._draw_wind_field(painter)
+        self._draw_wind_overlay(painter)
 
         # Draw ABCD operation box and X->Y mission plan
         self._draw_operation_overlay(painter)
@@ -540,6 +567,72 @@ class DroneWidget(QWidget):
         painter.drawLine(22, 30, 18, 35)
         painter.drawLine(22, 30, 26, 35)
         painter.drawText(15, 65, "Scale: 10 km radius")
+
+    def _draw_wind_overlay(self, painter):
+        """Draw global wind indicator and direction arrow on map."""
+        if not self.global_wind_enabled:
+            return
+        speed = float(self.global_wind_speed_mps)
+        if speed <= 0.05:
+            return
+
+        panel_w = 235
+        panel_h = 72
+        x0 = self.width() - panel_w - 18
+        y0 = 18
+        painter.setPen(QPen(QColor(170, 210, 255, 180), 1))
+        painter.setBrush(QBrush(QColor(10, 18, 30, 165)))
+        painter.drawRoundedRect(QRectF(x0, y0, panel_w, panel_h), 8, 8)
+
+        cx = x0 + 48
+        cy = y0 + panel_h / 2.0
+        length = min(26.0, 7.0 + speed * 4.2)
+        direction_rad = math.radians(self.global_wind_direction_deg)
+        tip_x = cx + math.cos(direction_rad) * length
+        tip_y = cy - math.sin(direction_rad) * length
+
+        painter.setPen(QPen(QColor(130, 220, 255), 2))
+        painter.drawLine(int(cx), int(cy), int(tip_x), int(tip_y))
+        painter.drawLine(int(tip_x), int(tip_y), int(tip_x - 5), int(tip_y - 3))
+        painter.drawLine(int(tip_x), int(tip_y), int(tip_x - 5), int(tip_y + 3))
+        painter.setPen(QPen(QColor(230, 245, 255)))
+        painter.setFont(QFont("Arial", 9, QFont.Bold))
+        painter.drawText(int(x0 + 84), int(y0 + 29), f"Wind {speed:.1f} m/s")
+        painter.setFont(QFont("Arial", 8))
+        painter.drawText(int(x0 + 84), int(y0 + 51), f"Dir {self.global_wind_direction_deg:.0f}{chr(176)}")
+
+    def _draw_wind_field(self, painter):
+        """Draw animated wind stream lines across the map for intuitive weather feel."""
+        if not self.show_wind_field or not self.global_wind_enabled:
+            return
+        speed = float(self.global_wind_speed_mps)
+        if speed <= 0.08:
+            return
+
+        direction_rad = math.radians(self.global_wind_direction_deg)
+        ux = math.cos(direction_rad)
+        uy = -math.sin(direction_rad)  # screen-space Y grows downward
+        px = -uy
+        py = ux
+
+        line_len = min(34.0, 14.0 + speed * 2.8)
+        spacing = 54
+        phase = (self.animation_phase * max(1.5, speed * 0.8)) % spacing
+
+        painter.setBrush(Qt.NoBrush)
+        for ix in range(-1, int(self.width() / spacing) + 2):
+            for iy in range(-1, int(self.height() / spacing) + 2):
+                base_x = ix * spacing + phase * ux
+                base_y = iy * spacing + phase * uy
+                center_x = base_x + px * ((iy % 2) * 0.35 * spacing)
+                center_y = base_y + py * ((ix % 2) * 0.25 * spacing)
+                x1 = center_x - ux * line_len * 0.45
+                y1 = center_y - uy * line_len * 0.45
+                x2 = center_x + ux * line_len * 0.55
+                y2 = center_y + uy * line_len * 0.55
+                alpha = int(min(120, 38 + speed * 11))
+                painter.setPen(QPen(QColor(110, 200, 255, alpha), 1))
+                painter.drawLine(int(x1), int(y1), int(x2), int(y2))
     
     def _draw_obstacles(self, painter):
         """Draw obstacles"""
@@ -663,6 +756,16 @@ class DroneWidget(QWidget):
 
         self._draw_drone_svg(painter, sx, sy, size, color)
         self._draw_motion_direction(painter, sx, sy, size, vx, vy, color)
+        self._draw_wind_effect_on_drone(
+            painter,
+            sx=sx,
+            sy=sy,
+            size=size,
+            vx=vx,
+            vy=vy,
+            drone_data=drone_data,
+            emphasize=bool(is_selected),
+        )
         
         # Draw altitude indicator (vertical line)
         if z > 0.5:
@@ -753,6 +856,56 @@ class DroneWidget(QWidget):
         painter.setPen(QPen(QColor(color.red(), color.green(), color.blue(), 120), 1, Qt.DashLine))
         painter.setBrush(Qt.NoBrush)
         painter.drawEllipse(QPointF(sx, sy), radius, radius)
+
+    def _draw_wind_effect_on_drone(
+        self,
+        painter,
+        sx: float,
+        sy: float,
+        size: float,
+        vx: float,
+        vy: float,
+        drone_data: dict,
+        emphasize: bool = False,
+    ):
+        """Visualize per-drone wind push and estimated impact severity."""
+        wind = drone_data.get("wind_vector", {}) or {}
+        wx = float(wind.get("x", 0.0))
+        wy = float(wind.get("y", 0.0))
+        wind_speed = math.sqrt(wx * wx + wy * wy)
+        if wind_speed <= 0.05:
+            return
+
+        ux = wx / max(wind_speed, 1e-6)
+        uy = wy / max(wind_speed, 1e-6)
+        arrow_len = min(34.0, size * 0.62 + wind_speed * 2.0)
+        start_x = sx + size * 0.18
+        start_y = sy - size * 0.18
+        tip_x = start_x + ux * arrow_len
+        tip_y = start_y - uy * arrow_len
+
+        pen_width = 3 if emphasize else 2
+        alpha = 230 if emphasize else 180
+        painter.setPen(QPen(QColor(94, 214, 255, alpha), pen_width))
+        painter.drawLine(int(start_x), int(start_y), int(tip_x), int(tip_y))
+        painter.drawLine(int(tip_x), int(tip_y), int(tip_x - ux * 8 - uy * 4), int(tip_y + uy * 8 - ux * 4))
+        painter.drawLine(int(tip_x), int(tip_y), int(tip_x - ux * 8 + uy * 4), int(tip_y + uy * 8 + ux * 4))
+
+        ground_speed = math.sqrt(vx * vx + vy * vy)
+        impact_pct = min(100.0, (wind_speed / max(ground_speed, 0.5)) * 100.0)
+        cross_ratio = 0.0
+        if ground_speed > 0.2:
+            dot = vx * wx + vy * wy
+            cos_ang = max(-1.0, min(1.0, dot / max(ground_speed * wind_speed, 1e-6)))
+            cross_ratio = math.sqrt(max(0.0, 1.0 - cos_ang * cos_ang))
+
+        if self.show_labels and (emphasize or wind_speed >= 1.0):
+            text = f"W {wind_speed:.1f}m/s | Eff {impact_pct:.0f}%"
+            if ground_speed > 0.2:
+                text += f" | XW {cross_ratio * 100:.0f}%"
+            painter.setFont(QFont("Arial", 7, QFont.Bold if emphasize else QFont.Normal))
+            painter.setPen(QPen(QColor(185, 236, 255, 230 if emphasize else 180)))
+            painter.drawText(int(sx - 58), int(sy - size - 16), 118, 14, Qt.AlignCenter, text)
 
     def _draw_drone_svg(self, painter, sx: float, sy: float, size: float, color: QColor):
         """Render drone icon from SVG template with role-dependent color."""
@@ -1924,7 +2077,7 @@ class MainWindow(QMainWindow):
         
         # Logger
         self.logger = logging.getLogger("GUI")
-        
+        self.apply_wind_settings(quiet=True)
         self.log("Drone Swarm Management System started")
 
     def _apply_dashboard_theme(self):
@@ -2397,6 +2550,43 @@ class MainWindow(QMainWindow):
         acoustic_group.setLayout(acoustic_layout)
         layout.addWidget(acoustic_group)
 
+        wind_group = QGroupBox("Weather Wind")
+        wind_layout = QGridLayout()
+        self.wind_enable_cb = QCheckBox("Enable Wind Effect")
+        self.wind_enable_cb.setChecked(True)
+        wind_layout.addWidget(self.wind_enable_cb, 0, 0, 1, 3)
+
+        wind_layout.addWidget(QLabel("Speed (m/s)"), 1, 0)
+        self.wind_speed_spin = QDoubleSpinBox()
+        self.wind_speed_spin.setRange(0.0, 30.0)
+        self.wind_speed_spin.setSingleStep(0.2)
+        self.wind_speed_spin.setValue(2.5)
+        wind_layout.addWidget(self.wind_speed_spin, 1, 1)
+
+        wind_layout.addWidget(QLabel("Direction"), 1, 2)
+        self.wind_direction_spin = QSpinBox()
+        self.wind_direction_spin.setRange(0, 359)
+        self.wind_direction_spin.setValue(35)
+        self.wind_direction_spin.setSuffix(" deg")
+        wind_layout.addWidget(self.wind_direction_spin, 1, 3)
+
+        wind_layout.addWidget(QLabel("Gust"), 2, 0)
+        self.wind_gust_spin = QDoubleSpinBox()
+        self.wind_gust_spin.setRange(0.0, 0.95)
+        self.wind_gust_spin.setSingleStep(0.05)
+        self.wind_gust_spin.setValue(0.35)
+        wind_layout.addWidget(self.wind_gust_spin, 2, 1)
+
+        self.wind_status_value = QLabel("Not applied")
+        self.wind_status_value.setStyleSheet("font-size: 10px; color: #b9c7dd;")
+        wind_layout.addWidget(self.wind_status_value, 2, 2, 1, 2)
+
+        self.wind_apply_btn = QPushButton("Apply Wind")
+        self.wind_apply_btn.clicked.connect(self.apply_wind_settings)
+        wind_layout.addWidget(self.wind_apply_btn, 3, 0, 1, 4)
+        wind_group.setLayout(wind_layout)
+        layout.addWidget(wind_group)
+
         # Manual movement controls for selected drone
         move_group = QGroupBox("Selected Drone Movement")
         move_layout = QGridLayout()
@@ -2553,7 +2743,8 @@ class MainWindow(QMainWindow):
             ("total_drones", "Total Drones:"),
             ("active_drones", "Active Drones:"),
             ("leader_id", "Leader ID:"),
-            ("avg_battery", "Avg Battery:")
+            ("avg_battery", "Avg Battery:"),
+            ("wind", "Wind:")
         ]
         
         # Two metrics per row
@@ -2846,6 +3037,14 @@ class MainWindow(QMainWindow):
             self.status_labels["avg_battery"].setText(f"{avg_battery:.1f}%")
         else:
             self.status_labels["avg_battery"].setText("0.0%")
+
+        wind_state = status.get("wind", {}) or {}
+        wind_enabled = bool(wind_state.get("enabled", False))
+        wind_speed = float(wind_state.get("speed_mps", 0.0))
+        wind_dir = float(wind_state.get("direction_deg", 0.0)) % 360.0
+        self.status_labels["wind"].setText(
+            f"{'ON' if wind_enabled else 'OFF'} {wind_speed:.1f}m/s {wind_dir:.0f}{chr(176)}"
+        )
 
         latency = status.get("latency", {})
         for key, label in self.latency_value_labels.items():
@@ -3321,6 +3520,32 @@ class MainWindow(QMainWindow):
             self.acoustic_conf_label.setText(f"{threshold:.2f}")
         if hasattr(self.swarm_manager, "set_acoustic_confidence_threshold"):
             self.swarm_manager.set_acoustic_confidence_threshold(threshold)
+
+    def apply_wind_settings(self, quiet: bool = False):
+        enabled = bool(self.wind_enable_cb.isChecked()) if hasattr(self, "wind_enable_cb") else True
+        speed_mps = float(self.wind_speed_spin.value()) if hasattr(self, "wind_speed_spin") else 0.0
+        direction_deg = int(self.wind_direction_spin.value()) if hasattr(self, "wind_direction_spin") else 0
+        gust_factor = float(self.wind_gust_spin.value()) if hasattr(self, "wind_gust_spin") else 0.0
+
+        if hasattr(self.swarm_manager, "set_wind_conditions"):
+            self.swarm_manager.set_wind_conditions(
+                speed_mps=speed_mps,
+                direction_deg=direction_deg,
+                gust_factor=gust_factor,
+                enabled=enabled,
+            )
+
+        if hasattr(self, "wind_status_value") and self.wind_status_value is not None:
+            state = "ON" if enabled else "OFF"
+            self.wind_status_value.setText(
+                f"{state} {speed_mps:.1f} m/s @ {direction_deg} deg | gust {gust_factor:.2f}"
+            )
+
+        if not quiet:
+            self.log(
+                f"Wind effect {'enabled' if enabled else 'disabled'}: "
+                f"speed={speed_mps:.1f}m/s dir={direction_deg}deg gust={gust_factor:.2f}"
+            )
 
     def _on_obstacle_filter_changed(self, _state: int):
         self.show_static_obstacles = bool(self.toggle_static_cb.isChecked())
