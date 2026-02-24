@@ -21,6 +21,7 @@ import math
 import queue
 import random
 import json
+import csv
 import re
 import copy
 from datetime import datetime
@@ -110,12 +111,34 @@ class SwarmManager:
         self._runtime_csv_dir = self._runtime_dir / "csv"
         self._runtime_logs_dir = self._runtime_dir / "logs"
         self._runtime_img_dir = self._runtime_dir / "img"
+        self._runtime_image_root_dir = self._runtime_dir / "image"
+        self._runtime_image_logs_dir = self._runtime_image_root_dir / "logs" / self._run_id
+        self._runtime_image_csv_dir = self._runtime_image_root_dir / "csv" / self._run_id
         self._runtime_csv_path = self._runtime_csv_dir / f"runtime_latency_vs_drones_{self._run_id}.csv"
         self._runtime_png_path = self._runtime_img_dir / f"latency_timeseries_{self._run_id}.png"
         self._merged_log_path = self._runtime_logs_dir / f"merged_logs_{self._run_id}.log"
+        self._dynamic_metrics_log_path = self._runtime_logs_dir / f"dynamic_metrics_{self._run_id}.log"
+        self._split_logs_root_dir = self._runtime_logs_dir / "by_log" / self._run_id
+        self._split_csv_root_dir = self._runtime_csv_dir / "by_log" / self._run_id
+        self._metric_logs_dir = self._runtime_logs_dir / "metrics" / self._run_id
+        self._metric_csv_dir = self._runtime_csv_dir / "metrics" / self._run_id
+        self._flying_logs_dir = self._runtime_logs_dir / "flying" / self._run_id
+        self._flying_csv_dir = self._runtime_csv_dir / "flying" / self._run_id
         self._spike_png_path = self._runtime_img_dir / f"latency_spike_timeline_{self._run_id}.png"
         self._spike_csv_path = self._runtime_csv_dir / f"latency_spike_timeline_{self._run_id}.csv"
+        self._split_log_paths: Dict[str, Path] = {}
+        self._split_csv_paths: Dict[str, Path] = {}
+        self._metric_log_paths: Dict[str, Path] = {}
+        self._metric_csv_paths: Dict[str, Path] = {}
         self._latest_latency_stats: Dict[str, float] = {}
+        self._last_dynamic_metrics_log_at = 0.0
+        self._runtime_graphs_finalized = False
+        self._latest_acoustic_rmse = 0.0
+        self._latest_collision_avoidance_path_m = 0.0
+        self._last_leader_election_at = ""
+        self._last_leader_election_outcome = "NONE"
+        self._last_leader_election_score = 0.0
+        self._last_leader_election_candidates = 0
 
         # Event-driven leader/follower architecture
         self.communication_manager = EventCommunicationManager()
@@ -413,6 +436,7 @@ class SwarmManager:
         self._latest_acoustic_source = source_position
         self._latest_acoustic_confidence = confidence
         self._latest_acoustic_local_only = bool(result.get("local_only", False))
+        self._latest_acoustic_rmse = float(result.get("rmse", 0.0))
 
         event_payload = {
             "source_position": source_position,
@@ -543,17 +567,26 @@ class SwarmManager:
                         self._manual_goal_targets[drone_id] = target
 
     def _execute_leader_return_home(self):
-        """Leader broadcasted return home; GPS+ML active drones ignore this by requirement."""
+        """Leader broadcasted return home; mission-active drones must ignore until mission complete."""
         with self._lock:
+            returned_ids = set()
+            skipped_ids = set()
             for drone in self.drones.values():
-                if self.drone_state_manager.is_gps_ml_active(drone.drone_id) or drone.area_mission.active:
+                pending_single_mission = self._drone_has_pending_single_mission(drone)
+                if (
+                    self.drone_state_manager.is_gps_ml_active(drone.drone_id)
+                    or drone.area_mission.active
+                    or pending_single_mission
+                ):
                     self.logger.info(
-                        "Drone %s ignored RETURN_TO_HOME due to GPS_ML_ACTIVE state",
+                        "Drone %s ignored RETURN_TO_HOME due to active mission state",
                         drone.drone_id,
                     )
+                    skipped_ids.add(drone.drone_id)
                     continue
                 drone.return_to_home("Leader broadcast RETURN_TO_HOME")
                 self.drone_state_manager.set_state(drone.drone_id, DroneOperationalState.RETURNING_HOME)
+                returned_ids.add(drone.drone_id)
                 self._push_system_event(
                     {
                         "kind": "command",
@@ -566,9 +599,36 @@ class SwarmManager:
                     }
                 )
 
-            self._mission_active = False
-            self._mission_targets.clear()
-            self._manual_goal_targets.clear()
+            # Keep mission maps for skipped drones so they can continue/complete mission.
+            for drone_id in list(self._mission_targets.keys()):
+                if drone_id in returned_ids:
+                    self._mission_targets.pop(drone_id, None)
+            for drone_id in list(self._manual_goal_targets.keys()):
+                if drone_id in returned_ids:
+                    self._manual_goal_targets.pop(drone_id, None)
+            if not self._mission_targets:
+                self._mission_active = False
+            if skipped_ids:
+                self.logger.info(
+                    "RETURN_TO_HOME skipped for mission-active drones: %s",
+                    sorted(skipped_ids),
+                )
+
+    def _drone_has_pending_single_mission(self, drone: Drone) -> bool:
+        """True when this drone still has an unfinished single-target mission."""
+        target = self._mission_targets.get(drone.drone_id)
+        if target is not None:
+            dx = float(target.x) - float(drone.current_position.x)
+            dy = float(target.y) - float(drone.current_position.y)
+            if math.sqrt(dx * dx + dy * dy) > float(self._mission_arrival_threshold_m):
+                return True
+        manual_target = self._manual_goal_targets.get(drone.drone_id)
+        if manual_target is not None:
+            dx = float(manual_target.x) - float(drone.current_position.x)
+            dy = float(manual_target.y) - float(drone.current_position.y)
+            if math.sqrt(dx * dx + dy * dy) > float(self._mission_arrival_threshold_m):
+                return True
+        return False
 
     def _command_move_for_drone(self, drone: Drone, target: Position, payload: dict) -> bool:
         """Route movement through GPS+ML module if active, else default swarm goto."""
@@ -675,15 +735,31 @@ class SwarmManager:
         if self.monitor_thread:
             self.monitor_thread.join(timeout=2.0)
         self.communication_manager.stop()
-        if self.runtime_latency_graph_enabled:
-            self._save_latency_timeseries_from_csv()
-            self._save_latency_spike_timeline_from_logs()
         
         # Stop all drones
         for drone in self.drones.values():
             drone.stop()
-        
+        self.finalize_runtime_graphs()
         self.logger.info("Swarm monitoring stopped")
+
+    def finalize_runtime_graphs(self, force: bool = False):
+        """
+        Final graph generation on shutdown:
+        - Merge any remaining log lines
+        - Generate summary runtime graphs
+        - Generate per-file graphs from both CSV and LOG trees
+        """
+        if not self.runtime_latency_graph_enabled:
+            return
+        if self._runtime_graphs_finalized and not force:
+            return
+        self._init_runtime_artifacts()
+        self._merge_runtime_logs()
+        self._save_latency_timeseries_from_csv()
+        self._save_latency_spike_timeline_from_logs()
+        self._generate_per_file_graphs_from_csv_tree()
+        self._generate_per_file_graphs_from_log_tree()
+        self._runtime_graphs_finalized = True
     
     def _monitor_loop(self):
         """Main monitoring loop"""
@@ -746,6 +822,7 @@ class SwarmManager:
 
             # Auto-collect latency vs drone-count samples and save graph periodically.
             self._record_latency_graph_sample(latency_stats)
+            self._append_dynamic_metrics_log(latency_stats)
 
             # Keep high-level state model and event-driven mission completion in sync.
             self._synchronize_operational_states()
@@ -773,6 +850,15 @@ class SwarmManager:
         self._runtime_csv_dir.mkdir(parents=True, exist_ok=True)
         self._runtime_logs_dir.mkdir(parents=True, exist_ok=True)
         self._runtime_img_dir.mkdir(parents=True, exist_ok=True)
+        self._runtime_image_root_dir.mkdir(parents=True, exist_ok=True)
+        self._runtime_image_logs_dir.mkdir(parents=True, exist_ok=True)
+        self._runtime_image_csv_dir.mkdir(parents=True, exist_ok=True)
+        self._split_logs_root_dir.mkdir(parents=True, exist_ok=True)
+        self._split_csv_root_dir.mkdir(parents=True, exist_ok=True)
+        self._metric_logs_dir.mkdir(parents=True, exist_ok=True)
+        self._metric_csv_dir.mkdir(parents=True, exist_ok=True)
+        self._flying_logs_dir.mkdir(parents=True, exist_ok=True)
+        self._flying_csv_dir.mkdir(parents=True, exist_ok=True)
         if not self._runtime_csv_path.exists():
             try:
                 with self._runtime_csv_path.open("w", encoding="utf-8") as f:
@@ -785,6 +871,13 @@ class SwarmManager:
                     f.write(f"merged_log_run_id={self._run_id}\n")
             except Exception as exc:
                 self.logger.warning("Failed to initialize merged log: %s", exc)
+        if not self._dynamic_metrics_log_path.exists():
+            try:
+                with self._dynamic_metrics_log_path.open("w", encoding="utf-8") as f:
+                    f.write(f"dynamic_metric_run_id={self._run_id}\n")
+            except Exception as exc:
+                self.logger.warning("Failed to initialize dynamic metrics log: %s", exc)
+        self._init_metric_artifacts()
         # Initialize log offsets so merged log only contains new data from this run.
         log_dir = Path("logs")
         candidates = [
@@ -799,6 +892,93 @@ class SwarmManager:
                 self._log_offsets[path] = path.stat().st_size
             except Exception:
                 self._log_offsets[path] = 0
+
+    def _init_metric_artifacts(self):
+        metric_names = [
+            "acoustic_localization_error",
+            "security_computational_overhead",
+            "collision_avoidance_path",
+            "winds",
+            "flying",
+            "leader_election",
+        ]
+        for metric in metric_names:
+            metric_log_name = f"{metric}_log.log"
+            metric_csv_name = f"{metric}_log.csv"
+            log_dir = self._flying_logs_dir if metric == "flying" else self._metric_logs_dir
+            csv_dir = self._flying_csv_dir if metric == "flying" else self._metric_csv_dir
+            log_path = log_dir / metric_log_name
+            csv_path = csv_dir / metric_csv_name
+            self._metric_log_paths[metric] = log_path
+            self._metric_csv_paths[metric] = csv_path
+            if not log_path.exists():
+                try:
+                    with log_path.open("w", encoding="utf-8") as f:
+                        f.write(f"{metric}_log_run_id={self._run_id}\n")
+                except Exception as exc:
+                    self.logger.warning("Failed to initialize metric log %s: %s", metric, exc)
+            if not csv_path.exists():
+                try:
+                    import csv
+                    with csv_path.open("w", encoding="utf-8", newline="") as f:
+                        writer = csv.writer(f)
+                        if metric == "winds":
+                            writer.writerow(["timestamp", "enabled", "speed_mps", "direction_deg", "gust_factor"])
+                        elif metric == "flying":
+                            writer.writerow(["timestamp", "flying_count", "total_drones", "avg_speed_mps"])
+                        elif metric == "leader_election":
+                            writer.writerow(
+                                [
+                                    "timestamp",
+                                    "state",
+                                    "leader_id",
+                                    "last_outcome",
+                                    "candidates",
+                                    "score",
+                                    "elected_at",
+                                ]
+                            )
+                        else:
+                            writer.writerow(["timestamp", "value"])
+                except Exception as exc:
+                    self.logger.warning("Failed to initialize metric CSV %s: %s", metric, exc)
+
+    def _to_log_key(self, source_name: str) -> str:
+        return re.sub(r"[^a-z0-9]+", "_", source_name.lower()).strip("_")
+
+    def _parse_standard_log_line(self, line: str) -> Tuple[str, str, str, str]:
+        parts = line.split(" - ", 3)
+        if len(parts) == 4:
+            return parts[0], parts[1], parts[2], parts[3]
+        return "", "", "", line
+
+    def _append_split_log_line(self, source_name: str, line: str):
+        key = self._to_log_key(Path(source_name).stem)
+        if not key:
+            key = "unknown"
+        log_path = self._split_log_paths.get(key)
+        csv_path = self._split_csv_paths.get(key)
+        if log_path is None:
+            log_path = self._split_logs_root_dir / f"{key}_log.log"
+            self._split_log_paths[key] = log_path
+            if not log_path.exists():
+                with log_path.open("w", encoding="utf-8") as f:
+                    f.write(f"{key}_log_run_id={self._run_id}\n")
+        if csv_path is None:
+            csv_path = self._split_csv_root_dir / f"{key}_log.csv"
+            self._split_csv_paths[key] = csv_path
+            if not csv_path.exists():
+                import csv
+                with csv_path.open("w", encoding="utf-8", newline="") as f:
+                    writer = csv.writer(f)
+                    writer.writerow(["timestamp", "logger", "level", "message", "raw_line"])
+        with log_path.open("a", encoding="utf-8") as f:
+            f.write(f"{line}\n")
+        ts, logger_name, level_name, message = self._parse_standard_log_line(line)
+        import csv
+        with csv_path.open("a", encoding="utf-8", newline="") as f:
+            writer = csv.writer(f, quoting=csv.QUOTE_MINIMAL)
+            writer.writerow([ts, logger_name, level_name, message, line])
 
     def _append_runtime_csv_sample(self, ts: float, drone_count: int, total_ms: float):
         try:
@@ -833,8 +1013,136 @@ class SwarmManager:
                 with self._merged_log_path.open("a", encoding="utf-8") as out:
                     for line in new_data.splitlines():
                         out.write(f"[{path.name}] {line}\n")
+                        self._append_split_log_line(path.name, line)
             except Exception as exc:
                 self.logger.warning("Failed to merge log %s: %s", path, exc)
+
+    def _compute_security_computational_overhead_pct(self, latency_stats: dict) -> float:
+        total_ms = float(latency_stats.get("total_round_trip_ms", 0.0))
+        jitter_ms = float(latency_stats.get("total_round_trip_jitter_std_ms", 0.0))
+        drone_factor = float(len(self.drones)) * 1.8
+        ledger_factor = float(len(self.flying_ledgers)) * 1.2
+        fallback_factor = 8.0 if self.fallback_local_avoidance_mode else 0.0
+        overhead = (total_ms / 10.0) + (jitter_ms * 0.6) + drone_factor + ledger_factor + fallback_factor
+        return max(0.0, min(100.0, overhead))
+
+    def _append_metric_log_line(self, metric: str, ts: str, message: str):
+        path = self._metric_log_paths.get(metric)
+        if path is None:
+            return
+        with path.open("a", encoding="utf-8") as f:
+            f.write(f"[metrics.log] {ts} - PerformanceMetrics - INFO - {message}\n")
+
+    def _append_metric_csv_row(self, metric: str, row: list):
+        path = self._metric_csv_paths.get(metric)
+        if path is None:
+            return
+        import csv
+        with path.open("a", encoding="utf-8", newline="") as f:
+            writer = csv.writer(f, quoting=csv.QUOTE_MINIMAL)
+            writer.writerow(row)
+
+    def _append_dynamic_metrics_log(self, latency_stats: dict):
+        now = time.time()
+        if now - self._last_dynamic_metrics_log_at < 2.0:
+            return
+        self._last_dynamic_metrics_log_at = now
+        try:
+            acoustic_error_m = max(0.0, float(self._latest_acoustic_rmse))
+            security_overhead_pct = self._compute_security_computational_overhead_pct(latency_stats)
+            collision_path_m = max(0.0, float(self._latest_collision_avoidance_path_m))
+            flying_drones = self.get_active_drones()
+            flying_count = len(flying_drones)
+            avg_flying_speed = 0.0
+            if flying_count:
+                speed_sum = 0.0
+                for drone in flying_drones:
+                    speed_sum += math.sqrt(
+                        float(drone.velocity.x) ** 2
+                        + float(drone.velocity.y) ** 2
+                        + float(drone.velocity.z) ** 2
+                    )
+                avg_flying_speed = speed_sum / flying_count
+            ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S,%f")[:-3]
+            with self._dynamic_metrics_log_path.open("a", encoding="utf-8") as f:
+                f.write(
+                    f"[metrics.log] {ts} - PerformanceMetrics - INFO - Acoustic Localization Error={acoustic_error_m:.2f} m\n"
+                )
+                f.write(
+                    f"[metrics.log] {ts} - PerformanceMetrics - INFO - Security & Computational Overhead={security_overhead_pct:.2f} %\n"
+                )
+                f.write(
+                    f"[metrics.log] {ts} - PerformanceMetrics - INFO - Collision Avoidance Path={collision_path_m:.2f} m\n"
+                )
+                f.write(
+                    f"[metrics.log] {ts} - PerformanceMetrics - INFO - Wind Profile enabled={self.wind_enabled} speed={float(self.wind_speed_mps):.2f} mps dir={float(self.wind_direction_deg):.1f} deg gust={float(self.wind_gust_factor):.2f}\n"
+                )
+                f.write(
+                    f"[metrics.log] {ts} - PerformanceMetrics - INFO - Flying Drones={flying_count}/{len(self.drones)} avg_speed={avg_flying_speed:.2f} mps\n"
+                )
+                f.write(
+                    f"[metrics.log] {ts} - PerformanceMetrics - INFO - Leader Election state={'IN_PROGRESS' if self.election_in_progress else 'IDLE'} leader_id={self.leader_id if self.leader_id is not None else -1} last_outcome={self._last_leader_election_outcome} candidates={self._last_leader_election_candidates} score={self._last_leader_election_score:.2f} at={self._last_leader_election_at or 'N/A'}\n"
+                )
+
+            leader_state = "IN_PROGRESS" if self.election_in_progress else "IDLE"
+            leader_id = self.leader_id if self.leader_id is not None else -1
+            self._append_metric_log_line(
+                "acoustic_localization_error", ts, f"Acoustic Localization Error={acoustic_error_m:.2f} m"
+            )
+            self._append_metric_csv_row("acoustic_localization_error", [ts, f"{acoustic_error_m:.2f}"])
+            self._append_metric_log_line(
+                "security_computational_overhead",
+                ts,
+                f"Security & Computational Overhead={security_overhead_pct:.2f} %",
+            )
+            self._append_metric_csv_row("security_computational_overhead", [ts, f"{security_overhead_pct:.2f}"])
+            self._append_metric_log_line(
+                "collision_avoidance_path", ts, f"Collision Avoidance Path={collision_path_m:.2f} m"
+            )
+            self._append_metric_csv_row("collision_avoidance_path", [ts, f"{collision_path_m:.2f}"])
+            self._append_metric_log_line(
+                "winds",
+                ts,
+                f"Wind Profile enabled={self.wind_enabled} speed={float(self.wind_speed_mps):.2f} mps dir={float(self.wind_direction_deg):.1f} deg gust={float(self.wind_gust_factor):.2f}",
+            )
+            self._append_metric_csv_row(
+                "winds",
+                [
+                    ts,
+                    str(bool(self.wind_enabled)),
+                    f"{float(self.wind_speed_mps):.2f}",
+                    f"{float(self.wind_direction_deg):.1f}",
+                    f"{float(self.wind_gust_factor):.2f}",
+                ],
+            )
+            self._append_metric_log_line(
+                "flying",
+                ts,
+                f"Flying Drones={flying_count}/{len(self.drones)} avg_speed={avg_flying_speed:.2f} mps",
+            )
+            self._append_metric_csv_row(
+                "flying",
+                [ts, int(flying_count), int(len(self.drones)), f"{avg_flying_speed:.2f}"],
+            )
+            self._append_metric_log_line(
+                "leader_election",
+                ts,
+                f"Leader Election state={leader_state} leader_id={leader_id} last_outcome={self._last_leader_election_outcome} candidates={self._last_leader_election_candidates} score={self._last_leader_election_score:.2f} at={self._last_leader_election_at or 'N/A'}",
+            )
+            self._append_metric_csv_row(
+                "leader_election",
+                [
+                    ts,
+                    leader_state,
+                    int(leader_id),
+                    self._last_leader_election_outcome,
+                    int(self._last_leader_election_candidates),
+                    f"{self._last_leader_election_score:.2f}",
+                    self._last_leader_election_at or "N/A",
+                ],
+            )
+        except Exception as exc:
+            self.logger.warning("Failed to append dynamic metrics log: %s", exc)
 
     def _save_latency_timeseries_from_csv(self):
         if not self._runtime_csv_path.exists():
@@ -949,6 +1257,314 @@ class SwarmManager:
             self.logger.warning("Failed to save spike timeline PNG: %s", exc)
         finally:
             plt.close("all")
+
+    def _image_path_for_source(self, source_path: Path, source_root: Path, image_root: Path) -> Path:
+        rel = source_path.relative_to(source_root)
+        return image_root / rel.with_suffix(".png")
+
+    def _try_parse_time_text(self, value: str):
+        text = (value or "").strip()
+        if not text:
+            return None
+        for fmt in ("%Y-%m-%d %H:%M:%S,%f", "%Y-%m-%d %H:%M:%S", "%Y-%m-%d %H:%M"):
+            try:
+                return datetime.strptime(text, fmt)
+            except ValueError:
+                pass
+        try:
+            ts = float(text)
+            if ts > 100000000:
+                return datetime.fromtimestamp(ts)
+        except ValueError:
+            return None
+        return None
+
+    def _to_float(self, value):
+        if value is None:
+            return None
+        text = str(value).strip()
+        if not text:
+            return None
+        if text.lower() in {"true", "false"}:
+            return 1.0 if text.lower() == "true" else 0.0
+        try:
+            return float(text)
+        except ValueError:
+            return None
+
+    def _plot_csv_file(self, csv_path: Path, out_path: Path):
+        def _save_placeholder(reason: str):
+            try:
+                import matplotlib.pyplot as plt
+            except Exception:
+                return
+            try:
+                fig, ax = plt.subplots(figsize=(9, 4.5))
+                ax.axis("off")
+                ax.text(
+                    0.5,
+                    0.5,
+                    f"{csv_path.stem}\n{reason}",
+                    ha="center",
+                    va="center",
+                    fontsize=12,
+                )
+                out_path.parent.mkdir(parents=True, exist_ok=True)
+                fig.savefig(out_path, dpi=160)
+            except Exception as exc:
+                self.logger.warning("Failed to save CSV placeholder %s: %s", out_path, exc)
+            finally:
+                plt.close("all")
+
+        rows = []
+        try:
+            with csv_path.open("r", encoding="utf-8", errors="ignore", newline="") as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    if row:
+                        rows.append(row)
+        except Exception as exc:
+            self.logger.warning("Failed to read CSV %s for graph: %s", csv_path, exc)
+            _save_placeholder("Read error")
+            return
+        if not rows:
+            _save_placeholder("No data rows")
+            return
+
+        time_col = None
+        for key in rows[0].keys():
+            k = (key or "").strip().lower()
+            if k in {"timestamp", "time", "datetime", "date", "minute"}:
+                time_col = key
+                break
+
+        x_values = []
+        series: Dict[str, List[Tuple[int, float]]] = {}
+        for idx, row in enumerate(rows):
+            x = idx
+            if time_col:
+                parsed = self._try_parse_time_text(str(row.get(time_col, "")))
+                if parsed is not None:
+                    x = parsed
+            x_values.append(x)
+            for col, raw in row.items():
+                if col == time_col:
+                    continue
+                num = self._to_float(raw)
+                if num is None:
+                    continue
+                series.setdefault(col, []).append((idx, num))
+
+        if not series:
+            _save_placeholder("No numeric columns found")
+            return
+
+        try:
+            import matplotlib.pyplot as plt
+        except Exception as exc:
+            self.logger.warning("matplotlib unavailable for CSV graph %s: %s", csv_path, exc)
+            return
+
+        try:
+            plt.figure(figsize=(10, 5))
+            for col, points in series.items():
+                xs = [x_values[i] for i, _ in points]
+                ys = [v for _, v in points]
+                plt.plot(xs, ys, linewidth=1.6, label=col)
+            plt.title(csv_path.stem)
+            plt.xlabel(time_col or "row_index")
+            plt.ylabel("value")
+            plt.grid(True, linestyle="--", alpha=0.35)
+            if len(series) <= 10:
+                plt.legend(loc="best", fontsize=8)
+            plt.tight_layout()
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+            plt.savefig(out_path, dpi=160)
+        except Exception as exc:
+            self.logger.warning("Failed to save CSV graph %s: %s", out_path, exc)
+        finally:
+            plt.close("all")
+
+    def _plot_log_file(self, log_path: Path, out_path: Path):
+        def _save_placeholder(reason: str):
+            try:
+                import matplotlib.pyplot as plt
+            except Exception:
+                return
+            try:
+                fig, ax = plt.subplots(figsize=(9, 4.5))
+                ax.axis("off")
+                ax.text(
+                    0.5,
+                    0.5,
+                    f"{log_path.stem}\n{reason}",
+                    ha="center",
+                    va="center",
+                    fontsize=12,
+                )
+                out_path.parent.mkdir(parents=True, exist_ok=True)
+                fig.savefig(out_path, dpi=160)
+            except Exception as exc:
+                self.logger.warning("Failed to save LOG placeholder %s: %s", out_path, exc)
+            finally:
+                plt.close("all")
+
+        timestamp_re = re.compile(r"(20\d{2}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}(?:,\d{3})?)")
+        metric_re = re.compile(r"([A-Za-z][A-Za-z0-9_ /&-]*?)=([-+]?\d*\.?\d+)")
+        level_re = re.compile(r"\s-\s(DEBUG|INFO|WARNING|ERROR|CRITICAL)\s-")
+
+        raw_x_values = []
+        level_sequence = []
+        logger_counts: Dict[str, int] = {}
+        series: Dict[str, List[Tuple[int, float]]] = {}
+
+        try:
+            event_idx = -1
+            with log_path.open("r", encoding="utf-8", errors="ignore") as f:
+                for line_idx, line in enumerate(f):
+                    text = line.strip()
+                    if not text:
+                        continue
+                    if "_run_id=" in text and " - " not in text:
+                        continue
+                    event_idx += 1
+                    ts_match = timestamp_re.search(text)
+                    x = event_idx
+                    if ts_match:
+                        parsed = self._try_parse_time_text(ts_match.group(1))
+                        if parsed is not None:
+                            x = parsed
+                    raw_x_values.append(x)
+
+                    level_match = level_re.search(text)
+                    if level_match:
+                        level_sequence.append(level_match.group(1))
+                    else:
+                        level_sequence.append("INFO")
+
+                    parts = text.split(" - ", 3)
+                    if len(parts) == 4:
+                        logger_name = parts[1].strip()
+                        if logger_name:
+                            logger_counts[logger_name] = logger_counts.get(logger_name, 0) + 1
+
+                    found_metric = False
+                    for key, raw in metric_re.findall(text):
+                        num = self._to_float(raw)
+                        if num is None:
+                            continue
+                        found_metric = True
+                        label = re.sub(r"\s+", " ", key).strip()
+                        series.setdefault(label, []).append((event_idx, num))
+        except Exception as exc:
+            self.logger.warning("Failed to read LOG %s for graph: %s", log_path, exc)
+            _save_placeholder("Read error")
+            return
+
+        if not raw_x_values:
+            _save_placeholder("No log events")
+            return
+
+        x_axis = list(range(len(raw_x_values)))
+        level_names = ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
+        level_colors = {
+            "DEBUG": "#4e79a7",
+            "INFO": "#59a14f",
+            "WARNING": "#f28e2b",
+            "ERROR": "#e15759",
+            "CRITICAL": "#b51f2e",
+        }
+        cumulative: Dict[str, List[int]] = {name: [] for name in level_names}
+        running = {name: 0 for name in level_names}
+        for level in level_sequence:
+            if level not in running:
+                level = "INFO"
+            running[level] += 1
+            for name in level_names:
+                cumulative[name].append(running[name])
+
+        try:
+            import matplotlib.pyplot as plt
+        except Exception as exc:
+            self.logger.warning("matplotlib unavailable for LOG graph %s: %s", log_path, exc)
+            return
+
+        try:
+            fig, axes = plt.subplots(2, 1, figsize=(11, 7), constrained_layout=True)
+
+            # Panel 1: cumulative severity trend to ensure every log has a useful signal.
+            for name in level_names:
+                ys = cumulative[name]
+                if not ys or ys[-1] == 0:
+                    continue
+                axes[0].plot(
+                    x_axis,
+                    ys,
+                    linewidth=1.8,
+                    label=name,
+                    color=level_colors.get(name, "#4e79a7"),
+                )
+            axes[0].set_title(f"{log_path.stem} - Severity Trend")
+            axes[0].set_xlabel("Log Event Index")
+            axes[0].set_ylabel("Cumulative Count")
+            axes[0].grid(True, linestyle="--", alpha=0.35)
+            axes[0].legend(loc="upper left", fontsize=8)
+
+            # Panel 2: numeric metrics if present, otherwise logger activity bars.
+            if series:
+                ranked = sorted(series.items(), key=lambda item: len(item[1]), reverse=True)
+                for label, points in ranked[:6]:
+                    xs = [x_axis[i] for i, _ in points if 0 <= i < len(x_axis)]
+                    ys = [v for i, v in points if 0 <= i < len(x_axis)]
+                    if xs and ys:
+                        axes[1].plot(xs, ys, linewidth=1.6, label=label)
+                axes[1].set_title("Top Numeric Metrics")
+                axes[1].set_xlabel("Log Event Index")
+                axes[1].set_ylabel("Value")
+                axes[1].grid(True, linestyle="--", alpha=0.35)
+                axes[1].legend(loc="best", fontsize=8)
+            else:
+                sorted_loggers = sorted(logger_counts.items(), key=lambda item: item[1], reverse=True)
+                labels = [name for name, _ in sorted_loggers[:8]]
+                values = [count for _, count in sorted_loggers[:8]]
+                if not labels:
+                    labels = ["events"]
+                    values = [len(raw_x_values)]
+                axes[1].bar(labels, values, color="#4e79a7")
+                axes[1].set_title("Top Logger Activity")
+                axes[1].set_xlabel("Logger")
+                axes[1].set_ylabel("Events")
+                axes[1].grid(True, axis="y", linestyle="--", alpha=0.35)
+                axes[1].tick_params(axis="x", rotation=20)
+
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+            fig.savefig(out_path, dpi=160)
+        except Exception as exc:
+            self.logger.warning("Failed to save LOG graph %s: %s", out_path, exc)
+        finally:
+            plt.close("all")
+
+    def _generate_per_file_graphs_from_csv_tree(self):
+        if not self._runtime_csv_dir.exists():
+            return
+        for csv_path in sorted(self._runtime_csv_dir.rglob("*.csv")):
+            out_path = self._image_path_for_source(
+                source_path=csv_path,
+                source_root=self._runtime_csv_dir,
+                image_root=self._runtime_image_csv_dir,
+            )
+            self._plot_csv_file(csv_path, out_path)
+
+    def _generate_per_file_graphs_from_log_tree(self):
+        if not self._runtime_logs_dir.exists():
+            return
+        for log_path in sorted(self._runtime_logs_dir.rglob("*.log")):
+            out_path = self._image_path_for_source(
+                source_path=log_path,
+                source_root=self._runtime_logs_dir,
+                image_root=self._runtime_image_logs_dir,
+            )
+            self._plot_log_file(log_path, out_path)
 
     def _synchronize_operational_states(self):
         """Map low-level flight mode to high-level operational state."""
@@ -1372,6 +1988,13 @@ class SwarmManager:
             )
             if drone.goto(safe_target):
                 active_ids.add(drone.drone_id)
+                self._latest_collision_avoidance_path_m = float(
+                    math.sqrt(
+                        (safe_target.x - drone.current_position.x) ** 2
+                        + (safe_target.y - drone.current_position.y) ** 2
+                        + (safe_target.z - drone.current_position.z) ** 2
+                    )
+                )
                 self.logger.info(
                     "Dynamic obstacle avoidance drone=%s prob=%.2f cone=%.2f conf=%.2f target=(%.1f, %.1f, %.1f)",
                     drone.drone_id,
@@ -1618,9 +2241,17 @@ class SwarmManager:
         
         if len(self.drones) == 0:
             self.logger.warning("Cannot elect leader - no drones in swarm")
+            self._last_leader_election_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            self._last_leader_election_outcome = "NO_DRONES"
+            self._last_leader_election_candidates = 0
+            self._last_leader_election_score = 0.0
             return
         
         self.election_in_progress = True
+        self._last_leader_election_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        self._last_leader_election_outcome = "IN_PROGRESS"
+        self._last_leader_election_candidates = 0
+        self._last_leader_election_score = 0.0
         self.logger.info("Starting leader election...")
         
         # Calculate suitability scores for all operational drones
@@ -1635,6 +2266,9 @@ class SwarmManager:
         
         if not candidates:
             self.logger.error("No suitable candidates for leader")
+            self._last_leader_election_outcome = "NO_CANDIDATE"
+            self._last_leader_election_candidates = 0
+            self._last_leader_election_score = 0.0
             self.election_in_progress = False
             return
         
@@ -1649,6 +2283,9 @@ class SwarmManager:
                 drone.set_role(DroneRole.FOLLOWER)
         
         self.leader_id = new_leader_id
+        self._last_leader_election_outcome = "ELECTED"
+        self._last_leader_election_candidates = len(candidates)
+        self._last_leader_election_score = float(candidates[new_leader_id])
         self.logger.info(f"Drone {new_leader_id} elected as new LEADER (score: {candidates[new_leader_id]:.2f})")
         
         self.election_in_progress = False

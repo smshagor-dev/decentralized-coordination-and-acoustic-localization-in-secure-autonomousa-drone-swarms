@@ -3638,7 +3638,7 @@ class MainWindow(QMainWindow):
         self.swarm_manager.return_all_to_home()
         for drone in self.swarm_manager.drones.values():
             self._log_controller_to_drone_encrypted(drone.drone_id, "leader_return_to_home", {})
-        self.log("Leader broadcasted RETURN_TO_HOME (GPS_ML_ACTIVE drones ignore)")
+        self.log("Leader broadcasted RETURN_TO_HOME (mission-active drones ignore until mission complete)")
     
     def emergency_land_all(self):
         """Emergency return all drones to X and then land."""

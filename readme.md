@@ -26,6 +26,24 @@ This project implements a high-security autonomous swarm framework designed for 
 - **Acoustic Intelligence:** Sound-based source tracking using Time Difference of Arrival (TDOA) and Least-Squares fusion.
 - **Safety Fallback:** Low-latency C++ controller with motor fault self-healing and RTT jitter monitoring.
 
+## Latest Runtime/Control Updates (2026-02-24)
+
+- **Leader RTH mission guard fix**
+  - `RETURN_TO_HOME` now skips mission-active drones.
+  - Single-mission drones continue mission until completion before any RTH behavior.
+  - Mission tracking maps are preserved for skipped drones instead of being globally cleared.
+
+- **Shutdown auto graph export (full)**
+  - On program close, runtime finalization now merges remaining logs and generates graphs automatically.
+  - Graphs are generated from both `log` and `csv` sources.
+  - Per-file image naming follows source log/csv file names.
+
+- **New mirrored image output tree**
+  - Auto-generated images now save under `performance_graphs/image/`.
+  - Folder structure mirrors source trees to avoid path ambiguity:
+    - `performance_graphs/image/logs/<run_id>/...`
+    - `performance_graphs/image/csv/<run_id>/...`
+
 ## Latest GUI/Control Updates (2026-02-21)
 
 - **Unified multi-source drone selection**
@@ -331,11 +349,45 @@ secure-drone-swarm/
     --csv/
         -- runtime_latency_vs_drones_YYYYMMDD_HHMMSS.csv
         -- latency_spike_timeline_YYYYMMDD_HHMMSS.csv
+        -- by_log/
+            -- YYYYMMDD_HHMMSS/
+                -- <source>_log.csv
+        -- metrics/
+            -- YYYYMMDD_HHMMSS/
+                -- acoustic_localization_error_log.csv
+                -- security_computational_overhead_log.csv
+                -- collision_avoidance_path_log.csv
+                -- winds_log.csv
+                -- leader_election_log.csv
+        -- flying/
+            -- YYYYMMDD_HHMMSS/
+                -- flying_log.csv
     --img/
         -- latency_timeseries_YYYYMMDD_HHMMSS.png
         -- latency_spike_timeline_YYYYMMDD_HHMMSS.png
     --logs/
         -- merged_logs_YYYYMMDD_HHMMSS.log
+        -- dynamic_metrics_YYYYMMDD_HHMMSS.log
+        -- by_log/
+            -- YYYYMMDD_HHMMSS/
+                -- <source>_log.log
+        -- metrics/
+            -- YYYYMMDD_HHMMSS/
+                -- acoustic_localization_error_log.log
+                -- security_computational_overhead_log.log
+                -- collision_avoidance_path_log.log
+                -- winds_log.log
+                -- leader_election_log.log
+        -- flying/
+            -- YYYYMMDD_HHMMSS/
+                -- flying_log.log
+    --image/
+        -- logs/
+            -- YYYYMMDD_HHMMSS/
+                -- ... (mirrors performance_graphs/logs/*.log as .png)
+        -- csv/
+            -- YYYYMMDD_HHMMSS/
+                -- ... (mirrors performance_graphs/csv/*.csv as .png)
     -- auto_plot_from_csv.py
     -- latency_vs_drones.py
 -- config/

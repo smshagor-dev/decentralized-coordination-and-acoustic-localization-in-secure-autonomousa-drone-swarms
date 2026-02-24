@@ -186,6 +186,8 @@ def main():
         if 'swarm_manager' in locals():
             swarm_manager.stop()
         logger.info("System shutdown complete")
+        if 'swarm_manager' in locals():
+            swarm_manager.finalize_runtime_graphs(force=True)
 
 if __name__ == "__main__":
     main()
