@@ -4636,6 +4636,7 @@ def start_gui(swarm_manager):
         window.log("Runtime mode: REAL (loaded from .env)")
     else:
         window.log("Runtime mode: REAL TEST VISUALIZATION")
+    # Open the main control screen in fullscreen immediately.
     window.show()
     
     return app.exec_()

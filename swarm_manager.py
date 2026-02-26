@@ -101,6 +101,10 @@ class SwarmManager:
 
         # Runtime latency graphing (latency vs number of drones)
         self.runtime_latency_graph_enabled = True
+        # Disable CSV-derived graph generation by default.
+        self.runtime_csv_graph_generation_enabled = False
+        # Disable log-derived graph generation by default.
+        self.runtime_log_graph_generation_enabled = False
         self._latency_graph_samples = []
         self._last_graph_sample_at = 0.0
         self._last_graph_save_at = 0.0
@@ -746,8 +750,9 @@ class SwarmManager:
         """
         Final graph generation on shutdown:
         - Merge any remaining log lines
-        - Generate summary runtime graphs
-        - Generate per-file graphs from both CSV and LOG trees
+        - Generate summary runtime graphs from CSV (optional)
+        - Generate per-file graphs from CSV tree (optional)
+        - LOG-derived graphs are optional and disabled by default
         """
         if not self.runtime_latency_graph_enabled:
             return
@@ -755,10 +760,12 @@ class SwarmManager:
             return
         self._init_runtime_artifacts()
         self._merge_runtime_logs()
-        self._save_latency_timeseries_from_csv()
-        self._save_latency_spike_timeline_from_logs()
-        self._generate_per_file_graphs_from_csv_tree()
-        self._generate_per_file_graphs_from_log_tree()
+        if self.runtime_csv_graph_generation_enabled:
+            self._save_latency_timeseries_from_csv()
+            self._generate_per_file_graphs_from_csv_tree()
+        if self.runtime_log_graph_generation_enabled:
+            self._save_latency_spike_timeline_from_logs()
+            self._generate_per_file_graphs_from_log_tree()
         self._runtime_graphs_finalized = True
     
     def _monitor_loop(self):
