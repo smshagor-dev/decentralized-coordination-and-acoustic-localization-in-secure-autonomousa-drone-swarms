@@ -80,6 +80,7 @@ jobs:
 
     env:
       MPLBACKEND: Agg
+      QT_QPA_PLATFORM: offscreen
 
     steps:
       - name: Check out repository
@@ -100,7 +101,7 @@ jobs:
       - name: Run GUI smoke test
         shell: bash
         run: |
-          xvfb-run -a python tests/gui_smoke_test.py
+          python tests/gui_smoke_test.py
 
   native:
     name: Native build (${{ matrix.os }})
@@ -134,7 +135,7 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          cmake -S . -B build/native -G "Visual Studio 17 2022" -A x64
+          cmake -S . -B build/native -G Ninja -DCMAKE_BUILD_TYPE=Release
 
       - name: Build native targets
         shell: bash
