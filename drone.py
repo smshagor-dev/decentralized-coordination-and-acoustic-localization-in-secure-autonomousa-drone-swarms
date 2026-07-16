@@ -228,7 +228,13 @@ class Drone:
     
     def setup_logging(self):
         """Configure logging for this drone"""
-        handler = logging.FileHandler(f'logs/drone_{self.drone_id}.log')
+        if self.logger.handlers:
+            return
+        os.makedirs("logs", exist_ok=True)
+        try:
+            handler = logging.FileHandler(f"logs/drone_{self.drone_id}.log")
+        except OSError:
+            handler = logging.StreamHandler()
         handler.setFormatter(logging.Formatter(
             '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
         ))

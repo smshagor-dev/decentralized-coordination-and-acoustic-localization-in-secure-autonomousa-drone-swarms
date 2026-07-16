@@ -181,7 +181,11 @@ class SwarmManager:
         """Configure logging"""
         if self.logger.handlers:
             return
-        handler = logging.FileHandler('logs/swarm_manager.log')
+        Path("logs").mkdir(exist_ok=True)
+        try:
+            handler = logging.FileHandler("logs/swarm_manager.log")
+        except OSError:
+            handler = logging.StreamHandler()
         handler.setFormatter(logging.Formatter(
             '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
         ))
@@ -758,7 +762,12 @@ class SwarmManager:
             return
         if self._runtime_graphs_finalized and not force:
             return
-        self._init_runtime_artifacts()
+        try:
+            self._init_runtime_artifacts()
+        except OSError as exc:
+            self.logger.warning("Runtime artifact export disabled: %s", exc)
+            self.runtime_latency_graph_enabled = False
+            return
         self._merge_runtime_logs()
         if self.runtime_csv_graph_generation_enabled:
             self._save_latency_timeseries_from_csv()
@@ -853,19 +862,23 @@ class SwarmManager:
             self._merge_runtime_logs()
 
     def _init_runtime_artifacts(self):
-        self._runtime_dir.mkdir(parents=True, exist_ok=True)
-        self._runtime_csv_dir.mkdir(parents=True, exist_ok=True)
-        self._runtime_logs_dir.mkdir(parents=True, exist_ok=True)
-        self._runtime_img_dir.mkdir(parents=True, exist_ok=True)
-        self._runtime_image_root_dir.mkdir(parents=True, exist_ok=True)
-        self._runtime_image_logs_dir.mkdir(parents=True, exist_ok=True)
-        self._runtime_image_csv_dir.mkdir(parents=True, exist_ok=True)
-        self._split_logs_root_dir.mkdir(parents=True, exist_ok=True)
-        self._split_csv_root_dir.mkdir(parents=True, exist_ok=True)
-        self._metric_logs_dir.mkdir(parents=True, exist_ok=True)
-        self._metric_csv_dir.mkdir(parents=True, exist_ok=True)
-        self._flying_logs_dir.mkdir(parents=True, exist_ok=True)
-        self._flying_csv_dir.mkdir(parents=True, exist_ok=True)
+        required_dirs = [
+            self._runtime_dir,
+            self._runtime_csv_dir,
+            self._runtime_logs_dir,
+            self._runtime_img_dir,
+            self._runtime_image_root_dir,
+            self._runtime_image_logs_dir,
+            self._runtime_image_csv_dir,
+            self._split_logs_root_dir,
+            self._split_csv_root_dir,
+            self._metric_logs_dir,
+            self._metric_csv_dir,
+            self._flying_logs_dir,
+            self._flying_csv_dir,
+        ]
+        for path in required_dirs:
+            path.mkdir(parents=True, exist_ok=True)
         if not self._runtime_csv_path.exists():
             try:
                 with self._runtime_csv_path.open("w", encoding="utf-8") as f:

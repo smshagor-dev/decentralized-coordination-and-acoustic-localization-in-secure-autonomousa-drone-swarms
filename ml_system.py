@@ -72,7 +72,10 @@ class MLDecisionSupport:
         if self.logger.handlers:
             return
         os.makedirs("logs", exist_ok=True)
-        handler = logging.FileHandler('logs/ml_system.log')
+        try:
+            handler = logging.FileHandler("logs/ml_system.log")
+        except OSError:
+            handler = logging.StreamHandler()
         handler.setFormatter(logging.Formatter(
             '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
         ))
@@ -370,7 +373,10 @@ class PhysicalMLTrainer:
         self.logger = logging.getLogger(logger_name)
         if not self.logger.handlers:
             os.makedirs("logs", exist_ok=True)
-            handler = logging.FileHandler('logs/ml_system.log')
+            try:
+                handler = logging.FileHandler("logs/ml_system.log")
+            except OSError:
+                handler = logging.StreamHandler()
             handler.setFormatter(logging.Formatter(
                 '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
             ))
