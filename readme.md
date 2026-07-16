@@ -17,6 +17,10 @@
 
 This is an end-to-end multi-drone swarm platform designed for high-security environments and vision-impaired conditions. The system integrates advanced Decentralized Coordination, Dynamic Obstacle Avoidance, and Acoustic Source Localization to ensure mission success even when GPS or visual data fails.
 
+## Security
+
+For private vulnerability reporting and security handling expectations, see [SECURITY.md](SECURITY.md).
+
 ## System Summary
 This project implements a high-security autonomous swarm framework designed for GPS-denied or vision-impaired environments. Key features include:
 

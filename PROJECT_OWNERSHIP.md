@@ -38,15 +38,14 @@ Third-party libraries, tools, and frameworks remain the property of their respec
 
 You may:
 
-- View and study the repository
+- Use, study, modify, and redistribute the repository under the terms of the root `LICENSE`
 - Fork the repository (if visibility allows)
-- Use it for research or educational purposes
+- Use it for research, educational, and commercial purposes as permitted by GPL-3.0
 
 You may not:
 
 - Republish the full project as your own original work
-- Remove or falsify author attribution
-- Use it commercially without written permission from the owner
+- Remove or falsify author attribution where notices are required
 - Redistribute modified versions without proper attribution and license compliance
 
 ## Contribution Policy
@@ -73,7 +72,7 @@ If there is any conflict between this document and the root `LICENSE`, the `LICE
 
 Core project concepts and implementations, including swarm coordination logic, safety/fallback mechanisms, acoustic localization pipeline, and ledger integrity flow, are protected as intellectual work of the owner.
 
-Unauthorized commercial exploitation, plagiarism, or misrepresentation may lead to formal action.
+License-violating redistribution, plagiarism, or misrepresentation may lead to formal action.
 
 ## Official Sources
 
@@ -87,4 +86,4 @@ Any mirrored copy should reference the official sources above.
 - Version: 1.1.0
 - Last Updated: February 17, 2026
 
-Copyright (c) Md Shahanur Islam Shagor. All Rights Reserved.
+Copyright (c) 2026 Md Shahanur Islam Shagor. Licensed under the GNU General Public License v3.0.
