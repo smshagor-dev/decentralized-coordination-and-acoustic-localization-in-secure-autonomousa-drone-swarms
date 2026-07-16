@@ -1,5 +1,6 @@
 import os
 import sys
+from pathlib import Path
 
 
 os.environ.setdefault("MPLBACKEND", "Agg")
@@ -7,6 +8,10 @@ if sys.platform.startswith("win"):
     os.environ.setdefault("QT_QPA_PLATFORM", "minimal")
 else:
     os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 from PyQt5.QtWidgets import QApplication
 

@@ -105,11 +105,25 @@ jobs:
 
       - name: Configure CMake
         shell: bash
+        if: runner.os != 'Windows'
         run: |
           cmake -S . -B build/native -DCMAKE_BUILD_TYPE=Release
 
+      - name: Configure CMake (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          cmake -S . -B build/native -G "Ninja" -DCMAKE_BUILD_TYPE=Release
+
       - name: Build native targets
         shell: bash
+        if: runner.os != 'Windows'
+        run: |
+          cmake --build build/native --config Release --target drone_controller
+
+      - name: Build native targets (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
         run: |
           cmake --build build/native --config Release --target drone_controller
 
