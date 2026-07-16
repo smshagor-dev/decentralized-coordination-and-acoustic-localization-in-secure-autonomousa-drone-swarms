@@ -30,8 +30,8 @@ Please do not open public GitHub issues for suspected security vulnerabilities.
 
 Report privately using one of the following contacts:
 
-- Email: `smshagor.ru@gmail.com`
-- Alternate Email: `contact@smshagor.com`
+- Email: `smshagor.dev@gmail.com`
+- Alternate Email: `smshagor.ru@gmail.com`
 
 Include, when possible:
 

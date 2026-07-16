@@ -24,8 +24,8 @@ This ownership notice applies to:
 ## Legal Owner
 
 - Name: Md Shahanur Islam Shagor
-- Email: smshagor.ru@gmail.com
-- Alternate Email: contact@smshagor.com
+- Email: smshagor.dev@gmail.com
+- Alternate Email: smshagor.ru@gmail.com
 - Website: https://smshagor.com
 
 ## Ownership Statement

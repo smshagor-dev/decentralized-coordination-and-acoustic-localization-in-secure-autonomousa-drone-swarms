@@ -10,62 +10,46 @@
 #   "Protecting the skies with decentralized intelligence."             #
 #                                                                       #
 #########################################################################
+
 cmake_minimum_required(VERSION 3.10)
-project(DroneSwarmController CXX)
+project(DroneSwarmController LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Find packages
 find_package(Threads REQUIRED)
+option(BUILD_DRONE_TEST "Build the hardware-oriented drone_test executable" OFF)
 
-# Optional: MAVLink library for real drone integration
-# find_package(MAVSDK REQUIRED)
-
-# Include directories
-include_directories(
-    ${PROJECT_SOURCE_DIR}/src/cpp
+add_library(drone_controller SHARED
+    dronecontroller.cpp
+    dronecontroller.h
 )
 
-# Source files
-set(SOURCES
-    src/cpp/DroneController.cpp
+target_include_directories(drone_controller PUBLIC
+    ${PROJECT_SOURCE_DIR}
 )
 
-set(HEADERS
-    src/cpp/DroneController.h
-)
-
-# Create library
-add_library(drone_controller SHARED ${SOURCES} ${HEADERS})
-
-target_link_libraries(drone_controller
+target_link_libraries(drone_controller PRIVATE
     Threads::Threads
-    # ${MAVSDK_LIBRARIES}  # Uncomment for real drone integration
 )
 
-# Example executable
-add_executable(drone_test
-    src/cpp/main_test.cpp
-)
+if(BUILD_DRONE_TEST)
+    add_executable(drone_test
+        main_test.cpp
+    )
 
-target_link_libraries(drone_test
-    drone_controller
-)
+    target_link_libraries(drone_test PRIVATE
+        drone_controller
+    )
+endif()
 
-# Installation
 install(TARGETS drone_controller
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
+    RUNTIME DESTINATION bin
 )
 
-install(FILES ${HEADERS}
+install(FILES dronecontroller.h
     DESTINATION include/drone_swarm
 )
-
-# Python bindings (optional)
-# find_package(pybind11 CONFIG)
-# if(pybind11_FOUND)
-#     pybind11_add_module(drone_controller_py src/cpp/python_bindings.cpp)
-#     target_link_libraries(drone_controller_py PRIVATE drone_controller)
-# endif()

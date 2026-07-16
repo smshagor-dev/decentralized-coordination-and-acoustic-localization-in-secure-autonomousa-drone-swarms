@@ -17,7 +17,7 @@
  * Test program for C++ DroneController
  */
 
-#include "DroneController.h"
+#include "dronecontroller.h"
 #include <iostream>
 #include <thread>
 #include <chrono>

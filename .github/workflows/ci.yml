@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  python:
+    name: Python tests (${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11"]
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install CI dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy scipy cryptography matplotlib python-dateutil pytest pytest-cov
+
+      - name: Verify Python syntax
+        run: |
+          python -m compileall \
+            acoustic_tracking.py \
+            communication.py \
+            drone.py \
+            dynamic_obstacles.py \
+            flying_ledger.py \
+            latency_monitor.py \
+            leader_follower_logic.py \
+            main.py \
+            ml_system.py \
+            ml_trainer.py \
+            swarm_manager.py \
+            test_dynamic_features.py \
+            test_ledger_and_acoustic.py
+
+      - name: Run targeted test suite
+        run: |
+          pytest -q test_dynamic_features.py test_ledger_and_acoustic.py
+
+  native:
+    name: Native build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Configure CMake
+        run: cmake -S . -B build/native -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build native targets
+        run: cmake --build build/native --config Release

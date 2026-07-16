@@ -17,7 +17,7 @@
  * Implementation of low-level drone control
  */
 
-#include "DroneController.h"
+#include "dronecontroller.h"
 #include <iostream>
 #include <thread>
 #include <mutex>
@@ -38,6 +38,7 @@ constexpr size_t kMotorCount = 4;
 constexpr size_t kRollingWindow = 20;
 constexpr float kDegradedDropThreshold = 0.10f; // 10%
 constexpr float kThrustToCurrentScale = 0.45f;
+constexpr double kPi = 3.14159265358979323846;
 
 int oppositeMotorIndex(int idx) {
     return (idx + 2) % static_cast<int>(kMotorCount);
@@ -982,11 +983,11 @@ void gpsToNED(double lat, double lon, float alt,
              float& north, float& east, float& down) {
     const double EARTH_RADIUS = 6378137.0; // meters
     
-    double dlat = (lat - home_lat) * M_PI / 180.0;
-    double dlon = (lon - home_lon) * M_PI / 180.0;
+    double dlat = (lat - home_lat) * kPi / 180.0;
+    double dlon = (lon - home_lon) * kPi / 180.0;
     
     north = static_cast<float>(dlat * EARTH_RADIUS);
-    east = static_cast<float>(dlon * EARTH_RADIUS * std::cos(home_lat * M_PI / 180.0));
+    east = static_cast<float>(dlon * EARTH_RADIUS * std::cos(home_lat * kPi / 180.0));
     down = -(alt - home_alt);
 }
 
@@ -996,21 +997,21 @@ void nedToGPS(float north, float east, float down,
     const double EARTH_RADIUS = 6378137.0; // meters
     
     double dlat = north / EARTH_RADIUS;
-    double dlon = east / (EARTH_RADIUS * std::cos(home_lat * M_PI / 180.0));
+    double dlon = east / (EARTH_RADIUS * std::cos(home_lat * kPi / 180.0));
     
-    lat = home_lat + (dlat * 180.0 / M_PI);
-    lon = home_lon + (dlon * 180.0 / M_PI);
+    lat = home_lat + (dlat * 180.0 / kPi);
+    lon = home_lon + (dlon * 180.0 / kPi);
     alt = home_alt - down;
 }
 
 float gpsDistance(double lat1, double lon1, double lat2, double lon2) {
     const double EARTH_RADIUS = 6378137.0; // meters
     
-    double dlat = (lat2 - lat1) * M_PI / 180.0;
-    double dlon = (lon2 - lon1) * M_PI / 180.0;
+    double dlat = (lat2 - lat1) * kPi / 180.0;
+    double dlon = (lon2 - lon1) * kPi / 180.0;
     
     double a = std::sin(dlat/2) * std::sin(dlat/2) +
-               std::cos(lat1 * M_PI / 180.0) * std::cos(lat2 * M_PI / 180.0) *
+               std::cos(lat1 * kPi / 180.0) * std::cos(lat2 * kPi / 180.0) *
                std::sin(dlon/2) * std::sin(dlon/2);
     
     double c = 2 * std::atan2(std::sqrt(a), std::sqrt(1-a));

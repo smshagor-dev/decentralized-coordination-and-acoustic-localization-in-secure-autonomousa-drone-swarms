@@ -1,0 +1,30 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Create source archives
+        run: |
+          git archive --format=zip --output decentralized-coordination-and-acoustic-localization-${GITHUB_REF_NAME}.zip HEAD
+          git archive --format=tar.gz --output decentralized-coordination-and-acoustic-localization-${GITHUB_REF_NAME}.tar.gz HEAD
+
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            decentralized-coordination-and-acoustic-localization-${{ github.ref_name }}.zip
+            decentralized-coordination-and-acoustic-localization-${{ github.ref_name }}.tar.gz
+          generate_release_notes: true
