@@ -17,6 +17,7 @@ project(DroneSwarmController LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 find_package(Threads REQUIRED)
 option(BUILD_DRONE_TEST "Build the hardware-oriented drone_test executable" OFF)
@@ -25,6 +26,10 @@ add_library(drone_controller SHARED
     dronecontroller.cpp
     dronecontroller.h
 )
+
+if(MSVC)
+    target_compile_definitions(drone_controller PRIVATE _CRT_SECURE_NO_WARNINGS)
+endif()
 
 target_include_directories(drone_controller PUBLIC
     ${PROJECT_SOURCE_DIR}
