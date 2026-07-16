@@ -1,13 +1,12 @@
 import os
 import sys
+import traceback
 from pathlib import Path
 
 
 os.environ.setdefault("MPLBACKEND", "Agg")
-if sys.platform.startswith("win"):
-    os.environ.setdefault("QT_QPA_PLATFORM", "minimal")
-else:
-    os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+os.environ.setdefault("QT_QPA_PLATFORM", "minimal")
+os.environ.setdefault("XDG_RUNTIME_DIR", "/tmp/codex-qt-runtime")
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
@@ -25,10 +24,11 @@ def main() -> int:
     window = None
     try:
         window = MainWindow(swarm, runtime_mode="real_test")
-        window.show()
         app.processEvents()
-        window.hide()
         return 0
+    except Exception:
+        traceback.print_exc()
+        return 1
     finally:
         if window is not None:
             window.close()
