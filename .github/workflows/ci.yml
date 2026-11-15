@@ -76,6 +76,8 @@ jobs:
             swarm_geometry_experiments.py swarm_acoustic_experiments.py \
             swarm_experiment_runner.py experiment_figures.py test_swarm_experiments.py \
             consistency_gated_step2_probe.py test_consistency_gated_step2.py \
+            swarm_consistency_gate.py consistency_gated_step3_probe.py \
+            test_swarm_consistency_gate.py \
             tests/gui_smoke_test.py
 
       - name: Run full coordination and existing regression suites
@@ -101,7 +103,8 @@ jobs:
             test_swarm_resilience.py \
             test_swarm_model_validation.py \
             test_swarm_experiments.py \
-            test_consistency_gated_step2.py
+            test_consistency_gated_step2.py \
+            test_swarm_consistency_gate.py
 
       - name: Reproduce signed telemetry assignment baseline incidents
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
@@ -117,6 +120,21 @@ jobs:
         with:
           name: consistency-gated-step2-baseline-evidence
           path: experiment_outputs/consistency-gated-step2/
+          if-no-files-found: error
+
+      - name: Reproduce Step 3 gate diagnostic controls
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
+        shell: bash
+        run: |
+          python consistency_gated_step3_probe.py --out experiment_outputs/consistency-gated-step3
+          python -c "import hashlib,json; from pathlib import Path; p=Path('experiment_outputs/consistency-gated-step3'); raw=(p/'gate_diagnostics.json').read_bytes(); m=json.loads((p/'manifest.json').read_text()); a=json.loads(raw); assert len(a)==m['rows']==5; assert hashlib.sha256(raw).hexdigest()==m['sha256']; assert a[0]['gate_assignee']==2 and a[1]['gate_assignee']==1; assert a[2]['gate_assignee']==2; assert a[3]['gate_assignee']==1; assert a[4]['gate_assignee'] is None; assert not m['new_paper_comparative_results_established']"
+
+      - name: Upload Step 3 gate diagnostic evidence
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
+        uses: actions/upload-artifact@v4
+        with:
+          name: consistency-gated-step3-diagnostic-evidence
+          path: experiment_outputs/consistency-gated-step3/
           if-no-files-found: error
 
       - name: Upload Python test artifacts
