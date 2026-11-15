@@ -106,6 +106,28 @@ class ResearchEvidenceAuditTests(unittest.TestCase):
                 audit_dir(target,sample_type="development",
                           root=DEV_ROOT,trials=1)
 
+    def test_rehashed_bootstrap_summary_fabrication_is_detected(self):
+        with tempfile.TemporaryDirectory() as name:
+            target=Path(name)
+            for file in ("manifest.json","episodes.json",
+                         "paired_policies.json","stratum_summaries.json",
+                         "paired_metrics.csv"):
+                (target/file).write_bytes((self.dev/file).read_bytes())
+            summaries=json.loads((target/"stratum_summaries.json").read_text())
+            summaries[0]["paired_exploratory_contrasts"][
+                "median_minus_veto_task_coverage"]["percentile_95_high"] += 0.20
+            p=target/"stratum_summaries.json"
+            p.write_text(json.dumps(summaries),encoding="utf-8")
+            manifest=json.loads((target/"manifest.json").read_text())
+            manifest["sha256"]["stratum_summaries.json"] = hashlib.sha256(
+                p.read_bytes()).hexdigest()
+            (target/"manifest.json").write_text(
+                json.dumps(manifest),encoding="utf-8")
+            with self.assertRaisesRegex(
+                    EvidenceAuditError,"archived paired contrast upper bound"):
+                audit_dir(target,sample_type="development",
+                          root=DEV_ROOT,trials=1)
+
     def test_wrong_source_root_is_denied(self):
         with self.assertRaisesRegex(EvidenceAuditError,"Wrong frozen root"):
             audit_dir(self.dev,sample_type="development",
