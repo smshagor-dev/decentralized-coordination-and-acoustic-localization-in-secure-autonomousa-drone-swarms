@@ -18,6 +18,8 @@ import os
 import random
 from typing import Optional
 
+from cryptography.exceptions import InvalidTag
+
 from swarm_consistency_gate import ConsistencyPolicy, consistency_gated_allocate, sign_witness
 from swarm_mesh import HealthReport, InMemoryMesh, MeshNode, SwarmIdentity
 from swarm_tasks import allocate_tasks
@@ -120,7 +122,7 @@ class FaultNetwork:
             event["received_virtual_s"] = round(self.clock.now, 6)
             try:
                 self.receiver.receive(wire)
-            except (ValueError, KeyError, TypeError, OverflowError):
+            except (InvalidTag, ValueError, KeyError, TypeError, OverflowError):
                 event["outcome"] = "rejected_by_crypto_or_protocol"
             else:
                 event["outcome"] = "authenticated_delivered"
