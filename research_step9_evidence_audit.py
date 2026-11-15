@@ -389,7 +389,7 @@ def write_audit(output: Path, report_data: dict) -> dict:
         "",
         "**Status:** Data integrity PASS. **Scientific novelty/superiority: NO-GO**.",
         "",
-        f"Source revision: \`{report_data['source_revision']}\`.",
+        f"Source revision: `{report_data['source_revision']}`.",
         f"Development episodes: {report_data['development_episodes']}; "
         f"heldout episodes: {report_data['heldout_episodes']}; "
         f"heldout correlated policy rows: {report_data['heldout_policy_rows']}.",
@@ -402,7 +402,7 @@ def write_audit(output: Path, report_data: dict) -> dict:
     for method in METHODS:
         entry=counts[method]
         lines.append(
-            f"| \`{method}\` | {entry['harmful_episodes']}/"
+            f"| `{method}` | {entry['harmful_episodes']}/"
             f"{entry['episode_count']} | {entry['mean_task_coverage']:.2%} |")
     lines.extend([
         "",
@@ -416,7 +416,7 @@ def write_audit(output: Path, report_data: dict) -> dict:
         d=group["any_truth_ineligible_assignment"]
         c=group["task_coverage"]
         lines.append(
-            f"- \`{label}\`: harmful-episode difference "
+            f"- `{label}`: harmful-episode difference "
             f"{d['mean_difference']:+.2%} "
             f"(percentile 95% interval {d['percentile_95_interval'][0]:+.2%} to "
             f"{d['percentile_95_interval'][1]:+.2%}); "
