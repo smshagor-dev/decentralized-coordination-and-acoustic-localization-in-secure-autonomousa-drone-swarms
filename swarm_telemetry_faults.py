@@ -360,6 +360,23 @@ def run_fault_case(case: FaultCase) -> dict:
         "coordinator_member_2_position_age_s": round(old_position_age, 4),
         "coordinator_member_2_reported_position": list(leader.positions[2]),
         "oracle_member_2_position_offline": list(true_positions[2]),
+        # Exact shared observed input for fair comparator replay. These are
+        # member-local, signed/verified receiver snapshots, not model truth.
+        "comparison_input": {
+            "decision_virtual_s": clock.now,
+            "tasks": {task_id: list(target) for task_id, target in tasks.items()},
+            "reported_positions": {str(i): list(xyz) for i, xyz in reported_positions.items()},
+            "reported_health": {str(i): h.to_dict() for i, h in reported_health.items()},
+            "health_seen_at": {str(i): leader.health[i][1] for i in reported_health},
+            "position_seen_at": {str(i): leader.positions_seen_at[i] for i in reported_positions},
+            "age_gate_decisions": {str(i): detail for i, detail in age_gate["decisions"].items()},
+            "witness_gate_decisions": {str(i): detail for i, detail in strict_gate["decisions"].items()},
+        },
+        # Explicitly segregated OFFLINE oracle: never provided to a method.
+        "comparison_offline_truth": {
+            "positions": {str(i): list(p) for i, p in true_positions.items()},
+            "health": {str(i): h.to_dict() for i, h in true_health.items()},
+        },
         "network": stats,
         "network_events": traces,
         "physical_uav_flight": False,
