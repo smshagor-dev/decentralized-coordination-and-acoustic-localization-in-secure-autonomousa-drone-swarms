@@ -104,8 +104,15 @@ def _report_inputs(snapshot: dict, *, method: str) -> dict:
     )
 
 
-def _generate_episode(*, n: int, scenario: str, seed: int) -> tuple[dict, dict]:
-    if n not in FLEET_SIZES or scenario not in SCENARIOS:
+def _generate_episode(*, n: int, scenario: str, seed: int,
+                      witness_count: int = 2) -> tuple[dict, dict]:
+    # Step 7's frozen interface (witness_count=2 and its original scenarios)
+    # remains unchanged; Step 8 can explicitly opt into a broader stress
+    # model and three registered witness claims per subject.
+    extended = ("motion_jump", "quorum_partition")
+    if (n not in FLEET_SIZES or scenario not in SCENARIOS + extended or
+            not isinstance(witness_count,int) or isinstance(witness_count,bool) or
+            not 1 <= witness_count < n):
         raise ValueError("Unsupported randomized pilot stratum")
     rng = random.Random(seed)
     clock = ManualClock()
@@ -154,7 +161,7 @@ def _generate_episode(*, n: int, scenario: str, seed: int) -> tuple[dict, dict]:
         observed_health[target] = HealthReport(
             rng.uniform(90., 99.), rng.uniform(92., 100.),
             rng.uniform(88., 99.))
-    if scenario == "signed_false_position":
+    if scenario in ("signed_false_position", "motion_jump"):
         # Source-signed plausible instant proximity to a randomly generated
         # task; no independent receiver measurement is promised.
         observed_positions[target] = (
@@ -179,6 +186,12 @@ def _generate_episode(*, n: int, scenario: str, seed: int) -> tuple[dict, dict]:
         )
         initially = observed_positions[member] if member == target and scenario in (
             "stale_position", "signed_false_position") else previous
+        if scenario == "motion_jump" and member == target:
+            # A signed previously-received XYZ sample 600 m away from the
+            # new signed near-task report: physically implausible under
+            # 25 m/s for the forthcoming 3–9 seconds of virtual time.
+            initially = (observed_positions[member][0]+600.,
+                         observed_positions[member][1],10.)
         packet = source.publish_health(observed_health[member], initially)
         if member != 1:
             coordinator.receive(packet)
@@ -191,12 +204,14 @@ def _generate_episode(*, n: int, scenario: str, seed: int) -> tuple[dict, dict]:
     if coordinator.leader != 1 or coordinator.certificate is None:
         raise AssertionError("Authenticated quorum election failed")
 
-    clock.now += delay
+    clock.now += (15. if scenario == "quorum_partition" else delay)
     packet_attempts = dropped_packets = verified_packets = 0
     for member in sorted(nodes):
         # Loss is imposed after an authenticated bootstrap, independently of
         # the policies being evaluated. Explicit omission retains old XYZ.
         lost = member != 1 and rng.random() < loss_prob
+        if scenario == "quorum_partition" and member != 1:
+            lost = True  # no fresh quorum 15 s after prior signed bootstrap
         if member == target and scenario == "stale_position":
             latest_xyz = None
         else:
@@ -217,7 +232,7 @@ def _generate_episode(*, n: int, scenario: str, seed: int) -> tuple[dict, dict]:
     witness_missing = 0
     malicious_signers = set()
     for subject in sorted(nodes):
-        reporters = rng.sample([i for i in nodes if i != subject], 2)
+        reporters = rng.sample([i for i in nodes if i != subject], witness_count)
         evidence = []
         for k, reporter in enumerate(reporters):
             # Synthetic peer-observation generation uses oracle truth ONLY
@@ -226,7 +241,8 @@ def _generate_episode(*, n: int, scenario: str, seed: int) -> tuple[dict, dict]:
             if subject == target and scenario == "malicious_witness" and k == 0:
                 claimed = HealthReport(0., 0., 0.)
                 malicious_signers.add(reporter)
-            if subject == target and scenario == "colluding_witness":
+            if subject == target and scenario == "colluding_witness" and (
+                    witness_count == 2 or k < 2):
                 claimed = observed_health[target]
                 malicious_signers.add(reporter)
             # A witness can fail to provide evidence; missingness is
@@ -242,7 +258,7 @@ def _generate_episode(*, n: int, scenario: str, seed: int) -> tuple[dict, dict]:
         witness_by_subject[subject] = evidence
 
     attacker_count = (1 if scenario in (
-        "signed_false_health", "signed_false_position",
+        "signed_false_health", "signed_false_position", "motion_jump",
         "stale_position", "colluding_witness") else 0)
     if scenario == "stale_position":
         # Honest sensor omission is NOT a Byzantine signer.
