@@ -75,6 +75,7 @@ jobs:
             experiment_statistics.py swarm_network_experiments.py \
             swarm_geometry_experiments.py swarm_acoustic_experiments.py \
             swarm_experiment_runner.py experiment_figures.py test_swarm_experiments.py \
+            consistency_gated_step2_probe.py test_consistency_gated_step2.py \
             tests/gui_smoke_test.py
 
       - name: Run full coordination and existing regression suites
@@ -99,7 +100,24 @@ jobs:
             test_swarm_safety.py \
             test_swarm_resilience.py \
             test_swarm_model_validation.py \
-            test_swarm_experiments.py
+            test_swarm_experiments.py \
+            test_consistency_gated_step2.py
+
+      - name: Reproduce signed telemetry assignment baseline incidents
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
+        shell: bash
+        run: |
+          python consistency_gated_step2_probe.py \
+            --out experiment_outputs/consistency-gated-step2
+          python -c "import hashlib,json; from pathlib import Path; p=Path('experiment_outputs/consistency-gated-step2'); a=(p/'incidents.json').read_bytes(); m=json.loads((p/'manifest.json').read_text()); r=json.loads(a); assert hashlib.sha256(a).hexdigest()==m['incidents_json_sha256']; assert len(r)==3 and m['result_rows']==3; assert [x['assignment_disagreement'] for x in r]==[False,True,True]; assert r[2]['actual_assignee_truth_ineligible'] is True; assert m['proposed_method_implemented'] is False"
+
+      - name: Upload signed telemetry Step 2 baseline evidence
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
+        uses: actions/upload-artifact@v4
+        with:
+          name: consistency-gated-step2-baseline-evidence
+          path: experiment_outputs/consistency-gated-step2/
+          if-no-files-found: error
 
       - name: Upload Python test artifacts
         if: always()
