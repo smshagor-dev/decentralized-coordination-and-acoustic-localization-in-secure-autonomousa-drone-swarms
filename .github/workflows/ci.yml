@@ -30,6 +30,13 @@ jobs:
       QT_QPA_PLATFORM: offscreen
 
     steps:
+      # Long repository and versioned supplementary paths exceed Git for Windows
+      # default path limits. Configure Git before checking out the tree.
+      - name: Enable long paths for Windows checkout
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: git config --global core.longpaths true
+
       - name: Check out repository
         uses: actions/checkout@v4
 
