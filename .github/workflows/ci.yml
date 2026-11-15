@@ -78,6 +78,8 @@ jobs:
             consistency_gated_step2_probe.py test_consistency_gated_step2.py \
             swarm_consistency_gate.py consistency_gated_step3_probe.py \
             test_swarm_consistency_gate.py \
+            swarm_telemetry_faults.py swarm_fault_experiment_runner.py \
+            test_swarm_telemetry_faults.py \
             tests/gui_smoke_test.py
 
       - name: Run full coordination and existing regression suites
@@ -104,7 +106,8 @@ jobs:
             test_swarm_model_validation.py \
             test_swarm_experiments.py \
             test_consistency_gated_step2.py \
-            test_swarm_consistency_gate.py
+            test_swarm_consistency_gate.py \
+            test_swarm_telemetry_faults.py
 
       - name: Reproduce signed telemetry assignment baseline incidents
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
@@ -135,6 +138,23 @@ jobs:
         with:
           name: consistency-gated-step3-diagnostic-evidence
           path: experiment_outputs/consistency-gated-step3/
+          if-no-files-found: error
+
+      - name: Run Step 4 signed-telemetry fault injection and verify archive
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
+        shell: bash
+        run: |
+          python swarm_fault_experiment_runner.py \
+            --sizes 5 10 --trials 2 --seed 2026 \
+            --out experiment_outputs/consistency-gated-step4
+          python -c "import hashlib,json,csv; from pathlib import Path; p=Path('experiment_outputs/consistency-gated-step4'); m=json.loads((p/'manifest.json').read_text()); rows=json.loads((p/'fault_trials.json').read_text()); assert len(rows)==m['run_count']==52; assert len(m['scenarios'])==13; assert m['full_paper_comparative_evidence_available'] is False; assert m['physical_uav_flight'] is False; assert all(hashlib.sha256((p/name).read_bytes()).hexdigest()==digest for name,digest in m['sha256'].items()); assert len(list(csv.DictReader((p/'fault_trial_metrics.csv').open(newline=''))))==52; assert any(x['scenario']=='malicious_witness' and x['witness_strict']['disagrees_with_offline_oracle'] for x in rows); assert any(x['scenario']=='colluding_witnesses' and x['witness_strict']['truth_ineligible'] for x in rows)"
+
+      - name: Upload Step 4 adversarial diagnostic evidence
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
+        uses: actions/upload-artifact@v4
+        with:
+          name: consistency-gated-step4-fault-evidence
+          path: experiment_outputs/consistency-gated-step4/
           if-no-files-found: error
 
       - name: Upload Python test artifacts
