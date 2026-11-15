@@ -138,6 +138,9 @@ class TaskRecoveryLedger:
         self.highest_authority_epoch = -1
         self.last_now = 0.0
         self.events: list[dict] = []
+        # Commit only the exact preview just produced. A local digest is an
+        # anti-tamper consistency check, NOT a distributed authorization proof.
+        self._pending_preview_hash: Optional[str] = None
 
     def _record(self, kind: str, payload: dict, now: float) -> None:
         previous = self.events[-1]["hash"] if self.events else "0" * 64
@@ -185,6 +188,8 @@ class TaskRecoveryLedger:
             }
             new_ids.append(task_id)
         self.last_now = now
+        if new_ids:
+            self._pending_preview_hash = None
         if new_ids:
             self._record("tasks_registered", {"task_ids": new_ids}, now)
         return {"new": new_ids, "existing": sorted(set(tasks) - set(new_ids))}
@@ -244,7 +249,7 @@ class TaskRecoveryLedger:
         uncertain = sorted(task_id for task_id, state in self.tasks.items()
                            if state["lease"] is not None and
                            now >= state["lease"]["expires_at"])
-        return {
+        result = {
             "mission_id": self.mission_id, "expected_revision": self.revision,
             "leader_id": leader_id, "epoch": epoch, "decision_at": now,
             "proposed": proposed, "waiting": waiting,
@@ -256,6 +261,8 @@ class TaskRecoveryLedger:
             "broadcast_commands_issued": False,
             "physical_execution_verified": False,
         }
+        self._pending_preview_hash = hashlib.sha256(_canonical(result)).hexdigest()
+        return result
 
     def commit(self, proposal: dict, *, quorum_verified: bool) -> dict:
         """Apply an externally authenticated/audited preview once."""
@@ -263,6 +270,10 @@ class TaskRecoveryLedger:
             raise ValueError("Mismatched mission")
         if proposal.get("expected_revision") != self.revision:
             raise ValueError("Changed ledger revision; replan before committing")
+        if (self._pending_preview_hash is None or
+                self._pending_preview_hash != hashlib.sha256(
+                    _canonical(proposal)).hexdigest()):
+            raise ValueError("Proposal changed since certified preview")
         now = _time(proposal["decision_at"])
         epoch = int(proposal["epoch"])
         leader = int(proposal["leader_id"])
@@ -271,6 +282,7 @@ class TaskRecoveryLedger:
         self._eligibility(now=now, epoch=epoch, leader_id=leader,
                           quorum_verified=quorum_verified)
         if not proposal.get("proposed"):
+            self._pending_preview_hash = None
             return {"committed": [], "revision": self.revision}
         tasks = {x["task_id"] for x in proposal["proposed"]}
         owners = {x["owner_id"] for x in proposal["proposed"]}
@@ -282,6 +294,11 @@ class TaskRecoveryLedger:
         # only by preview() and validated against the ledger's pending state.
         if len(owners) < 1:
             raise ValueError("No owners")
+        assigned_counts = {owner: sum(x["owner_id"] == owner
+                                      for x in proposal["proposed"])
+                           for owner in owners}
+        if any(value > self.policy.max_per_node for value in assigned_counts.values()):
+            raise ValueError("Recovery capacity exceeded")
         for item in proposal["proposed"]:
             task = self.tasks.get(item["task_id"])
             if (task is None or task["status"] != "PENDING" or task["lease"] is not None or
@@ -300,6 +317,7 @@ class TaskRecoveryLedger:
             task["status"] = "LEASED"
         self.highest_authority_epoch = max(self.highest_authority_epoch, epoch)
         self.last_now = now
+        self._pending_preview_hash = None
         self._record("leases_committed", {
             "leader_id": leader, "epoch": epoch,
             "task_versions": {x["task_id"]: x["lease_version"]
@@ -352,6 +370,7 @@ class TaskRecoveryLedger:
         else:
             task["status"] = "PENDING"
         task["lease"] = None
+        self._pending_preview_hash = None
         self._record("owner_receipt_" + receipt.action.lower(), {
             "task_id": receipt.task_id, "owner_id": receipt.owner_id,
             "version": before["lease_version"], "epoch": before["authority_epoch"],
