@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import base64
+import binascii
 import json
 import math
 from typing import Mapping, Optional, Sequence
@@ -135,7 +136,8 @@ def _valid_witness(witness: SignedWitness, *, subject: int, epoch: int,
         signature = base64.b64decode(witness.signature_b64, validate=True)
         Ed25519PublicKey.from_public_bytes(roster[witness.reporter_id]).verify(
             signature, _canonical(witness.unsigned_payload()))
-    except (InvalidSignature, ValueError, TypeError, KeyError, OverflowError):
+    except (InvalidSignature, ValueError, TypeError, KeyError, OverflowError, 
+                        AttributeError, binascii.Error):
         return False
     return True
 
