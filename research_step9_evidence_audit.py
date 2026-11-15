@@ -245,6 +245,40 @@ def audit_dir(folder: Path, *, sample_type: str, root: int,
             close_number(item[name], expected, label=name)
         check(item["confirmatory_external_validity"] is False,
               "Unsupported generalizability claim")
+        # Independently recompute the archived 500-resample paired
+        # percentile contrasts. Only the same (n, scenario, seed) is an
+        # independent unit; never bootstrap six policies as six trials.
+        cohort = [pairing[(n, scenario, seed)]
+                  for n, scenario, seed in sorted(pairing)
+                  if n == item["n"] and scenario == item["scenario"]]
+        archived = item["paired_exploratory_contrasts"]
+        check(len(archived) == 4, "Missing original paired CI effects")
+        for label, baseline, offset in (
+            ("median_minus_veto", "veto_3", 0),
+            ("median_minus_age", "age_only", 1),
+        ):
+            for metric, effect_offset in (
+                ("any_truth_ineligible_assignment", 0),
+                ("task_coverage", 2),
+            ):
+                key = label + "_" + metric
+                check(key in archived, "Missing archived paired contrast "+key)
+                bootstrap = paired_bootstrap(
+                    cohort, baseline=baseline, candidate="median_3_motion",
+                    value=metric,
+                    seed=seed_for(82028, item["n"], item["scenario"], offset)
+                    + effect_offset,
+                )
+                original = archived[key]
+                close_number(original["difference"],
+                             bootstrap["mean_difference"],
+                             label="archived paired contrast difference")
+                close_number(original["percentile_95_low"],
+                             bootstrap["percentile_95_interval"][0],
+                             label="archived paired contrast lower bound")
+                close_number(original["percentile_95_high"],
+                             bootstrap["percentile_95_interval"][1],
+                             label="archived paired contrast upper bound")
     check(len(seen_summaries) == len(FLEETS)*len(SCENARIOS)*len(METHODS),
           "Missing stratum summaries")
     return {
