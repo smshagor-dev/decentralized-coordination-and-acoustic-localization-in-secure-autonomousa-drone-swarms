@@ -85,6 +85,8 @@ jobs:
             swarm_task_recovery.py swarm_recovery_experiments.py \
             test_swarm_task_recovery.py test_swarm_recovery_experiments.py \
             swarm_independent_pilot.py test_swarm_independent_pilot.py \
+            swarm_robust_witness_gate.py swarm_robust_holdout.py \
+            test_swarm_robust_holdout.py \
             tests/gui_smoke_test.py
 
       - name: Run full coordination and existing regression suites
@@ -116,7 +118,8 @@ jobs:
             test_swarm_allocation_baselines.py \
             test_swarm_task_recovery.py \
             test_swarm_recovery_experiments.py \
-            test_swarm_independent_pilot.py
+            test_swarm_independent_pilot.py \
+            test_swarm_robust_holdout.py
 
       - name: Reproduce signed telemetry assignment baseline incidents
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
@@ -247,6 +250,57 @@ jobs:
         with:
           name: consistency-gated-step7-independent-pilot
           path: experiment_outputs/consistency-gated-step7-pilot/
+          if-no-files-found: error
+
+  robust-holdout:
+    name: Step 8 frozen robust witness dev and heldout study (Ubuntu)
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install source-level cryptography and test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install cryptography pytest
+
+      - name: Validate adversarial outlier and frozen design contracts
+        run: |
+          pytest -q test_swarm_robust_holdout.py test_swarm_independent_pilot.py
+
+      - name: Execute frozen Step 8 development simulations
+        run: |
+          python swarm_robust_holdout.py --sample development \
+            --sizes 5 10 20 50 \
+            --out experiment_outputs/consistency-gated-step8/development
+
+      - name: Validate development sample before running heldout
+        run: |
+          python -c "import hashlib,json;from pathlib import Path;p=Path('experiment_outputs/consistency-gated-step8/development');m=json.loads((p/'manifest.json').read_text());r=json.loads((p/'paired_policies.json').read_text());assert m['episodes']==288 and m['paired_rows']==len(r)==1728 and m['summary_rows']==216;assert all(hashlib.sha256((p/name).read_bytes()).hexdigest()==sha for name,sha in m['sha256'].items());assert m['sample_type']=='development' and m['root_seed']==82026;assert not m['scientific_novelty_proven']"
+
+      - name: Execute frozen independent Step 8 heldout simulations
+        run: |
+          python swarm_robust_holdout.py --sample heldout \
+            --sizes 5 10 20 50 \
+            --out experiment_outputs/consistency-gated-step8/heldout
+
+      - name: Validate complete heldout pairs and hashes
+        run: |
+          python -c "import csv,hashlib,json;from pathlib import Path;p=Path('experiment_outputs/consistency-gated-step8/heldout');m=json.loads((p/'manifest.json').read_text());e=json.loads((p/'episodes.json').read_text());r=json.loads((p/'paired_policies.json').read_text());s=json.loads((p/'stratum_summaries.json').read_text());assert len(e)==m['episodes']==720;assert len(r)==m['paired_rows']==4320;assert len(s)==m['summary_rows']==216;assert len(set((x['n'],x['scenario'],x['seed']) for x in e))==720;assert sorted(set(x['n'] for x in e))==[5,10,20,50];assert all(x['episodes']==20 for x in s);assert m['root_seed']==82027 and m['sample_type']=='heldout';assert m['external_preregistration'] is False and m['scientific_novelty_proven'] is False;assert all(hashlib.sha256((p/name).read_bytes()).hexdigest()==sha for name,sha in m['sha256'].items());assert len(list(csv.DictReader((p/'paired_metrics.csv').open(newline=''))))==4320"
+
+      - name: Upload Step 8 development and heldout evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: consistency-gated-step8-robust-holdout
+          path: experiment_outputs/consistency-gated-step8/
           if-no-files-found: error
 
   native:
