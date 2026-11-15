@@ -87,6 +87,7 @@ jobs:
             swarm_independent_pilot.py test_swarm_independent_pilot.py \
             swarm_robust_witness_gate.py swarm_robust_holdout.py \
             test_swarm_robust_holdout.py \
+            research_step9_evidence_audit.py test_research_step9_evidence_audit.py \
             tests/gui_smoke_test.py
 
       - name: Run full coordination and existing regression suites
@@ -119,7 +120,8 @@ jobs:
             test_swarm_task_recovery.py \
             test_swarm_recovery_experiments.py \
             test_swarm_independent_pilot.py \
-            test_swarm_robust_holdout.py
+            test_swarm_robust_holdout.py \
+            test_research_step9_evidence_audit.py
 
       - name: Reproduce signed telemetry assignment baseline incidents
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
@@ -294,6 +296,23 @@ jobs:
       - name: Validate complete heldout pairs and hashes
         run: |
           python -c "import csv,hashlib,json;from pathlib import Path;p=Path('experiment_outputs/consistency-gated-step8/heldout');m=json.loads((p/'manifest.json').read_text());e=json.loads((p/'episodes.json').read_text());r=json.loads((p/'paired_policies.json').read_text());s=json.loads((p/'stratum_summaries.json').read_text());assert len(e)==m['episodes']==720;assert len(r)==m['paired_rows']==4320;assert len(s)==m['summary_rows']==216;assert len(set((x['n'],x['scenario'],x['seed']) for x in e))==720;assert sorted(set(x['n'] for x in e))==[5,10,20,50];assert all(x['episodes']==20 for x in s);assert m['root_seed']==82027 and m['sample_type']=='heldout';assert m['external_preregistration'] is False and m['scientific_novelty_proven'] is False;assert all(hashlib.sha256((p/name).read_bytes()).hexdigest()==sha for name,sha in m['sha256'].items());assert len(list(csv.DictReader((p/'paired_metrics.csv').open(newline=''))))==4320"
+
+      - name: Independent Step 9 audit of both saved source datasets
+        run: |
+          pytest -q test_research_step9_evidence_audit.py
+          python research_step9_evidence_audit.py \
+            --development experiment_outputs/consistency-gated-step8/development \
+            --heldout experiment_outputs/consistency-gated-step8/heldout \
+            --out experiment_outputs/consistency-gated-step9-audit
+          python -c "import json,hashlib;from pathlib import Path;p=Path('experiment_outputs/consistency-gated-step9-audit');d=json.loads((p/'scientific_evidence_audit.json').read_text());m=json.loads((p/'audit_manifest.json').read_text());assert d['audit_status']=='PASS' and d['heldout_episodes']==720 and d['heldout_policy_rows']==4320 and d['scientific_readiness']=='NO_GO_FOR_ALGORITHMIC_SUPERIORITY';assert d['synthetic_safety_coverage']['veto_3']['harmful_episodes']==0;assert d['synthetic_safety_coverage']['median_3_motion']['harmful_episodes']==30;assert m['novelty_submission_gate']=='NO_GO';assert all(hashlib.sha256((p/name).read_bytes()).hexdigest()==h for name,h in m['audited_files_sha256'].items())"
+
+      - name: Upload Step 9 independent scientific audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: consistency-gated-step9-independent-audit
+          path: experiment_outputs/consistency-gated-step9-audit/
+          if-no-files-found: error
 
       - name: Upload Step 8 development and heldout evidence
         if: always()
