@@ -82,6 +82,8 @@ jobs:
             test_swarm_telemetry_faults.py \
             swarm_allocation_baselines.py swarm_baseline_comparison.py \
             test_swarm_allocation_baselines.py \
+            swarm_task_recovery.py swarm_recovery_experiments.py \
+            test_swarm_task_recovery.py test_swarm_recovery_experiments.py \
             tests/gui_smoke_test.py
 
       - name: Run full coordination and existing regression suites
@@ -110,7 +112,9 @@ jobs:
             test_consistency_gated_step2.py \
             test_swarm_consistency_gate.py \
             test_swarm_telemetry_faults.py \
-            test_swarm_allocation_baselines.py
+            test_swarm_allocation_baselines.py \
+            test_swarm_task_recovery.py \
+            test_swarm_recovery_experiments.py
 
       - name: Reproduce signed telemetry assignment baseline incidents
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
@@ -175,6 +179,23 @@ jobs:
         with:
           name: consistency-gated-step5-comparison-evidence
           path: experiment_outputs/consistency-gated-step5/
+          if-no-files-found: error
+
+      - name: Generate Step 6 versioned task recovery diagnostic evidence
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
+        shell: bash
+        run: |
+          python swarm_recovery_experiments.py \
+            --sizes 5 10 --trials 2 --seed 2026 \
+            --out experiment_outputs/consistency-gated-step6
+          python -c "import hashlib,json,csv;from pathlib import Path;p=Path('experiment_outputs/consistency-gated-step6');m=json.loads((p/'manifest.json').read_text());rows=json.loads((p/'recovery_episodes.json').read_text());assert len(rows)==m['episode_rows']==40;assert m['scenario_count']==10;assert m['independent_publication_scale_evidence'] is False;assert m['no_flight_commands_emitted'] is True;assert all(hashlib.sha256((p/name).read_bytes()).hexdigest()==digest for name,digest in m['sha256'].items());assert all(x['local_audit_chain_valid'] for x in rows);assert any(x['scenario']=='false_signed_stop' and x['task_versions_issued']==2 and not x['simulated_truthful_stop_confirmed'] for x in rows);assert any(x['scenario']=='unconfirmed_failure' and x['expired_unconfirmed']==1 for x in rows);assert len(list(csv.DictReader((p/'recovery_metrics.csv').open(newline=''))))==40"
+
+      - name: Upload Step 6 task recovery diagnostics
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
+        uses: actions/upload-artifact@v4
+        with:
+          name: consistency-gated-step6-recovery-evidence
+          path: experiment_outputs/consistency-gated-step6/
           if-no-files-found: error
 
       - name: Upload Python test artifacts
