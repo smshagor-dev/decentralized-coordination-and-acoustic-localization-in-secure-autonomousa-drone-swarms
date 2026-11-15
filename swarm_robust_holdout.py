@@ -320,6 +320,7 @@ def write_evidence(folder:Path,sources:list[dict],rows:list[dict],
         "full_cbba_comparison_completed":False,
         "external_preregistration":False,
         "physical_flight":False,
+        "real_radio_link":False,
         "scientific_novelty_proven":False,
         "prior_step7_pilot_mixed_into_heldout":False,
     }
