@@ -84,6 +84,7 @@ jobs:
             test_swarm_allocation_baselines.py \
             swarm_task_recovery.py swarm_recovery_experiments.py \
             test_swarm_task_recovery.py test_swarm_recovery_experiments.py \
+            swarm_independent_pilot.py test_swarm_independent_pilot.py \
             tests/gui_smoke_test.py
 
       - name: Run full coordination and existing regression suites
@@ -114,7 +115,8 @@ jobs:
             test_swarm_telemetry_faults.py \
             test_swarm_allocation_baselines.py \
             test_swarm_task_recovery.py \
-            test_swarm_recovery_experiments.py
+            test_swarm_recovery_experiments.py \
+            test_swarm_independent_pilot.py
 
       - name: Reproduce signed telemetry assignment baseline incidents
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
@@ -205,6 +207,47 @@ jobs:
           name: python-test-results-${{ matrix.os }}-py${{ matrix.python-version }}
           path: pytest-results.xml
           if-no-files-found: warn
+
+  independent-pilot:
+    name: Step 7 independently seeded paired pilot (Ubuntu)
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install signed observation dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install cryptography pytest
+
+      - name: Verify focused source and statistical tests
+        run: |
+          pytest -q test_swarm_independent_pilot.py
+
+      - name: Execute frozen 960-episode randomized software pilot
+        run: |
+          python swarm_independent_pilot.py \
+            --sizes 5 10 20 50 --trials 30 --seed 2026 \
+            --out experiment_outputs/consistency-gated-step7-pilot
+
+      - name: Check episode unit, complete pairs and archive integrity
+        run: |
+          python -c "import csv,hashlib,json;from pathlib import Path;p=Path('experiment_outputs/consistency-gated-step7-pilot');m=json.loads((p/'manifest.json').read_text());e=json.loads((p/'randomized_episodes.json').read_text());r=json.loads((p/'paired_methods.json').read_text());s=json.loads((p/'exploratory_stratum_summaries.json').read_text());assert m['source_episode_count']==len(e)==960;assert m['paired_method_rows']==len(r)==5760;assert m['stratum_summary_rows']==len(s)==192;assert len(set((x['n'],x['scenario'],x['seed']) for x in e))==960;assert sorted(set(x['n'] for x in e))==[5,10,20,50];assert len(m['methods'])==6 and all(x['episodes']==30 for x in s);assert not m['confirmatory_holdout_completed'] and not m['publication_scale_superiority_established'];assert all(hashlib.sha256((p/name).read_bytes()).hexdigest()==digest for name,digest in m['sha256'].items());assert len(list(csv.DictReader((p/'paired_method_metrics.csv').open(newline=''))))==5760"
+
+      - name: Upload new independent Step 7 pilot evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: consistency-gated-step7-independent-pilot
+          path: experiment_outputs/consistency-gated-step7-pilot/
+          if-no-files-found: error
 
   native:
     name: Native build (${{ matrix.os }})
