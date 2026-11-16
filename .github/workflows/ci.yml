@@ -88,6 +88,7 @@ jobs:
             swarm_robust_witness_gate.py swarm_robust_holdout.py \
             test_swarm_robust_holdout.py \
             research_step9_evidence_audit.py test_research_step9_evidence_audit.py \
+            research_step10_submission_audit.py test_research_step10_submission_audit.py \
             tests/gui_smoke_test.py
 
       - name: Run full coordination and existing regression suites
@@ -121,7 +122,8 @@ jobs:
             test_swarm_recovery_experiments.py \
             test_swarm_independent_pilot.py \
             test_swarm_robust_holdout.py \
-            test_research_step9_evidence_audit.py
+            test_research_step9_evidence_audit.py \
+            test_research_step10_submission_audit.py
 
       - name: Reproduce signed telemetry assignment baseline incidents
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
@@ -305,6 +307,25 @@ jobs:
             --heldout experiment_outputs/consistency-gated-step8/heldout \
             --out experiment_outputs/consistency-gated-step9-audit
           python -c "import json,hashlib;from pathlib import Path;p=Path('experiment_outputs/consistency-gated-step9-audit');d=json.loads((p/'scientific_evidence_audit.json').read_text());m=json.loads((p/'audit_manifest.json').read_text());assert d['audit_status']=='PASS' and d['heldout_episodes']==720 and d['heldout_policy_rows']==4320 and d['scientific_readiness']=='NO_GO_FOR_ALGORITHMIC_SUPERIORITY';assert d['synthetic_safety_coverage']['veto_3']['harmful_episodes']==0;assert d['synthetic_safety_coverage']['median_3_motion']['harmful_episodes']==30;assert m['novelty_submission_gate']=='NO_GO';assert all(hashlib.sha256((p/name).read_bytes()).hexdigest()==h for name,h in m['audited_files_sha256'].items())"
+
+      - name: Validate Step 10 manuscript against independently audited heldout results
+        run: |
+          pytest -q test_research_step10_submission_audit.py
+          python research_step10_submission_audit.py \
+            --manuscript Docs/CONSISTENCY_GATED_STEP10_MANUSCRIPT.md \
+            --references Docs/CONSISTENCY_GATED_STEP10_REFERENCES.json \
+            --audit experiment_outputs/consistency-gated-step9-audit/scientific_evidence_audit.json \
+            --index Docs/CONSISTENCY_GATED_STEP10_EVIDENCE_INDEX.md \
+            --out experiment_outputs/consistency-gated-step10-submission-audit
+          python -c "import hashlib,json;from pathlib import Path;p=Path('experiment_outputs/consistency-gated-step10-submission-audit');s=json.loads((p/'step10_submission_readiness.json').read_text());m=json.loads((p/'manifest.json').read_text());assert s['structural_consistency']=='PASS' and s['journal_submission']=='HOLD' and s['scientific_novelty_superiority']=='NO_GO';assert s['verified_heldout_episodes']==720 and s['verified_correlated_policy_rows']==4320 and s['verified_reference_count']==6;assert s['submission_authorized'] is False and s['manual_gates_resolved'] is False and len(s['unresolved_manual_gates'])>=8;assert s['verified_methods']['veto_3']['harmful_episodes']==0 and s['verified_methods']['median_3_motion']['harmful_episodes']==30;assert all(len(d)==64 for d in m['source_and_report_sha256'].values())"
+
+      - name: Upload Step 10 manuscript integrity and journal-readiness audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: consistency-gated-step10-manuscript-audit
+          path: experiment_outputs/consistency-gated-step10-submission-audit/
+          if-no-files-found: error
 
       - name: Upload Step 9 independent scientific audit evidence
         if: always()
