@@ -108,7 +108,7 @@ class Step10ManuscriptAuditTests(unittest.TestCase):
         bad=json.loads(json.dumps(self.references))
         bad["references"]=bad["references"][:-1]
         with self.assertRaisesRegex(SubmissionAuditError,
-                                    "Body text does not use every"):
+                                    "Insufficient minimum verified citations"):
             self.validate(refs=bad)
 
     def test_changed_doi_in_manuscript_is_rejected(self):
